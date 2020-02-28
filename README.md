@@ -1,7 +1,7 @@
 CADMium
 ==============================
 [//]: # (Badges)
-[![Travis Build Status](https://travis-ci.com/REPLACE_WITH_OWNER_ACCOUNT/CADMium.svg?branch=master)](https://travis-ci.com/REPLACE_WITH_OWNER_ACCOUNT/CADMium)
+[![Travis Build Status](https://travis-ci.com/wasserman-group/CADMium.svg?branch=master)](https://travis-ci.com/wasserman-group/CADMium)
 [![codecov](https://codecov.io/gh/REPLACE_WITH_OWNER_ACCOUNT/CADMium/branch/master/graph/badge.svg)](https://codecov.io/gh/REPLACE_WITH_OWNER_ACCOUNT/CADMium/branch/master)
 
 A short description of the project.
