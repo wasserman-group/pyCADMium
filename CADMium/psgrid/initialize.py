@@ -11,7 +11,7 @@ import numpy as np
 
 from ..common.NC import NC
 
-def _initialize(self, DISP=True, factor=True):
+def initialize(self, DISP=True, factor=True):
 
     #Number of points 
     self.Na = (self.NP-1) * self.NMa + 1 
@@ -63,12 +63,13 @@ def _initialize(self, DISP=True, factor=True):
     
     #2d Grid of integration weights
     self.wi = np.reshape(wa@wr.T, (self.Nelem))
-
-    print(self.wi)
     
     if DISP is True:
         print(" Building finite difference opperators ... \n")
 
     #Build finite difference operator matrices
-    self.fd1
-    self.fd2
+    self.finite_difference_1d()
+    #self.finite_difference_2d()
+
+    # #Construct prolate spheroidal operators
+    # self.operators
