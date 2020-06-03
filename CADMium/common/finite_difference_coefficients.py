@@ -82,4 +82,4 @@ def finite_difference_coefficients(x, deriv):
     
     coefficient_table = coefficient_table[:, 0:N]  
     
-    return c
+    return c.T[0]
