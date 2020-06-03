@@ -69,7 +69,7 @@ def initialize(self, DISP=True, factor=True):
 
     #Build finite difference operator matrices
     self.finite_difference_1d()
-    #self.finite_difference_2d()
+    self.finite_difference_2d()
 
     # #Construct prolate spheroidal operators
     # self.operators

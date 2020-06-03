@@ -12,6 +12,7 @@ from .initialize import initialize
 from .mirror import mirror
 from .square import square
 from .finite_difference_1d import finite_difference_1d
+from .finite_difference_2d import finite_difference_2d
 
 
 class Psgrid():
@@ -121,7 +122,7 @@ class Psgrid():
     def finite_difference_1d(self):
         finite_difference_1d(self)
 
-    # def finite_difference_2d(self):
-    #     finite_difference_2d(self)
+    def finite_difference_2d(self):
+        finite_difference_2d(self)
 
 
