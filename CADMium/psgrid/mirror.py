@@ -1,12 +1,13 @@
 """
 
 mirror.py
-Mirror function accros AB plane
+Mirror function accross AB plane
 
 """
+
 import numpy as np
 
-def _mirror(self, fin):
+def mirror(self, fin):
     fout = self.square(fin)
-    return np.reshape(fout[::-1,:,:],fin.shape[0])
+    return np.reshape(fout[::-1,:,:],fin.shape[0], order="F")
     

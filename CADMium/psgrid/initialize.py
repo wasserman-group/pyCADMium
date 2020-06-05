@@ -11,7 +11,7 @@ import numpy as np
 
 from ..common.NC import NC
 
-def _initialize(self, DISP=True, factor=True):
+def initialize(self, DISP=True, factor=True):
 
     #Number of points 
     self.Na = (self.NP-1) * self.NMa + 1 
@@ -41,14 +41,12 @@ def _initialize(self, DISP=True, factor=True):
 
     #Second grid
     self.Xr, self.Xa = np.meshgrid(self.xr, self.xa)
-    self.Xa = np.reshape(self.Xa, self.Na * self.Nr)
-    self.Xr = np.reshape(self.Xr, self.Na * self.Nr)
-
+    self.Xa = np.reshape(self.Xa, self.Na * self.Nr, order="F")
+    self.Xr = np.reshape(self.Xr, self.Na * self.Nr, order="F")
 
     #Cartesian coordinates
     self.Z = self.a * np.cosh(self.Xr) * np.cos(self.Xa)
     self.Y = self.a * np.sinh(self.Xr) * np.sin(self.Xa)
-
     self.Z = 1./2. * (self.Z - self.mirror(self.Z))
     self.Y = 1./2. * (self.Y + self.mirror(self.Y))
 
@@ -63,12 +61,31 @@ def _initialize(self, DISP=True, factor=True):
     
     #2d Grid of integration weights
     self.wi = np.reshape(wa@wr.T, (self.Nelem))
-
-    print(self.wi)
     
     if DISP is True:
         print(" Building finite difference opperators ... \n")
 
     #Build finite difference operator matrices
-    self.fd1
-    self.fd2
+    self.finite_difference_1d()
+    self.finite_difference_2d()
+
+    #Construct prolate spheroidal operators
+    self.operators()
+
+    #Volume element
+    self.w = self.a**3 * np.sin(self.Xa) * np.sinh(self.Xr) * (np.sin(self.Xa)**2 + np.sinh(self.Xr)**2)
+    self.w = 0.5 * (self.w + self.mirror(self.w))
+
+    #Angular momentum potential
+    self.f = (2. / (2*self.a)**2 ) * 1./(np.cosh(self.Xr)**2 - np.cos(self.Xa)**2) \
+             * (1. / (np.cosh(self.Xr)**2 - 1) + 1./(1-np.cos(self.Xa)**2))
+    self.f = 0.5 * (self.f + self.mirror(self.f))
+
+    #Factorize 
+    if factor is True:
+        self.factorize_laplacian(DISP)
+
+
+
+
+
