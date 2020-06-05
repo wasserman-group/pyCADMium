@@ -8,7 +8,6 @@ Determine the coefficients to a finite differencing scheme
 
 import numpy as np
 import math
-import numpy_html
 
 def finite_difference_coefficients(x, deriv):
     """
