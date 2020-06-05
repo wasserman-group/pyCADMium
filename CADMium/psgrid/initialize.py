@@ -49,7 +49,7 @@ def initialize(self, DISP=True, factor=True):
     self.Y = self.a * np.sinh(self.Xr) * np.sin(self.Xa)
     self.Z = 1./2. * (self.Z - self.mirror(self.Z))
     self.Y = 1./2. * (self.Y + self.mirror(self.Y))
-    
+
     if DISP is True:
         print(" Constructing integration weights ... \n")
 
@@ -71,3 +71,21 @@ def initialize(self, DISP=True, factor=True):
 
     #Construct prolate spheroidal operators
     self.operators()
+
+    #Volume element
+    self.w = self.a**3 * np.sin(self.Xa) * np.sinh(self.Xr) * (np.sin(self.Xa)**2 + np.sinh(self.Xr)**2)
+    self.w = 0.5 * (self.w + self.mirror(self.w))
+
+    #Angular momentum potential
+    self.f = (2. / (2*self.a)**2 ) * 1./(np.cosh(self.Xr)**2 - np.cos(self.Xa)**2) \
+             * (1. / (np.cosh(self.Xr)**2 - 1) + 1./(1-np.cos(self.Xa)**2))
+    self.f = 0.5 * (self.f + self.mirror(self.f))
+
+    #Factorize 
+    if factor is True:
+        self.factorize_laplacian(DISP)
+
+
+
+
+
