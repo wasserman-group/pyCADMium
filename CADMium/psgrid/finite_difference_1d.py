@@ -1,13 +1,12 @@
 """
 
-fd1.py
+finite_difference_2d.py
 Build Finite Difference Operator Matrices
 
 """
 
 from ..common.finite_difference_coefficients import finite_difference_coefficients
 import numpy as np
-
 
 def finite_difference_1d(self):
 
@@ -47,15 +46,16 @@ def finite_difference_1d(self):
     #Even symmetry 
     self.eDa1 = Da1.copy()
     self.eDr1 = Dr1.copy()
+
     #Add in boundary conditions for angular derivatives
     self.eDa1[-1 - self.bcN + 1:, -1 - self.bcN +1:] += np.fliplr(bc)
     self.eDa1[: self.bcN, :self.bcN] -= np.fliplr(bc.T)
     self.eDa1 /= self.ha 
+
     #Add in boundary conditions for radial derivatives
     self.eDr1[:self.bcN, :self.bcN] -= np.fliplr(bc.T)
     self.eDr1 /= self.hr
     
     self.bc1 = bc / self.hr
-
 
 

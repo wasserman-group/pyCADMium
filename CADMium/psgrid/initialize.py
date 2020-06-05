@@ -41,17 +41,15 @@ def initialize(self, DISP=True, factor=True):
 
     #Second grid
     self.Xr, self.Xa = np.meshgrid(self.xr, self.xa)
-    self.Xa = np.reshape(self.Xa, self.Na * self.Nr)
-    self.Xr = np.reshape(self.Xr, self.Na * self.Nr)
-
+    self.Xa = np.reshape(self.Xa, self.Na * self.Nr, order="F")
+    self.Xr = np.reshape(self.Xr, self.Na * self.Nr, order="F")
 
     #Cartesian coordinates
     self.Z = self.a * np.cosh(self.Xr) * np.cos(self.Xa)
     self.Y = self.a * np.sinh(self.Xr) * np.sin(self.Xa)
-
     self.Z = 1./2. * (self.Z - self.mirror(self.Z))
     self.Y = 1./2. * (self.Y + self.mirror(self.Y))
-
+    
     if DISP is True:
         print(" Constructing integration weights ... \n")
 
@@ -71,5 +69,5 @@ def initialize(self, DISP=True, factor=True):
     self.finite_difference_1d()
     self.finite_difference_2d()
 
-    # #Construct prolate spheroidal operators
-    # self.operators
+    #Construct prolate spheroidal operators
+    self.operators()
