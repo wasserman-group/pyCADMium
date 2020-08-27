@@ -16,10 +16,6 @@ def factorize_laplacian(self, DISP):
 
         self.L_lap = LU.L
         self.U_lap = LU.U
-
-        print(self.L_lap)
-        print(self.U_lap)
         
-
     if DISP is True:
         print(" Done")
