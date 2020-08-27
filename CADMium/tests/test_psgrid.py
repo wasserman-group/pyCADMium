@@ -25,8 +25,6 @@ def grid_test():
     grid = Psgrid(NP, NM, a, L, loc)
     grid.initialize()
 
-    print(grid.oDa1[0])
-
     return grid
 
 
