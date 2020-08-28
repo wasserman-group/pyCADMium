@@ -36,8 +36,8 @@ def initialize(self, DISP=True, factor=True):
     self.bcN = int(np.floor(max([self.i1.shape[0], self.i2.shape[0]])/2))
     self.bXr = np.linspace(1, self.bcN,self.bcN)*self.hr + self.xr[-1]
     self.bXr, self.bXa = np.meshgrid(self.bXr, self.xa) 
-    self.bXa = np.reshape(self.bXa, self.Na * self.bcN)
-    self.bXr = np.reshape(self.bXr, self.Na * self.bcN)
+    self.bXa = np.reshape(self.bXa, self.Na * self.bcN, order="F")
+    self.bXr = np.reshape(self.bXr, self.Na * self.bcN, order="F")
 
     #Second grid
     self.Xr, self.Xa = np.meshgrid(self.xr, self.xa)
