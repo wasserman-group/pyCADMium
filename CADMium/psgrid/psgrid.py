@@ -12,6 +12,7 @@ from .initialize import initialize
 from .mirror import mirror
 from .square import square
 from .sigma import sigma
+from .integrate import integrate
 from .finite_difference_1d import finite_difference_1d
 from .finite_difference_2d import finite_difference_2d
 from .operators import operators
@@ -125,6 +126,9 @@ class Psgrid():
 
     def sigma(self, n):
         return sigma(self, n)
+
+    def integrate(self, f):
+        return integrate(self, f)
 
     def finite_difference_1d(self):
         finite_difference_1d(self)
