@@ -11,6 +11,7 @@ sys.path.append("..")
 from .initialize import initialize
 from .mirror import mirror
 from .square import square
+from .sigma import sigma
 from .finite_difference_1d import finite_difference_1d
 from .finite_difference_2d import finite_difference_2d
 from .operators import operators
@@ -35,6 +36,7 @@ class Psgrid():
     loc:
        
     """
+
     def __init__(self, NP, NM, a, L, loc):
 
         #Mesh properties
@@ -120,6 +122,9 @@ class Psgrid():
 
     def square(self, fin):
         return square(self, fin)
+
+    def sigma(self, n):
+        return sigma(self, n)
 
     def finite_difference_1d(self):
         finite_difference_1d(self)
