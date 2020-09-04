@@ -19,5 +19,6 @@ def reduced_grad(self, n):
         s[:, 0] = self.sigma(2 * n[:,0])**(0.5) / (2 * (3*np.pi**2)**(1/3) @ (2 * n[:,0])**(4/3))
         s[:, 0] = self.sigma(2 * n[:,1])**(0.5) / (2 * (3*np.pi**2)**(1/3) @ (2 * n[:,1])**(4/3))
 
-    
+    #WARNING: S might be zero, in that case, that particular cell should be turned to zero#
+
     return s
