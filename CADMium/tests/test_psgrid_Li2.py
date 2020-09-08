@@ -645,7 +645,7 @@ def test_bXa(grid_test):
                         1.963495408493621,
                         2.748893571891069 ])
 
-    np.testing.assert_allclose(bXa, grid_test.bXa.flatten(order='F'))
+    np.testing.assert_allclose(bXa, grid_test.bXa)
 
 def test_bXr(grid_test):
     bXr = np.array([        2.776509728243330,
@@ -665,7 +665,7 @@ def test_bXr(grid_test):
                             4.627516213738884,
                             4.627516213738884 ])
 
-    np.testing.assert_allclose(bXr, grid_test.bXr.flatten(order='F'))
+    np.testing.assert_allclose(bXr, grid_test.bXr)
 
 def test_h1(grid_test):
     h1 = np.array([         1.266795476550548,

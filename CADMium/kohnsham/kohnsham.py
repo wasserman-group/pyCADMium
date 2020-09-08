@@ -5,7 +5,7 @@ kohnsham.py
 import numpy as np
 
 from ..common.coulomb import coulomb
-from ..pssolver import pssolver
+from ..pssolver.pssolver import Pssolver
 
 class KohnSham():
     """
@@ -22,17 +22,19 @@ class KohnSham():
 
         #DFT options for fragment calculations
         self.xc_family = partition.xc_family
-        self.x_func_id = partiiton.x_func_id
+        self.x_func_id = partition.x_func_id
         self.c_func_id = partition.c_func_id
 
         if spin == "alpha":
             self.Nmo = partition.Nmo_a
             self.N = partition.N_a
-        else:
+        elif spin == "beta":
             self.Nmo = partition.Nmo_b
-            self.N = partititon.N_b
+            self.N = partition.N_b
 
-        assert(self.Nm0, self.N)
+        # if self.Nmo.shape != self.N.shape:
+        #     raise ValueError("Shape of Nmo must match N")
+        assert(self.Nmo.shape, self.N.shape), "Nmo should be same size as N"
 
         #Libxc/Hartree handles for fragment calculations
         self.exchange = partition.exchange
@@ -47,11 +49,15 @@ class KohnSham():
         self.E = None
 
         #Handle for the solver object
-        self.solver = None
+        self.solver = []
         
         #Nuclear charges
-        self.Za = partition.Za
-        self.Zb = partition.Zb
+        if spin == "alpha":
+            self.Za = partition.Za
+            self.Zb = 0
+        if spin == "beta":
+            self.Zb = partition.Zb
+            self.Za = 0
 
         #Potentials
         self.vnuc = None
@@ -73,14 +79,14 @@ class KohnSham():
         #Flags
         #Use AB symmetry for homonuclear diatomics
         # If True, potentails and densities will eb symmetrized
-        self.SYM = partition.SYM
+        self.SYM = False
         #Allow fractional occupation of the Homo
-        self.FRACTIONAL = partition.FRACTIONAL
+        self.FRACTIONAL = False
 
         self.Alpha = None
 
         #Calculates coulomb potential corresponding to Za and Zb
-        self.partition.calc_nuclear_potential
+        self.calc_nuclear_potential()
 
         if self.interaction_type == 'dft':
             self.exchange = partition.exchange
@@ -92,18 +98,36 @@ class KohnSham():
             self.hartree = 0.0
 
         #Loop through array and setup solver objects
-            for i in range(self.Nmo):
-
-        for i in range(self.Nmo):
-            i_solver = pssolver(grid, Nmo[i], N[i], self.FRACTIONAL, self.SYM)
-            i_solver.hamiltonian()
+        for i in range(self.Nmo.shape[1]):
+            i_solver = Pssolver(self.grid, self.Nmo, self.N, self.FRACTIONAL, self.SYM)
+            i_solver.hamiltionian()
             self.solver.append(i_solver)
-
+        
         for i_solver in self.solver:
             if self.interaction_type == "ni":
-                i_solver.e0 = -1.5 * np.max(self.Za, self.Zb)**2 / (i_solver.m + 1)**2
+                i_solver.e0 = -1.5 * max(self.Za, self.Zb)**2 / (i_solver.m + 1)**2
             else:
-                i_solver.e0 = - np.max(self.Za, self.Zb)**2 / (i_solver.m + 1)**2 
+                i_solver.e0 = - max(self.Za, self.Zb)**2 / (i_solver.m + 1)**2 
+
+    def calc_nuclear_potential(self):
+        """
+        Calculate nuclear potential
+        """
+
+        v  = coulomb(self.grid, self.Za, self.Zb)
+
+        self.vnuc = np.zeros((v.shape[0], self.pol))
+
+        if self.pol == 1:
+            self.vnuc[:, 0] = v
+
+        elif self.pol == 2:
+            self.vnuc[:, 0] = v
+            self.vnuc[:, 1] = v
+
+        if self.SYM is True:
+            self.vnuc = 0.5 * (self.vnuc + self.grid.mirror(self.vnuc))
+        
 
 
          

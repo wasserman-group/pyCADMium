@@ -17,7 +17,7 @@ from .finite_difference_1d import finite_difference_1d
 from .finite_difference_2d import finite_difference_2d
 from .operators import operators
 from .factorize_laplacian import factorize_laplacian
-from .reduced_grad import reduced grad
+from .reduced_grad import reduced_grad
 
 class Psgrid():
     """

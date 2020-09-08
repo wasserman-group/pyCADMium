@@ -11,10 +11,11 @@ eps = np.finfo(float).eps
 
 class Pssolver():
     """
-    Builds a 
+    Keeps track of eigenvalues/vectors and constructs densities and responses.
     """
-
     def __init__(self, grid, Nmo, N, FRACTIONAL, SYM):
+
+        verbose=False
 
         self.grid = grid
         self.Nmo = Nmo
@@ -34,10 +35,6 @@ class Pssolver():
         #Estimate of lowest energy value
         self.e0 = None
 
-        #Number of MO to calculate
-        self.Nmo = None
-        #Number of electrons handled by individual solver
-        self.N = None
         #Polarization of electrons handled by this solver
         self.pol = None
         
@@ -55,8 +52,8 @@ class Pssolver():
         self.homo = None
 
         #kinetic energy densities | Not uniquely defined
-        self.ked_WFI #Use laplacian
-        self.kedWFII #Use gradient
+        self.ked_WFI = None #Use laplacian
+        self.kedWFII = None #Use gradient
         
 
         self.FRACTIONAL = FRACTIONAL
@@ -68,16 +65,19 @@ class Pssolver():
         self.v0 = np.ones(self.grid.Nelem)
         self.default_e0 = -20.0
 
-        self.Nlvls = self.Nmo[0]
-        self.pol = self.Nmo[1]
+        self.Nlvls = self.Nmo.shape[0]
+        self.pol = self.Nmo.shape[1]
 
-        if self.N == -1:
+        if -1 in self.N:
             if self.polarization == 1:
                 self.N = 2 * self.Nmo
             else:
                 self.N = self.Nmo
 
-        self.m = self.Nvls - 1
+        if verbose is True:
+            print("\n Warning: Polarization from PSsolver may not ready. Check 'Fill in default number of electrons'")
+
+        self.m = self.Nlvls - 1
         # self.pssolvers = np.array(np.zeros(self.Nlvls, self.pol))
 
         # self.results = { "Nmo" : np.zeros((self.Nlvls, self.pol)), 
@@ -104,10 +104,10 @@ class Pssolver():
         f = spdiags(data=self.grid.f, diags=0, m=Nelem, n=Nelem)
 
         #Choose the correct symmetry for m
-        if mod(self.m, 2) == 0
+        if np.mod(self.m, 2) == 0:
             #Even symmetry
-            eT = -0.5 * self.grid
-            self.H0 = eT + self.m ** w @ W @ f
+            eT = -0.5 * self.grid.elap
+            self.H0 = eT + self.m ** 2 * W @ f
         else:
             oT = -0.5 * self.grid.olap
-            self.H0 = oT + self.m ** 2 @ W @ f 
+            self.H0 = oT + self.m ** 2 * W @ f 

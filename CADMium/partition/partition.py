@@ -1,8 +1,15 @@
 """
 partition.py
 """
-
+import numpy as np
 from pydantic import Field, constr, validator, BaseModel
+
+from ..common.coulomb import coulomb
+
+from ..libxc.libxc import Libxc
+from ..hartree.hartree import Hartree
+from ..kohnsham.kohnsham import KohnSham
+
 
 
 class Partition():
@@ -82,75 +89,69 @@ class Partition():
     """
 
 
-    grid : constr(regex="CADMium.psgrid.psgrid.Psgrid") = Field(
-        "CADMium.psgrid.psgrid.Psgrid",
-        description=("CADMium Prolate Spheroidal Object"),
-    )
+    # grid : constr(regex="CADMium.psgrid.psgrid.Psgrid") = Field(
+    #     "CADMium.psgrid.psgrid.Psgrid",
+    #     description=("CADMium Prolate Spheroidal Object"),
+    # )
 
     def __init__(self, grid,
                        Za, Zb,
                        pol, 
-                       Nmo_a, N_a, nu_a, Nmo_b, N_b, nu_b, 
-                       optPartition,
+                       Nmo_a, N_a, nu_a, 
+                       Nmo_b, N_b, nu_b, 
+                       optPartition):
 
-                       interaction_type  = 'dft',
-                       vp_calc_type      = 'component',
-                       hxc_part_type     = 'exact',
-                       kinetic_part_type = 'vonweiz', 
+        self.interaction_type = optPartition["interaction_type"] if "interaction_type" in optPartition.keys() else "dft"
+        self.vp_calc_type = optPartition["vp_calc_type"] if "vp_calc_type" in optPartition.keys() else "component"
+        self.hxc_part_type = optPartition["hxc_part_type"] if "hxc_part_type" in optPartition.keys() else "exact"
+        self.kinetic_part_type = optPartition["kinetic_part_type"] if "kinetic_part_type" in optPartition.keys() else "vonweiz"
 
-                       AB_SYM = False,
-                       FRACTIONAL = False, 
-                       ENS_SPIN_SYM = False, 
-                       ISOLATED = False, 
-                       FIXEDQ = False,
-
-                       x_func_id = 1,
-                       c_func_id = 12, 
-                       xc_family = 'lda',
-                       k_family = 'gga',
-                       ke_func_id = '5',
-                       ke_param = [], 
-                       ):
+        self.AB_SYM = optPartition["AB_SYM"] if "AB_SYM" in optPartition.keys() else False
+        self.FRACTIONAL = optPartition["FRACTIONAL"] if "FRACTIONAL" in optPartition.keys() else False
+        self.ENS_SPIN_SYM = optPartition["ENS_SPIN_SYM"] if "ENS_SPIN_SYM" in optPartition.keys() else False
+        self.ISOLATED = optPartition["ISOLATED"] if "ISOLATED" in optPartition.keys() else False
+        self.FIXEDQ = optPartition["FIXEDQ"] if "FIXEDQ" in optPartition.keys() else False
+        
+        self.x_func_id = optPartition["x_func_id"] if "x_func_id" in optPartition.keys() else 1
+        self.c_func_id = optPartition["c_func_id"] if "c_func_id" in optPartition.keys() else 12
+        self.xc_family = optPartition["xc_familyl"] if "xc_family" in optPartition.keys() else "lda"
+        self.k_family = optPartition["k_family"] if "k_family" in optPartition.keys() else "gga"
+        self.ke_func_id = optPartition["ke_func_id"] if "ke_func_id" in optPartition.keys() else 5
+        self.ke_param = optPartition["ke_param"] if "ke_param" in optPartition.keys() else {}
+        
 
         #Calculation Options Validators:
-        if interaction_type not in ["dft", "ni"]:
+        if self.interaction_type not in ["dft", "ni"]:
             raise ValueError("Only {'dft', 'ni'} are valid options for calculation")
-        else:
-            self.interaction_type = interaction_type
         
-        if vp_calc_type not in ["component", "potential_inversion"]:
+        if self.vp_calc_type not in ["component", "potential_inversion"]:
             raise ValueError("Only {'component', 'potential_inversion'} are valid options for vp")
-        else:
-            self.vp_calc_type = vp_calc_type
 
-        if hxc_part_type not in ["exact", "overlap_hxc", "overpal_xc", "surprisal", "hartree"]:
+        if self.hxc_part_type not in ["exact", "overlap_hxc", "overpal_xc", "surprisal", "hartree"]:
             raise ValueError("Only {'exact', 'overlap_hxc', 'overpal_xc', 'surprisal', 'hartree'}  \
                                 are valid options for vp")
-        else:
-            self.hxc_part_type = hxc_part_type
 
-        if kinetic_part_type not in ["vonweiz", "inversion", "libxcke", "parmke", "two_orbital", "fixed"]:
+        if self.kinetic_part_type not in ["vonweiz", "inversion", "libxcke", "parmke", "two_orbital", "fixed"]:
             raise ValueError("Only {'vonweiz', 'inversion', 'libxcke', 'parmke', 'two_orbital', 'fixed'} \
                                 are valud options for vp")
-        else:
-            self.kinetic_part_type = kinetic_part_type
 
         #Missing type assertions
 
         self.grid = grid
 
         #xc options
-        self.xc_family = xc_family
-        self.x_func_id = x_func_id
-        self.c_func_id = c_func_id
-        
+        # self.xc_family = xc_family
+        # self.x_func_id = x_func_id
+        # self.c_func_id = c_func_id
+
+        #Libxc function for fragment calculations
         self.exchange = None
         self.correlation = None
-
+        
         #Kinetic Energy
-        self.k_family = k_family
-        self.ke_func_id = ke_func_id
-        self.ke_param = ke_param
+        # self.k_family = k_family
+        # self.ke_func_id = ke_func_id
+        # self.ke_param = ke_param
 
         self.kinetic = None
         self.inverter = None
@@ -165,8 +166,8 @@ class Partition():
         self.Nf = None
 
         #Component molecular potentials and total energies
-        self.V = None
-        self.E = None
+        self.V = {}
+        self.E = {}
 
         #Kohn Sham objects
         self.KSa = None
@@ -179,19 +180,85 @@ class Partition():
         #Fragment ensembles, mixing rations, sum of fragment ensembles
         self.na_frac, self.nb_fac = None, None
         self.nu_a, self.nu_b = nu_a, nu_b
-        self.Nmo_a, self.Nmo_b = Nmo_a, Nmo_b
+        self.N_a, self.N_b = np.array(N_a)[None], np.array(N_b)[None]
+        self.Nmo_a, self.Nmo_b = np.array(Nmo_a)[None], np.array(Nmo_b)[None]
         self.nf = None
 
         #Flags
-        AB_SYM = AM_SYM
-        ENS_SPIN_SYM = ENS_SPIN_SYM
-        ISOLATED = ISOLATED
-        FIXEDQ = FIXEDQ
-        FRACTIONAL = FRACTIONAL
+        # self.SYM = AM_SYM
+        # self.ENS_SPIN_SYM = ENS_SPIN_SYM
+        # self.ISOLATED = ISOLATED
+        # self.FIXEDQ = FIXEDQ
+        # self.FRACTIONAL = FRACTIONAL
+
+        #Sanity Check
+        if self.AB_SYM and self.Za != self.Zb:
+            raise ValueError("AB_SYM is set but nuclear charges are not symmetric")
+
 
         inversion_info = False
 
         #Conversion parameters
-        Alpha = None
-        Beta = None
+        self.Alpha = []
+        self.Beta = []
+
+        if self.interaction_type == "dft":
+            self.exchange = Libxc(self.grid, self.xc_family, self.x_func_id)
+            self.correlation = Libxc(self.grid, self.xc_family, self.c_func_id)
+            self.hartree = Hartree(grid,
+                                    #optPartition,
+                                    )
+
+        else:
+            self.exchange = 0.0
+            self.correlation = 0.0
+            self.hartree = 0.0
+
     
+        #Set up kohn sham objects
+        self.KSa = KohnSham(self, "alpha")
+        self.KSb = KohnSham(self, "beta") 
+
+        #Figure out scale factors
+        self.calc_scale_factors()
+
+        if self.kinetic_part_type == "libxcke":
+            self.kinetic = Libxc(self.grid, self.k_family, self.ke_func_id)
+        elif self.kinetic_part_type == "paramke":
+            self.kinetic = Paramke(self.grid, self.k_family, self.ke_func_id, self.ke_param)
+        
+        self.calc_nuclear_potential()
+
+    #Methods
+    def calc_scale_factors(self):
+        """
+        Calculates scale factors
+        """
+        #print("Warning: If len(KS) > 1 Has not been migrated from matlab")
+
+        self.KSa.scale = self.nu_a
+        self.KSb.scale = self.nu_b
+
+        #IF ENS_SPIN_SYM is set, then each scale factor is Reduced by a factor of 
+        #two because it will be combined with an ensemble component with 
+        #flipped spins
+
+        if self.ENS_SPIN_SYM is True:
+            self.KSa.scale = self.KSa.scale / 2.0
+            self.KSb.scale = self.KSb.scale / 2.0
+
+    def calc_nuclear_potential(self):
+        """
+        Calculate external nuclear potentials
+        """
+
+        self.va = coulomb(self.grid, self.Za, 0)
+        self.vb = coulomb(self.grid, 0, self.Zb)
+
+        self.V["vext"] = np.zeros((self.va.shape[0], self.pol))
+
+        self.V["vext"][:, 0] = self.va + self.vb
+        self.V["vext"][:, 1] = self.va + self.vb
+
+
+
