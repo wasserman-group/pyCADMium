@@ -11,11 +11,13 @@ sys.path.append("..")
 from .initialize import initialize
 from .mirror import mirror
 from .square import square
+from .sigma import sigma
+from .integrate import integrate
 from .finite_difference_1d import finite_difference_1d
 from .finite_difference_2d import finite_difference_2d
 from .operators import operators
 from .factorize_laplacian import factorize_laplacian
-
+from .reduced_grad import reduced_grad
 
 class Psgrid():
     """
@@ -35,6 +37,7 @@ class Psgrid():
     loc:
        
     """
+
     def __init__(self, NP, NM, a, L, loc):
 
         #Mesh properties
@@ -121,6 +124,12 @@ class Psgrid():
     def square(self, fin):
         return square(self, fin)
 
+    def sigma(self, n):
+        return sigma(self, n)
+
+    def integrate(self, f):
+        return integrate(self, f)
+
     def finite_difference_1d(self):
         finite_difference_1d(self)
 
@@ -132,5 +141,8 @@ class Psgrid():
 
     def factorize_laplacian(self, DISP):
         factorize_laplacian(self, DISP)
+
+    def reduced_grad(self, n):
+        reduced_grad(self, n)
 
 

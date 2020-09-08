@@ -4,7 +4,9 @@ A short description of the project.
 """
 
 # Add imports here
-from .psgrid import *
+from .psgrid import Psgrid
+from .partition import Partition
+from .data.grids import *
 
 # Handle versioneer
 from ._version import get_versions
