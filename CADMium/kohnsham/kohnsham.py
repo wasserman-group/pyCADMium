@@ -4,45 +4,47 @@ kohnsham.py
 
 import numpy as np
 
+from .scf import scf
 from ..common.coulomb import coulomb
+from ..libxc.libxc import Libxc
+from ..hartree.hartree import Hartree
 from ..pssolver.pssolver import Pssolver
 
-class KohnSham():
+class Kohnsham():
     """
     Handles a standard kohn sham calculation
     """
 
-    def __init__(self, partition, spin):
+    def __init__(self, grid, Za, Zb, pol, Nmo, N, optKS):
+
+        optKS["interaction_type"] = optKS["interaction_type"] if "interaction_type" in optKS.keys() else "dft"
+        optKS["SYM"] = optKS["SYM"] if "SYM" in optKS.keys() else False
+        optKS["FRACTIONAL"] = optKS["FRACTIONAL"] if "FRACTIONAL" in optKS.keys() else False
+        optKS["x_func_id"] = optKS["x_func_id"] if "x_func_id" in optKS.keys() else 1
+        optKS["c_func_id"] = optKS["c_func_id"] if "c_func_id" in optKS.keys() else 12
+        optKS["xc_family"] = optKS["xc_family"] if "xc_family" in optKS.keys() else "lda"
+
+        #Options
+        self.optKS = optKS
 
         #Coordinates
-        self.grid = partition.grid
+        self.grid = grid
 
         #Calculation types / Fragment specification
-        self.interaction_type = partition.interaction_type
+        #self.interaction_type = optKS["interaction_type"]
 
         #DFT options for fragment calculations
-        self.xc_family = partition.xc_family
-        self.x_func_id = partition.x_func_id
-        self.c_func_id = partition.c_func_id
+        #self.xc_family = optKS["xc_family"]
+        #self.x_func_id = optKS["x_func_id"]
+        #self.c_func_id = optKS["c_func_id"]
 
-        if spin == "alpha":
-            self.Nmo = partition.Nmo_a
-            self.N = partition.N_a
-        elif spin == "beta":
-            self.Nmo = partition.Nmo_b
-            self.N = partition.N_b
+        self.Nmo = Nmo
+        self.N = N
 
-        # if self.Nmo.shape != self.N.shape:
-        #     raise ValueError("Shape of Nmo must match N")
-        assert(self.Nmo.shape, self.N.shape), "Nmo should be same size as N"
-
-        #Libxc/Hartree handles for fragment calculations
-        self.exchange = partition.exchange
-        self.correlation = partition.correlation
-        self.hartree = None
+        assert self.Nmo.shape == self.N.shape, "Nmo should be same size as N"
 
         #Polarization for fragments
-        self.pol = partition.pol
+        self.pol = pol
         
         #Structures to store component potentials and energies
         self.V = None
@@ -52,12 +54,8 @@ class KohnSham():
         self.solver = []
         
         #Nuclear charges
-        if spin == "alpha":
-            self.Za = partition.Za
-            self.Zb = 0
-        if spin == "beta":
-            self.Zb = partition.Zb
-            self.Za = 0
+        self.Za = Za
+        self.Zb = Zb
 
         #Potentials
         self.vnuc = None
@@ -79,19 +77,21 @@ class KohnSham():
         #Flags
         #Use AB symmetry for homonuclear diatomics
         # If True, potentails and densities will eb symmetrized
-        self.SYM = False
+        self.optKS["SYM"] = False
         #Allow fractional occupation of the Homo
-        self.FRACTIONAL = False
+        self.optKS["FRACTIONAL"] = False
 
         self.Alpha = None
+        self.Beta = None
 
         #Calculates coulomb potential corresponding to Za and Zb
         self.calc_nuclear_potential()
 
-        if self.interaction_type == 'dft':
-            self.exchange = partition.exchange
-            self.correlation = partition.correlation
-            self.hartree = partition.hartree
+        #Libxc/Hartree handles for fragment calculations
+        if self.optKS["interaction_type"] == 'dft':
+            self.exchange = Libxc(self.grid, self.optKS["xc_family"], self.optKS["x_func_id"])
+            self.correlation = Libxc(self.grid, self.optKS["xc_family"], self.optKS["x_func_id"])
+            self.hartree = Hartree(grid)
         else:
             self.exchange = 0.0
             self.correlation = 0.0
@@ -99,15 +99,18 @@ class KohnSham():
 
         #Loop through array and setup solver objects
         for i in range(self.Nmo.shape[1]):
-            i_solver = Pssolver(self.grid, self.Nmo, self.N, self.FRACTIONAL, self.SYM)
+            i_solver = Pssolver(self.grid, self.Nmo, self.N, self.optKS["FRACTIONAL"], self.optKS["SYM"])
             i_solver.hamiltionian()
             self.solver.append(i_solver)
         
         for i_solver in self.solver:
-            if self.interaction_type == "ni":
+            if self.optKS["interaction_type"] == "ni":
                 i_solver.e0 = -1.5 * max(self.Za, self.Zb)**2 / (i_solver.m + 1)**2
             else:
                 i_solver.e0 = - max(self.Za, self.Zb)**2 / (i_solver.m + 1)**2 
+
+    def scf(self, optKS):
+        scf(self, optKS)
 
     def calc_nuclear_potential(self):
         """
@@ -125,9 +128,14 @@ class KohnSham():
             self.vnuc[:, 0] = v
             self.vnuc[:, 1] = v
 
-        if self.SYM is True:
+        if self.optKS["SYM"] is True:
             self.vnuc = 0.5 * (self.vnuc + self.grid.mirror(self.vnuc))
         
-
-
+    def set_effective_potential(self):
+        """
+        Sets new effective potential
+        """
+        self.veff = self.vnuc + self.vext + self.vhxc
+        for i in self.solver:
+            i.setveff(self.veff)
          
