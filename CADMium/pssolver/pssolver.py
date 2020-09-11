@@ -90,7 +90,6 @@ class Pssolver():
         #         self.results["N"][i,j] = self.N[i,j]
         #         self.results["m"][i,j] = i-1
 
-
     def hamiltionian(self):
         """
         Construct basic Hamiltonian H_0
@@ -111,3 +110,13 @@ class Pssolver():
         else:
             oT = -0.5 * self.grid.olap
             self.H0 = oT + self.m ** 2 * W @ f 
+
+    def setveff(self, veff):
+        """
+        Distribute effective potential to solver object
+        Size of Potential array should match polarization
+        Assert solver(0).pol == len(veff, 1)
+        """
+
+        for i in range(veff.shape[1]):
+            self.veff = veff[:,i]
