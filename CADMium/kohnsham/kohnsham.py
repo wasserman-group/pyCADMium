@@ -10,6 +10,12 @@ from ..libxc.libxc import Libxc
 from ..hartree.hartree import Hartree
 from ..pssolver.pssolver import Pssolver
 
+class V:
+    pass
+
+class E:
+    pass
+
 class Kohnsham():
     """
     Handles a standard kohn sham calculation
@@ -38,8 +44,8 @@ class Kohnsham():
         #self.x_func_id = optKS["x_func_id"]
         #self.c_func_id = optKS["c_func_id"]
 
-        self.Nmo = Nmo
-        self.N = N
+        self.Nmo = np.array(Nmo)
+        self.N = np.array(N)
 
         assert self.Nmo.shape == self.N.shape, "Nmo should be same size as N"
 
@@ -47,11 +53,11 @@ class Kohnsham():
         self.pol = pol
         
         #Structures to store component potentials and energies
-        self.V = None
-        self.E = None
+        self.V = V
+        self.E = E
 
         #Handle for the solver object
-        self.solver = []
+        self.solver = np.empty((self.Nmo.shape[0], self.Nmo.shape[1]), dtype=object)
         
         #Nuclear charges
         self.Za = Za
@@ -73,14 +79,6 @@ class Kohnsham():
         self.scale = None
         #Qfunction
         self.Q = None
-
-        #Flags
-        #Use AB symmetry for homonuclear diatomics
-        # If True, potentails and densities will eb symmetrized
-        self.optKS["SYM"] = False
-        #Allow fractional occupation of the Homo
-        self.optKS["FRACTIONAL"] = False
-
         self.Alpha = None
         self.Beta = None
 
@@ -98,16 +96,21 @@ class Kohnsham():
             self.hartree = 0.0
 
         #Loop through array and setup solver objects
-        for i in range(self.Nmo.shape[1]):
-            i_solver = Pssolver(self.grid, self.Nmo, self.N, self.optKS["FRACTIONAL"], self.optKS["SYM"])
-            i_solver.hamiltionian()
-            self.solver.append(i_solver)
-        
-        for i_solver in self.solver:
-            if self.optKS["interaction_type"] == "ni":
-                i_solver.e0 = -1.5 * max(self.Za, self.Zb)**2 / (i_solver.m + 1)**2
-            else:
-                i_solver.e0 = - max(self.Za, self.Zb)**2 / (i_solver.m + 1)**2 
+        for i in range(self.Nmo.shape[0]):
+            for j in range(self.Nmo.shape[1]):
+                i_solver = Pssolver(self.grid, self.Nmo[i,j], self.N[i,j], 
+                                    i, self.Nmo.shape[1],
+                                    self.optKS["FRACTIONAL"], self.optKS["SYM"])
+                i_solver.hamiltionian()
+                self.solver[i,j] = i_solver
+
+        for i in range(self.Nmo.shape[0]):
+            for j in range(self.Nmo.shape[1]):
+                if self.optKS["interaction_type"] == "ni":
+                    self.solver[i,j].e0 = -1.5 * max(self.Za, self.Zb)**2 / (self.solver[i,j].m + 1)**2
+                else:
+                    self.solver[i,j].e0 = - max(self.Za, self.Zb)**2 / (self.solver[i,j].m + 1)**2 
+
 
     def scf(self, optKS):
         scf(self, optKS)
@@ -136,6 +139,87 @@ class Kohnsham():
         Sets new effective potential
         """
         self.veff = self.vnuc + self.vext + self.vhxc
-        for i in self.solver:
-            i.setveff(self.veff)
+        for i in range(self.Nmo.shape[0]):
+            for j in range(self.Nmo.shape[1]):
+                self.solver[i,j].setveff(self.veff)
+
+    def calc_density(self, ITERATIVE=False, dif=0.0):
+        #Removed setting Iterative False if only one argument is given
+
+        starttol = 0.01
+
+        #Calculate new densities      
+        nout = np.zeros((self.grid.Nelem, self.pol))  
+        for i in range(self.Nmo.shape[0]):
+            for j in range(self.Nmo.shape[1]):
+                if ITERATIVE is True and dif < starttol:
+                    self.solver[i,j].iter_orbitals()
+                else:
+                    self.solver[i,j].calc_orbitals()
+
+                #Calculate Orbital's densities
+                self.solver[i,j].calc_density()
+
+                #Add up orbital's densities
+                nout[:,j] += np.squeeze(self.solver[i,j].n)
+
+        return nout
+
+    def calc_energies(self):
+        
+        #Get KohSham energies from solver object
+        for i in range(self.Nmo.shape[0]):
+            for j in range(self.Nmo.shape[1]):
+                self.solver[i,j].calc_energy()
+                self.E.Eks = self.solver[i,j].get_eks()
+                self.E.Ts = self.sovler[i,j].get_Ts()
+                self.E.Vks = self.solver[i,j].get_Vs()
+
+        self.E.evals =
+        
+
+    def calc_chempot(self):
+
+        homos = []
+        for i in range(self.Nmo.shape[0]):
+            for j in range(self.Nmo.shape[1]):
+                self.solver.[i,j].get_homo()
+                homos.append(self.solver[i,j].homo)
+
+        self.u = max(homos)
+
+    def calc_hxc_potential(self):
+        "Calculate new potential for each fragment"
+
+        #Fragment effective potentials
+
+        if self.optKS["interaction_type"] == "ni":
+            self.vhxc = np.zeros_like(self.vext)
+
+        elif self.optKS["interaction_type"] == "dft":
+            #Get effective potential for each element in ensemble
+            _, self.V.vx = self.exchange.get_xc(self.n)
+            _, self.V.vc = self.correlation.get_xc(self.n)
+            self.V.vh = self.hartree.v_hartree(self.n)
+
+            self.vxc = self.V.vx + self.V.vc + self.V.vh
+
+        if self.optKS["SYM"] is True:
+            self.vhxc = 0.5 * (self.vhxc + self.grid.mirror(self.vxc))
+
+
+
+
+
+        
+
+
+
+        
+        
+
+
+            
+
+        
          
