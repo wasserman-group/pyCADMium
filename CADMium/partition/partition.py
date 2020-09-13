@@ -8,7 +8,7 @@ from ..common.coulomb import coulomb
 
 from ..libxc.libxc import Libxc
 from ..hartree.hartree import Hartree
-from ..kohnsham.kohnsham import KohnSham
+from ..kohnsham.kohnsham import Kohnsham
 
 
 
@@ -99,39 +99,41 @@ class Partition():
                        pol, 
                        Nmo_a, N_a, nu_a, 
                        Nmo_b, N_b, nu_b, 
-                       optPartition):
+                       optPartition={}):
 
-        self.interaction_type = optPartition["interaction_type"] if "interaction_type" in optPartition.keys() else "dft"
-        self.vp_calc_type = optPartition["vp_calc_type"] if "vp_calc_type" in optPartition.keys() else "component"
-        self.hxc_part_type = optPartition["hxc_part_type"] if "hxc_part_type" in optPartition.keys() else "exact"
-        self.kinetic_part_type = optPartition["kinetic_part_type"] if "kinetic_part_type" in optPartition.keys() else "vonweiz"
+        self.optPartition = optPartition
 
-        self.AB_SYM = optPartition["AB_SYM"] if "AB_SYM" in optPartition.keys() else False
-        self.FRACTIONAL = optPartition["FRACTIONAL"] if "FRACTIONAL" in optPartition.keys() else False
-        self.ENS_SPIN_SYM = optPartition["ENS_SPIN_SYM"] if "ENS_SPIN_SYM" in optPartition.keys() else False
-        self.ISOLATED = optPartition["ISOLATED"] if "ISOLATED" in optPartition.keys() else False
-        self.FIXEDQ = optPartition["FIXEDQ"] if "FIXEDQ" in optPartition.keys() else False
+        self.optPartition["interaction_type"] = optPartition["interaction_type"] if "interaction_type" in optPartition.keys() else "dft"
+        self.optPartition["vp_calc_type"] = optPartition["vp_calc_type"] if "vp_calc_type" in optPartition.keys() else "component"
+        self.optPartition["hxc_part_type"] = optPartition["hxc_part_type"] if "hxc_part_type" in optPartition.keys() else "exact"
+        self.optPartition["kinetic_part_type"] = optPartition["kinetic_part_type"] if "kinetic_part_type" in optPartition.keys() else "vonweiz"
+
+        self.optPartition["AB_SYM"] = optPartition["AB_SYM"] if "AB_SYM" in optPartition.keys() else False
+        self.optPartition["FRACTIONAL"] = optPartition["FRACTIONAL"] if "FRACTIONAL" in optPartition.keys() else False
+        self.optPartition["ENS_SPIN_SYM"] = optPartition["ENS_SPIN_SYM"] if "ENS_SPIN_SYM" in optPartition.keys() else False
+        self.optPartition["ISOLATED"] = optPartition["ISOLATED"] if "ISOLATED" in optPartition.keys() else False
+        self.optPartition["FIXEDQ"] = optPartition["FIXEDQ"] if "FIXEDQ" in optPartition.keys() else False
         
-        self.x_func_id = optPartition["x_func_id"] if "x_func_id" in optPartition.keys() else 1
-        self.c_func_id = optPartition["c_func_id"] if "c_func_id" in optPartition.keys() else 12
-        self.xc_family = optPartition["xc_familyl"] if "xc_family" in optPartition.keys() else "lda"
-        self.k_family = optPartition["k_family"] if "k_family" in optPartition.keys() else "gga"
-        self.ke_func_id = optPartition["ke_func_id"] if "ke_func_id" in optPartition.keys() else 5
-        self.ke_param = optPartition["ke_param"] if "ke_param" in optPartition.keys() else {}
+        self.optPartition["x_func_id"] = optPartition["x_func_id"] if "x_func_id" in optPartition.keys() else 1
+        self.optPartition["c_func_id"] = optPartition["c_func_id"] if "c_func_id" in optPartition.keys() else 12
+        self.optPartition["xc_family"] = optPartition["xc_familyl"] if "xc_family" in optPartition.keys() else "lda"
+        self.optPartition["k_family"] = optPartition["k_family"] if "k_family" in optPartition.keys() else "gga"
+        self.optPartition["ke_func_id"] = optPartition["ke_func_id"] if "ke_func_id" in optPartition.keys() else 5
+        self.optPartition["ke_param"] = optPartition["ke_param"] if "ke_param" in optPartition.keys() else {}
         
 
         #Calculation Options Validators:
-        if self.interaction_type not in ["dft", "ni"]:
+        if self.optPartition["interaction_type"]  not in ["dft", "ni"]:
             raise ValueError("Only {'dft', 'ni'} are valid options for calculation")
         
-        if self.vp_calc_type not in ["component", "potential_inversion"]:
+        if self.optPartition["vp_calc_type"]  not in ["component", "potential_inversion"]:
             raise ValueError("Only {'component', 'potential_inversion'} are valid options for vp")
 
-        if self.hxc_part_type not in ["exact", "overlap_hxc", "overpal_xc", "surprisal", "hartree"]:
+        if self.optPartition["hxc_part_type"] not in ["exact", "overlap_hxc", "overpal_xc", "surprisal", "hartree"]:
             raise ValueError("Only {'exact', 'overlap_hxc', 'overpal_xc', 'surprisal', 'hartree'}  \
                                 are valid options for vp")
 
-        if self.kinetic_part_type not in ["vonweiz", "inversion", "libxcke", "parmke", "two_orbital", "fixed"]:
+        if self.optPartition["kinetic_part_type"] not in ["vonweiz", "inversion", "libxcke", "parmke", "two_orbital", "fixed"]:
             raise ValueError("Only {'vonweiz', 'inversion', 'libxcke', 'parmke', 'two_orbital', 'fixed'} \
                                 are valud options for vp")
 
@@ -180,8 +182,10 @@ class Partition():
         #Fragment ensembles, mixing rations, sum of fragment ensembles
         self.na_frac, self.nb_fac = None, None
         self.nu_a, self.nu_b = nu_a, nu_b
-        self.N_a, self.N_b = np.array(N_a)[None], np.array(N_b)[None]
-        self.Nmo_a, self.Nmo_b = np.array(Nmo_a)[None], np.array(Nmo_b)[None]
+        self.N_a = N_a[None] if len(N_a.shape) == 1 else N_a
+        self.N_b = N_b[None] if len(N_b.shape) == 1 else N_b
+        self.Nmo_a = Nmo_a[None] if len(Nmo_a.shape) == 1 else Nmo_a
+        self.Nmo_b = Nmo_b[None] if len(Nmo_b.shape) == 1 else Nmo_b
         self.nf = None
 
         #Flags
@@ -192,7 +196,7 @@ class Partition():
         # self.FRACTIONAL = FRACTIONAL
 
         #Sanity Check
-        if self.AB_SYM and self.Za != self.Zb:
+        if self.optPartition["AB_SYM"] and self.Za != self.Zb:
             raise ValueError("AB_SYM is set but nuclear charges are not symmetric")
 
 
@@ -202,13 +206,12 @@ class Partition():
         self.Alpha = []
         self.Beta = []
 
-        if self.interaction_type == "dft":
-            self.exchange = Libxc(self.grid, self.xc_family, self.x_func_id)
-            self.correlation = Libxc(self.grid, self.xc_family, self.c_func_id)
+        if self.optPartition["interaction_type"] == "dft":
+            self.exchange = Libxc(self.grid, self.optPartition["xc_family"], self.optPartition["x_func_id"])
+            self.correlation = Libxc(self.grid, self.optPartition["xc_family"], self.optPartition["c_func_id"])
             self.hartree = Hartree(grid,
                                     #optPartition,
                                     )
-
         else:
             self.exchange = 0.0
             self.correlation = 0.0
@@ -216,15 +219,15 @@ class Partition():
 
     
         #Set up kohn sham objects
-        self.KSa = KohnSham(self, "alpha")
-        self.KSb = KohnSham(self, "beta") 
+        self.KSa = Kohnsham(self.grid, self.Za, 0, self.pol, self.Nmo_a, self.N_a, optPartition)
+        self.KSb = Kohnsham(self.grid, 0, self.Zb, self.pol, self.Nmo_b, self.N_b, optPartition)
 
         #Figure out scale factors
         self.calc_scale_factors()
 
-        if self.kinetic_part_type == "libxcke":
+        if self.optPartition["kinetic_part_type"] == "libxcke":
             self.kinetic = Libxc(self.grid, self.k_family, self.ke_func_id)
-        elif self.kinetic_part_type == "paramke":
+        elif self.optPartition["kinetic_part_type"] == "paramke":
             self.kinetic = Paramke(self.grid, self.k_family, self.ke_func_id, self.ke_param)
         
         self.calc_nuclear_potential()
@@ -243,7 +246,7 @@ class Partition():
         #two because it will be combined with an ensemble component with 
         #flipped spins
 
-        if self.ENS_SPIN_SYM is True:
+        if self.optPartition["ENS_SPIN_SYM"] is True:
             self.KSa.scale = self.KSa.scale / 2.0
             self.KSb.scale = self.KSb.scale / 2.0
 
@@ -259,6 +262,10 @@ class Partition():
 
         self.V["vext"][:, 0] = self.va + self.vb
         self.V["vext"][:, 1] = self.va + self.vb
+
+
+    # def scf(self, **kwargs):
+    #     scf(self, **kwargs)
 
 
 
