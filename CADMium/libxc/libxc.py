@@ -23,7 +23,7 @@ class Libxc():
         func = Functional(self.func_id, pol)
 
         if self.xc_family == 'lda':
-            print("Hello I am an LDA")
+            pass
 
         elif self.xc_family == 'gga':
             sigma = self.grid.sigma(n)
