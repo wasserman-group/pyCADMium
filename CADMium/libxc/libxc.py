@@ -13,17 +13,17 @@ class Libxc():
         self.xc_family = xc_family
         self.func_id = func_id
 
-    def get_xc_dictionary(self, n):
+    def get_xc_dictionary(self, n, pol):
         """
         Generates ingredients and computes e_xc and v_xc using Libxc
         """
         func_ingredients = {}
         func_ingredients["rho"] = n
 
-        func = Functional(self.func_id, self.pol)
+        func = Functional(self.func_id, pol)
 
         if self.xc_family == 'lda':
-            print("Hello Im an LDA")
+            print("Hello I am an LDA")
 
         elif self.xc_family == 'gga':
             sigma = self.grid.sigma(n)
@@ -37,9 +37,11 @@ class Libxc():
 
     def get_xc(self, n):
 
-        xc_dictionary = self.get_xc_dictionary(n)
-        epsilon = xc_dictonary["zk"]
-        e_xc = self.grid.integrate(self, np.sum(epsilon.copy() * n, axis=1))
+        pol = n.shape[1]
+
+        xc_dictionary = self.get_xc_dictionary(n, pol)
+        epsilon = xc_dictionary["zk"]
+        exc = self.grid.integrate(np.sum(epsilon.copy() * n, axis=1))
 
         #Calculate e_xc
         if self.xc_family == 'lda':

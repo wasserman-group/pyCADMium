@@ -4,6 +4,7 @@ hartree.py
 
 import numpy as np
 from scipy.special import lpmv as legendre
+from scipy.sparse.linalg import spsolve
 
 class Hartree():
     """
@@ -28,11 +29,11 @@ class Hartree():
         n_multipole = 7
 
         #Fill in mesh and boundary mesh with 'Z' and rho values
-        bZ   = self.grid.a @ np.cosh(self.grid.bXr) * np.cos(self.grid.bXa)
+        bZ   = self.grid.a * np.cosh(self.grid.bXr) * np.cos(self.grid.bXa)
         #Check the raised to the minus one in next expression
-        brho = self.grid.a @ (np.cosh(self.grid.bXr)**2 + np.cos(self.grid.bXa)**2-1)**0.5
-        Z    = self.grid.a @ np.cosh(self.grid.Xr) * np.cos(self.grid.Xa)
-        rho  = self.grid.a @ (np.cosh(self.grid.Xr)**2 + np.cos(self.grid.Xa)**2-1)**0.5
+        brho = self.grid.a * (np.cosh(self.grid.bXr)**2 + np.cos(self.grid.bXa)**2-1)**0.5
+        Z    = self.grid.a * np.cosh(self.grid.Xr) * np.cos(self.grid.Xa)
+        rho  = self.grid.a * (np.cosh(self.grid.Xr)**2 + np.cos(self.grid.Xa)**2-1)**0.5
 
         #Calculate Multipoles
         #Zero order gets calculated separately
@@ -43,17 +44,17 @@ class Hartree():
         Q0 = self.grid.integrate(P0 * nh)
         #Calculate kth multipole contribution to the hartree potential
         #in the boundary region
-        bVh = Q0 @ np.reciprocal(brho) * bP0
+        bVh = Q0 * np.reciprocal(brho) * bP0
 
         #Rest of the multipoles:
-        for k in range(Nmultipole):
+        for k in range(n_multipole):
             Pn = legendre(0, k, Z/rho)
             Qn = self.grid.integrate(rho**k @ Pn*nh)
             bPn = legendre(0,k, bZ/brho)
-            bVh += Qn @ np.reciprocal(brho**k+1) * bPn
+            bVh += Qn * np.reciprocal(brho**k+1) * bPn
 
         #Calculate source term in Poisson's equation
-        b  = -4.0 * self.grid
+        b  = -4.0 * np.pi * self.grid.w * nh
 
         #Use lhs of Poisson's equation in the boundary region to find
         #a corresponding source term wich implements boundary conditions
@@ -66,11 +67,11 @@ class Hartree():
         b = b.reshape(self.grid.Na * self.grid.Nr, 1)
         
         #Solve discretized Poisson equation using LU decomposed labplacian
-        x = sesslf.grid.L_lap / b
-        vh = self.grid.U_lap / x
+        x  = spsolve(self.grid.L_lap, b)
 
-        #Format output matrix
-        vh = vh[:, np.ones((1, pol))]
+        vh = np.zeros((x.shape[0], x.shape[0]))
+        vh[:, 0] = spsolve(self.grid.U_lap, x)
+        vh[:, 1] = vh[:, 0] 
 
         return vh
 
