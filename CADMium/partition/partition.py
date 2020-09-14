@@ -2,7 +2,7 @@
 partition.py
 """
 import numpy as np
-from pydantic import Field, constr, validator, BaseModel
+
 
 from ..common.coulomb import coulomb
 
