@@ -5,6 +5,11 @@ pssolver.py
 import numpy as np
 from scipy.sparse import spdiags
 
+from .calc_orbitals import calc_orbitals
+from .calc_density import calc_density
+from .calc_energy import calc_energy
+from .get_homo import get_homo
+
 #from .hamiltonian import hamiltonian
 
 eps = np.finfo(float).eps
@@ -13,7 +18,8 @@ class Pssolver():
     """
     Keeps track of eigenvalues/vectors and constructs densities and responses.
     """
-    def __init__(self, grid, Nmo, N, FRACTIONAL, SYM):
+    def __init__(self, grid, Nmo, N, Nlvls, pol,
+                 FRACTIONAL, SYM):
 
         verbose=False
 
@@ -21,8 +27,11 @@ class Pssolver():
         self.Nmo = Nmo
         self.N = N
 
+        #Polarization of electrons handled by this solver
+        self.pol = pol
+
         #Effective Potential
-        self.veff = None
+        self.veff = np.zeros((self.grid.Nelem, self.pol))
 
         #Base Hamiltonian
         self.H0 = None
@@ -34,9 +43,6 @@ class Pssolver():
         
         #Estimate of lowest energy value
         self.e0 = None
-
-        #Polarization of electrons handled by this solver
-        self.pol = None
         
         #KohnSham energy
         self.eks = None
@@ -65,10 +71,12 @@ class Pssolver():
         self.v0 = np.ones(self.grid.Nelem)
         self.default_e0 = -20.0
 
-        self.Nlvls = self.Nmo.shape[0]
-        self.pol = self.Nmo.shape[1]
+        self.opt = {"tol" : 1e-16, "v0":np.ones((self.grid.Nelem, 1))}
 
-        if -1 in self.N:
+        self.Nlvls = Nlvls
+        self.pol = pol
+
+        if self.N == -1:
             if self.polarization == 1:
                 self.N = 2 * self.Nmo
             else:
@@ -77,18 +85,8 @@ class Pssolver():
         if verbose is True:
             print("\n Warning: Polarization from PSsolver may not ready. Check 'Fill in default number of electrons'")
 
-        self.m = self.Nlvls - 1
-        # self.pssolvers = np.array(np.zeros(self.Nlvls, self.pol))
+        self.m = Nlvls
 
-        # self.results = { "Nmo" : np.zeros((self.Nlvls, self.pol)), 
-        #                  "N"   : np.zeros((self.Nlvls, self.pol)), 
-        #                  "m"   : np.zeros((self.Nlvls, self.pol)), } 
-                        
-        # for i in range(self.Nlvls):
-        #     for j in range(self.pol):
-        #         self.results["Nmo"][i,j] = self.Nmo[i,j]
-        #         self.results["N"][i,j] = self.N[i,j]
-        #         self.results["m"][i,j] = i-1
 
     def hamiltionian(self):
         """
@@ -103,13 +101,27 @@ class Pssolver():
         f = spdiags(data=self.grid.f, diags=0, m=Nelem, n=Nelem)
 
         #Choose the correct symmetry for m
+
         if np.mod(self.m, 2) == 0:
             #Even symmetry
             eT = -0.5 * self.grid.elap
             self.H0 = eT + self.m ** 2 * W @ f
         else:
+            #Odd symmetry
             oT = -0.5 * self.grid.olap
             self.H0 = oT + self.m ** 2 * W @ f 
+
+    def calc_orbitals(self):
+        calc_orbitals(self)
+
+    def calc_density(self):
+        calc_density(self)
+
+    def calc_energy(self):
+        calc_energy(self)
+
+    def get_homo(self):
+        get_homo(self)
 
     def setveff(self, veff):
         """

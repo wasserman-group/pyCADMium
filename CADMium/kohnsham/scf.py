@@ -37,4 +37,60 @@ def scf(self, optKS):
 
         nout = self.calc_density()
 
+        #Set the new input density
+        self.n = nout
+
+    #Start up the scf loop
+    diff  = 10
+    old_E = 0
+    old_n = np.zeros((self.grid.Nelem, self.pol))
+    iter = 1
+
+    if AutoTol == True:
+        min_dif = 10
+        num_iter_not_min = 0
+
+    while (diff > Tolerance or AutoTol == True and num_iter_not_min < AutoTolIter) and iter < MaxIter:
+
+        #Calculate and set new effective potential:
+        self.calc_hxc_potential() 
+        self.veff = self.vnuc + self.vext + self.vhxc
+
+        for i in range(self.Nmo.shape[0]):
+            for j in range(self.Nmo.shape[1]):
+                self.solver[i,j].setveff(self.veff)
+
+        #Spin flip mirror symmetry
+        if SPINFLIPSYM is True:
+            self.veff = (self.veff + self.grid.mirror(self.grid.spinflip(self.veff))) / 2
+
+        #Calculate new density
+        if ITERATIVE is True and CONTINUE is True:
+            nout = self.calc_density(ITERATIVE==ITERATIVE)
+
+        else:
+            nout = self.calc_density(ITERATIVE=ITERATIVE, dif=diff)
+
+        #Set new density with linear mixing
+        self.n = (1 - Alpha) * self.n + Alpha * nout
+
+        if SPINFLIPSYM is True:
+            self.n = (self.n + self.grid.mirror(self.grid.spinflip(self.n)))/2
+
+        #Calculate energies and chemical potential
+        self.calc_energies()
+        self.calc_chempot()
+
+        #Convergence check
+        dif_E = np.abs( (self.E.E) )
+
+
+
+
+
+
+        
+
+
+
         
