@@ -6,6 +6,7 @@ A short description of the project.
 # Add imports here
 from .psgrid import Psgrid
 from .partition import Partition
+from .kohnsham import Kohnsham
 from .data.grids import *
 
 # Handle versioneer
