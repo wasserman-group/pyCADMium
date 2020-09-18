@@ -13,7 +13,7 @@ def calc_energy(self):
     if self.m == 0:
         if self.pol == 1: #Unpolarized electrons
             Nocc = np.floor(self.N / 2)
-            nu = self.N / (2 - Nocc)
+            nu = self.N / 2 - Nocc
 
         else: #Polarized electrons
             Nocc = np.floor(self.N)
@@ -22,11 +22,11 @@ def calc_energy(self):
     else: # m>0 orbitals hold twice as many elctrons due to plus minus symmetry
         if self.pol == 1: #Unpolarized electrons
             Nocc = np.floor(self.N / 4)
-            nu = self.N / (4 - Nocc)
+            nu = self.N / 4 - Nocc
 
         else: #Polarized electrons
             Nocc = np.floor(self.N / 2)
-            nu = self.N / (2.0 - Nocc)
+            nu = self.N / 2.0 - Nocc
 
     #Sum energy
     for i in range(int(Nocc)):

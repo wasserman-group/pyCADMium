@@ -14,7 +14,7 @@ def calc_density(self):
     if self.m == 0:
         if self.pol == 1:
             Nocc = np.floor(self.N/2)
-            nu = self.N / (2 - Nocc)
+            nu = self.N / 2 - Nocc
         else:
             Nocc = np.floor(self.N)
             nu = self.N - Nocc
@@ -23,10 +23,10 @@ def calc_density(self):
         #m>0 orbitals hold twice as many electrons due to +-m symmetry
         if self.pol == 1:
             Nocc = np.floor(self.N / 4)
-            nu = self.N / (4 - Nocc)
+            nu = self.N / 4 - Nocc
         else:
             Nocc = np.floor(self.N/2)
-            nu = self.N / (2 - Nocc)
+            nu = self.N / 2 - Nocc
 
     #Construct Density
     for i in range(int(Nocc)):
