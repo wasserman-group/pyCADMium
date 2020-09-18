@@ -10,8 +10,8 @@ def scf(self, optKS):
     """
 
     Tolerance = optKS["Tolerance"] if "Tolerance" in optKS.keys() else 10e-7
-    MaxIter = optKS["MaxIter"] if "MaxIter" in optKS.keys() else 50
-    Alpha = optKS["Alpha"] if "Alpha" in optKS.keys() else 0.82
+    MaxIter = optKS["MaxIter"] if "MaxIter" in optKS.keys() else 100
+    Alpha = optKS["Alpha"] if "Alpha" in optKS.keys() else 0.50
     Verbose = optKS["Verbose"] if "Verbose" in optKS.keys() else True
     CONTINUE = optKS["CONTINUE"] if "CONTINUE" in optKS.keys() else False
     ITERATIVE = optKS["ITERATIVE"] if "ITERATIVE" in optKS.keys() else True
@@ -50,7 +50,9 @@ def scf(self, optKS):
         min_dif = 10
         num_iter_not_min = 0
 
+
     while (diff > Tolerance or AutoTol == True and num_iter_not_min < AutoTolIter) and iter < MaxIter:
+
 
         #Calculate and set new effective potential:
         self.calc_hxc_potential() 
@@ -58,7 +60,7 @@ def scf(self, optKS):
 
         for i in range(self.Nmo.shape[0]):
             for j in range(self.Nmo.shape[1]):
-                self.solver[i,j].setveff(self.veff)
+                self.solver[i,j].setveff(self.veff[:,j])
 
         #Spin flip mirror symmetry
         if SPINFLIPSYM is True:
@@ -71,22 +73,38 @@ def scf(self, optKS):
         else:
             nout = self.calc_density(ITERATIVE=ITERATIVE, dif=diff)
 
+
         #Set new density with linear mixing
         self.n = (1 - Alpha) * self.n + Alpha * nout
 
         if SPINFLIPSYM is True:
             self.n = (self.n + self.grid.mirror(self.grid.spinflip(self.n)))/2
+            
 
         #Calculate energies and chemical potential
-        self.calc_energies()
+        self.energy()
         self.calc_chempot()
 
         #Convergence check
-        dif_E = np.abs( (self.E.E) )
+        dif_E = np.abs( (self.E.E - old_E) / self.E.E )
+        dif_n = np.max(  self.grid.integrate(np.abs(self.n - old_n)) / self.grid.integrate(np.abs(self.n))  )
 
 
+        diff = max(dif_E, dif_n)
+        old_E = self.E.E
+        old_n = self.n
 
+        if AutoTol is True:
+            if dif < min_dif:
+                num_iter_not_min = 0
+                min_dif = diff
+            else:
+                num_iter_not_min = num_iter_not_min + 1
 
+        if Verbose is True:
+            print(f"   {iter}         {self.E.E:.3f}          {self.u:.3f}            {diff}")
+
+        iter += 1
 
 
         
