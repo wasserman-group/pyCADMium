@@ -88,7 +88,7 @@ class Kohnsham():
         #Libxc/Hartree handles for fragment calculations
         if self.optKS["interaction_type"] == 'dft':
             self.exchange = Libxc(self.grid, self.optKS["xc_family"], self.optKS["x_func_id"])
-            self.correlation = Libxc(self.grid, self.optKS["xc_family"], self.optKS["x_func_id"])
+            self.correlation = Libxc(self.grid, self.optKS["xc_family"], self.optKS["c_func_id"])
             self.hartree = Hartree(grid)
         else:
             self.exchange = 0.0
@@ -104,8 +104,6 @@ class Kohnsham():
                 i_solver.hamiltionian()
                 self.solver[i,j] = i_solver
 
-        for i in range(self.Nmo.shape[0]):
-            for j in range(self.Nmo.shape[1]):
                 if self.optKS["interaction_type"] == "ni":
                     self.solver[i,j].e0 = -1.5 * max(self.Za, self.Zb)**2 / (self.solver[i,j].m + 1)**2
                 else:
@@ -139,9 +137,9 @@ class Kohnsham():
         Sets new effective potential
         """
         self.veff = self.vnuc + self.vext + self.vhxc
-        for i in range(self.Nmo.shape[0]):
-            for j in range(self.Nmo.shape[1]):
-                self.solver[i,j].setveff(self.veff)
+        for j in range(self.Nmo.shape[1]):
+            for i in range(self.Nmo.shape[0]):
+                self.solver[i,j].setveff(self.veff[:,j])
 
     def calc_density(self, ITERATIVE=False, dif=0.0):
         #Removed setting Iterative False if only one argument is given
@@ -150,44 +148,81 @@ class Kohnsham():
 
         #Calculate new densities      
         nout = np.zeros((self.grid.Nelem, self.pol))  
-        for i in range(self.Nmo.shape[0]):
-            for j in range(self.Nmo.shape[1]):
+
+        for j in range(self.Nmo.shape[1]):
+            for i in range(self.Nmo.shape[0]):
                 if ITERATIVE is True and dif < starttol:
                     self.solver[i,j].iter_orbitals()
                 else:
                     self.solver[i,j].calc_orbitals()
 
+
+        for j in range(self.Nmo.shape[1]):
+            for i in range(self.Nmo.shape[0]):     
                 #Calculate Orbital's densities
                 self.solver[i,j].calc_density()
 
                 #Add up orbital's densities
                 nout[:,j] += np.squeeze(self.solver[i,j].n)
-
         return nout
 
-    def calc_energies(self):
-        
+    def energy(self):
+        #Collect energy
+        self.E.Eks = np.zeros((1, self.pol))
+        #Collect total potential energy 
+        self.E.Vks =  np.zeros((1, self.pol))
+        #Collect total kinetic energy
+        self.E.Ts  = 0.0
+        #Collect all eigenvalues
+        self.E.evals = np.empty((0))    
+    
         #Get KohSham energies from solver object
         for i in range(self.Nmo.shape[0]):
             for j in range(self.Nmo.shape[1]):
                 self.solver[i,j].calc_energy()
-                self.E.Eks = self.solver[i,j].get_eks()
-                self.E.Ts = self.sovler[i,j].get_Ts()
-                self.E.Vks = self.solver[i,j].get_Vs()
 
-        self.E.evals =
+                self.E.Eks[0,j] += self.solver[i,j].eks
+                self.E.Ts     += self.solver[i,j].Ts
+                self.E.Vks[0,j] += self.solver[i,j].Vs
+
+                np.append(self.E.evals, self.solver[i,0])
+                np.append(self.E.evals, self.solver[i,1])
+
+        if self.optKS["interaction_type"] == 'ni':
+            self.E.Vnuc = self.grid.integrate(np.sum(self.n * self.vnuc, axis=1))
+            self.E.Vext = self.grid.integrate(np.sum(self.n * self.vext, axis=1))
+            self.E.Enuc = self.grid.integrate(np.sum(self.n * self.vnuc, axis=1))
+            self.E.Et = self.E.Ts + self.E.Enuc
+
+        elif self.optKS["interaction_type"] == 'dft':
+
+            self.E.Enuc = self.grid.integrate(np.sum(self.n * self.vnuc, axis=1))
+            self.E.Vext = self.grid.integrate(np.sum(self.n * self.vext, axis=1))
+            self.E.Vhxc = self.grid.integrate(np.sum(self.n * self.vhxc, axis=1))
+
+            self.V.vh = self.hartree.v_hartree(self.n)
+            self.V.eh = 0.5 * self.V.vh[:,0]
+            self.E.Eh = self.grid.integrate(np.sum(self.n, axis=1) * self.V.eh)
+
+            self.E.Ex, self.V.vx = self.exchange.get_xc(self.n)
+            self.E.Ec, self.V.vc = self.correlation.get_xc(self.n)
+
+            self.E.Et = self.E.Ts + self.E.Enuc + self.E.Eh + self.E.Ex + self.E.Ec
+
+        #Nuclear-Nuclear repulsion
+        self.E.Vnn = self.Za * self.Zb / (2 * self.grid.a)
+        #Total electronic + nuclear energy
+        self.E.E = self.E.Et + self.E.Vnn
+
+        # print("Kinetic Energy", self.E.Ts)
+        # print("Nuclear Energy", self.E.Enuc)
+        # print("Hartree Energy", self.E.Eh)
+        # print("Hartree exchange correlation", self.E.Vhxc)
+        # print("Correlation Energy", self.E.Ec)
+        # print("Exchange Energy", self.E.Ex)
+        # print("External", self.E.Vext)
+        # print("Total", self.E.E)
         
-
-    def calc_chempot(self):
-
-        homos = []
-        for i in range(self.Nmo.shape[0]):
-            for j in range(self.Nmo.shape[1]):
-                self.solver.[i,j].get_homo()
-                homos.append(self.solver[i,j].homo)
-
-        self.u = max(homos)
-
     def calc_hxc_potential(self):
         "Calculate new potential for each fragment"
 
@@ -198,20 +233,32 @@ class Kohnsham():
 
         elif self.optKS["interaction_type"] == "dft":
             #Get effective potential for each element in ensemble
-            _, self.V.vx = self.exchange.get_xc(self.n)
-            _, self.V.vc = self.correlation.get_xc(self.n)
+            
+            self.E.Ex, self.V.vx = self.exchange.get_xc(self.n)
+            self.E.Ec, self.V.vc = self.correlation.get_xc(self.n)
             self.V.vh = self.hartree.v_hartree(self.n)
 
-            self.vxc = self.V.vx + self.V.vc + self.V.vh
+            self.vhxc = self.V.vx + self.V.vc + self.V.vh
 
         if self.optKS["SYM"] is True:
             self.vhxc = 0.5 * (self.vhxc + self.grid.mirror(self.vxc))
+
+    def calc_chempot(self):
+
+        homos = []
+        for i in range(self.Nmo.shape[0]):
+            for j in range(self.Nmo.shape[1]):
+                self.solver[i,j].get_homo()
+                homos.append(self.solver[i,j].homo)
+
+        self.u = max(homos)
 
 
 
 
 
         
+
 
 
 
