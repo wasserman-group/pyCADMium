@@ -8,7 +8,9 @@ from scipy.sparse import spdiags
 from .calc_orbitals import calc_orbitals
 from .calc_density import calc_density
 from .calc_energy import calc_energy
+from .iter_orbitals import iter_orbitals
 from .get_homo import get_homo
+
 
 #from .hamiltonian import hamiltonian
 
@@ -114,6 +116,9 @@ class Pssolver():
     def calc_orbitals(self):
         calc_orbitals(self)
 
+    def iter_orbitals(self):
+        iter_orbitals(self)
+
     def calc_density(self):
         calc_density(self)
 
@@ -129,6 +134,4 @@ class Pssolver():
         Size of Potential array should match polarization
         Assert solver(0).pol == len(veff, 1)
         """
-
-        for i in range(veff.shape[1]):
-            self.veff = veff[:,i]
+        self.veff = veff

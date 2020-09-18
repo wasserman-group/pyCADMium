@@ -31,7 +31,7 @@ def get_homo(self):
 
     #Record homo eigenvalue
     if Nocc != 0:
-        self.homo = self.eig[Nocc]
+        self.homo = self.eig[int(Nocc-1)]
     else:
         self.homo = -1 / np.finfo(float).eps
     

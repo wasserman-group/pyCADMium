@@ -30,7 +30,6 @@ def calc_energy(self):
 
     #Sum energy
     for i in range(int(Nocc)):
-        print(self.eig[i])
         self.eks += self.eig[i]
 
     #If we are doing fractional orbitals and are non-integer:
@@ -48,9 +47,11 @@ def calc_energy(self):
         else:
             self.eks = 2 * self.eks
 
+
+
     #Calculate potential energy of Kohn Sham 
     self.calc_density()
-    self.Vs = self.grid.integrate(self.veff[None].T * self.n)
+    self.Vs = self.grid.integrate((self.veff[None].T * self.n)[:,0])
     self.Ts = self.eks - self.Vs
 
     if np.isnan(self.Vs) is True:

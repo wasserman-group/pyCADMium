@@ -48,7 +48,6 @@ def calc_orbitals(self):
             self.eig = self.eig.real
             self.phi = self.phi.real
 
-        
         #Check for degenerate and nearly degenerate orbitals
         for i in range(self.Nmo-1):
             for j in range(i+1, self.Nmo):
@@ -57,6 +56,7 @@ def calc_orbitals(self):
                     odd  = self.phi[:, i] - self.grid.mirror(self.phi[:,i]) + self.phi[:,j] - self.grid.mirror(self.phi[:,j])
                     self.phi[:, i] = even/norm(even)
                     self.phi[:, j] = odd/norm(odd)
+
 
         if self.SYM is True:
             for i in range(self.Nmo):
