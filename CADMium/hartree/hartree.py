@@ -21,8 +21,11 @@ class Hartree():
         Calculates the hartree potential using density 'nh'
         """
 
-        pol = nh.shape[1]
-        nh = np.sum(nh, axis=1)
+        if len(nh.shape) == 1:
+            pol = 1
+        else:
+            pol = nh.shape[1]
+            nh = np.sum(nh, axis=1)
 
         #Number of multipoles to calculate. 
         #It appears not to affect performance
@@ -47,31 +50,38 @@ class Hartree():
         bVh = Q0 * np.reciprocal(brho) * bP0
 
         #Rest of the multipoles:
-        for k in range(n_multipole):
+        for k in range(1,n_multipole+1):
             Pn = legendre(0, k, Z/rho)
-            Qn = self.grid.integrate(rho**k @ Pn*nh)
+            Qn = self.grid.integrate((rho**k) * Pn*nh)
             bPn = legendre(0,k, bZ/brho)
-            bVh += Qn * np.reciprocal(brho**k+1) * bPn
+            bVh += Qn * np.reciprocal(brho**(k+1)) * bPn
 
         #Calculate source term in Poisson's equation
         b  = -4.0 * np.pi * self.grid.w * nh
 
+        # print("integration weight")
+        # print(self.grid.w)
+
+        # print("b from poisson")
+        # print(b)
+
         #Use lhs of Poisson's equation in the boundary region to find
         #a corresponding source term wich implements boundary conditions
         #See Kobus et al Comp. Phys. Commun. 98(1996) 346-358
-        bQ =  (self.grid.blap @ bVh).reshape(self.grid.Na, self.grid.bcN)
+        bQ =  (self.grid.blap @ bVh).reshape(self.grid.Na, self.grid.bcN, order='F')
         
         #Add boudnary term into source term. 
-        b = b.reshape(self.grid.Na, self.grid.Nr)
+        b = b.reshape(self.grid.Na, self.grid.Nr, order='F')
         b[:, -1-self.grid.bcN+1:] = b[:, -1-self.grid.bcN+1:] - bQ
-        b = b.reshape(self.grid.Na * self.grid.Nr, 1)
+        b = b.reshape(self.grid.Na * self.grid.Nr, 1, order='F')
         
         #Solve discretized Poisson equation using LU decomposed labplacian
         x  = spsolve(self.grid.L_lap, b)
-
-        vh = np.zeros((x.shape[0], x.shape[0]))
+        vh = np.zeros((x.shape[0], pol))
         vh[:, 0] = spsolve(self.grid.U_lap, x)
-        vh[:, 1] = vh[:, 0] 
+
+        if pol == 2:
+            vh[:, 1] = vh[:, 0] 
 
         return vh
 
@@ -84,5 +94,3 @@ class Hartree():
         eh = 0.5 * vh
 
         return eh
-
-
