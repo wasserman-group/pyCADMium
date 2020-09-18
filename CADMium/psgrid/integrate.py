@@ -17,7 +17,7 @@ def integrate(self, f):
 
     else:
         integral = np.zeros_like(f)
-        for i in range(f[1]):
+        for i in range(f.shape[1]):
             integral[:, i] = (2 * np.pi * self.hr * self.ha) * np.sum(self.wi * self.w * f[:, i])
 
     return integral
