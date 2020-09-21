@@ -9,5 +9,5 @@ import numpy as np
 
 def mirror(self, fin):
     fout = self.square(fin)
-    return np.reshape(fout[::-1,:,:],fin.shape[0], order="F")
+    return np.reshape(fout[::-1,:,:],fin.shape, order="F")
     

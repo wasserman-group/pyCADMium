@@ -47,8 +47,6 @@ def calc_energy(self):
         else:
             self.eks = 2 * self.eks
 
-
-
     #Calculate potential energy of Kohn Sham 
     self.calc_density()
     self.Vs = self.grid.integrate((self.veff[None].T * self.n)[:,0])
@@ -56,3 +54,9 @@ def calc_energy(self):
 
     if np.isnan(self.Vs) is True:
         self.Vs = 0.0
+
+    elif np.isinf(self.Vs) is True:
+        "Im infinity at Self.Vs in calc_energy"
+
+    elif self.Vs > 1e5 is True:
+        "Self.Vs in calc_energy is very big"

@@ -23,7 +23,7 @@ def iter_orbitals(self):
 
         assert len(self.veff) != 0, "Veff is not set"
         if self.phi is None or self.eig is None:
-            self.calc_orbitals
+            self.calc_orbitals()
 
         Nelem = self.grid.Nelem
         W = spdiags(self.grid.w, 0, Nelem, Nelem)

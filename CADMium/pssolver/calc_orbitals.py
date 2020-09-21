@@ -39,7 +39,6 @@ def calc_orbitals(self):
         self.eig, self.phi = eigs(spsolve(W, H), k=self.Nmo, sigma=self.e0, v0=self.opt["v0"])
         self.eig = self.eig.real
         self.phi = self.phi.real
-
         e0 = self.e0
 
         while np.isnan(self.phi).all() != np.zeros_like(self.phi).all():

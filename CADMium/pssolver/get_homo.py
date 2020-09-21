@@ -27,16 +27,8 @@ def get_homo(self):
             Nocc = np.floor(self.N / 2)
             nu = self.N / 2 - Nocc
 
-    print("nu", nu)
-
     if nu != 0:
         Nocc = Nocc+1
-
-    print("shape of eig", self.eig.shape)
-    print("Nocc", Nocc)
-
-
-    sys.exit()
 
     #Record homo eigenvalue
     if Nocc != 0:

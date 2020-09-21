@@ -9,7 +9,7 @@ def scf(self, optKS):
     SCF method to handle self consistent field calculations
     """
 
-    Tolerance = optKS["Tolerance"] if "Tolerance" in optKS.keys() else 10e-7
+    Tolerance = optKS["Tolerance"] if "Tolerance" in optKS.keys() else 10e-6
     MaxIter = optKS["MaxIter"] if "MaxIter" in optKS.keys() else 100
     Alpha = optKS["Alpha"] if "Alpha" in optKS.keys() else 0.50
     Verbose = optKS["Verbose"] if "Verbose" in optKS.keys() else True

@@ -151,10 +151,10 @@ class Kohnsham():
 
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):
-                if ITERATIVE is True and dif < starttol:
-                    self.solver[i,j].iter_orbitals()
-                else:
-                    self.solver[i,j].calc_orbitals()
+                # if ITERATIVE is True and dif < starttol:
+                #     self.solver[i,j].iter_orbitals()
+                # else:
+                self.solver[i,j].calc_orbitals()
 
 
         for j in range(self.Nmo.shape[1]):
@@ -182,11 +182,11 @@ class Kohnsham():
                 self.solver[i,j].calc_energy()
 
                 self.E.Eks[0,j] += self.solver[i,j].eks
-                self.E.Ts     += self.solver[i,j].Ts
+                self.E.Ts       += self.solver[i,j].Ts
                 self.E.Vks[0,j] += self.solver[i,j].Vs
 
-                np.append(self.E.evals, self.solver[i,0])
-                np.append(self.E.evals, self.solver[i,1])
+                np.append(self.E.evals, self.solver[i,j])
+                #np.append(self.E.evals, self.solver[i,1])
 
         if self.optKS["interaction_type"] == 'ni':
             self.E.Vnuc = self.grid.integrate(np.sum(self.n * self.vnuc, axis=1))
@@ -213,6 +213,7 @@ class Kohnsham():
         self.E.Vnn = self.Za * self.Zb / (2 * self.grid.a)
         #Total electronic + nuclear energy
         self.E.E = self.E.Et + self.E.Vnn
+
 
         # print("Kinetic Energy", self.E.Ts)
         # print("Nuclear Energy", self.E.Enuc)
@@ -241,7 +242,7 @@ class Kohnsham():
             self.vhxc = self.V.vx + self.V.vc + self.V.vh
 
         if self.optKS["SYM"] is True:
-            self.vhxc = 0.5 * (self.vhxc + self.grid.mirror(self.vxc))
+            self.vhxc = 0.5 * (self.vhxc + self.grid.mirror(self.vhxc))
 
     def calc_chempot(self):
 
