@@ -18,6 +18,7 @@ from .finite_difference_2d import finite_difference_2d
 from .operators import operators
 from .factorize_laplacian import factorize_laplacian
 from .reduced_grad import reduced_grad
+from .plotter import plotter
 
 class Psgrid():
     """
@@ -144,5 +145,9 @@ class Psgrid():
 
     def reduced_grad(self, n):
         reduced_grad(self, n)
+
+    def plotter(self, fin, max=1, sym=1):
+        full, z, x = plotter(self, fin, max, sym)
+        return full, z, x
 
 
