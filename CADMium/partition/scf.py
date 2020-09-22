@@ -2,38 +2,45 @@
 scf.py
 """
 
-def scf(self, optKS):
+import numpy as np
+
+def scf(self, optPartition):
     """
     SCF method to handle self consistent field calculations
     """
 
-    Tolerance = optKS["Tolerance"] if "Tolerance" in optKS.keys() else 10**-7
-    MaxIter = optKS["MaxIter"] if "MaxIter" in optKS.keys() else 50
-    Alpha = optKS["Alpha"] if "Alpha" in optKS.keys() else [0.82]
-    Beta = optKS["Beta"] if "Beta" in optKS.keys() else [0.82]
-    CalcType = optKS["CalcType"] if "CalcType" in optKS.keys() else "PDFT"
-    Verbose = optKS["Verbose"] if "Verbose" in optKS.keys() else False
-    Continue = optKS["Continue"] if "Continue" in optKS.keys() else False
-    Iterative = optKS["Iterative"] if "Iterative" in optKS.keys() else True
-    FreezeA = optKS["FreezeA"] if "FreezeA" in optKS.keys() else False
-    FreezeB = optKS["FreezeB"] if "FreezeB" in optKS.keys() else False
-    AutoTol = optKS["AutoTol"] if "Autotol" in optKS.keys() else False
-    AutoTolIter = optKS["AutoTolIter"] if "AutoTolIter" in optKS.keys() else 3
+    optPartition["Tolerance"] = optPartition["Tolerance"] if "Tolerance" in optPartition.keys() else 10**-7
+    optPartition["MaxIter"] = optPartition["MaxIter"] if "MaxIter" in optPartition.keys() else 50
+    optPartition["Alpha"] = optPartition["Alpha"] if "Alpha" in optPartition.keys() else [0.82]
+    optPartition["Beta"] = optPartition["Beta"] if "Beta" in optPartition.keys() else [0.82]
 
-    self.KSa.V["frozen"] = FreezeA   
-    self.KSb.V["frozen"] = FreezeB
+    optPartition["CalcType"] = optPartition["CalcType"] if "CalcType" in optPartition.keys() else "PDFT"
+    optPartition["Verbose"] = optPartition["Verbose"] if "Verbose" in optPartition.keys() else False
+    optPartition["CONTINUE"] = optPartition["CONTINUE"] if "CONTINUE" in optPartition.keys() else False
+    optPartition["ITERATIVE"] = optPartition["ITERATIVE"] if "ITERATIVE" in optPartition.keys() else True
+    optPartition["AutoTol"] = optPartition["AutoTol"] if "Autotol" in optPartition.keys() else False
+    optPartition["AutoTolIter"] = optPartition["AutoTolIter"] if "AutoTolIter" in optPartition.keys() else 3
 
-    if len(Alpha) == 1:
-        Alpha = [Alpha, Alpha]
-    elif len(Alpha) == 2:
-        Alpha = Alpha
+    optPartition["FreezeA"] = optPartition["FreezeA"] if "FreezeA" in optPartition.keys() else False
+    optPartition["FreezeB"]  = optPartition["FreezeB"] if "FreezeB" in optPartition.keys() else False
+
+    self.optPartition = optPartition
+
+
+    self.KSa.frozen = optPartition["FreezeA"]   
+    self.KSb.frozen = optPartition["FreezeB"]
+
+    if len(optPartition["Alpha"]) == 1:
+        self.Alpha = [optPartition["Alpha"], optPartition["Alpha"]]
+    elif len(optPartition["Alpha"]) == 2:
+        self.Alpha = optPartition["Alpha"]
     else:
         raise ValueError ("Max length of Alpha is 2")
 
-    self.KSa.Alpha = Alpha[0]
-    self.KSb.Alpha = Alpha[1]
+    self.KSa.Alpha = self.Alpha[0]
+    self.KSb.Alpha = self.Alpha[1]
 
-    if Verbose is True:
+    if optPartition["Verbose"] is True:
         if self.kinetic_part_type == "inversion":    
             print(f"                       Total Energy                      Inversion  \n")
             print(f"iter             A              B                  iters         optimality        res \n")
@@ -46,9 +53,32 @@ def scf(self, optKS):
 
 
     #Initial Guess Calculations
-    if self.AB_SYM is True:
+    if optPartition["AB_SYM"] is True:
         #Only do calculations for fragment a
-        KSab = self.KS
+        KSab = [self.KSa]
+
+    else:
+        KSab = [self.KSa, self.KSb]
+
+
+    for i_KS in KSab:
+        if optPartition["CONTINUE"] is True:
+            #If we are continuiing a calculation, check that we have an input density
+            assert i_KS.n != None, "CONTINUE flag set but there is no input density"
+        
+        else:
+            #We need initial guesses
+            i_KS.vext = np.zeros_like(i_KS.vnuc)
+            i_KS.vhxc = np.zeros_like(i_KS.vnuc)
+            i_KS.set_effective_potential()
+
+            #Initial guess for effective potential is just nuclear potential
+            nout = i_KS.calc_density(optPartition["ITERATIVE"])
+            i_KS.n = nout
+            i_KS.calc_chempot()
+
+    if optPartition["AB_SYM"] == True:
+        self.mirrorAB()
 
 
 

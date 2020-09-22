@@ -52,11 +52,11 @@ def calc_energy(self):
     self.Vs = self.grid.integrate((self.veff[None].T * self.n)[:,0])
     self.Ts = self.eks - self.Vs
 
-    if np.isnan(self.Vs) is True:
+    if np.isnan(self.Vs) == True:
         self.Vs = 0.0
 
-    elif np.isinf(self.Vs) is True:
+    elif np.isinf(self.Vs) == True:
         "Im infinity at Self.Vs in calc_energy"
 
-    elif self.Vs > 1e5 is True:
+    elif self.Vs > 1e5 == True:
         "Self.Vs in calc_energy is very big"
