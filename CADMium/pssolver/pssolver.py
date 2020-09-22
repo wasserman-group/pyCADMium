@@ -17,12 +17,36 @@ from .get_homo import get_homo
 
 eps = np.finfo(float).eps
 
-class Pssolver():
+
+def Pssolver(grid, Nmo, N,
+             FRACTIONAL = False, 
+             SYM        = False):
+
+    """
+    Generates an array of solvers of shape Nmo[0]xNmo[1]
+    """
+
+    Nmo = np.array(Nmo)
+    N   = np.array(N)
+    solver = np.empty((Nmo.shape[0], Nmo.shape[1]), dtype=object)
+
+    for i in range(Nmo.shape[0]):
+        for j in range(Nmo.shape[1]):
+            solver[i,j] = i_solver(grid, Nmo[i,j], N[i,j], 
+                                i, Nmo.shape[1],
+                                FRACTIONAL, SYM) 
+
+    return solver
+    
+
+class i_solver():
     """
     Keeps track of eigenvalues/vectors and constructs densities and responses.
     """
-    def __init__(self, grid, Nmo, N, Nlvls, pol,
-                 FRACTIONAL, SYM):
+    def __init__(self, grid, Nmo, N, 
+                             Nlvls, pol,
+                FRACTIONAL = False,
+                SYM        = False):
 
         verbose=False
 

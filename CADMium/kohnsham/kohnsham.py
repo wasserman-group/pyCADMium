@@ -36,14 +36,6 @@ class Kohnsham():
         #Coordinates
         self.grid = grid
 
-        #Calculation types / Fragment specification
-        #self.interaction_type = optKS["interaction_type"]
-
-        #DFT options for fragment calculations
-        #self.xc_family = optKS["xc_family"]
-        #self.x_func_id = optKS["x_func_id"]
-        #self.c_func_id = optKS["c_func_id"]
-
         self.Nmo = np.array(Nmo)
         self.N = np.array(N)
 
@@ -57,8 +49,9 @@ class Kohnsham():
         self.E = E
 
         #Handle for the solver object
-        self.solver = np.empty((self.Nmo.shape[0], self.Nmo.shape[1]), dtype=object)
-        
+        self.solver = Pssolver(self.grid, self.Nmo, self.N,
+                               optKS["FRACTIONAL"], optKS["SYM"])
+
         #Nuclear charges
         self.Za = Za
         self.Zb = Zb
@@ -78,7 +71,7 @@ class Kohnsham():
         #Fragment energies/densities are scaled by this amount
         self.scale = None
         #Qfunction
-        self.Q = None
+        self.Q = np.zeros((self.grid.Nelem))
         self.Alpha = None
         self.Beta = None
 
@@ -98,11 +91,7 @@ class Kohnsham():
         #Loop through array and setup solver objects
         for i in range(self.Nmo.shape[0]):
             for j in range(self.Nmo.shape[1]):
-                i_solver = Pssolver(self.grid, self.Nmo[i,j], self.N[i,j], 
-                                    i, self.Nmo.shape[1],
-                                    self.optKS["FRACTIONAL"], self.optKS["SYM"])
-                i_solver.hamiltionian()
-                self.solver[i,j] = i_solver
+                self.solver[i,j].hamiltionian()
 
                 if self.optKS["interaction_type"] == "ni":
                     self.solver[i,j].e0 = -1.5 * max(self.Za, self.Zb)**2 / (self.solver[i,j].m + 1)**2

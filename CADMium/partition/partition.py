@@ -4,13 +4,21 @@ partition.py
 import numpy as np
 
 
+from .scf import scf
 from ..common.coulomb import coulomb
-
 from ..libxc.libxc import Libxc
 from ..hartree.hartree import Hartree
 from ..kohnsham.kohnsham import Kohnsham
 
+class V:
+    def __iter__(self):
+        for attr, value in self.__dict__.iteritems():
+            yield attr, value
+            
+    pass
 
+class E:
+    pass
 
 class Partition():
     """ 
@@ -101,26 +109,25 @@ class Partition():
                        Nmo_b, N_b, nu_b, 
                        optPartition={}):
 
+        optPartition["interaction_type"] = optPartition["interaction_type"] if "interaction_type" in optPartition.keys() else "dft"
+        optPartition["vp_calc_type"] = optPartition["vp_calc_type"] if "vp_calc_type" in optPartition.keys() else "component"
+        optPartition["hxc_part_type"] = optPartition["hxc_part_type"] if "hxc_part_type" in optPartition.keys() else "exact"
+        optPartition["kinetic_part_type"] = optPartition["kinetic_part_type"] if "kinetic_part_type" in optPartition.keys() else "vonweiz"
+
+        optPartition["AB_SYM"] = optPartition["AB_SYM"] if "AB_SYM" in optPartition.keys() else False
+        optPartition["FRACTIONAL"] = optPartition["FRACTIONAL"] if "FRACTIONAL" in optPartition.keys() else False
+        optPartition["ENS_SPIN_SYM"] = optPartition["ENS_SPIN_SYM"] if "ENS_SPIN_SYM" in optPartition.keys() else False
+        optPartition["ISOLATED"] = optPartition["ISOLATED"] if "ISOLATED" in optPartition.keys() else False
+        optPartition["FIXEDQ"] = optPartition["FIXEDQ"] if "FIXEDQ" in optPartition.keys() else False
+        
+        optPartition["x_func_id"] = optPartition["x_func_id"] if "x_func_id" in optPartition.keys() else 1
+        optPartition["c_func_id"] = optPartition["c_func_id"] if "c_func_id" in optPartition.keys() else 12
+        optPartition["xc_family"] = optPartition["xc_family"] if "xc_family" in optPartition.keys() else "lda"
+        optPartition["k_family"] = optPartition["k_family"] if "k_family" in optPartition.keys() else "gga"
+        optPartition["ke_func_id"] = optPartition["ke_func_id"] if "ke_func_id" in optPartition.keys() else 5
+        optPartition["ke_param"] = optPartition["ke_param"] if "ke_param" in optPartition.keys() else {}
+        
         self.optPartition = optPartition
-
-        self.optPartition["interaction_type"] = optPartition["interaction_type"] if "interaction_type" in optPartition.keys() else "dft"
-        self.optPartition["vp_calc_type"] = optPartition["vp_calc_type"] if "vp_calc_type" in optPartition.keys() else "component"
-        self.optPartition["hxc_part_type"] = optPartition["hxc_part_type"] if "hxc_part_type" in optPartition.keys() else "exact"
-        self.optPartition["kinetic_part_type"] = optPartition["kinetic_part_type"] if "kinetic_part_type" in optPartition.keys() else "vonweiz"
-
-        self.optPartition["AB_SYM"] = optPartition["AB_SYM"] if "AB_SYM" in optPartition.keys() else False
-        self.optPartition["FRACTIONAL"] = optPartition["FRACTIONAL"] if "FRACTIONAL" in optPartition.keys() else False
-        self.optPartition["ENS_SPIN_SYM"] = optPartition["ENS_SPIN_SYM"] if "ENS_SPIN_SYM" in optPartition.keys() else False
-        self.optPartition["ISOLATED"] = optPartition["ISOLATED"] if "ISOLATED" in optPartition.keys() else False
-        self.optPartition["FIXEDQ"] = optPartition["FIXEDQ"] if "FIXEDQ" in optPartition.keys() else False
-        
-        self.optPartition["x_func_id"] = optPartition["x_func_id"] if "x_func_id" in optPartition.keys() else 1
-        self.optPartition["c_func_id"] = optPartition["c_func_id"] if "c_func_id" in optPartition.keys() else 12
-        self.optPartition["xc_family"] = optPartition["xc_familyl"] if "xc_family" in optPartition.keys() else "lda"
-        self.optPartition["k_family"] = optPartition["k_family"] if "k_family" in optPartition.keys() else "gga"
-        self.optPartition["ke_func_id"] = optPartition["ke_func_id"] if "ke_func_id" in optPartition.keys() else 5
-        self.optPartition["ke_param"] = optPartition["ke_param"] if "ke_param" in optPartition.keys() else {}
-        
 
         #Calculation Options Validators:
         if self.optPartition["interaction_type"]  not in ["dft", "ni"]:
@@ -168,8 +175,8 @@ class Partition():
         self.Nf = None
 
         #Component molecular potentials and total energies
-        self.V = {}
-        self.E = {}
+        self.V = V
+        self.E = E
 
         #Kohn Sham objects
         self.KSa = None
@@ -182,29 +189,21 @@ class Partition():
         #Fragment ensembles, mixing rations, sum of fragment ensembles
         self.na_frac, self.nb_fac = None, None
         self.nu_a, self.nu_b = nu_a, nu_b
-        self.N_a = N_a[None] if len(N_a.shape) == 1 else N_a
-        self.N_b = N_b[None] if len(N_b.shape) == 1 else N_b
-        self.Nmo_a = Nmo_a[None] if len(Nmo_a.shape) == 1 else Nmo_a
-        self.Nmo_b = Nmo_b[None] if len(Nmo_b.shape) == 1 else Nmo_b
+        self.N_a = np.array(N_a)
+        self.N_b = np.array(N_b)
+        self.Nmo_a = np.array(Nmo_a)
+        self.Nmo_b = np.array(Nmo_b)
         self.nf = None
-
-        #Flags
-        # self.SYM = AM_SYM
-        # self.ENS_SPIN_SYM = ENS_SPIN_SYM
-        # self.ISOLATED = ISOLATED
-        # self.FIXEDQ = FIXEDQ
-        # self.FRACTIONAL = FRACTIONAL
 
         #Sanity Check
         if self.optPartition["AB_SYM"] and self.Za != self.Zb:
             raise ValueError("AB_SYM is set but nuclear charges are not symmetric")
 
-
         inversion_info = False
 
         #Conversion parameters
-        self.Alpha = []
-        self.Beta = []
+        self.Alpha = None
+        self.Beta = None
 
         if self.optPartition["interaction_type"] == "dft":
             self.exchange = Libxc(self.grid, self.optPartition["xc_family"], self.optPartition["x_func_id"])
@@ -258,14 +257,33 @@ class Partition():
         self.va = coulomb(self.grid, self.Za, 0)
         self.vb = coulomb(self.grid, 0, self.Zb)
 
-        self.V["vext"] = np.zeros((self.va.shape[0], self.pol))
+        self.V.vext = np.zeros((self.va.shape[0], self.pol))
 
-        self.V["vext"][:, 0] = self.va + self.vb
-        self.V["vext"][:, 1] = self.va + self.vb
+        self.V.vext[:,0] = self.va + self.vb
+        if self.pol == 2:   
+            self.V.vext[0,1] = self.va + self.vb
 
+    def mirrorAB(self):
+        "Mirror fragment A to get B"
 
-    # def scf(self, **kwargs):
-    #     scf(self, **kwargs)
+        #Mirror densities and Q functions
+        self.KSb.n = self.grid.mirror(self.KSa.n)
+        self.KSb.Q = self.grid.mirror(self.KSa.Q)
+
+        #Energies don't need mirrored, just transfered
+        self.KSb.E = self.KSa.E
+        self.KSb.u = self.KSa.u
+
+        self.KSb.veff = self.grid.mirror(self.KSa.veff)
+        self.KSb.vext = self.grid.mirror(self.KSa.vext)
+
+        #Mirror all the potentials
+        for attribute in self.KSa.V.__dict__.keys():
+            if "__" not in attribute:
+                self.KSb.V.attribute = self.grid.mirror(self.KSa.V.attribute)
+
+    def scf(self):
+        scf(self, optPartition=self.optPartition)
 
 
 
