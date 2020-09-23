@@ -10,6 +10,7 @@ sys.path.append("..")
 
 from .initialize import initialize
 from .mirror import mirror
+from .spinflip import spinflip
 from .square import square
 from .sigma import sigma
 from .integrate import integrate
@@ -127,6 +128,9 @@ class Psgrid():
 
     def sigma(self, n):
         return sigma(self, n)
+
+    def spinflip(self, fin):
+        return spinflip(self, fin)
 
     def integrate(self, f):
         return integrate(self, f)

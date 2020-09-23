@@ -3,6 +3,7 @@ scf.py
 """
 
 import numpy as np
+import sys
 
 def scf(self, optPartition):
     """
@@ -80,6 +81,47 @@ def scf(self, optPartition):
     if optPartition["AB_SYM"] == True:
         self.mirrorAB()
 
+    #Form protomolecule and calculate Q-functions
+    self.calc_protomolecule()
+    self.calc_Q()
 
+    #Start up the scf loop
+    dif        = 10.0
+    old_E      = 0.0
+    old_nf     = self.nf
+    vp         = np.zeros_like((self.grid.Nelem, self.pol))
+    iterations = 1
+    failures   = 0
+    STOP       = False
 
+    if optPartition["AutoTol"] is True:
+        min_dif = 10.0
+        num_iter_not_min = 0
+    
+    while (dif > optPartition["Tolerance"] 
+           or (optPartition["AutoTol"] is True and num_iter_not_min < optPartition["AutoTolIter"])) \
+           and iterations <= optPartition["MaxIter"]                                                \
+           and STOP is False:
 
+        #Set flags to avoid dead loops in inversion
+        if optPartition["kinetic_part_type"] == "inversion" and optPartition["ISOLATED"] is False:
+            if iterations == 1:
+                self.inverter.optInversion["AVOIDLOOP"] = True
+            else:
+                self.inverter.optInversion["AVOIDLOOP"] = False
+            
+        for iKS in KSab:
+            #Calculate new local vhxc potentials
+            vhxc_old = iKS.vhxc
+            iKS.calc_hxc_potential()
+            iKS.vhxc = 1.0 * iKS.vhxc + 0.0 * vhxc_old
+        
+        if self.optPartition["AB_SYM"]:
+            self.mirrorAB()
+
+        if not self.optPartition["ISOLATED"]:
+            #Calculate the partition potential
+            print("Im about to calculate partiiton potential")
+            vp = 0.0 * vp + 1.0 * self.partition_potential()
+
+        sys.exit()
