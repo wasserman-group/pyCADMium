@@ -91,7 +91,7 @@ class Kohnsham():
         #Loop through array and setup solver objects
         for i in range(self.Nmo.shape[0]):
             for j in range(self.Nmo.shape[1]):
-                self.solver[i,j].hamiltionian()
+                self.solver[i,j].hamiltonian()
 
                 if self.optKS["interaction_type"] == "ni":
                     self.solver[i,j].e0 = -1.5 * max(self.Za, self.Zb)**2 / (self.solver[i,j].m + 1)**2
@@ -140,10 +140,11 @@ class Kohnsham():
 
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):
-                # if ITERATIVE is True and dif < starttol:
-                #     self.solver[i,j].iter_orbitals()
-                # else:
-                self.solver[i,j].calc_orbitals()
+                if ITERATIVE is True and dif < starttol:
+                    print("I am iterating")
+                    self.solver[i,j].iter_orbitals()
+                else:
+                    self.solver[i,j].calc_orbitals()
 
 
         for j in range(self.Nmo.shape[1]):

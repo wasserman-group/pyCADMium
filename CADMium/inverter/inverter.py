@@ -80,5 +80,27 @@ class Inverter():
         self.ts_WFI = None
         self.ts_WFII = None
 
+    def invert(self, n0, vs0, phi0=[], e0=[], ispin=[], Qi=[]):
+        """
+        Does the inverstion
+        """
+
+        if self.optInversion["invert_type"] == "wuwang":
+            flag, output = self.linresponse(n0, vs0, ispin)
+
+        elif self.optInversion["invert_type"] == "simple":
+            self.simple(n0, vs0, ispin)
+
+        elif self.optInversion["invert_type"] == "orbitalinvert":
+            flag, output = self.orbitalinvert(n0, vs0, phi0, e0, ispin)
+
+        elif self.optInversion["invert_type"] == "qinvert":
+            flag, output = self.qinvert(n0, vs0, phi0, e0, ispin, Qi)
+
+        elif self.optInversion["invert_type"] == "eigensolveinvert":
+            flag, output = self.eigensolveinvert(n0, vs0, ispin)
+
+        elif self.optInversion["invert_type"] == "test":
+            flag, output = self.test(n0, vs0, phi0, e0, ispin)
 
 

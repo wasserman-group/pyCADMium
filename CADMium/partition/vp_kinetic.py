@@ -3,8 +3,6 @@ vp_kinetic.py
 """
 
 import sys
-
-from .initialguessinvert import initialguessinvert
 import numpy as np
 
 def vp_kinetic(self):
@@ -68,16 +66,19 @@ def vp_kinetic(self):
         self.KSa.V.vt = np.ones((self.grid.Nelem, 1)) * u - self.KSa.veff
         self.KSb.V.vt = np.ones((self.grid.Nelem, 1)) * u - self.KSb.veff
 
-        for i_spin in range(nspin):
+        for ispin in range(nspin):
             ntarget = self.nf[:, ispin]
             if self.pol == 2:
                 ntarget = 2 * ntarget
 
         
         phi0, e0, vs0 = self.initialguessinvert(ispin)
+        print(phi0)
+
+        print("Hello bitch")
 
 
-        
+        sys.exit()        
 
 
 

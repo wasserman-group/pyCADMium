@@ -2,21 +2,23 @@
 partition.py
 """
 import numpy as np
-
+from dataclasses import dataclass
 
 from .scf import scf
+from .vp_nuclear import vp_nuclear
+from .vp_kinetic import vp_kinetic
+from .initialguessinvert import initialguessinvert
+from .partition_potential import partition_potential
 from ..common.coulomb import coulomb
 from ..libxc.libxc import Libxc
 from ..hartree.hartree import Hartree
 from ..kohnsham.kohnsham import Kohnsham
 
-class V:
-    def __iter__(self):
-        for attr, value in self.__dict__.iteritems():
-            yield attr, value
-            
+@dataclass
+class V:    
     pass
 
+@dataclass
 class E:
     pass
 
@@ -279,11 +281,61 @@ class Partition():
 
         #Mirror all the potentials
         for attribute in self.KSa.V.__dict__.keys():
-            if "__" not in attribute:
-                self.KSb.V.attribute = self.grid.mirror(self.KSa.V.attribute)
+            if not attribute.startswith('__'):
+                setattr(self.KSb.V, attribute, getattr(self.KSa.V, attribute))
+
+    def calc_protomolecule(self):
+        """
+        Calculate protomolecular density
+        """
+        
+        #Evaluate sum of fragment densities and weighing functions
+        self.na_frac  = np.zeros_like(self.KSa.n)
+        self.nb_frac  = np.zeros_like(self.KSb.n) 
+        self.na_frac += self.KSa.n * self.KSa.scale 
+        self.nb_frac += self.KSb.n * self.KSb.scale
+
+        #If we have spin symmetry in the ensemble then add
+        #each density with spin flipped version
+        if self.optPartition["ENS_SPIN_SYM"] is True:
+            self.na_frac += self.grid.spinflip(self.na_frac)
+            self.nb_frad += self.grid.spinflip(self.nb_frac)
+
+        #Nf is the sum of the ffragment densities
+        self.nf = self.na_frac + self.nb_frac
+
+    def calc_Q(self):
+        """
+        Calculate Q functions
+        """ 
+
+        self.KSa.Q = self.KSa.scale * self.KSa.n / self.nf
+        self.KSb.Q = self.KSb.scale * self.KSb.n / self.nf
+
+        for i in range(len(self.KSa.Q)):
+            if np.isnan(self.KSa.Q[i]) is True:
+                self.KSa.Q[i] = 0
+            if np.isnan(self.KSb.Q[i]) is True:
+                self.KSb.Q[i] = 0
+
+    def vp_nuclear(self):
+        vp_nuclear(self)
+
+    def vp_kinetic(self):
+        vp_kinetic(self)
+
+    def partition_potential(self):
+        vp = partition_potential(self)
+        return vp
+
+    def initialguessinvert(self, ispin):
+        phi0, e0, vs0 = initialguessinvert(self, ispin)
+        return phi0, e0, vs0
 
     def scf(self):
         scf(self, optPartition=self.optPartition)
+
+
 
 
 
