@@ -114,8 +114,7 @@ class i_solver():
 
         self.m = Nlvls
 
-
-    def hamiltionian(self):
+    def hamiltonian(self):
         """
         Construct basic Hamiltonian H_0
         Includes effective potential due to angular momentum around bond axis

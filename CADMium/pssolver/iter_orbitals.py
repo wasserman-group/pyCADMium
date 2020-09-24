@@ -12,6 +12,7 @@ from scipy.sparse import vstack
 from scipy.sparse.linalg import spilu
 from scipy.sparse.linalg import bicgstab
 from scipy.sparse.linalg import spsolve
+from scipy.sparse.linalg import LinearOperator
 
 
 def iter_orbitals(self):
@@ -48,7 +49,9 @@ def iter_orbitals(self):
                 C = csc_matrix(C)
 
                 if self.ITERLINSOLVE is True:
-                    x = bicgstab(C, rhs, tol=1e-15)[0]
+                    ILU = spilu(C)
+                    approx_sol = LinearOperator((C.shape[0], C.shape[1]), ILU.solve)
+                    x = bicgstab(C, rhs, tol=1e-15, M=approx_sol)[0]
                 
                 else:
                     x = spsolve(C, rhs)
