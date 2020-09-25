@@ -121,7 +121,7 @@ def scf(self, optPartition):
 
         if not self.optPartition["ISOLATED"]:
             #Calculate the partition potential
-            print("Im about to calculate partiiton potential")
             vp = 0.0 * vp + 1.0 * self.partition_potential()
 
+        print("I am exiting through scf")
         sys.exit()

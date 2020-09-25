@@ -155,6 +155,16 @@ class i_solver():
     def get_homo(self):
         get_homo(self)
 
+    # def getveff(self):
+    #     """
+    #     Get the effective potential from solver objects in array
+    #     """
+    #     veff = np.zeros(self.grid.Nelem, self.pol)
+    #     for i in range(self.pol):
+    #         if self.veff is not allzeros:
+    #             veff[:, i] 
+            
+
     def setveff(self, veff):
         """
         Distribute effective potential to solver object

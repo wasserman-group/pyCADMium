@@ -73,11 +73,11 @@ def vp_kinetic(self):
 
         
         phi0, e0, vs0 = self.initialguessinvert(ispin)
-        print(phi0)
 
-        print("Hello bitch")
+        #Invert molecular problem:
+        _, self.inversion_info = self.inverter.invert(ntarget, vs0, phi0, e0, ispin)
 
-
+        print("Im exiting through vp_kinetic")
         sys.exit()        
 
 
