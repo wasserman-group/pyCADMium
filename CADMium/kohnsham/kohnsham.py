@@ -141,7 +141,6 @@ class Kohnsham():
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):
                 if ITERATIVE is True and dif < starttol:
-                    print("I am iterating")
                     self.solver[i,j].iter_orbitals()
                 else:
                     self.solver[i,j].calc_orbitals()

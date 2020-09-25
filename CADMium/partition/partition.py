@@ -93,11 +93,10 @@ class Partition():
     FRACTIONAL: bool
         Allow fractional occupation of the HOMO
     inversion_info:
-        Information about most recent invesrion
+        Information about most recent inversion
     Alpha, Beta:
         Convergence Parameters
     """
-
 
     # grid : constr(regex="CADMium.psgrid.psgrid.Psgrid") = Field(
     #     "CADMium.psgrid.psgrid.Psgrid",
@@ -201,7 +200,7 @@ class Partition():
         if self.optPartition["AB_SYM"] and self.Za != self.Zb:
             raise ValueError("AB_SYM is set but nuclear charges are not symmetric")
 
-        inversion_info = False
+        self.inversion_info = None
 
         #Conversion parameters
         self.Alpha = None

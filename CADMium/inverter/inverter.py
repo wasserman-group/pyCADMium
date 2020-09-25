@@ -2,6 +2,8 @@
 inverter.py
 """
 
+from .linresponse import linresponse
+
 class Inverter():
 
     def __init__(self, grid, solver, optInversion):
@@ -82,10 +84,14 @@ class Inverter():
 
     def invert(self, n0, vs0, phi0=[], e0=[], ispin=[], Qi=[]):
         """
-        Does the inverstion
+        Do the inverstion
         """
 
-        if self.optInversion["invert_type"] == "wuwang":
+        flag = None
+        output = None
+
+        if self.optInversion["invert_type"] == "wuyang":
+            print("I'm inverting th")
             flag, output = self.linresponse(n0, vs0, ispin)
 
         elif self.optInversion["invert_type"] == "simple":
@@ -102,5 +108,11 @@ class Inverter():
 
         elif self.optInversion["invert_type"] == "test":
             flag, output = self.test(n0, vs0, phi0, e0, ispin)
+        else:
+            raise ValueError(f"{self.optInversion['invert_type']} is not an available inversion method")
 
+        return flag, output
 
+    #Inversion methods
+    def linresponse(self, n0, vs0, ispin):
+        flag, output = linresponse(self, n0, vs0)
