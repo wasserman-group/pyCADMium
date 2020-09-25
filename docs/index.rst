@@ -11,6 +11,7 @@ Welcome to CADMium's documentation!
    :caption: Contents:
 
    getting_started
+   prolate_spheroidal_grid
    api
 
 

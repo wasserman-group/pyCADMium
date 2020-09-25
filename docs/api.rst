@@ -1,7 +1,4 @@
 API Documentation
 =================
 
-.. autosummary::
-   :toctree: autosummary
-
-   CADMium.canvas
+.. automodapi:: CADMium

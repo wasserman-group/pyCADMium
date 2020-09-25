@@ -50,6 +50,11 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
     'sphinx.ext.extlinks',
+    'sphinx_automodapi.automodapi',
+    'sphinx_automodapi.automodsumm',
+    'sphinx.ext.graphviz',
+    'sphinx.ext.inheritance_diagram',
+    'nbsphinx',
 ]
 
 autosummary_generate = True

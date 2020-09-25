@@ -36,8 +36,127 @@ class Psgrid():
         half bond lenght
     L: float
         spheroidal box size
-    loc:
+    loc: np.ndarray
+        stencil required for derivatives
        
+    Attributes
+    ----------
+    Na: int
+        Number of angular points
+    Nr: int
+        Number or radial points
+    Nelem: int
+        Total number of points
+    xa : np.ndarray
+        Angular coordinate
+    xr : np.ndarray
+        Radial coordinate
+    Xa : np.ndarray
+        Angular coordinate in 2D grid
+    Xr : np.ndarray
+        Angular coordiante in 2D grid
+    ha : float
+        Angular grid spacing
+    hr : float
+        Radial grid spacing    
+    Y : np.ndarray
+        Y axis cartesian representation of PS grid
+    Z : np.ndarray
+        Z axis cartesian representation of PS grid
+    a : float
+        Half bond length
+    R : float
+        Bond length
+    L : float
+        Spheroidal box size
+    w : np.ndarray
+        Volume element
+    wi : np.ndarray
+        Integration weights
+    f : np.ndarray
+        Orbital angular momentum poential
+    d1 : np.ndarray
+        First order coefficients
+    i1 : np.ndarray
+        Location of coefficients
+    d2 : np.ndarray
+        Second order coefficients
+    i2 : np.ndarray
+        Location of coefficients
+    eDa1 : np.ndarray
+        Angular Differentiator (Even symmetry)
+    eDa2 : np.ndarray
+        Angular Differentiator (Even symmetry)
+    eDr1 : np.ndarray
+        Radial Differentiator (Even symmetry)
+    eDr2 : np.ndarray
+        Radial Differentiator (Even symmetry)
+    oDa1 : np.ndarray
+        Angular Differentiator (Odd symmetry)
+    oDa2 : np.ndarray
+        Angular Differentiator (Odd symmetry)
+    oDr1 : np.ndarray
+        Radial Differentiator (Odd symmetry)
+    oDr2 : np.ndarray
+        Radial Differentiator (Odd symmetry)
+    elap : csc_matrix
+        Laplacian -> Even
+    olap : csc_matrix
+        Laplacian -> Odd
+    grada : csc_matrix
+        Angular gradient component
+        (We only need m+=even gradient)
+    gradr : csc_matrix
+        Radial gradient component
+    diva :  csc_matrix
+        Angular divergence component
+        (We only need m=even gradient)
+    divr : csc_matrix
+        Radial divergence component
+    bcN : int
+        Size of boundary region
+    bc1 : np.ndarray
+        Outer radial boundary conditions 1st order
+    bc2 : np.ndarray
+        Outer radial boundary conditions 2nd order
+    blap : csc_matrix
+        Laplacian for balues beond Xr=L boundary
+    bXa : np.ndarray
+        Coordinates just outside the Xr=L boundary
+    bXr : np.ndarray
+    h1 : np.ndarray
+    h2 : np.ndarray
+    h3 : np.ndarray
+    L_lap : csc_matrix
+    U_lap : csc_matrix
+    DISP : logical
+        Displays information about current run
+
+    Methods
+    ----------
+    initialize()
+        Initalizes prolate spheroidal grid
+    mirror(fin)
+        Mirror function accros AB plane
+    square(fin)
+    sigma(fin)
+        Calculates gradient squared
+    spinflip(fin)
+        Flip spins
+    integrate(f)
+        Integrates a function f
+    finite_difference_1d()
+        Build finite difference operator matrices
+    finite_difference_2d()
+        Build finite difference operator matrices
+    operators()
+        Construct PS operators
+    factorize_laplacian(DISP)
+        Factorizes Laplacian for Hartree calculation
+    reduced_grad(n)
+        Calculates the reduced density gradient
+    plotter(fin, max=1, sym=1)
+        Plots function of psgrid
     """
 
     def __init__(self, NP, NM, a, L, loc):
@@ -48,7 +167,7 @@ class Psgrid():
         self.NMr = NM[1]    #Number of radial blocks
         self.Na = None      #Number of angular points
         self.Nr = None      #Number of radial points
-        self.Nelem = None   #Total number of elements (points?)
+        self.Nelem = None   #Total number of points
 
         #Prolate Spheroidal Coordinates
         self.xa = None      #Angular coordinate in 1d array
