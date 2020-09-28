@@ -334,6 +334,8 @@ class Partition():
     def scf(self):
         scf(self, optPartition=self.optPartition)
 
+    # def Ws(self):
+    #     grad, Jac = Ws(self, vs)
 
 
 

@@ -2,18 +2,19 @@
 pssolver.py
 """
 
+import sys
+
 import numpy as np
 from scipy.sparse import spdiags
 
 from .calc_orbitals import calc_orbitals
 from .calc_density import calc_density
 from .calc_energy import calc_energy
+from .calc_response import calc_response
 from .iter_orbitals import iter_orbitals
 from .normalize_orbitals import normalize_orbitals
 from .get_homo import get_homo
 
-
-#from .hamiltonian import hamiltonian
 
 eps = np.finfo(float).eps
 
@@ -58,7 +59,8 @@ class i_solver():
         self.pol = pol
 
         #Effective Potential
-        self.veff = np.zeros((self.grid.Nelem, self.pol))
+        #self.veff = np.zeros((self.grid.Nelem, self.pol))
+        self.veff = None
 
         #Base Hamiltonian
         self.H0 = None
@@ -137,8 +139,12 @@ class i_solver():
             oT = -0.5 * self.grid.olap
             self.H0 = oT + self.m ** 2 * W @ f 
 
+
     def calc_orbitals(self):
         calc_orbitals(self)
+
+    def calc_response(self):
+        calc_response(self)
 
     def iter_orbitals(self):
         iter_orbitals(self)
