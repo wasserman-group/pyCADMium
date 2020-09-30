@@ -15,6 +15,9 @@ from .iter_orbitals import iter_orbitals
 from .normalize_orbitals import normalize_orbitals
 from .get_homo import get_homo
 
+from .calc_ked_WFI import calc_ked_WFI
+from .get_ked_WFI import get_ked_WFI
+
 
 eps = np.finfo(float).eps
 
@@ -161,6 +164,12 @@ class i_solver():
     def get_homo(self):
         homo = get_homo(self)
         return homo
+
+    def get_ked_WFI(self):
+        ked = get_ked_WFI(self)
+
+    def calc_ked_WFI(self):
+        calc_ked_WFI(self)
 
     # def getveff(self):
     #     """

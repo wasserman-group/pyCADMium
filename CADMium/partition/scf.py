@@ -28,11 +28,11 @@ def scf(self, optPartition):
     self.optPartition = optPartition
 
 
-    self.KSa.frozen = optPartition["FreezeA"]   
-    self.KSb.frozen = optPartition["FreezeB"]
+    self.KSa.V.frozen = optPartition["FreezeA"]   
+    self.KSb.V.frozen = optPartition["FreezeB"]
 
     if len(optPartition["Alpha"]) == 1:
-        self.Alpha = [optPartition["Alpha"], optPartition["Alpha"]]
+        self.Alpha = [optPartition["Alpha"][0], optPartition["Alpha"][0]]
     elif len(optPartition["Alpha"]) == 2:
         self.Alpha = optPartition["Alpha"]
     else:
@@ -123,5 +123,97 @@ def scf(self, optPartition):
             #Calculate the partition potential
             vp = 0.0 * vp + 1.0 * self.partition_potential()
 
-        print("I am exiting through scf")
-        sys.exit()
+        else: 
+            #Otherwise fill in zeros
+            vp = np.zeros_like(self.nf)
+            for i_KS in KSab:
+                i_KS.V.vp = np.zeros_like(self.nf)
+
+        for i_KS in KSab:
+            if i_KS.V.frozen is not True:
+                #Each fragment feels the effective potential
+                #as an external potential
+                if optPartition["CalcType"] == "pdft":
+                    #Global partition optential
+                    i_KS.vext = vp
+                elif optPartition["CalcType"] == "sdft":
+                    #Sybsystem-DFT
+                    #Fragment embedding poetntials
+                    i_KS.vext = i_KS.V.vp
+
+            #Set new effective potential
+            i_KS.set_effective_potential()
+
+            #Calculate new density
+            nout = i_KS.calc_density(self.optPartition["ITERATIVE"], dif)
+
+            #Get the new chemical potential
+            i_KS.calc_chempot()
+
+            #Set new density with linear mixing
+            i_KS.n = (1-i_KS.Alpha) * i_KS.n + i_KS.Alpha * nout
+
+            #Calculate each fragment energy
+            i_KS.energy()
+
+        if optPartition["AB_SYM"]  is True:
+            self.mirrorAB()
+
+        #Form promolecule and calculate q functions
+        self.calc_protomolecule()
+        self.calc_Q()
+        self.energy()
+
+        #Convergence check
+        dif_E  = np.abs( np.sum(self.E.E - old_E) / self.E.E )
+        dif_nf = max( self.grid.integrate(np.abs(self.nf-old_nf)) / self.grid.integrate(np.abs(self.nf)) )
+        dif    = max(dif_E, dif_nf)
+        old_E  = self.E.E
+        old_nf = self.nf
+
+        if self.optPartition["AutoTol"] is True:
+            if dif < min_dif:
+                num_iter_not_min = 0
+                min_dif = dif
+
+            else:
+                num_iter_not_min = num_iter_not_min + 1
+
+        if optPartition["kinetic_part_type"] == "inversion" or \
+            optPartition["vp_calc_type"] == "vp_calc_type" and self.optPartition["ISOLATED"]:
+
+            if max( self.inversion_info.optimality ) > 1:
+                inversion_failures += 1
+            else:
+                inversionfailures = 0
+
+            if inversion_failures > 1:
+                raise SystemExit("Too many inversion failures. Stopping")
+
+        #Display
+        if self.optPartition["DISP"] is True:
+            if self.optPartition["kinetic_part_type"] == "inversion" or \
+                self.optPartition["vp_calc_type"] == "potential inversion" and self.optPartition["ISOLATED"]:
+
+                print(f" {iterations}  {self.E.Ea}  {self.E.Eb}  {max(self.inversion_info.nfev)}  {max(self.inversion_info.optimality)} {dif}")
+
+
+            else:
+                print(f" {iterations}  {self.E.Ea}  {self.E.Eb}   {dif} ")
+
+    if dif < eTol:
+        flag = True
+
+    else:
+        flag = False
+
+    for i_KS in KSab:
+        delattr(i_KS.V, "frozen") 
+
+
+        
+
+
+
+
+
