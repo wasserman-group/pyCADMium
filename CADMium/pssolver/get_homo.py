@@ -35,4 +35,6 @@ def get_homo(self):
         self.homo = self.eig[int(Nocc-1)]
     else:
         self.homo = -1 / np.finfo(float).eps
+
+    return self.homo
     

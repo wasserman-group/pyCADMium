@@ -77,9 +77,55 @@ def vp_kinetic(self):
         #Invert molecular problem:
         _, self.inversion_info = self.inverter.invert(ntarget, vs0, phi0, e0, ispin)
 
-        print("Im exiting through vp_kinetic")
-        sys.exit()        
+
+        if self.optPartition["ENS_SPIN_SYM"] is True:
+            print("Warning(vpKinetic): Verify shapes of solver/vs/us")
+
+        #Calculate the functional derivative 
+        #Of the molecualr kinetic energy via euler equation
+
+        self.V.vt = self.inverter.get_vt()
+
+    elif self.optPartition["kinetic_part_type"] == "none":
+
+        #Neglect the non-additive kinetic energy
+        self.V.vt = np.zeros_like(self.nf)
+
+        for i_KS in [self.KSa, self.KSb]:
+            i_KS.V.vt = np.zeros_like(i_KS.n)
+
+    elif self.optPartition["kinetic_part_type"] == "twoorbital":
+        
+        n1 = self.na_frac
+        n2 = self.nb_frac
+        eT = 0.5 * self.grid.elap
+
+        #Evaluate kinetic energy for integer occupation
+
+        for i_KS in [self.KSa, self.KSb]:
+
+            i_KS.V.vt = (eT @ i_KS.n ** 0.5) / (2 * self.grid.w @ i_KS.n**0.5)
+
+        C = self.grid.integrate( (n1**0.5 - n2**0.5)**2 )
+        phi1 = (n1**0.5 - n2**0.5) / C**0.5  
+        phi2 = ((n1 + n2)/2 - phi1**2)**0.5
+
+        raise ValueError("Two orbital method not available")
+
+    elif self.optPartition["kinetic_part_type"] == "fixed":
+        pass
+
+    else:
+        raise ValueError("Kinetic energy functional not recognized")
 
 
+    if self.optPartition["kinetic_part_type"] != "fixed":
+        #Calculate the vp contribution
+        for i_KS in [self.KSa, self.KSb]:
+            i_KS.V.vp_kin = (self.V.vt - i_KS.V.vt)
+        #Remove nans
+            i_KS.V.vp_kin[np.isnan(i_KS.V.vp_kin)] = 0.5 
 
+    elif self.optPartition["kinetic_part_type"] == "twoorbital":
+        raise ValueError("Two orbital method not yet implemented")
 

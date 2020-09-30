@@ -159,7 +159,8 @@ class i_solver():
         calc_energy(self)
 
     def get_homo(self):
-        get_homo(self)
+        homo = get_homo(self)
+        return homo
 
     # def getveff(self):
     #     """

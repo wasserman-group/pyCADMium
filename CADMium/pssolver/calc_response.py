@@ -74,7 +74,7 @@ def calc_response(self):
         j = Nocc + 1
 
         #Select the orbital and normalize
-        phi_j = self.phi[:, j] / self.grid.integrate( self.phi[:, j]**2)**0.5
+        phi_j = self.phi[:, j] / self.grid.integrate( self.phi[:, j]**2 )**0.5
 
         #Construct the right hand side
         PHI = spdiags(phi_j, 0, Nelem, Nelem)

@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from .scf import scf
 from .vp_nuclear import vp_nuclear
 from .vp_kinetic import vp_kinetic
+from .vp_hxc import vp_hxc
 from .initialguessinvert import initialguessinvert
 from .partition_potential import partition_potential
 from ..common.coulomb import coulomb
@@ -322,6 +323,9 @@ class Partition():
 
     def vp_kinetic(self):
         vp_kinetic(self)
+
+    def vp_hxc(self):
+        vp_hxc(self)
 
     def partition_potential(self):
         vp = partition_potential(self)

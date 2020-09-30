@@ -2,6 +2,7 @@
 inverter.py
 """
 
+import sys
 import numpy as np
 from .linresponse import linresponse
 # from .linresponse import Ws
@@ -76,7 +77,12 @@ class Inverter():
         self.optInversion = optInversion
 
         self.grid = grid
+        self.Nelem = grid.Nelem
         self.solver = solver
+        self.Nmo = solver[0,0].Nmo
+
+        self.B  = None
+        self.n0 = None
 
         self.vs = None
         self.us = None
@@ -88,37 +94,42 @@ class Inverter():
         Do the inverstion
         """
 
-        flag = []
-        output = []
-
         if self.optInversion["invert_type"] == "wuyang":
-            print("I'm inverting with wuyang")
             flag, output = self.linresponse(n0, vs0, ispin)
 
-        # elif self.optInversion["invert_type"] == "simple":
-        #     self.simple(n0, vs0, ispin)
+        elif self.optInversion["invert_type"] == "simple":
+            self.simple(n0, vs0, ispin)
 
-        # elif self.optInversion["invert_type"] == "orbitalinvert":
-        #     flag, output = self.orbitalinvert(n0, vs0, phi0, e0, ispin)
+        elif self.optInversion["invert_type"] == "orbitalinvert":
+            flag, output = self.orbitalinvert(n0, vs0, phi0, e0, ispin)
 
-        # elif self.optInversion["invert_type"] == "qinvert":
-        #     flag, output = self.qinvert(n0, vs0, phi0, e0, ispin, Qi)
+        elif self.optInversion["invert_type"] == "qinvert":
+            flag, output = self.qinvert(n0, vs0, phi0, e0, ispin, Qi)
 
-        # elif self.optInversion["invert_type"] == "eigensolveinvert":
-        #     flag, output = self.eigensolveinvert(n0, vs0, ispin)
+        elif self.optInversion["invert_type"] == "eigensolveinvert":
+            flag, output = self.eigensolveinvert(n0, vs0, ispin)
 
-        # elif self.optInversion["invert_type"] == "test":
-        #     flag, output = self.test(n0, vs0, phi0, e0, ispin)
-        # else:
-        #     raise ValueError(f"{self.optInversion['invert_type']} is not an available inversion method")
+        elif self.optInversion["invert_type"] == "test":
+            flag, output = self.test(n0, vs0, phi0, e0, ispin)
+        else:
+            raise ValueError(f"{self.optInversion['invert_type']} is not an available inversion method")
 
         return flag, output
+
+    def get_vt(self):
+        """
+        Gets kinetic potential
+        """
+
+        vt = np.ones((self.grid.Nelem, 1)) * self.us - self.vs
+        return vt
 
     #Inversion methods
     def linresponse(self, n0, vs0, ispin):
         flag, output = linresponse(self, n0, vs0)
+        return flag, output
 
-    def Ws(self, vs):
+    def Ws(self, vs, spin):
         """
         Calculates G for a given potential
         """
@@ -127,37 +138,37 @@ class Inverter():
             vs = 0.5 * (vs + self.grid.mirror(vs))
 
         #Transfer new potentials to solver objects and calculate new densities
-        self.solver[0,0].setveff(vs)
-        self.solver[0,0].calc_orbitals()
-        self.solver[0,0].calc_density()
-        self.solver[0,0].calc_energy()
-        self.solver[0,0].calc_response()
+        self.solver[0,spin].setveff(vs)
+        self.solver[0,spin].calc_orbitals()
+        self.solver[0,spin].calc_density()
+        self.solver[0,spin].calc_energy()
+        self.solver[0,spin].calc_response()
 
-
-        #Calculate new density      
-        n = np.zeros((self.grid.Nelem, self.pol))  
-        for i in range(self.Nmo.shape[0]):
-            for j in range(self.Nmo.shape[1]):
-                n[:,j] += np.squeeze(self.solver[i,j].n)
+        #Calculate new density     
+        n = np.zeros((self.grid.Nelem, 1))  
+        for i in range(self.solver.shape[0]):
+            n[:,0] += np.squeeze(self.solver[i,spin].n)
 
         if self.optInversion["AB_SYM"] is True:
             n = 0.5 * (n + self.grid.mirror(n))
 
         #Calculate error function
-        grad = np.hstack( ( B @ (n-n0), self.vs ) )
+        grad = np.vstack( ( self.B @ (n-self.n0), self.vs[self.Nelem-1] ) )
+        grad = np.squeeze(grad)
 
         return grad
 
-    def Jacobian(self, vs):
+    def Jacobian(self, vs, spin):
         """
         Calculates Jacobian for a given vs
         """
 
-        #Calculate jacobian of error function
-        Jac     = np.hstack( ( B @ self.solver[0,0].chi, np.zeros((1, Nelem)) ) )
-        Jac[-1] = 1
+        #Calculate jacobian of error function.
+        Jac = np.vstack( ( self.B @ self.solver[0,spin].chi, np.zeros((1, self.Nelem)) ) )
+        Jac = np.asarray(Jac)
+        Jac[-1, -1] = 1
 
-        if optInversion["AB_SYM"] is True:
-            Jac[-1, :] = 0.5 * (Jac[-1,:] + self.grid.mirror(Jac[-1,:]))
+        if self.optInversion["AB_SYM"] is True:
+            Jac[-1,:] = 0.5 * (Jac[-1,:] + self.grid.mirror(Jac[-1,:]))
 
         return Jac
