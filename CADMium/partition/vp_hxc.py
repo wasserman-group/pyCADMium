@@ -18,8 +18,8 @@ def vp_hxc(self):
 
         #Calculate hxc functional for promolecular density
         self.V.vh = self.hartree.v_hartree(self.nf)
-        ex, self.V.vx = self.exchange.get_xc(self.nf)
-        ec, self.V.vc = self.correlation.get_xc(self.nf)
+        self.epsilon_x, self.V.vx = self.exchange.get_xc(self.nf, return_epsilon=True)
+        self.epsilon_c, self.V.vc = self.correlation.get_xc(self.nf, return_epsilon=True)
 
         for i_KS in [self.KSa, self.KSb]:
             i_KS.V.vp_h = self.V.vh - i_KS.V.vh
