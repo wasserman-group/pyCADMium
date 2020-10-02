@@ -11,15 +11,14 @@ def vp_hxc(self):
     """
 
     if self.optPartition["hxc_part_type"] != "nohxc" and \
-       self.optPartition["hxc_part_type"] != "exact" and \
-       self.partition_potential["hxc_part_type"] == "ni":
-
+       (self.optPartition["hxc_part_type"] == "exact" and \
+       self.optPartition["interaction_type"] == "ni") is False:
         #Do we need to calculate non-additive dft potentials?
 
         #Calculate hxc functional for promolecular density
         self.V.vh = self.hartree.v_hartree(self.nf)
-        self.epsilon_x, self.V.vx = self.exchange.get_xc(self.nf, return_epsilon=True)
-        self.epsilon_c, self.V.vc = self.correlation.get_xc(self.nf, return_epsilon=True)
+        self.e_x, self.epsilon_x, self.V.vx = self.exchange.get_xc(self.nf, return_epsilon=True)
+        self.e_c, self.epsilon_c, self.V.vc = self.correlation.get_xc(self.nf, return_epsilon=True)
 
         for i_KS in [self.KSa, self.KSb]:
             i_KS.V.vp_h = self.V.vh - i_KS.V.vh

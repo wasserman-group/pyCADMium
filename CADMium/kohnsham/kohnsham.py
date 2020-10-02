@@ -193,8 +193,8 @@ class Kohnsham():
             self.V.eh = 0.5 * self.V.vh[:,0]
             self.E.Eh = self.grid.integrate(np.sum(self.n, axis=1) * self.V.eh)
 
-            self.E.Ex, self.V.vx = self.exchange.get_xc(self.n)
-            self.E.Ec, self.V.vc = self.correlation.get_xc(self.n)
+            self.E.Ex, self.V.ex, self.V.vx = self.exchange.get_xc(self.n, return_epsilon=True)
+            self.E.Ec, self.V.ec, self.V.vc = self.correlation.get_xc(self.n, return_epsilon=True)
 
             self.E.Et = self.E.Ts + self.E.Enuc + self.E.Eh + self.E.Ex + self.E.Ec
 

@@ -53,7 +53,7 @@ def linresponse(self, n0, vs0=None):
             vs0 = (0.5 * self.grid.elap @ (n0**0.5)) / (n0**0.5 * w) 
             vs0 -= vs[-1]
     else:
-        vs0 = self.solver[0,0].veff
+        vs0 = self.solver[0,0].veff[:,None] if len(self.solver[0,0].veff.shape) == 1 else self.solver[0,0].veff
 
     self.vs = np.zeros_like(vs0)
     self.us = np.zeros((1, pol))
@@ -95,7 +95,6 @@ def linresponse(self, n0, vs0=None):
     else:
         for i in range(pol):
             #Invert density n0 to find vs
-
             #Preallocation
             B = spdiags(1./n0[:, i], 0, Nelem, Nelem)
             self.B = B

@@ -8,6 +8,11 @@ from .scf import scf
 from .vp_nuclear import vp_nuclear
 from .vp_kinetic import vp_kinetic
 from .vp_hxc import vp_hxc
+from .energy import energy
+from .partition_energy import partition_energy
+from .ep_nuclear import ep_nuclear
+from .ep_kinetic import ep_kinetic
+from .ep_hxc import ep_hxc
 from .initialguessinvert import initialguessinvert
 from .partition_potential import partition_potential
 from ..common.coulomb import coulomb
@@ -326,6 +331,24 @@ class Partition():
 
     def vp_hxc(self):
         vp_hxc(self)
+
+    def energy(self):
+        energy(self)
+
+    def partition_energy(self):
+        partition_energy(self)
+
+    def ep_nuclear(self):
+        ep_nuclear(self)
+
+    def ep_kinetic(self):
+        ep_kinetic(self)
+
+    def ep_hxc(self):
+        ep_hxc(self)
+
+    # def get_ts_WFI(self):
+    #     ts = get_ts_WFI(self)
 
     def partition_potential(self):
         vp = partition_potential(self)

@@ -142,7 +142,6 @@ class i_solver():
             oT = -0.5 * self.grid.olap
             self.H0 = oT + self.m ** 2 * W @ f 
 
-
     def calc_orbitals(self):
         calc_orbitals(self)
 
@@ -171,15 +170,15 @@ class i_solver():
     def calc_ked_WFI(self):
         calc_ked_WFI(self)
 
-    # def getveff(self):
+    # def get_Ts(self):
     #     """
-    #     Get the effective potential from solver objects in array
+    #     Get total kinetic energy
     #     """
-    #     veff = np.zeros(self.grid.Nelem, self.pol)
-    #     for i in range(self.pol):
-    #         if self.veff is not allzeros:
-    #             veff[:, i] 
-            
+    #     Ts = 0.0
+    #     self.calc_energy()
+    #     for i in range(self.solver.shape[0]):
+    #         for j in range(self.solver.shape[1]):
+    #             Ts += np.sum( self.solver[i,j].Ts )
 
     def setveff(self, veff):
         """

@@ -35,7 +35,7 @@ class Libxc():
         xc_dictionary = func.compute(func_ingredients)
         return xc_dictionary
 
-    def get_xc(self, n):
+    def get_xc(self, n, return_epsilon=False):
 
         pol = n.shape[1]
 
@@ -75,4 +75,8 @@ class Libxc():
 
         Vxc = self.grid.integrate(np.sum(vxc.copy() * n, axis=1))
 
-        return exc, vxc
+        if return_epsilon is False:
+            return exc, vxc
+        
+        else:
+            return exc, epsilon, vxc

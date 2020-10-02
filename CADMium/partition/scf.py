@@ -42,7 +42,7 @@ def scf(self, optPartition):
     self.KSb.Alpha = self.Alpha[1]
 
     if optPartition["Verbose"] is True:
-        if self.kinetic_part_type == "inversion":    
+        if self.optPartition["kinetic_part_type"] == "inversion":    
             print(f"                       Total Energy                      Inversion  \n")
             print(f"iter             A              B                  iters         optimality        res \n")
             print("------------------------------------------------------------------------------------------  \n")
@@ -166,7 +166,7 @@ def scf(self, optPartition):
 
         #Convergence check
         dif_E  = np.abs( np.sum(self.E.E - old_E) / self.E.E )
-        dif_nf = max( self.grid.integrate(np.abs(self.nf-old_nf)) / self.grid.integrate(np.abs(self.nf)) )
+        dif_nf = self.grid.integrate(np.abs(self.nf-old_nf)) / self.grid.integrate(np.abs(self.nf))
         dif    = max(dif_E, dif_nf)
         old_E  = self.E.E
         old_nf = self.nf
@@ -181,27 +181,38 @@ def scf(self, optPartition):
 
         if optPartition["kinetic_part_type"] == "inversion" or \
             optPartition["vp_calc_type"] == "vp_calc_type" and self.optPartition["ISOLATED"]:
+        
+            max_nfev = 0
+            max_optimality = 1e-16
 
-            if max( self.inversion_info.optimality ) > 1:
-                inversion_failures += 1
-            else:
-                inversionfailures = 0
+            for ii in range(self.inversion_info.shape[0]):
+                for jj in range(self.inversion_info.shape[1]):
 
-            if inversion_failures > 1:
-                raise SystemExit("Too many inversion failures. Stopping")
+                    max_nfev = max_nfev if self.inversion_info[ii,jj].nfev < max_nfev else self.inversion_info[ii,jj].nfev
+                    max_optimality = max_optimality if self.inversion_info[ii,jj].nfev < max_optimality else self.inversion_info[ii,jj].optimality
+
+                    if self.inversion_info[ii,jj].optimality > 1:
+                        inversionfailures += 1
+                    else:
+                        inversionfailures = 0
+
+                    if inversionfailures > 1:
+                        raise SystemExit("Too many inversion failures. Stopping")
 
         #Display
-        if self.optPartition["DISP"] is True:
+        if self.optPartition["Verbose"] is True:
             if self.optPartition["kinetic_part_type"] == "inversion" or \
                 self.optPartition["vp_calc_type"] == "potential inversion" and self.optPartition["ISOLATED"]:
 
-                print(f" {iterations}  {self.E.Ea}  {self.E.Eb}  {max(self.inversion_info.nfev)}  {max(self.inversion_info.optimality)} {dif}")
+                print(f" {iterations}  {self.E.Ea}  {self.E.Eb}  {max_nfev}  {max_optimality} {dif}")
 
 
             else:
                 print(f" {iterations}  {self.E.Ea}  {self.E.Eb}   {dif} ")
 
-    if dif < eTol:
+
+
+    if dif < self.optPartition["Tolerance"]:
         flag = True
 
     else:
@@ -209,6 +220,10 @@ def scf(self, optPartition):
 
     for i_KS in KSab:
         delattr(i_KS.V, "frozen") 
+
+
+    for i in self.E.__dict__:
+        print(i, getattr(self.E, str(i)))
 
 
         

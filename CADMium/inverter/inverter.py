@@ -5,6 +5,8 @@ inverter.py
 import sys
 import numpy as np
 from .linresponse import linresponse
+from .get_ts_WFI import get_ts_WFI
+from .get_Ts import get_Ts
 # from .linresponse import Ws
 # from .linresponse import Jacobian
 
@@ -123,6 +125,14 @@ class Inverter():
 
         vt = np.ones((self.grid.Nelem, 1)) * self.us - self.vs
         return vt
+
+    def get_Ts(self):
+        Ts = get_Ts(self)
+        return Ts
+
+    def get_ts_WFI(self):
+        ts = get_ts_WFI(self)
+        return ts
 
     #Inversion methods
     def linresponse(self, n0, vs0, ispin):
