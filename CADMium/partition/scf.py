@@ -211,7 +211,6 @@ def scf(self, optPartition):
                 print(f" {iterations}  {self.E.Ea}  {self.E.Eb}   {dif} ")
 
 
-
     if dif < self.optPartition["Tolerance"]:
         flag = True
 
@@ -221,9 +220,6 @@ def scf(self, optPartition):
     for i_KS in KSab:
         delattr(i_KS.V, "frozen") 
 
-
-    for i in self.E.__dict__:
-        print(i, getattr(self.E, str(i)))
 
 
         

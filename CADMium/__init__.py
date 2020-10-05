@@ -5,9 +5,10 @@ A short description of the project.
 
 # Add imports here
 from .psgrid import Psgrid
+from .inverter import Inverter
+from .pssolver import Pssolver
 from .partition import Partition
 from .kohnsham import Kohnsham
-from .data.grids import *
 
 # Handle versioneer
 from ._version import get_versions
