@@ -5,9 +5,9 @@ CADMium
 
 [//]: # (Badges)
 
-[![CI](https://img.shields.io/github/workflow/status/vhchavez/CADMium/CI)](https://lgtm.com/projects/g/VHchavez/CADMium/context:python)
-[![codecov](https://codecov.io/gh/VHchavez/CADMium/branch/master/graph/badge.svg)](https://codecov.io/gh/VHchavez/CADMium)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/VHchavez/CADMium.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/VHchavez/CADMium/context:python)
+[![CI](https://img.shields.io/github/workflow/status/wasserman-group/CADMium/CI)](https://lgtm.com/projects/g/wasserman-group/CADMium/context:python)
+[![codecov](https://codecov.io/gh/wasserman-group/CADMium/branch/master/graph/badge.svg)](https://codecov.io/gh/wasserman-group/CADMium)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/wasserman-group/CADMium.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/wasserman-group/CADMium/context:python)
 
 
 - Prolate spheroidal coordinates grid-based code that solves a cylindrical problem analitically.  
