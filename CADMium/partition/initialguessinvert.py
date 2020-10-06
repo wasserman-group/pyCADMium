@@ -25,13 +25,15 @@ def initialguessinvert(self, ispin):
         v0 += i_KS.veff[:, ispin][:, None] * i_KS.Q[:, ispin][:, None]
 
     if self.optPartition["ENS_SPIN_SYM"] is True:
-        v0 = np.sum(v0, axis=2)
+        v0 = np.sum(v0, axis=1)
         for i_KS in KSab:
-            ospin = 2 if ispin == 1 else 1
-            v0 += (i_KS.veff[:, opsin] - max(KS.u)) * i_KS.Q[:, ospin]
+            ospin = 1 if ispin == 0 else 0
+            v0 += (i_KS.veff[:, ospin] - max([i_KS.u])) * i_KS.Q[:, ospin]
+        v0 = v0[:, None]
 
     if self.optPartition["AB_SYM"] is True:
-        v0 += self.grid.mirror(v0)
+        v0 += self.grid.mirror(v0) 
+
 
     Wi = spdiags(data=2*np.pi*self.grid.hr*self.grid.ha*self.grid.wi, diags=0, m=self.grid.Nelem, n=self.grid.Nelem)
     W  = spdiags(self.grid.w, 0, self.grid.Nelem, self.grid.Nelem)
@@ -44,18 +46,26 @@ def initialguessinvert(self, ispin):
     d    = np.empty((Nsol,1), dtype=object)
     phi0 = np.empty((Nsol,1), dtype=object)
 
+    print("I am about to guess number of solutions")
+    print("Number of solutions:", Nsol)
+    print("ispin", ispin)
 
     for i in range(1, Nsol+1):
+
         phi = None
         H0  = None
         m   = None
 
         #Alpha Kohn Sham object
-        if len( self.KSa.solver[:,ispin]) >= i:
+        if len( self.KSa.solver[:,ispin]) >= i-1:
+            print("Im calculating the hamiltonian")
             phi = self.KSa.solver[i-1, ispin].phi 
             self.KSa.solver[i-1, ispin].hamiltonian()
             H0  = self.KSa.solver[i-1, ispin].H0
             m   = self.KSb.solver[i-1, ispin].m
+
+        print("Solver size", self.KSa.solver.shape)
+        print("Solver itself in initialguess ivnert", self.KSa.solver)
 
         if self.optPartition["AB_SYM"] is True:
             phi = np.hstack((phi, self.grid.mirror( self.KSa.solver[i-1, ispin].phi )))
@@ -71,6 +81,7 @@ def initialguessinvert(self, ispin):
         S0 = np.diag(phi.T @ W @ Wi @ phi) ** 0.5
         phi = phi / S0
         S = phi.T @ W @ Wi @ phi
+
         H = spsolve(csc_matrix(W), H0) + csc_matrix(spdiags(v0[:,0], 0, self.grid.Nelem, self.grid.Nelem))
         F = phi.T @ (W @ Wi @ H @ phi)
         v, ev = eigh(a=F, b=S)
@@ -82,18 +93,18 @@ def initialguessinvert(self, ispin):
 
         if self.optPartition["ENS_SPIN_SYM"]:
             if m == 0:
-                phi0 = (phi/np.diag(np.diag(phi.T @ W @ Wi @ phi))**0.5) * (1**(0.5))
+                phi0 = (phi / np.diag(phi.T @ W @ Wi @ phi)**0.5) * (1**0.5)
                 Eks  = np.sum(d)
             else:
-                phi0 = (phi/np.diag(np.diag(phi.T @ W @ Wi @ phi))**0.5) * (2**(0.5))
+                phi0 = (phi / np.diag(phi.T @ W @ Wi @ phi)**0.5) * (2**0.5)
                 Eks = 2 * np.sum(d)
 
         else:
             if m == 0:
-                phi0 = (phi/np.diag(phi.T @ W @ Wi @ phi)**0.5) * (2**(0.5))
+                phi0 = (phi / np.diag(phi.T @ W @ Wi @ phi)**0.5) * (2**(0.5))
                 Eks = 2 * np.sum(d)
             else: 
-                phi0 = (phi/np.diag(np.diag(phi.T @ W @ Wi @ phi))**0.5) * (4**(0.5))
+                phi0 = (phi / np.diag(phi.T @ W @ Wi @ phi)**0.5) * (4**(0.5))
                 Eks = 4 * np.sum(d)
 
         Ts += Eks - self.grid.integrate( np.sum(phi0**2, axis=1) * np.squeeze(v0) )

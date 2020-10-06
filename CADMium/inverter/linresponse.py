@@ -63,31 +63,29 @@ def linresponse(self, n0, vs0=None):
     if self.optInversion["ENS_SPIN_SYM"] is True:
         print("Warning | Multiple solvers may have not been set properly")
         #Invert density n0 to find vs
-        i = 0
         #Preallocation
         #B is the inverse of n0 in main diagonal
-        B = spdiags( 1./n0[:,i],0, Nele, Nelem)
+        B = spdiags( 1./n0[:,0],0, Nelem, Nelem)
         self.B = B
 
-        self.solver[0,i].hamiltonian()
-        self.solver[0,i].e0 = -20
+        self.solver[0,0].hamiltonian()
+        self.solver[0,0].e0 = -20
 
         res_lsq = least_squares(fun    = self.Ws,
-                                x0     = vs0[:, i], 
+                                x0     = vs0[:, 0], 
                                 jac    = self.Jacobian, 
                                 method = "trf", 
-                                args   = (i,))
+                                args   = (0,))
 
         #Get solution from least squares object
-        self.vs[:,i] = res_lsq.x
-        self.us[i] = self.solver[0,i].get_homo()
-        print("us from linsresponse",self.us)
-        flag[0,i] = res_lsq.status
-        output[0,i] = res_lsq
+        self.vs[:,0] = res_lsq.x
+        self.us[0] = self.solver[0,0].get_homo()
+        flag[0,0] = res_lsq.status
+        output[0,0] = res_lsq
 
         #Copy information
-        self.vs[:, 1] = self.v[:, 0]
-        self.us[1] = self.us[0]
+        self.vs = np.hstack((self.vs, self.vs))
+        self.us = np.hstack((self.us, self.us))
         self.solver[0,1].setveff(self.vs[:,0])
         flag[0,1] = res_lsq.status
         output[0,1] = res_lsq

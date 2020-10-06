@@ -122,7 +122,6 @@ class Inverter():
         """
         Gets kinetic potential
         """
-
         vt = np.ones((self.grid.Nelem, 1)) * self.us - self.vs
         return vt
 
