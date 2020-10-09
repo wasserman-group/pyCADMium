@@ -83,6 +83,10 @@ class Kohnsham():
             self.exchange = Libxc(self.grid, self.optKS["xc_family"], self.optKS["x_func_id"])
             self.correlation = Libxc(self.grid, self.optKS["xc_family"], self.optKS["c_func_id"])
             self.hartree = Hartree(grid)
+        elif self.optKS["interaction_type"] == 'hfs':
+            self.exchange = Libxc(self.grid, self.optKS["xc_family"], self.optKS["x_func_id"])
+            self.correlation = 0.0
+            self.hartree = Hartree(grid)
         else:
             self.exchange = 0.0
             self.correlation = 0.0
@@ -153,6 +157,7 @@ class Kohnsham():
 
                 #Add up orbital's densities
                 nout[:,j] += np.squeeze(self.solver[i,j].n)
+
         return nout
 
     def energy(self):
@@ -197,6 +202,22 @@ class Kohnsham():
             self.E.Ec, self.V.ec, self.V.vc = self.correlation.get_xc(self.n, return_epsilon=True)
 
             self.E.Et = self.E.Ts + self.E.Enuc + self.E.Eh + self.E.Ex + self.E.Ec
+
+        elif self.optKS["interaction_type"] == "hfs":
+
+            self.E.Enuc = self.grid.integrate(np.sum(self.n * self.vnuc, axis=1))
+            self.E.Vext = self.grid.integrate(np.sum(self.n * self.vext, axis=1))
+            self.E.Vhxc = self.grid.integrate(np.sum(self.n * self.vhxc, axis=1))
+
+            self.V.vh = self.hartree.v_hartree(self.n)
+            self.V.eh = 0.5 * self.V.vh[:,0]
+            self.E.Eh = self.grid.integrate(np.sum(self.n, axis=1) * self.V.eh)
+
+            self.E.Ex, self.V.ex, self.V.vx = self.exchange.get_xc(self.n, return_epsilon=True)
+            self.E.Ec, self.V.ec, self.V.vc = 0.0, 0.0, 0.0
+
+            self.E.Et = self.E.Ts + self.E.Enuc + self.E.Eh + self.E.Ex + self.E.Ec
+
 
         #Nuclear-Nuclear repulsion
         self.E.Vnn = self.Za * self.Zb / (2 * self.grid.a)

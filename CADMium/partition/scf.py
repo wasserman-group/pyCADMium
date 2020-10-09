@@ -91,7 +91,7 @@ def scf(self, optPartition):
     old_nf     = self.nf
     vp         = np.zeros_like((self.grid.Nelem, self.pol))
     iterations = 1
-    failures   = 0
+    inversionfailures   = 0
     STOP       = False
 
     if optPartition["AutoTol"] is True:
@@ -166,7 +166,7 @@ def scf(self, optPartition):
 
         #Convergence check
         dif_E  = np.abs( np.sum(self.E.E - old_E) / self.E.E )
-        dif_nf = self.grid.integrate(np.abs(self.nf-old_nf)) / self.grid.integrate(np.abs(self.nf))
+        dif_nf = np.max(self.grid.integrate(np.abs(self.nf-old_nf)) / self.grid.integrate(np.abs(self.nf)))
         dif    = max(dif_E, dif_nf)
         old_E  = self.E.E
         old_nf = self.nf

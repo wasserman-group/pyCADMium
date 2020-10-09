@@ -69,5 +69,5 @@ def calc_orbitals(self):
                     self.phi[:, i] = self.phi[:, i] - self.grid.mirror(self.phi[:,i])
     
     else:
-        "Molecular Orbital equals zero"
+        print("Molecular Orbital equals zero")
         self.eig = -1 / spacing(1)

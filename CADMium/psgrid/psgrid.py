@@ -8,6 +8,8 @@ Provides handling for 2d finite difference meshes on a prolate spheroidal grid
 import sys
 sys.path.append("..")
 
+import numpy as np
+
 from .initialize import initialize
 from .mirror import mirror
 from .spinflip import spinflip
@@ -272,5 +274,15 @@ class Psgrid():
     def plotter(self, fin, max=1, sym=1):
         full, z, x = plotter(self, fin, max, sym)
         return full, z, x
+
+    def plot_along_axis(self, fin, max =1, sym=1):
+        f, x, y = plotter(self, fin, max, sym)
+        if np.mod(f.shape[1], 2) == 1:
+            mid = int(f.shape[0]/2) + 1
+        else: 
+            mid = int(f.shape[0]/2)
+        
+        return y[mid,:], f[mid,:]
+
 
 

@@ -2,7 +2,9 @@
 spinflip.py
 """
 
+import numpy as np
 import warnings
+
 
 def spinflip(self, fin):
     """

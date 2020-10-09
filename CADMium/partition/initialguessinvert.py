@@ -46,10 +46,6 @@ def initialguessinvert(self, ispin):
     d    = np.empty((Nsol,1), dtype=object)
     phi0 = np.empty((Nsol,1), dtype=object)
 
-    print("I am about to guess number of solutions")
-    print("Number of solutions:", Nsol)
-    print("ispin", ispin)
-
     for i in range(1, Nsol+1):
 
         phi = None
@@ -58,18 +54,15 @@ def initialguessinvert(self, ispin):
 
         #Alpha Kohn Sham object
         if len( self.KSa.solver[:,ispin]) >= i-1:
-            print("Im calculating the hamiltonian")
             phi = self.KSa.solver[i-1, ispin].phi 
             self.KSa.solver[i-1, ispin].hamiltonian()
             H0  = self.KSa.solver[i-1, ispin].H0
             m   = self.KSb.solver[i-1, ispin].m
-
-        print("Solver size", self.KSa.solver.shape)
-        print("Solver itself in initialguess ivnert", self.KSa.solver)
+        else:
+            pass
 
         if self.optPartition["AB_SYM"] is True:
             phi = np.hstack((phi, self.grid.mirror( self.KSa.solver[i-1, ispin].phi )))
-
         else:#Beta Kohn Sham object
             if len(self.KSb.solver) >= i:
                 phi = self.KSb.solver[i,ispin].phi
@@ -81,7 +74,6 @@ def initialguessinvert(self, ispin):
         S0 = np.diag(phi.T @ W @ Wi @ phi) ** 0.5
         phi = phi / S0
         S = phi.T @ W @ Wi @ phi
-
         H = spsolve(csc_matrix(W), H0) + csc_matrix(spdiags(v0[:,0], 0, self.grid.Nelem, self.grid.Nelem))
         F = phi.T @ (W @ Wi @ H @ phi)
         v, ev = eigh(a=F, b=S)

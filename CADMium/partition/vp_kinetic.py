@@ -44,7 +44,7 @@ def vp_kinetic(self):
         # u = max(self.KSa.u, self.KSb.u)
         homos_a = []
         homos_b = []
-        u = -1 / np.spacing(1) * np.ones((1, self.pol))
+        u = -1 / np.spacing(1)
         homos_a.append(u)
         homos_b.append(u)
 
@@ -55,31 +55,30 @@ def vp_kinetic(self):
                     homos_a.append(self.KSa.solver[i,j].homo)
                 if self.KSb.solver[i,j].homo is not None:
                     homos_b.append(self.KSb.solver[i,j].homo)
-        u = max(max(homos_a), max(homos_b))
-
-        nspin = self.pol
+            
+        u = max((max(homos_a), max(homos_b)))
+        nspin = self.pol - 1
 
         if self.optPartition["ENS_SPIN_SYM"]:
-            u = max(u)
-            nspin = 1
+            u = max([u])
+            nspin = 0
 
         self.KSa.V.vt = np.ones((self.grid.Nelem, 1)) * u - self.KSa.veff
         self.KSb.V.vt = np.ones((self.grid.Nelem, 1)) * u - self.KSb.veff
 
-        for ispin in range(nspin):
+        for ispin in range(nspin+1):
             ntarget = self.nf[:, ispin]
             if self.pol == 2:
                 ntarget = 2 * ntarget
 
-        
-        phi0, e0, vs0 = self.initialguessinvert(ispin)
+            phi0, e0, vs0 = self.initialguessinvert(ispin)
 
-        #Invert molecular problem:
-        _, self.inversion_info = self.inverter.invert(ntarget, vs0, phi0, e0, ispin)
+            #Invert molecular problem:
+            _, self.inversion_info = self.inverter.invert(ntarget, vs0, phi0, e0, ispin)
 
-
-        if self.optPartition["ENS_SPIN_SYM"] is True:
-            print("Warning(vpKinetic): Verify shapes of solver/vs/us")
+        # if self.optPartition["ENS_SPIN_SYM"] is True:
+        # Resolution for making solver/vs/us double with ENS_SPIN_SYM
+        # Is directly solved within initialguessinvert
 
         #Calculate the functional derivative 
         #Of the molecualr kinetic energy via euler equation

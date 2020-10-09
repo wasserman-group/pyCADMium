@@ -19,7 +19,6 @@ def iter_orbitals(self):
     """
     Update molecular orbitals and eigenvalues iteratively
     """
-
     if self.Nmo != 0:
 
         assert len(self.veff) != 0, "Veff is not set"

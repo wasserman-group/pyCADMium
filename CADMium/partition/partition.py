@@ -268,7 +268,7 @@ class Partition():
 
         self.V.vext[:,0] = self.va + self.vb
         if self.pol == 2:   
-            self.V.vext[0,1] = self.va + self.vb
+            self.V.vext[:,1] = self.va + self.vb
 
     def mirrorAB(self):
         "Mirror fragment A to get B"
@@ -304,7 +304,7 @@ class Partition():
         #each density with spin flipped version
         if self.optPartition["ENS_SPIN_SYM"] is True:
             self.na_frac += self.grid.spinflip(self.na_frac)
-            self.nb_frad += self.grid.spinflip(self.nb_frac)
+            self.nb_frac += self.grid.spinflip(self.nb_frac)
 
         #Nf is the sum of the ffragment densities
         self.nf = self.na_frac + self.nb_frac
