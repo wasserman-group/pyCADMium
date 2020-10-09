@@ -56,7 +56,7 @@ def calc_energy(self):
         self.Vs = 0.0
 
     elif np.isinf(self.Vs) == True:
-        "Im infinity at Self.Vs in calc_energy"
+        print("Im infinity at Self.Vs in calc_energy")
 
-    elif self.Vs > 1e5 == True:
-        "Self.Vs in calc_energy is very big"
+    elif self.Vs > 1e5:
+        print("Self.Vs in calc_energy is very big")

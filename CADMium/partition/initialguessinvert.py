@@ -11,7 +11,7 @@ from scipy.sparse.linalg import eigs
 import sys
 
 
-def initialguessinvert(self, ispin):
+def initialguessinvert(self, ispin=1):
 
     v0 = np.zeros(( self.grid.Nelem, 1 ))
     n0 = np.zeros(( self.grid.Nelem, 1 ))

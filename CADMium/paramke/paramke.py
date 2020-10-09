@@ -89,7 +89,7 @@ class Paramke():
             #F = TW_paramke(s, self.param)
             #dFds = dTW_paramke(sval, self.param)
 
-        if self.func_id == 1002
+        if self.func_id == 1002:
             Raise ValueError("Automatic Differenciation not yet implemented")
 
 

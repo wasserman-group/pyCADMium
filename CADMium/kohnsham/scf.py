@@ -68,7 +68,7 @@ def scf(self, optKS):
 
         #Calculate new density
         if ITERATIVE is True and CONTINUE is True:
-            nout = self.calc_density(ITERATIVE==ITERATIVE)
+            nout = self.calc_density(ITERATIVE=ITERATIVE)
 
         else:
             nout = self.calc_density(ITERATIVE=ITERATIVE, dif=diff)
