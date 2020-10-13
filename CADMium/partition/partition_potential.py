@@ -3,7 +3,6 @@ partition_potential
 """
 
 import numpy as np
-import sys
 
 def partition_potential(self):
     """

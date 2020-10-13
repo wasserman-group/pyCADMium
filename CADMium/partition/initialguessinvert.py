@@ -8,8 +8,6 @@ from scipy.sparse.linalg import spsolve
 from scipy.linalg import eig, eigh
 from scipy.sparse.linalg import eigs
 
-import sys
-
 
 def initialguessinvert(self, ispin=1):
 

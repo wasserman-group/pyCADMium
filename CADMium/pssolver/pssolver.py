@@ -2,8 +2,6 @@
 pssolver.py
 """
 
-import sys
-
 import numpy as np
 from scipy.sparse import spdiags
 

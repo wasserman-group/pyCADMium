@@ -3,7 +3,6 @@ scf.py
 """
 
 import numpy as np
-import sys
 
 def scf(self, optPartition):
     """

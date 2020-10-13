@@ -2,8 +2,6 @@
 iter_orbitals.py
 """
 
-import sys
-
 import numpy as np
 from scipy.sparse import spdiags
 from scipy.sparse import csc_matrix

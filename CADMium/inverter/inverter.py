@@ -2,7 +2,6 @@
 inverter.py
 """
 
-import sys
 import numpy as np
 from .linresponse import linresponse
 from .get_ts_WFI import get_ts_WFI

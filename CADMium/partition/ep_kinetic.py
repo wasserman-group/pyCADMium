@@ -3,7 +3,6 @@ ep_kinetic.py
 """
 
 import numpy as np
-import sys
 
 def ep_kinetic(self):
     """

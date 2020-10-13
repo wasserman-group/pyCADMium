@@ -2,8 +2,6 @@
 energy.py
 """
 
-import sys
-
 def energy(self):
     """
     Calculate energies

@@ -3,7 +3,6 @@ vp_hxc
 """
 
 import numpy as np
-import sys
 
 def vp_hxc(self):
     """

@@ -2,7 +2,6 @@
 vp_kinetic.py
 """
 
-import sys
 import numpy as np
 
 def vp_kinetic(self):

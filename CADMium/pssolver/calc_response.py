@@ -2,8 +2,6 @@
 calc_response.py
 """
 
-import sys
-
 import numpy as np
 from scipy.sparse import spdiags
 from scipy.sparse import vstack as csc_vstack
