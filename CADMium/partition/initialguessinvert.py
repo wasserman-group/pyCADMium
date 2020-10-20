@@ -15,7 +15,7 @@ def initialguessinvert(self, ispin=1):
     n0 = np.zeros(( self.grid.Nelem, 1 ))
 
     if self.optPartition["AB_SYM"] is not True:
-        KSab = [self.KSa, self.KSb ]
+        KSab = [self.KSa, self.KSb]
     else:
         KSab = [self.KSa]
 
@@ -100,8 +100,10 @@ def initialguessinvert(self, ispin=1):
         Ts += Eks - self.grid.integrate( np.sum(phi0**2, axis=1) * np.squeeze(v0) )
         n0 += np.sum( phi0**2, axis=1 )[:, None]
 
-    e0 = d
 
+    phi0 = phi0.flatten(order="F")
+    e0 = d.flatten()
+    
     return phi0, e0, v0
 
 
