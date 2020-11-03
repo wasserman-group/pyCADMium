@@ -5,6 +5,7 @@ orbitalinvert.py
 import numpy as np
 import numpy.matlib as matlab
 
+from scipy.sparse import csc_matrix
 from scipy.sparse import block_diag as blkdiag
 from scipy.sparse import spdiags
 
@@ -58,6 +59,78 @@ def normalize(x, Nmo, Nelem, WWi, occ):
     x[0:Nelem * np.sum(Nmo)] = phi.flatten("F")[:, None]
 
     return x
+
+def kmatrix(x, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j):
+
+    North = len(i_orth)
+        
+    phi      = np.reshape(x[:Nelem * np.sum(Nmo)], (Nelem, np.sum(Nmo)))
+    v        = x[ :Nelem] + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North
+    evals    = np.vstack( (x[:np.sum(Nmo)-1] + np.sum(Nmo) * Nelem, 0) )
+    orthvals = np.zeros((1,0))
+    #orthvals = x[:North + np.sum(Nmo) * Nelem * np.sum(Nmo) - 1]
+
+    #BSXFUN
+    print("Warning: Using probably incorrect bsxfun")
+    bsxfun = v - np.ones((v.shape[0], 1)) * evals.T
+    # bsxfun = np.dot(v, evals.T) - v
+    vse = WWi @ bsxfun
+
+    Hjac = H + spdiags( vse.flatten('F'), 0 ,np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem  )
+    Ocon = np.zeros((North, 1))
+
+    if North == 0:
+        B4 = np.zeros((np.sum(Nmo) * Nelem, 1))
+    else:
+        B4 = np.zeros(( np.sum(Nmo) * Nelem, North ))
+    
+
+    for i in range(North):
+        print("Warning North iteration may be *very* wrong")
+        Ocon[i] = np.sum( WWi @ phi[:, iorht[i,0]] * phi[:, iorth[i, 1]] )
+        ind = np.ravel_multi_index( ( range(0, Nelem) + (i_orth[i, 0]-1)*Nelem ,    
+                                      range(0, Nelem) + (i_orth[i, 1]-1)*Nelem)
+                                    [np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem], 
+                                    order="F")
+        Hjac[ind] = spdiags(WWi) @ orthvals[i]
+        ind = np.ravel_multi_index( ( range(0, Nelem) + (i_orth[i, 1]-1)*Nelem ,    
+                                      range(0, Nelem) + (i_orth[i, 0]-1)*Nelem)
+                                    [np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem], 
+                                    order="F")
+        Hjac[ind] = spdiags(WWi) @ orthvals[i]
+
+
+    KSeq = Hjac @ x[:np.sum(Nmo) * Nelem]
+    n = np.sum( np.abs(phi)**2, axis=1)
+    S = np.sum( WWi @ np.abs(phi)**2).T
+
+    ncon = WWi @ (n-n0) / 2
+    Ncon = (- (S - occ) / 2)[:, None]
+
+    eqn = np.vstack(( KSeq, Ncon[0:-1], Ocon, Ocon  ))
+    B2v = np.reshape(WWi @ phi, (np.sum(Nmo) * Nelem, 1), order="F")
+    B3v = np.reshape(-WWi @ phi[:,:np.sum(Nmo)-1], ((np.sum(Nmo)-1)*Nelem, 1), order="F")
+
+    B2 = csc_matrix( (B2v[:, 0], (B2i[:,0], B2j[:,0])), shape=(np.sum(Nmo) * Nelem, Nelem        ))
+    B3 = csc_matrix( (B3v[:, 0], (B3i[:,0], B3j[:,0])), shape=(np.sum(Nmo) * Nelem, np.sum(Nmo)-1))
+
+    B2   = B2.toarray()
+    B3   = B3.toarray()
+    Hjac = Hjac.toarray()
+
+    if North == 0:
+        jac_a = np.concatenate(( Hjac, B3, B2), axis=1)
+        jac_b = np.concatenate(( B3.T, B2.T ), axis=0)
+    else:
+        jac_a = np.concatenate(( Hjac, B3, B4, B2), axis=1)
+        jac_b = np.concatenate(( B3.T, B4.T, B2.T ), axis=0)
+
+    rest_matrix = np.zeros((Nelem + np.sum(Nmo) - 1 + North, Nelem + np.sum(Nmo) - 1 + North))
+    jac_b = np.concatenate( (jac_b, rest_matrix) , axis=1)
+    jac = np.vstack((jac_a, jac_b))
+
+    return jac, eqn
+
 
 def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     """
@@ -133,21 +206,27 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     B2j = matlab.repmat( np.array(range(0,Nelem))[:,None], np.sum(Nmo), 1 )
     B3i = np.array( range( 0,(np.sum(Nmo) - 1) * Nelem ) )[:, None]
     B3j = np.zeros( ((np.sum(Nmo) - 1) * Nelem, 1) )
-
-    for it in range( 1, int(np.sum(Nmo) + 0) ):
-        B3j[ np.linspace(0,Nelem-1, Nelem, dtype=int) + (it - 1) * Nelem ] = it
+    for it in range(0, int(np.sum(Nmo))-1 ):
+        B3j[ np.array(range(0,Nelem)) + (it) * Nelem ] = it
 
 
     #Settings for forcing orthogonality between orbitals
-    i_orth = []
+    i_orth = np.zeros( (0, 1) )
     North = len( i_orth )
+
+    print("PHi0 shape", phi0.shape)
+    print("energies size", e0)
+    print("how much do I want to extract", np.sum(Nmo))
+
+    print("What Im getting from e0")
+    print(e0[:-1])
 
     #Initial Guess
     if isolver[0].phi is None:
-        X = np.vstack((  phi0[np.array(range(0,np.sum(Nmo) * Nelem) ,dtype=int)][:, None], 
-                         (e0[0:np.sum(Nmo)-1] - e0[np.sum(Nmo)])[:, None], 
+        X = np.vstack((  phi0[:np.sum(Nmo) * Nelem], 
+                         (e0[:-1] - e0[np.sum(Nmo)-1])[:, None], 
                          np.zeros((North, 1)),
-                         vs0 - e0[np.sum(Nmo)]
+                         vs0 - e0[np.sum(Nmo)-1]
                         ))
 
     else:
@@ -168,10 +247,36 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
 
     X = normalize(X, Nmo, Nelem, WWi, occ)
 
-    print(X)
-        
+    if self.optInversion["DISP"] is True:
+        print('iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve\n');
+        print('--------------------------------------------------------------------------------\n');
 
-    sys.exit()
+    iter        = 0
+    res         = 1
+    finished    = False
+    ForceUpdate = False
+
+    if self.optInversion["AVOIDLOOP"] is True:
+        old_res_ks     = 0
+        old_res_ncon   = 0
+        older_res_ks   = 0
+        older_res_ncon = 0
+
+    while finished is not True:
+        iter += 1
+
+        ################
+        jac = kmatrix(X, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j)
+
+        # if self.optInversion["AVOIDLOOP"] is True and iter > 1:
+        #     older_res_ks   = old_res_ks
+        #     older_res_ncon = old_res_ncon
+        #     old_res_ks     = res_ks
+        #     old_res_ncon   = res_nconc
+
+        sys.exit()
+            
+        
 
 
 
