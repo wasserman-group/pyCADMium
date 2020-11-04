@@ -8,8 +8,10 @@ import numpy.matlib as matlab
 from scipy.sparse import csc_matrix
 from scipy.sparse import block_diag as blkdiag
 from scipy.sparse import spdiags
+from scipy.sparse import eye
 
 import sys
+import warnings
 
 def ab_symmetrize(x, Nelem, Nmo, North, self):
     """
@@ -53,8 +55,8 @@ def normalize(x, Nmo, Nelem, WWi, occ):
     """
     """
 
-    phi = np.reshape( x[0:Nelem*np.sum(Nmo)], (Nelem, np.sum(Nmo)) )
-    S = np.sum( WWi @ np.abs( phi )**2 )
+    phi = np.reshape( x[0:Nelem*np.sum(Nmo)], (Nelem, np.sum(Nmo)) , order="F")
+    S = np.sum( WWi @ np.abs( phi )**2 , axis=0)
     phi = phi @ np.diag( (occ/S)**0.5 )
     x[0:Nelem * np.sum(Nmo)] = phi.flatten("F")[:, None]
 
@@ -64,14 +66,14 @@ def kmatrix(x, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j):
 
     North = len(i_orth)
         
-    phi      = np.reshape(x[:Nelem * np.sum(Nmo)], (Nelem, np.sum(Nmo)))
+    phi      = np.reshape(x[:Nelem * np.sum(Nmo)], (Nelem, np.sum(Nmo)), order="F")
     v        = x[ :Nelem] + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North
     evals    = np.vstack( (x[:np.sum(Nmo)-1] + np.sum(Nmo) * Nelem, 0) )
     orthvals = np.zeros((1,0))
     #orthvals = x[:North + np.sum(Nmo) * Nelem * np.sum(Nmo) - 1]
 
-    #BSXFUN
-    print("Warning: Using probably incorrect bsxfun")
+    # #BSXFUN
+    # print("Warning: Using probably incorrect bsxfun")
     bsxfun = v - np.ones((v.shape[0], 1)) * evals.T
     # bsxfun = np.dot(v, evals.T) - v
     vse = WWi @ bsxfun
@@ -100,14 +102,16 @@ def kmatrix(x, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j):
         Hjac[ind] = spdiags(WWi) @ orthvals[i]
 
 
+
     KSeq = Hjac @ x[:np.sum(Nmo) * Nelem]
     n = np.sum( np.abs(phi)**2, axis=1)
-    S = np.sum( WWi @ np.abs(phi)**2).T
+    S = np.sum( WWi @ np.abs(phi)**2, axis=0)
 
-    ncon = WWi @ (n-n0) / 2
+
+    ncon = WWi @ ((n-n0) / 2)[:, None]
     Ncon = (- (S - occ) / 2)[:, None]
 
-    eqn = np.vstack(( KSeq, Ncon[0:-1], Ocon, Ocon  ))
+    eqn = np.vstack(( KSeq, Ncon[:-1], Ocon, ncon  ))
     B2v = np.reshape(WWi @ phi, (np.sum(Nmo) * Nelem, 1), order="F")
     B3v = np.reshape(-WWi @ phi[:,:np.sum(Nmo)-1], ((np.sum(Nmo)-1)*Nelem, 1), order="F")
 
@@ -153,6 +157,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     %%%%%%%%%%%%%%%%%%%%%%%%
 
     """
+    output = {"iterations" : None, "firstorderopt" : None }
 
     Nelem = self.grid.Nelem
     Wi = spdiags( 2*np.pi * self.grid.hr * self.grid.ha * self.grid.wi, 0, Nelem, Nelem)
@@ -169,6 +174,12 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         N[i] = j.N
         m[i] = j.m
     Nsol = isolver.shape[0]
+
+    if self.vs is None:
+        self.vs = np.zeros((self.grid.Nelem, self.solver.shape[1]))
+
+    if self.us is None:
+        self.us = np.zeros((self.solver.shape[1]))
 
     #Transforming cell array from matlab to numpy array
     C = np.empty((Nsol), dtype=object)
@@ -214,13 +225,6 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     i_orth = np.zeros( (0, 1) )
     North = len( i_orth )
 
-    print("PHi0 shape", phi0.shape)
-    print("energies size", e0)
-    print("how much do I want to extract", np.sum(Nmo))
-
-    print("What Im getting from e0")
-    print(e0[:-1])
-
     #Initial Guess
     if isolver[0].phi is None:
         X = np.vstack((  phi0[:np.sum(Nmo) * Nelem], 
@@ -239,8 +243,9 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         X = np.vstack(( phi, 
                         evals[0:-2] - evals[-1],
                         np.zeros((North, 1)),
-                        isolve[0].veff - evals[-1]
+                        isolver[0].veff - evals[-1]
                       ))
+
 
     if self.optInversion["AB_SYM"] is True:
         X = ab_symmetrize(X, Nelem, Nmo, North, self)
@@ -266,17 +271,141 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         iter += 1
 
         ################
-        jac = kmatrix(X, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j)
+        jac, eqn = kmatrix(X, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j)
 
-        # if self.optInversion["AVOIDLOOP"] is True and iter > 1:
-        #     older_res_ks   = old_res_ks
-        #     older_res_ncon = old_res_ncon
-        #     old_res_ks     = res_ks
-        #     old_res_ncon   = res_nconc
+        # print("This is the eqn", eqn)
+        # print("Eqn shape", eqn)
 
-        sys.exit()
-            
-        
+        print("Iter:", iter)
+
+        if self.optInversion["AVOIDLOOP"] is True and iter > 1:
+            print("Have been in 1")
+            older_res_ks   = old_res_ks
+            older_res_ncon = old_res_ncon
+            old_res_ks     = res_ks
+            old_res_ncon   = res_ncon
+
+
+        res_ks   = np.max( np.abs( eqn[:Nelem * np.sum(Nmo)] ) )
+        res_ncon = np.max(np.abs(
+                        eqn[:Nelem + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North]
+                    ))
+        res_Ncon = np.max( np.abs( eqn[:np.sum(Nmo) -1 + Nelem * np.sum(Nmo)]  ) ) 
+        res = max(res_ks, res_ncon)
+        print("Max residual", res)
+
+        if self.optInversion["AVOIDLOOP"] is True and iter > 2:
+            print("Have been in 2")
+            if res      < 1e-6 and \
+               res_ks   > old_res_ks     * 0.1 and \
+               res_ks   < older_res_ks   * 10. and \
+               res_ncon > older_res_ncon * 0.1 and \
+               res_ncon < older_res_ncon * 10.:
+
+                ForceUpdate = True
+            else:
+                ForceUpdate = False
+
+        if self.optInversion["DISP"] is True:
+             print(f"{iter} {res_ks} {res_ncon} {res_Ncon}")
+
+        if res >1e2:
+            print("ERROR too large")
+            finished = True
+
+        if res < self.optInversion["TolInvert"]:
+            finished = True
+
+        elif iter >= self.optInversion["MaxIterInvert"]:
+            finished = True
+            warnings.warn('\n Convergence not reached at maximum iteration')
+
+        else:
+            if res_ncon > res_ks * self.optInversion["ResFactor"] or \
+               res_ks   < self.optInversion["TolInvert"] * 1e2 or    \
+               ForceUpdate == True:
+
+                if self.optInversion["USE_ITERATIVE"] is True:
+                    raise ValueError("Use Iterative is not avaliable right nhow")
+                    tol = self.optInversion["Tolinsolve"]
+                    warnings.warn("Nearly Singular Matrix")
+
+                    A = jac[:np.sum(Nmo) * Nelem, :np.sum(Nmo) * Nelem]
+                    B = jac[:np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem + 1:]
+
+                    M1 = np.concatenate((A, B), axis=1)
+                    M2 = np.concatenate((B.T, eye(B.shape[1])), axis=1)
+                    M = np.concatenate( (M1, M2), axis=0 )
+
+                else:
+                    raise ValueError("This has not been implemented yet")
+                    #Calculate dx
+
+            else:
+                self.vs[:, ispin] = X[np.array(range(Nelem)) + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North, 0]
+                evals = np.concatenate( ( X[ np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem ], np.array(([[0]])) ), axis=0 )
+
+                for it in range(Nsol):
+                    isolver[it].phi = np.reshape( X[ np.array(range(Nmo[it] * Nelem)) + np.sum(Nmo[0:it-1]) * Nelem] , (Nelem, Nmo[it]) , order="F")
+                    isolver[it].eig = evals[:Nmo[it] + np.sum(Nmo[:it-1])]
+
+                for i in isolver:
+                    i.setveff(self.vs[:, ispin])
+                    i.calc_orbitals()
+
+                phi = None
+                evals = None
+
+                for i in isolver:
+                    if phi is None:
+                        phi = i.phi
+                    else:
+                        phi   = np.concatenate( (phi, i.phi),   axis=1)
+
+                    if evals is None:
+                        evals = i.eig
+                    else:
+                        evals = np.concatenate( (evals, i.eig), axis=0)
+
+                print("evals internos", evals)
+
+                X = np.concatenate((phi.flatten("F")[:,None], 
+                                    (evals[:-1] - evals[-1])[:, None], 
+                                    np.zeros((North, 1)), 
+                                    (self.vs[:, ispin]-evals[-1])[:, None]),
+                                    axis=0 )
+
+            if self.optInversion["AB_SYM"] is True:
+                X = ab_symmetrize(X, Nelem, Nmo, North, self)
+
+            X = normalize(X, Nmo, Nelem, WWi, occ)
+
+        if self.optInversion["DISP"] is True:
+            print("\n")
+
+    self.vs[:, ispin] = X[ np.array(range(Nelem)) + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North, 0 ]
+    evals = np.concatenate( ( X[np.array(range(np.sum(Nmo) -1)) + np.sum(Nmo) * Nelem], np.array(([[0]]))), axis=0 )
+
+    print("How many evals do I have", evals)
+
+    for it in range(Nsol):
+        isolver[it].phi = np.reshape( X[ np.array(range(Nmo[it] * Nelem)) + np.sum(Nmo[0:it-1]) * Nelem] , (Nelem, Nmo[it]) , order="F")
+        isolver[it].eig = evals[:Nmo[it] + np.sum(Nmo[:it-1])]
+
+        self.us[ispin] = isolver[it].get_homo()
+
+        isolver[it].calc_density()
+        isolver[it].setveff(self.vs[:, ispin])
+
+    if res > self.optInversion["TolInvert"]:
+        flag = False
+    else:
+        flag = True
+
+    output["iterations"] = iter
+    output["firstorderopt"] = res
+
+    return flag, output
 
 
 
