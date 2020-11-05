@@ -8,6 +8,8 @@ from scipy.sparse.linalg import spsolve
 from scipy.linalg import eig, eigh
 from scipy.sparse.linalg import eigs
 
+import sys
+
 
 def initialguessinvert(self, ispin=1):
 
@@ -62,24 +64,24 @@ def initialguessinvert(self, ispin=1):
         if self.optPartition["AB_SYM"] is True:
             phi = np.hstack((phi, self.grid.mirror( self.KSa.solver[i-1, ispin].phi )))
         else:#Beta Kohn Sham object
-            if len(self.KSb.solver) >= i:
-                phi = self.KSb.solver[i,ispin].phi
+            if len(self.KSb.solver) >= i-1:
+                phi = self.KSb.solver[i-1,ispin].phi
                 if H0 is None:
-                    H0 = self.KSb.solver[i, ispin].H0
+                    H0 = self.KSb.solver[i-1, ispin].H0
                 if m is None:
-                    m = self.KSb.solver[i, ispin].m
+                    m = self.KSb.solver[i-1, ispin].m
 
+        
         S0 = np.diag(phi.T @ W @ Wi @ phi) ** 0.5
         phi = phi / S0
         S = phi.T @ W @ Wi @ phi
         H = spsolve(csc_matrix(W), H0) + csc_matrix(spdiags(v0[:,0], 0, self.grid.Nelem, self.grid.Nelem))
         F = phi.T @ (W @ Wi @ H @ phi)
-        v, ev = eigh(a=F, b=S)
-        v_sorted = np.sort(v.real)
-        if v.all() != v_sorted.all():
-            print("eigenvalues were sorted but eigenfunctions werent")
-        d = v_sorted
-        phi = phi * v_sorted
+        ev, v = eig(a=F, b=S)
+        indx = np.argsort(ev)
+        d = ev[indx].real
+        v = v[:, indx]
+        phi = phi @ v
 
         if self.optPartition["ENS_SPIN_SYM"]:
             if m == 0:
@@ -101,7 +103,7 @@ def initialguessinvert(self, ispin=1):
         n0 += np.sum( phi0**2, axis=1 )[:, None]
 
 
-    phi0 = phi0.flatten(order="F")
+    phi0 = phi0.flatten(order="F")[:, None]
     e0 = d.flatten()
     
     return phi0, e0, v0
