@@ -399,7 +399,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                 evals = None
                 for i in isolver:
                     phi   = i.phi if phi is None else np.concatenate( (phi, i.phi),   axis=1)
-                    evals = i.eig if evals is none else np.concatenate( (evals, i.eig), axis=1)
+                    evals = i.eig if evals is None else np.concatenate( (evals, i.eig), axis=1)
 
                 X = np.concatenate((phi.flatten("F")[:,None], 
                                     (evals[:-1] - evals[-1])[:, None], 

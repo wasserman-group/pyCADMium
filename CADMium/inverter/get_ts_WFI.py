@@ -9,7 +9,9 @@ def get_ts_WFI(self):
     Get kinetic energy density
     """
 
-    ts = np.zeros((self.grid.Nelem, self.pol))
+    
+
+    ts = np.zeros((self.grid.Nelem, len(self.solver[0,:])  ))
 
     if self.optInversion["ENS_SPIN_SYM"] is not True:
 

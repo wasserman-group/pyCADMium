@@ -154,9 +154,14 @@ class Kohnsham():
             for i in range(self.Nmo.shape[0]):     
                 #Calculate Orbital's densities
                 self.solver[i,j].calc_density()
-
                 #Add up orbital's densities
                 nout[:,j] += np.squeeze(self.solver[i,j].n)
+
+        # print("Here come the solvers")
+        # for j in range(self.Nmo.shape[1]):
+        #     for i in range(self.Nmo.shape[0]):
+        #         # print(self.solver[i,j].phi)
+        #         print(self.solver[i,j].eig)
 
         return nout
 

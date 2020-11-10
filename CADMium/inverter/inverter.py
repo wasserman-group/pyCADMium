@@ -4,6 +4,8 @@ inverter.py
 
 import numpy as np
 from .linresponse import linresponse
+from .orbitalinvert import orbitalinvert
+
 from .get_ts_WFI import get_ts_WFI
 from .get_Ts import get_Ts
 # from .linresponse import Ws
@@ -62,8 +64,8 @@ class Inverter():
     def __init__(self, grid, solver, optInversion):
         optInversion["AB_SYM"] = optInversion["AB_SYM"] if "AB_SYM" in optInversion.keys() else False
         optInversion["ENS_SPIN_SYM"] = optInversion["ENS_SPIN_SYM"] if "ENS_SPIN_SYM" in optInversion.keys() else False
-        optInversion["USE_ITERATIVER"] = optInversion["USE_ITERATIVE"] if "USE_ITERATIVE" in optInversion.keys() else False
-        optInversion["VERBOSE"] = optInversion["VERBOSE"] if "VERBOSE" in optInversion.keys() else False
+        optInversion["USE_ITERATIVE"] = optInversion["USE_ITERATIVE"] if "USE_ITERATIVE" in optInversion.keys() else False
+        optInversion["DISP"] = optInversion["DISP"] if "DISP" in optInversion.keys() else False
         
         optInversion["AVOIDLOOP"] = optInversion["AVOIDLOOP"] if "AVOIDLOOP" in optInversion.keys() else False
 
@@ -131,6 +133,10 @@ class Inverter():
     def get_ts_WFI(self):
         ts = get_ts_WFI(self)
         return ts
+
+    def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
+        flag, output = orbitalinvert(self, n0, vs0, phi0, e0, ispin)
+        return flag, output
 
     #Inversion methods
     def linresponse(self, n0, vs0, ispin):

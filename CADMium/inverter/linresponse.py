@@ -57,12 +57,15 @@ def linresponse(self, n0, vs0=None):
     self.us = np.zeros((1, pol))
     flag   = np.empty_like(self.solver, dtype=object)
     output = np.empty_like(self.solver, dtype=object)
-
+    
     if self.optInversion["ENS_SPIN_SYM"] is True:
         #Invert density n0 to find vs
         #Preallocation
         #B is the inverse of n0 in main diagonal
+
+
         B = spdiags( 1./n0[:,0],0, Nelem, Nelem)
+
         self.B = B
 
         self.solver[0,0].hamiltonian()
@@ -91,7 +94,8 @@ def linresponse(self, n0, vs0=None):
         for i in range(pol):
             #Invert density n0 to find vs
             #Preallocation
-            B = spdiags(1./n0[:, i], 0, Nelem, Nelem)
+
+            B = spdiags( 1./n0[:,i], 0, Nelem, Nelem)
             self.B = B
             self.solver[0,i].hamiltonian()
             self.solver[0,i].e0 = -20
