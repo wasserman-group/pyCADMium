@@ -103,8 +103,12 @@ def initialguessinvert(self, ispin=1):
         n0 += np.sum( phi0**2, axis=1 )[:, None]
 
 
+    # print("Energies", d.flatten())
+    # print("Phi\n", phi0)
+
     phi0 = phi0.flatten(order="F")[:, None]
     e0 = d.flatten()
+
     
     return phi0, e0, v0
 

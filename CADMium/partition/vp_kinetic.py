@@ -3,6 +3,7 @@ vp_kinetic.py
 """
 
 import numpy as np
+import sys
 
 def vp_kinetic(self):
     """
@@ -37,7 +38,6 @@ def vp_kinetic(self):
 
 
     elif self.optPartition["kinetic_part_type"] == "inversion":
-
         #Find kinetic energy fucntional derivative for fragmetns using Euler equation
         #Fragments using euler equations
         # u = max(self.KSa.u, self.KSb.u)

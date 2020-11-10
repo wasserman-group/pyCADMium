@@ -32,10 +32,6 @@ def calc_ked_WFI(self):
 
     #Construct density
     for i in range(int(Nocc)):
-        # print("phi from pssolver", self.phi)
-        # print("phi subset", self.phi[:,i])
-        # print("integrate returns", self.grid.integrate( self.phi[:,i]**2 )**0.5)
-
         #Normalized orbital
         phi_norm = self.phi[:,i] / self.grid.integrate( self.phi[:,i]**2 )**0.5
         phi_norm = phi_norm[:, None]

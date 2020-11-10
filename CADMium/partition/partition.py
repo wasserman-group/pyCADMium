@@ -317,11 +317,12 @@ class Partition():
         self.KSa.Q = self.KSa.scale * self.KSa.n / self.nf
         self.KSb.Q = self.KSb.scale * self.KSb.n / self.nf
 
-        for i in range(len(self.KSa.Q)):
-            if np.isnan(self.KSa.Q[i]) is True:
-                self.KSa.Q[i] = 0
-            if np.isnan(self.KSb.Q[i]) is True:
-                self.KSb.Q[i] = 0
+        for i in range(self.KSa.Q.shape[0]):
+            for j in range(self.KSa.Q.shape[1]):
+                if np.isnan(self.KSa.Q[i,j]):
+                    self.KSa.Q[i,j] = 0.0
+                if np.isnan(self.KSb.Q[i,j]):
+                    self.KSb.Q[i,j] = 0.0
 
     def vp_nuclear(self):
         vp_nuclear(self)
@@ -358,8 +359,8 @@ class Partition():
         phi0, e0, vs0 = initialguessinvert(self, ispin)
         return phi0, e0, vs0
 
-    def scf(self):
-        scf(self, optPartition=self.optPartition)
+    def scf(self, isolated=False, cont=False):
+        scf(self, optPartition=self.optPartition, isolated=isolated, cont=cont)
 
     # def Ws(self):
     #     grad, Jac = Ws(self, vs)

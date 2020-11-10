@@ -72,7 +72,7 @@ class i_solver():
         self.eig = None
         
         #Estimate of lowest energy value
-        self.e0 = None
+        self.e0 = -20
         
         #KohnSham energy
         self.eks = None
@@ -99,7 +99,7 @@ class i_solver():
         self.TOL_IN_SOLVER = 1e-4
         self.tol = eps
         self.v0 = np.ones(self.grid.Nelem)
-        self.default_e0 = -20.0
+        # self.default_e0 = -20.0
 
         self.opt = {"tol" : 1e-16, "v0":np.ones((self.grid.Nelem, 1))}
 
@@ -184,4 +184,5 @@ class i_solver():
         Size of Potential array should match polarization
         Assert solver(0).pol == len(veff, 1)
         """
+
         self.veff = veff

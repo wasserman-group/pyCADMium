@@ -10,6 +10,7 @@ from numpy.linalg import norm
 from numpy import spacing
 import numpy as np
 
+import sys
 
 def calc_orbitals(self):
     """
@@ -67,6 +68,6 @@ def calc_orbitals(self):
                 else:
 
                     self.phi[:, i] = self.phi[:, i] - self.grid.mirror(self.phi[:,i])
-    
+
     else:
         self.eig = -1 / spacing(1)
