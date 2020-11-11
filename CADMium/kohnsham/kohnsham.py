@@ -2,6 +2,8 @@
 kohnsham.py
 """
 
+from multiprocessing import Process, Manager, current_process
+
 import numpy as np
 
 from .scf import scf
@@ -142,13 +144,34 @@ class Kohnsham():
         #Calculate new densities      
         nout = np.zeros((self.grid.Nelem, self.pol))  
 
+        processes   = []
+        manager     = Manager()
+        eig_results = manager.dict() 
+
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):
                 if ITERATIVE is True and dif < starttol:
-                    self.solver[i,j].iter_orbitals()
+                    process = Process(target=self.solver[i,j].iter_orbitals,
+                                       args=((i,j), eig_results))  
+                    processes.append(process)
+                    process.start()
+                    #self.solver[i,j].iter_orbitals()
                 else:
-                    self.solver[i,j].calc_orbitals()
+                    process = Process(target=self.solver[i,j].calc_orbitals, 
+                                      args=((i,j), eig_results)) 
+                    processes.append(process)
+                    process.start()
+                    #self.solver[i,j].calc_orbitals()
 
+        #Wait for all processes to end
+        for process in processes:
+            process.join()
+
+        #Give each solvers their results
+        for j in range(self.Nmo.shape[1]):
+            for i in range(self.Nmo.shape[0]):
+                self.solver[i,j].eig = eig_results[(i,j)][0]
+                self.solver[i,j].phi = eig_results[(i,j)][1]
 
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):     
@@ -156,12 +179,6 @@ class Kohnsham():
                 self.solver[i,j].calc_density()
                 #Add up orbital's densities
                 nout[:,j] += np.squeeze(self.solver[i,j].n)
-
-        # print("Here come the solvers")
-        # for j in range(self.Nmo.shape[1]):
-        #     for i in range(self.Nmo.shape[0]):
-        #         # print(self.solver[i,j].phi)
-        #         print(self.solver[i,j].eig)
 
         return nout
 

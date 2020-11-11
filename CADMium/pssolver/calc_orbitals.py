@@ -12,7 +12,7 @@ import numpy as np
 
 import sys
 
-def calc_orbitals(self):
+def calc_orbitals(self, solver_id, return_dict):
     """
     calculate molecular orbitals and eigenvalues
     """
@@ -71,3 +71,6 @@ def calc_orbitals(self):
 
     else:
         self.eig = -1 / spacing(1)
+
+
+    return_dict[solver_id] = [self.eig, self.phi] 

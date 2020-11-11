@@ -140,14 +140,14 @@ class i_solver():
             oT = -0.5 * self.grid.olap
             self.H0 = oT + self.m ** 2 * W @ f 
 
-    def calc_orbitals(self):
-        calc_orbitals(self)
+    def calc_orbitals(self, solver_id, return_dict):
+        calc_orbitals(self, solver_id, return_dict)
 
     def calc_response(self):
         calc_response(self)
 
-    def iter_orbitals(self):
-        iter_orbitals(self)
+    def iter_orbitals(self, solver_id, return_dict):
+        iter_orbitals(self, solver_id, return_dict)
 
     def normalize_orbitals(self):
         normalize_orbitals(self)

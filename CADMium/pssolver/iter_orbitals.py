@@ -13,7 +13,7 @@ from scipy.sparse.linalg import spsolve
 from scipy.sparse.linalg import LinearOperator
 
 
-def iter_orbitals(self):
+def iter_orbitals(self, solver_id, return_dict):
     """
     Update molecular orbitals and eigenvalues iteratively
     """
@@ -59,3 +59,5 @@ def iter_orbitals(self):
         
     else:
         self.eig = -1 / np.spacing(1)
+
+    return_dict[solver_id] = [self.eig, self.phi] 
