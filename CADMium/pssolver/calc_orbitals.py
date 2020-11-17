@@ -72,5 +72,5 @@ def calc_orbitals(self, solver_id, return_dict):
     else:
         self.eig = -1 / spacing(1)
 
-
-    return_dict[solver_id] = [self.eig, self.phi] 
+    if return_dict is not None:
+        return_dict[solver_id] = [self.eig, self.phi] 

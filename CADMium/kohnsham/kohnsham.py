@@ -23,14 +23,14 @@ class Kohnsham():
     Handles a standard kohn sham calculation
     """
 
-    def __init__(self, grid, Za, Zb, pol, Nmo, N, optKS):
+    def __init__(self, grid, Za, Zb, pol, Nmo, N, optKS={}):
 
         optKS["interaction_type"] = optKS["interaction_type"] if "interaction_type" in optKS.keys() else "dft"
-        optKS["SYM"] = optKS["SYM"] if "SYM" in optKS.keys() else False
-        optKS["FRACTIONAL"] = optKS["FRACTIONAL"] if "FRACTIONAL" in optKS.keys() else False
-        optKS["x_func_id"] = optKS["x_func_id"] if "x_func_id" in optKS.keys() else 1
-        optKS["c_func_id"] = optKS["c_func_id"] if "c_func_id" in optKS.keys() else 12
-        optKS["xc_family"] = optKS["xc_family"] if "xc_family" in optKS.keys() else "lda"
+        optKS["SYM"]              = optKS["SYM"] if "SYM" in optKS.keys() else False
+        optKS["FRACTIONAL"]       = optKS["FRACTIONAL"] if "FRACTIONAL" in optKS.keys() else False
+        optKS["x_func_id"]        = optKS["x_func_id"] if "x_func_id" in optKS.keys() else 1
+        optKS["c_func_id"]        = optKS["c_func_id"] if "c_func_id" in optKS.keys() else 12
+        optKS["xc_family"]        = optKS["xc_family"] if "xc_family" in optKS.keys() else "lda"
 
         #Options
         self.optKS = optKS
@@ -145,8 +145,8 @@ class Kohnsham():
         nout = np.zeros((self.grid.Nelem, self.pol))  
 
         processes   = []
-        manager     = Manager()
-        eig_results = manager.dict() 
+
+
 
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):
@@ -155,19 +155,17 @@ class Kohnsham():
                                        args=((i,j), eig_results))  
                     processes.append(process)
                     process.start()
-                    #self.solver[i,j].iter_orbitals()
                 else:
-                    process = Process(target=self.solver[i,j].calc_orbitals, 
+                    process = Process(target=self.solver[i,j].calc_orbitals,
                                       args=((i,j), eig_results)) 
                     processes.append(process)
                     process.start()
-                    #self.solver[i,j].calc_orbitals()
 
         #Wait for all processes to end
         for process in processes:
             process.join()
 
-        #Give each solvers their results
+        # #Give each solvers their results
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):
                 self.solver[i,j].eig = eig_results[(i,j)][0]
@@ -202,7 +200,6 @@ class Kohnsham():
                 self.E.Vks[0,j] += self.solver[i,j].Vs
 
                 np.append(self.E.evals, self.solver[i,j])
-                #np.append(self.E.evals, self.solver[i,1])
 
         if self.optKS["interaction_type"] == 'ni':
             self.E.Vnuc = self.grid.integrate(np.sum(self.n * self.vnuc, axis=1))

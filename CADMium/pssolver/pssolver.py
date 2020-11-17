@@ -19,7 +19,6 @@ from .get_ked_WFI import get_ked_WFI
 
 eps = np.finfo(float).eps
 
-
 def Pssolver(grid, Nmo, N,
              FRACTIONAL = False, 
              SYM        = False):
@@ -140,13 +139,13 @@ class i_solver():
             oT = -0.5 * self.grid.olap
             self.H0 = oT + self.m ** 2 * W @ f 
 
-    def calc_orbitals(self, solver_id, return_dict):
+    def calc_orbitals(self, solver_id=None, return_dict=None):
         calc_orbitals(self, solver_id, return_dict)
 
     def calc_response(self):
         calc_response(self)
 
-    def iter_orbitals(self, solver_id, return_dict):
+    def iter_orbitals(self, solver_id=None, return_dict=None):
         iter_orbitals(self, solver_id, return_dict)
 
     def normalize_orbitals(self):
