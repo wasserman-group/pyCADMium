@@ -37,7 +37,7 @@ def linresponse(self, n0, vs0=None):
     wuyang like inversion of the density with response
     """
 
-    n0 = n0[:, None]
+    n0 = n0[:, None] if len(n0.shape) == 1 else n0
     pol   = n0.shape[1] if len(n0.shape) > 1 else 1
     self.pol = pol
     self.n0  = n0
@@ -62,8 +62,6 @@ def linresponse(self, n0, vs0=None):
         #Invert density n0 to find vs
         #Preallocation
         #B is the inverse of n0 in main diagonal
-
-
         B = spdiags( 1./n0[:,0],0, Nelem, Nelem)
 
         self.B = B
@@ -106,9 +104,11 @@ def linresponse(self, n0, vs0=None):
                                     method = "trf", 
                                     args   = (i,))
 
+
             self.vs[:,i] = res_lsq.x
             self.us[i]   = self.solver[0,i].get_homo()
             flag[0,i] = res_lsq.status
+
             output[0,i] = res_lsq
 
     return flag, output

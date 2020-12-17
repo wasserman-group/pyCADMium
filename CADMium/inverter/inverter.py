@@ -3,8 +3,11 @@ inverter.py
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+
 from .linresponse import linresponse
 from .orbitalinvert import orbitalinvert
+from .simple import simple
 
 from .get_ts_WFI import get_ts_WFI
 from .get_Ts import get_Ts
@@ -72,7 +75,7 @@ class Inverter():
         optInversion["invert_type"] = optInversion["invert_type"] if "invert_type" in optInversion.keys() else "wuyang"
         optInversion["Kval"] = optInversion["Kval"] if "Kval" in optInversion.keys() else -1e-12
         optInversion["TolLinsolve"] = optInversion["TolLinsolve"] if "TolLinsolve" in optInversion.keys() else 1e-2
-        optInversion["TolInvert"] = optInversion["TolInvert"] if "TolInvert" in optInversion.keys() else 1e-12
+        optInversion["TolInvert"] = optInversion["TolInvert"] if "TolInvert" in optInversion.keys() else 1e-15
         optInversion["MaxIterLinsolve"] = optInversion["MaxIterLinsolve"] if "MaxIterLinsolve" in optInversion.keys() else 2000
         optInversion["MaxIterInvert"] = optInversion["MaxIterInvert"] if "MaxIterInvert" in optInversion.keys() else 20
         optInversion["ResFactor"] = optInversion["ResFactor"] if "ResFactor" in optInversion.keys() else 1e0
@@ -101,7 +104,7 @@ class Inverter():
             flag, output = self.linresponse(n0, vs0, ispin)
 
         elif self.optInversion["invert_type"] == "simple":
-            self.simple(n0, vs0, ispin)
+            flag, output = self.simple(n0, vs0, ispin)
 
         elif self.optInversion["invert_type"] == "orbitalinvert":
             flag, output = self.orbitalinvert(n0, vs0, phi0, e0, ispin)
@@ -134,22 +137,32 @@ class Inverter():
         ts = get_ts_WFI(self)
         return ts
 
+    def simple(self, n0, vs0, ispin):
+        flag, output = simple(self, n0, vs0, ispin)
+        return flag, output
+
     def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         flag, output = orbitalinvert(self, n0, vs0, phi0, e0, ispin)
         return flag, output
 
     #Inversion methods
     def linresponse(self, n0, vs0, ispin):
-        flag, output = linresponse(self, n0, vs0)
+        flag, output = linresponse(self, n0, vs0, )
         return flag, output
 
     def Ws(self, vs, spin):
         """
         Calculates G for a given potential
         """
-
         if self.optInversion["AB_SYM"] is True:
             vs = 0.5 * (vs + self.grid.mirror(vs))
+
+        # fig = plt.figure()
+        # x,y = self.grid.axis_plot(vs)
+        # plt.plot(x,y)
+        # # plt.xlim(-7,7)
+        # # plt.ylim(-5,5)
+        # plt.show()
 
         #Transfer new potentials to solver objects and calculate new densities
         self.solver[0,spin].setveff(vs)
@@ -166,9 +179,21 @@ class Inverter():
         if self.optInversion["AB_SYM"] is True:
             n = 0.5 * (n + self.grid.mirror(n))
 
+        if np.isnan(self.vs).any():
+            print("vs is nan")
+        if np.isinf(self.vs).any():
+            print("vs is inf")
+
         #Calculate error function
-        grad = np.vstack( ( self.B @ (n-self.n0), self.vs[self.Nelem-1] ) )
+        grad = np.vstack( ( self.B @ (n-self.n0[:, spin][:,None]), self.vs[self.Nelem-1, spin] ) )
         grad = np.squeeze(grad)
+
+        if np.isnan(grad).any() is True:
+            print("Grad is nan")
+        if np.isinf(grad).any() is True:
+            print("Grad is inf")
+
+        # print("max grad", np.linalg.norm(grad))
 
         return grad
 
@@ -177,6 +202,7 @@ class Inverter():
         Calculates Jacobian for a given vs
         """
 
+
         #Calculate jacobian of error function.
         Jac = np.vstack( ( self.B @ self.solver[0,spin].chi, np.zeros((1, self.Nelem)) ) )
         Jac = np.asarray(Jac)
@@ -184,5 +210,10 @@ class Inverter():
 
         if self.optInversion["AB_SYM"] is True:
             Jac[-1,:] = 0.5 * (Jac[-1,:] + self.grid.mirror(Jac[-1,:]))
+
+        if np.isnan(Jac).any():
+            print("Jac is nan")
+        if np.isinf(Jac).any():
+            print("Jac is inf")
 
         return Jac

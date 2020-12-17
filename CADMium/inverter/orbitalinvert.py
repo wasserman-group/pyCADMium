@@ -97,6 +97,10 @@ def kmatrix(x, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j):
     Hjac = H + spdiags( vse.flatten('F'), 0 ,np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem  )
     Ocon = np.zeros((North, 1))
 
+    # print("Hjac", Hjac)
+
+    print("multiplied by x\n", x[ np.array(range(np.sum(Nmo) * Nelem)) ])
+
     if North == 0:
         B4 = np.zeros((np.sum(Nmo) * Nelem, 1))
     else:
@@ -251,6 +255,18 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                          vs0 - e0[np.sum(Nmo)-1]
                         ))
 
+        # print("vso - energy part of x\n")
+        # print( vs0 - e0[np.sum(Nmo)-1] )
+
+        print("Is my initial guess correct?")
+        print("one\n", phi0[:np.sum(Nmo) * Nelem])
+        print("two\n", (e0[:np.sum(Nmo)-1] - e0[-1])[:, None])
+        print("thr\n", np.zeros((North, 1)))
+        print("fou\n", vs0 - e0[np.sum(Nmo)-1])
+
+        print("The last part of phi is incorrect!!")
+
+
     else:
         phi   = -1.0 * isolver[0].phi
         evals = isolver[0].eig
@@ -269,6 +285,22 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     if self.optInversion["AB_SYM"] is True:
         X = ab_symmetrize(X, Nelem, Nmo, North, self)
     X = normalize(X, Nmo, Nelem, WWi, occ)
+
+    print("shapes of inside X")
+    print("shape x", X.shape)
+    print("shape 0", phi0[:np.sum(Nmo) * Nelem].shape )
+    print("shape 1", (e0[:np.sum(Nmo)-1] - e0[-1])[:, None].shape )
+    print("shape 2", np.zeros((North, 1)).shape )
+    print("shape 3", (vs0 - e0[np.sum(Nmo)-1]).shape )
+
+    print("Some signs are incorrect after this")
+    print("X after symmetrize and normalize\n")
+
+    print("X subset\n", X[32:])
+
+    print("\n",X)
+
+    sys.exit()
 
     if self.optInversion["DISP"] is True:
         print('      iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve\n');
@@ -377,6 +409,10 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
 
                 else:
                     dX = - 1.0 * np.linalg.solve(jac, eqn)
+                    print("Im equation")
+                    print(eqn)
+
+                    sys.exit()
 
                 #Add dX to X
                 dv = dX[ np.array(range( Nelem )) + np.sum(Nmo) * Nelem + np.sum(Nmo) -1 + North ]

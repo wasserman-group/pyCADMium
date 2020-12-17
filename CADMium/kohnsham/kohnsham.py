@@ -2,6 +2,7 @@
 kohnsham.py
 """
 
+from dataclasses import dataclass
 from multiprocessing import Process, Manager, current_process
 
 import numpy as np
@@ -12,11 +13,34 @@ from ..libxc.libxc import Libxc
 from ..hartree.hartree import Hartree
 from ..pssolver.pssolver import Pssolver
 
+@dataclass
 class V:
     pass
 
+@dataclass
 class E:
-    pass
+    E  : float
+    Ec : float
+    Ex : float
+    Eks: np.ndarray
+    Vks: np.ndarray
+
+    # def __name__():
+    #      for attr in dir(E):
+    #         if not attr.startswith("__") and attr != "values":
+    #             print(f"{attr} = {getattr(E, attr)}")
+
+    # def __str__():
+    #      for attr in dir(E):
+    #         if not attr.startswith("__") and attr != "values":
+    #             print(f"{attr} = {getattr(E, attr)}")
+
+
+    # def values():
+    #     for attr in dir(E):
+    #         if not attr.startswith("__") and attr != "values":
+    #             print(f"{attr} = {getattr(E, attr)}")
+    # pass
 
 class Kohnsham():
     """
@@ -136,6 +160,14 @@ class Kohnsham():
             for i in range(self.Nmo.shape[0]):
                 self.solver[i,j].setveff(self.veff[:,j])
 
+    def set_veff_external(self, veff):
+        """
+        Sets user defined veff to solvers
+        """
+        for j in range(self.Nmo.shape[1]):
+            for i in range(self.Nmo.shape[0]):
+                self.solver[i,j].setveff(self.veff[:,j])
+
     def calc_density(self, ITERATIVE=False, dif=0.0):
         #Removed setting Iterative False if only one argument is given
 
@@ -145,8 +177,8 @@ class Kohnsham():
         nout = np.zeros((self.grid.Nelem, self.pol))  
 
         processes   = []
-
-
+        manager     = Manager()
+        eig_results = manager.dict() 
 
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):

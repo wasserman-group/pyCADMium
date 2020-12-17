@@ -4,7 +4,7 @@ scf.py
 
 import numpy as np
 
-def scf(self, optKS):
+def scf(self, optKS={}):
     """
     SCF method to handle self consistent field calculations
     """
