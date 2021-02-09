@@ -36,6 +36,8 @@ def calc_orbitals(self, solver_id, return_dict):
         #Construct Hamiltonian
         H = self.H0 + Veff
 
+        self.veff = Veff
+
         #Solve eigenvalue problem
         self.eig, self.phi = eigs(spsolve(W, H), k=self.Nmo, sigma=self.e0, v0=self.opt["v0"])
         self.eig = self.eig.real
@@ -45,8 +47,14 @@ def calc_orbitals(self, solver_id, return_dict):
         while np.isnan(self.phi).all() != np.zeros_like(self.phi).all():
             e0 = e0 - 0.1
             self.eig, self.phi = eigs(spsolve(W, H), k=self.Nmo, sigma=e0, v0=self.opt["v0"])
-            self.eig = self.eig.real
-            self.phi = self.phi.real
+            eig = self.eig.real
+            phi = self.phi.real
+
+            #Ordering Orbitals. 
+            indx = eig.argsort()
+            self.eig = eig[indx]
+            self.phi = phi[:,indx] 
+
 
         #Check for degenerate and nearly degenerate orbitals
         for i in range(self.Nmo-1):
