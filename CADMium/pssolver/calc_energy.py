@@ -48,7 +48,13 @@ def calc_energy(self):
             self.eks = 2 * self.eks
 
     #Calculate potential energy of Kohn Sham 
+
+    # print("veff shape", self.veff.shape)
+    # print("n shape", self.n.shape)
+
+
     self.calc_density()
+    #self.Vs = self.grid.integrate((self.veff[None].T * self.n)[:,0])
     self.Vs = self.grid.integrate((self.veff[None].T * self.n)[:,0])
     self.Ts = self.eks - self.Vs
 

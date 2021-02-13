@@ -25,23 +25,6 @@ class E:
     Eks: np.ndarray
     Vks: np.ndarray
 
-    # def __name__():
-    #      for attr in dir(E):
-    #         if not attr.startswith("__") and attr != "values":
-    #             print(f"{attr} = {getattr(E, attr)}")
-
-    # def __str__():
-    #      for attr in dir(E):
-    #         if not attr.startswith("__") and attr != "values":
-    #             print(f"{attr} = {getattr(E, attr)}")
-
-
-    # def values():
-    #     for attr in dir(E):
-    #         if not attr.startswith("__") and attr != "values":
-    #             print(f"{attr} = {getattr(E, attr)}")
-    # pass
-
 class Kohnsham():
     """
     Handles a standard kohn sham calculation
@@ -55,6 +38,7 @@ class Kohnsham():
         optKS["x_func_id"]        = optKS["x_func_id"] if "x_func_id" in optKS.keys() else 1
         optKS["c_func_id"]        = optKS["c_func_id"] if "c_func_id" in optKS.keys() else 12
         optKS["xc_family"]        = optKS["xc_family"] if "xc_family" in optKS.keys() else "lda"
+
 
         #Options
         self.optKS = optKS
@@ -155,6 +139,7 @@ class Kohnsham():
         """
         Sets new effective potential
         """
+
         self.veff = self.vnuc + self.vext + self.vhxc
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):

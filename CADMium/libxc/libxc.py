@@ -43,19 +43,11 @@ class Libxc():
         epsilon = xc_dictionary["zk"]
         exc = self.grid.integrate(np.sum(epsilon.copy() * n, axis=1))
 
-
-        # print("shape of sum", np.sum(n, axis=1).shape)
-        # print("shape of epsilon", epsilon.shape)
-
-        
-        #exc = self.grid.integrate( np.sum(n, axis=1) * epsilon[:,0] )
-
         #Calculate e_xc
         if self.xc_family == 'lda':
             vxc = xc_dictionary['vrho']        
 
         if self.xc_family == 'gga':
-            print("I am calculating gga")
             vxc = xc_dictionary['vrho']
             vsigma = xc_dictionary['vsigma']
 

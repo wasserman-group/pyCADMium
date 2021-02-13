@@ -11,7 +11,7 @@ from scipy.sparse.linalg import eigs
 import sys
 
 
-def initialguessinvert(self, ispin=1):
+def initialguessinvert(self, ispin=0):
 
     v0 = np.zeros(( self.grid.Nelem, 1 ))
     n0 = np.zeros(( self.grid.Nelem, 1 ))
@@ -70,7 +70,6 @@ def initialguessinvert(self, ispin=1):
                     H0 = self.KSb.solver[i-1, ispin].H0
                 if m is None:
                     m = self.KSb.solver[i-1, ispin].m
-
         
         S0 = np.diag(phi.T @ W @ Wi @ phi) ** 0.5
         phi = phi / S0
@@ -81,7 +80,12 @@ def initialguessinvert(self, ispin=1):
         indx = np.argsort(ev)
         d = ev[indx].real
         v = v[:, indx]
+
+        # print("Phi before multiplication by v\n", phi)
+
         phi = phi @ v
+
+        # print("Phi before normaliation\n", phi)
 
         if self.optPartition["ENS_SPIN_SYM"]:
             if m == 0:
@@ -102,13 +106,8 @@ def initialguessinvert(self, ispin=1):
         Ts += Eks - self.grid.integrate( np.sum(phi0**2, axis=1) * np.squeeze(v0) )
         n0 += np.sum( phi0**2, axis=1 )[:, None]
 
-
-    # print("Energies", d.flatten())
-    # print("Phi\n", phi0)
-
     phi0 = phi0.flatten(order="F")[:, None]
     e0 = d.flatten()
-
     
     return phi0, e0, v0
 

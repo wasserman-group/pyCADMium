@@ -36,8 +36,6 @@ def calc_orbitals(self, solver_id, return_dict):
         #Construct Hamiltonian
         H = self.H0 + Veff
 
-        self.veff = Veff
-
         #Solve eigenvalue problem
         eig, phi = eigs(spsolve(W, H), k=self.Nmo, sigma=self.e0, v0=self.opt["v0"])
         eig = eig.real

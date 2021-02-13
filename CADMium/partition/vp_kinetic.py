@@ -15,7 +15,7 @@ def vp_kinetic(self):
 
         #Use the von-weizacker inversion
         #May break if only one density 
-        self.V.vt = (-0.5 * self.grid.elap @ (self.nf**0.5)) / (self.nf**0.5) / (self.grid.w)
+        self.V.vt = (-0.5 * self.grid.elap @ (self.nf**0.5)) / (self.nf**0.5) / (self.grid.w * np.ones_like(self.nf).T).T
 
         #Evaluate kinetic energy for integer ocupations
         #Densities
@@ -23,7 +23,7 @@ def vp_kinetic(self):
         self.KSa.V.vt = (-0.5 * self.grid.elap @ (self.KSa.n**0.5)) / (self.KSa.n**0.5) / (self.grid.w)
         self.KSb.V.vt = (-0.5 * self.grid.elap @ (self.KSb.n**0.5)) / (self.KSb.n**0.5) / (self.grid.w)
 
-        for i in range(self.KSa.V.vt):
+        for i in range(len(self.KSa.V.vt)):
             if np.isnan(self.KSa.V.vt[i]) is True:
                 self.KSa.V.vt[i] = 0.0
             if np.isnan(self.KSb.V.vt[i]) is True:

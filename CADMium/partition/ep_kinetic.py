@@ -19,7 +19,7 @@ def ep_kinetic(self):
               * (0.5 * self.grid.elap @ np.sum(self.nf, axis=1)**0.5))
 
         tsm =   (np.sum(self.nf, axis=1)**(-0.5)) / self.grid.w \
-              * (-0.5 * sefl.grid.elap @ np.sum(self.nf, axis=1)**0.5 )
+              * (-0.5 * self.grid.elap @ np.sum(self.nf, axis=1)**0.5 )
 
 
         #Evaluate kinetic energy for integer ocupation 

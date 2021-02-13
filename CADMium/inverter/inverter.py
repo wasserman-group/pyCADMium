@@ -4,6 +4,8 @@ inverter.py
 
 import numpy as np
 
+import sys
+
 from .linresponse import linresponse
 from .orbitalinvert import orbitalinvert
 from .simple import simple

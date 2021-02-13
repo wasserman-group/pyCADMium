@@ -32,8 +32,7 @@ def energy(self):
             Eha   += i_KS.scale * i_KS.E.Eh
             Vhxca += i_KS.scale * i_KS.E.Vhxc
 
-    if self.optPartition["AB_SYM"] is not True:
-
+    if not self.optPartition["AB_SYM"]:
         Tsb       = 0.0
         Eksb      = 0.0
         Enucb     = 0.0
@@ -60,16 +59,16 @@ def energy(self):
 
     else:
 
-        Tsb       = Tsa
-        Eksb      = Eksa
-        Enucb     = Enuca
-        Exb       = Exa
-        Ecb       = Eca
-        Ehb       = Eha
-        Vhxcb     = Vhxca
-        self.E.Eb = self.E.Ea
+        Tsb       = Tsa.copy()
+        Eksb      = Eksa.copy()
+        Enucb     = Enuca.copy()
+        Exb       = Exa.copy()
+        Ecb       = Eca.copy()
+        Ehb       = Eha.copy()
+        Vhxcb     = Vhxca.copy()
+        self.E.Eb = self.E.Ea.copy()    
 
-    if self.optPartition["ENS_SPIN_SYM"] is True:
+    if self.optPartition["ENS_SPIN_SYM"]:
         #We double the fragment energies to account
         #for the spin flipped components
 

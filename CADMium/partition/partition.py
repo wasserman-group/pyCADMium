@@ -232,9 +232,11 @@ class Partition():
         self.calc_scale_factors()
 
         if self.optPartition["kinetic_part_type"] == "libxcke":
-            self.kinetic = Libxc(self.grid, self.k_family, self.ke_func_id)
+            self.kinetic = Libxc(self.grid, self.optPartition["k_family"], self.optPartition["ke_func_id"])
         elif self.optPartition["kinetic_part_type"] == "paramke":
-            self.kinetic = Paramke(self.grid, self.k_family, self.ke_func_id, self.ke_param)
+            self.kinetic = Paramke(self.grid, self.optPartition["k_family"], 
+                                              self.optPartition["ke_func_id"], 
+                                              self.optPartition["ke_param"])
         
         self.calc_nuclear_potential()
 

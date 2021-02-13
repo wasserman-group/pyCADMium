@@ -5,7 +5,7 @@ scf.py
 import numpy as np
 import sys
 
-def scf(self, optPartition, isolated, cont):
+def scf(self, optPartition={}, isolated=False, cont=False):
     """
     SCF method to handle self consistent field calculations
     """
@@ -18,6 +18,7 @@ def scf(self, optPartition, isolated, cont):
     optPartition["DISP"] = optPartition["DISP"] if "DISP" in optPartition.keys() else False
     #optPartition["CONTINUE"] = optPartition["CONTINUE"] if "CONTINUE" in optPartition.keys() else False
     optPartition["CONTINUE"] = cont
+    optPartition["from_target_density"] = optPartition["from_target_density"] if "from target_density" in optPartition.keys() else False 
     optPartition["ITERATIVE"] = optPartition["ITERATIVE"] if "ITERATIVE" in optPartition.keys() else True
     optPartition["ISOLATED"] = isolated
     optPartition["AutoTol"] = optPartition["AutoTol"] if "Autotol" in optPartition.keys() else False
@@ -62,8 +63,6 @@ def scf(self, optPartition, isolated, cont):
     else:
         KSab = [self.KSa, self.KSb]
 
-
-
     for i_KS in KSab:
         if self.optPartition["CONTINUE"] is True:
             #If we are continuiing a calculation, check that we have an input density
@@ -84,7 +83,8 @@ def scf(self, optPartition, isolated, cont):
         self.mirrorAB()
 
     #Form protomolecule and calculate Q-functions
-    self.calc_protomolecule()
+    if not optPartition["from_target_density"]: 
+        self.calc_protomolecule()
     self.calc_Q()
 
     #Start up the scf loop
@@ -163,7 +163,8 @@ def scf(self, optPartition, isolated, cont):
             self.mirrorAB()
 
         #Form promolecule and calculate q functions
-        self.calc_protomolecule()
+        if not optPartition["from_target_density"]: 
+            self.calc_protomolecule()
         self.calc_Q()
         self.energy()
 
@@ -223,8 +224,6 @@ def scf(self, optPartition, isolated, cont):
     else:
         flag = False
 
-    for i_KS in KSab:
-        delattr(i_KS.V, "frozen") 
 
 
 
