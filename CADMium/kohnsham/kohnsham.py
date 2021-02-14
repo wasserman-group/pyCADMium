@@ -2,7 +2,6 @@
 kohnsham.py
 """
 
-import argparse
 from dataclasses import dataclass
 from multiprocessing import Process, Manager, current_process
 from pydantic import validator, BaseModel
@@ -56,8 +55,8 @@ class Kohnsham():
     def __init__(self, grid, Za, Zb, pol, Nmo, N, optKS={}):
 
         #Validate options
+        optKS =  {k.lower(): v for k, v in optKS.items()}
         for i in optKS.keys():
-            i = i.lower()
             if i not in KohnShamOptions().dict().keys():
                 raise ValueError(f"{i} is not a valid option for KohnSham")
         optKS = KohnShamOptions(**optKS)
@@ -113,7 +112,7 @@ class Kohnsham():
         #Libxc/Hartree handles for fragment calculations
         if optKS.interaction_type == 'dft':
             self.exchange = Libxc(self.grid, optKS.xc_family, optKS.xfunc_id)
-            self.correlation = Libxc(self.grid, optKS.xc_family, self.optKS.cfunc_id)
+            self.correlation = Libxc(self.grid, optKS.xc_family, optKS.cfunc_id)
             self.hartree = Hartree(grid)
         elif optKS.interaction_type == 'hfs':
             self.exchange = Libxc(self.grid, optKS.xc_family, optKS.xfunc_id)
@@ -135,8 +134,10 @@ class Kohnsham():
                     self.solver[i,j].e0 = - max(self.Za, self.Zb)**2 / (self.solver[i,j].m + 1)**2 
 
 
-    def scf(self, optKS):
-        scf(self, optKS)
+    # def scf(self, optKS):
+    #     scf(self, optKS)
+    def scf(self, ks_scf_options={}):
+        scf(self, ks_scf_options)
 
     def calc_nuclear_potential(self):
         """
@@ -321,21 +322,3 @@ class Kohnsham():
                 homos.append(self.solver[i,j].homo)
 
         self.u = max(homos)
-
-
-
-
-
-        
-
-
-
-
-        
-        
-
-
-            
-
-        
-         

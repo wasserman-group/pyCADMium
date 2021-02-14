@@ -7,7 +7,7 @@ from pydantic import validator, BaseModel
 
 
 class KohnShamSCFOptions(BaseModel):
-    e_tol : float = 1e-6
+    e_tol : float = 10e-6
     maxiter : int = 100
     alpha : float = 0.5
     verbose : bool = True
@@ -33,6 +33,7 @@ def scf(self, optKS):
         print('----------------------------------------------------------- \n');
 
     if optKS.continuing is True:
+        print("Am I continuing?")
         #If we continue a calculation, we check that we have an input density
         assert len(self.n) == 0, "CONTINUE option is True, but there is no input density"
         self.vext = np.zeros_like(self.vnuc) if self.vext is None else self.vext
@@ -112,10 +113,3 @@ def scf(self, optKS):
             print(f"   {iter}         {self.E.E:.3f}          {self.u:.3f}            {diff}")
 
         iter += 1
-
-
-        
-
-
-
-        
