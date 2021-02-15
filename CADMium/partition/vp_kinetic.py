@@ -11,7 +11,7 @@ def vp_kinetic(self):
     """
 
     #Select method for calculating kinetic energy
-    if self.optPartition["kinetic_part_type"] == "vonweiz":
+    if self.optPartition.kinetic_part_type == "vonweiz":
 
         #Use the von-weizacker inversion
         #May break if only one density 
@@ -29,15 +29,15 @@ def vp_kinetic(self):
             if np.isnan(self.KSb.V.vt[i]) is True:
                 self.KSb.V.vt[i] = 0.0
 
-    elif self.optPartition["kinetic_part_type"] == "libxcke" or \
-         self.optPartition["kinetic_part_type"] == "paramke":
+    elif self.optPartition.kinetic_part_type == "libxcke" or \
+         self.optPartition.kinetic_part_type == "paramke":
         
         #Use a kinetic energy functional from libxc
         #Evaluate molecular kinetic energy
         raise ValueError("LibxcKe nor Paramke options are not avaliable")
 
 
-    elif self.optPartition["kinetic_part_type"] == "inversion":
+    elif self.optPartition.kinetic_part_type == "inversion":
         #Find kinetic energy fucntional derivative for fragmetns using Euler equation
         #Fragments using euler equations
         # u = max(self.KSa.u, self.KSb.u)
@@ -58,7 +58,7 @@ def vp_kinetic(self):
         u = max((max(homos_a), max(homos_b)))
         nspin = self.pol - 1
 
-        if self.optPartition["ENS_SPIN_SYM"]:
+        if self.optPartition.ens_spin_sym:
             u = max([u])
             nspin = 0
 
@@ -84,7 +84,7 @@ def vp_kinetic(self):
 
         self.V.vt = self.inverter.get_vt()
 
-    elif self.optPartition["kinetic_part_type"] == "none":
+    elif self.optPartition.kinetic_part_type == "none":
 
         #Neglect the non-additive kinetic energy
         self.V.vt = np.zeros_like(self.nf)
@@ -92,7 +92,7 @@ def vp_kinetic(self):
         for i_KS in [self.KSa, self.KSb]:
             i_KS.V.vt = np.zeros_like(i_KS.n)
 
-    elif self.optPartition["kinetic_part_type"] == "twoorbital":
+    elif self.optPartition.kinetic_part_type == "twoorbital":
         
         n1 = self.na_frac
         n2 = self.nb_frac
@@ -110,20 +110,20 @@ def vp_kinetic(self):
 
         raise ValueError("Two orbital method not available")
 
-    elif self.optPartition["kinetic_part_type"] == "fixed":
+    elif self.optPartition.kinetic_part_type == "fixed":
         pass
 
     else:
         raise ValueError("Kinetic energy functional not recognized")
 
 
-    if self.optPartition["kinetic_part_type"] != "fixed":
+    if self.optPartition.kinetic_part_type != "fixed":
         #Calculate the vp contribution
         for i_KS in [self.KSa, self.KSb]:
             i_KS.V.vp_kin = (self.V.vt - i_KS.V.vt)
         #Remove nans
             i_KS.V.vp_kin[np.isnan(i_KS.V.vp_kin)] = 0.5 
 
-    elif self.optPartition["kinetic_part_type"] == "twoorbital":
+    elif self.optPartition.kinetic_part_type == "twoorbital":
         raise ValueError("Two orbital method not yet implemented")
 

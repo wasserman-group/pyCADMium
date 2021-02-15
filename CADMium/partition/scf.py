@@ -3,60 +3,90 @@ scf.py
 """
 
 import numpy as np
+from warnings import warn
+from pydantic import validator, BaseModel
+from typing import List
 import sys
 
-def scf(self, optPartition={}, isolated=False, cont=False):
+try:
+    from rich import print
+except:
+    pass
+
+class PartitionSCFOptions(BaseModel):
+    e_tol : float = 1e-10
+    max_iter : int = 100
+    alpha : List[float] = [0.6]
+    beta : List[float] = [0.82]
+    calc_type : str = 'pdft'
+    disp : bool = False
+    continuing : bool = False
+    from_target_density : bool = False
+    iterative : bool = True
+    isolated : bool = False
+    auto_tol : bool = False
+    auto_tol_iter : int = 3
+    freeze_a : bool = False
+    freeze_b : bool = False 
+
+    @validator('calc_type') 
+    def calc_type_values(cls, v):
+        values = ['pdft', 'sdft']
+        if v not in values:
+            raise ValueError(f"'calc_type' must be one of the options: {values}")
+        return v
+
+
+def scf(self, optSCF={}):
     """
     SCF method to handle self consistent field calculations
     """
-    optPartition["Tolerance"] = optPartition["Tolerance"] if "Tolerance" in optPartition.keys() else 10**-10
-    optPartition["MaxIter"] = optPartition["MaxIter"] if "MaxIter" in optPartition.keys() else 100
-    optPartition["Alpha"] = optPartition["Alpha"] if "Alpha" in optPartition.keys() else [0.6]
-    optPartition["Beta"] = optPartition["Beta"] if "Beta" in optPartition.keys() else [0.82]
 
-    optPartition["CalcType"] = optPartition["CalcType"] if "CalcType" in optPartition.keys() else "PDFT"
-    optPartition["DISP"] = optPartition["DISP"] if "DISP" in optPartition.keys() else False
-    #optPartition["CONTINUE"] = optPartition["CONTINUE"] if "CONTINUE" in optPartition.keys() else False
-    optPartition["CONTINUE"] = cont
-    optPartition["from_target_density"] = optPartition["from_target_density"] if "from target_density" in optPartition.keys() else False 
-    optPartition["ITERATIVE"] = optPartition["ITERATIVE"] if "ITERATIVE" in optPartition.keys() else True
-    optPartition["ISOLATED"] = isolated
-    optPartition["AutoTol"] = optPartition["AutoTol"] if "Autotol" in optPartition.keys() else False
-    optPartition["AutoTolIter"] = optPartition["AutoTolIter"] if "AutoTolIter" in optPartition.keys() else 3
+    #Validate options
+    optSCF =  {k.lower(): v for k, v in optSCF.items()}
+    for i in optSCF.keys():
+        if i not in PartitionSCFOptions().dict().keys():
+            raise ValueError(f"{i} is not a valid option for KohnSham")
+    optSCF = PartitionSCFOptions(**optSCF)
 
-    optPartition["FreezeA"] = optPartition["FreezeA"] if "FreezeA" in optPartition.keys() else False
-    optPartition["FreezeB"]  = optPartition["FreezeB"] if "FreezeB" in optPartition.keys() else False
+    optSCF.isolated = self.optPartition.isolated
 
-    self.optPartition = optPartition
+    #Sanity Check on options
+    if self.inverter != None:
+        if self.optPartition.ab_sym != self.inverter.optInv.ab_sym:
+            warn("Warning optPartition.ab_sym != opt.Inverter.ab_sym. Is this the inteded behaviour")
+        if self.optPartition.ens_spin_sym != self.inverter.optInv.ens_spin_sym:
+            warn("Warning optPartition.ens_spin_sym != opt.Inverter.ab_sym. Is this the inteded behaviour")
 
+    self.KSa.V.frozen = optSCF.freeze_a   
+    self.KSb.V.frozen = optSCF.freeze_b
 
-    self.KSa.V.frozen = optPartition["FreezeA"]   
-    self.KSb.V.frozen = optPartition["FreezeB"]
-
-    if len(optPartition["Alpha"]) == 1:
-        self.Alpha = [optPartition["Alpha"][0], optPartition["Alpha"][0]]
-    elif len(optPartition["Alpha"]) == 2:
-        self.Alpha = optPartition["Alpha"]
+    if len(optSCF.alpha) == 1:
+        self.Alpha = [optSCF.alpha[0], optSCF.alpha[0]]
+    elif len(optSCF.alpha) == 2:
+        self.Alpha = optSCF.alpha
     else:
         raise ValueError ("Max length of Alpha is 2")
 
     self.KSa.Alpha = self.Alpha[0]
     self.KSb.Alpha = self.Alpha[1]
 
-    if self.optPartition["DISP"] is True:
-        if self.optPartition["kinetic_part_type"] == "inversion":    
-            print(f"                       Total Energy                      Inversion  \n")
-            print(f"iter             A              B                  iters         optimality        res \n")
-            print("------------------------------------------------------------------------------------------  \n")
+    if optSCF.disp is True:
+        if self.optPartition.kinetic_part_type == "inversion":    
+            print(f"                Total Energy ( a.u.)                               Inversion                \n")
+            print(f"                __________________                ____________________________________     \n")
+            print(f"Iteration         A              B                  iters      optimality        res       \n")
+            print("___________________________________________________________________________________________ \n")
 
         else:
             print(f"                  Total Energy            \n")
-            print(f"iter              A            B              res     \n")
-            print("---------------------------------------------------------\n")
+            print(f"                __________________        \n")
+            print(f"Iteration         A            B              res     \n")
+            print("_______________________________________________________\n")
 
 
     #Initial Guess Calculations
-    if self.optPartition["AB_SYM"] is True:
+    if self.optPartition.ab_sym is True:
         #Only do calculations for fragment a
         KSab = [self.KSa]
 
@@ -64,9 +94,9 @@ def scf(self, optPartition={}, isolated=False, cont=False):
         KSab = [self.KSa, self.KSb]
 
     for i_KS in KSab:
-        if self.optPartition["CONTINUE"] is True:
+        if optSCF.continuing is True:
             #If we are continuiing a calculation, check that we have an input density
-            assert i_KS.n is not None, "CONTINUE flag set but there is no input density"
+            assert i_KS.n is not None, "optSCF.continuing is True set but there is no input density"
         
         else:
             #We need initial guesses
@@ -75,15 +105,15 @@ def scf(self, optPartition={}, isolated=False, cont=False):
             i_KS.set_effective_potential()
 
             #Initial guess for effective potential is just nuclear potential
-            nout = i_KS.calc_density(self.optPartition["ITERATIVE"])
+            nout = i_KS.calc_density(optSCF.iterative)
             i_KS.n = nout
             i_KS.calc_chempot()
 
-    if self.optPartition["AB_SYM"] == True:
+    if self.optPartition.ab_sym == True:
         self.mirrorAB()
 
     #Form protomolecule and calculate Q-functions
-    if not optPartition["from_target_density"]: 
+    if not optSCF.from_target_density: 
         self.calc_protomolecule()
     self.calc_Q()
 
@@ -96,22 +126,22 @@ def scf(self, optPartition={}, isolated=False, cont=False):
     inversionfailures   = 0
     STOP       = False
 
-    if self.optPartition["AutoTol"] is True:
+    if optSCF.auto_tol is True:
         min_dif = 10.0
         num_iter_not_min = 0
     
-    while (dif > self.optPartition["Tolerance"] 
-           or (self.optPartition["AutoTol"] is True and num_iter_not_min < self.optPartition["AutoTolIter"])) \
-           and iterations <= optPartition["MaxIter"]                                                \
+    while (dif > optSCF.e_tol 
+           or (optSCF.auto_tol is True and num_iter_not_min < self.optPartition["AutoTolIter"])) \
+           and iterations <= optSCF.max_iter                                                \
            and STOP is False:
 
         #Set flags to avoid dead loops in inversion
-        if (self.optPartition["kinetic_part_type"] == "inversion" and self.optPartition["ISOLATED"] == False):
+        if (self.optPartition.kinetic_part_type == "inversion" and optSCF.isolated == False):
 
             if iterations == 1:
-                self.inverter.optInversion["AVOIDLOOP"] = True
+                self.inverter.optInv.avoid_loop = True
             else:
-                self.inverter.optInversion["AVOIDLOOP"] = False
+                self.inverter.optInv.avoid_loop = False
             
         for iKS in KSab:
             #Calculate new local vhxc potentials
@@ -119,10 +149,10 @@ def scf(self, optPartition={}, isolated=False, cont=False):
             iKS.calc_hxc_potential()
             iKS.vhxc = 1.0 * iKS.vhxc + 0.0 * vhxc_old
         
-        if self.optPartition["AB_SYM"]:
+        if self.optPartition.ab_sym:
             self.mirrorAB()
 
-        if not self.optPartition["ISOLATED"]:
+        if not optSCF.isolated:
             #Calculate the partition potential
             vp = 0.0 * vp + 1.0 * self.partition_potential()
 
@@ -136,10 +166,10 @@ def scf(self, optPartition={}, isolated=False, cont=False):
             if i_KS.V.frozen is not True:
                 #Each fragment feels the effective potential
                 #as an external potential
-                if self.optPartition["CalcType"] == "pdft":
+                if optSCF.calc_type == "pdft":
                     #Global partition optential
                     i_KS.vext = vp
-                elif self.optPartition["CalcType"] == "sdft":
+                elif optSCF.calc_type == "sdft":
                     #Sybsystem-DFT
                     #Fragment embedding poetntials
                     i_KS.vext = i_KS.V.vp
@@ -148,7 +178,7 @@ def scf(self, optPartition={}, isolated=False, cont=False):
             i_KS.set_effective_potential()
 
             #Calculate new density
-            nout = i_KS.calc_density(self.optPartition["ITERATIVE"], dif)
+            nout = i_KS.calc_density(optSCF.iterative, dif)
 
             #Get the new chemical potential
             i_KS.calc_chempot()
@@ -159,11 +189,11 @@ def scf(self, optPartition={}, isolated=False, cont=False):
             #Calculate each fragment energy
             i_KS.energy()
 
-        if self.optPartition["AB_SYM"]  is True:
+        if self.optPartition.ab_sym  is True:
             self.mirrorAB()
 
         #Form promolecule and calculate q functions
-        if not optPartition["from_target_density"]: 
+        if not optSCF.from_target_density: 
             self.calc_protomolecule()
         self.calc_Q()
         self.energy()
@@ -175,7 +205,7 @@ def scf(self, optPartition={}, isolated=False, cont=False):
         old_E  = self.E.E
         old_nf = self.nf
 
-        if self.optPartition["AutoTol"] is True:
+        if optSCF.auto_tol is True:
             if dif < min_dif:
                 num_iter_not_min = 0
                 min_dif = dif
@@ -183,8 +213,8 @@ def scf(self, optPartition={}, isolated=False, cont=False):
             else:
                 num_iter_not_min = num_iter_not_min + 1
 
-        if (self.optPartition["kinetic_part_type"] == "inversion" or \
-            self.optPartition["vp_calc_type"] == "potential_inversion") and not self.optPartition["ISOLATED"]: 
+        if (self.optPartition.kinetic_part_type == "inversion" or \
+            self.optPartition.vp_calc_type == "potential_inversion") and not optSCF.isolated: 
     
             max_nfev = 0
             max_optimality = 1e-16
@@ -204,32 +234,20 @@ def scf(self, optPartition={}, isolated=False, cont=False):
                         raise SystemExit("Too many inversion failures. Stopping")
 
         #Display
-        if self.optPartition["DISP"] is True:
+        if optSCF.disp is True:
         # if True:
-            if (self.optPartition["kinetic_part_type"] == "inversion" or \
-            self.optPartition["vp_calc_type"] == "potential_inversion") and not self.optPartition["ISOLATED"]: 
-
-                print(f" {iterations}  {self.E.Ea}  {self.E.Eb}  {max_nfev}  {max_optimality} {dif}")
-
+            if (self.optPartition.kinetic_part_type == "inversion" or \
+            self.optPartition.vp_calc_type == "potential_inversion") and not optSCF.isolated: 
+                print(f"  {iterations:3d}          {self.E.Ea:+10.5f}      {self.E.Eb:+10.5f}                {max_nfev:3d}       {max_optimality:+7.3e}      {dif:+7.3e}")
 
             else:
-                print(f" {iterations}  {self.E.Ea}  {self.E.Eb}   {dif} ")
+                print(f"  {iterations:3d}         {self.E.Ea:10.5f}   {self.E.Eb:10.5f}       {dif:7.3e} ")
 
         iterations += 1
 
 
-    if dif < self.optPartition["Tolerance"]:
+    if dif < optSCF.e_tol:
         flag = True
 
     else:
         flag = False
-
-
-
-
-        
-
-
-
-
-

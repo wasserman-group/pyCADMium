@@ -26,13 +26,13 @@ def energy(self):
         Eksa      += i_KS.scale * i_KS.E.Eks
         Enuca     += i_KS.scale * i_KS.E.Enuc
 
-        if self.optPartition["interaction_type"] == "dft":
+        if self.optPartition.interaction_type == "dft":
             Exa   += i_KS.scale * i_KS.E.Ex
             Eca   += i_KS.scale * i_KS.E.Ec
             Eha   += i_KS.scale * i_KS.E.Eh
             Vhxca += i_KS.scale * i_KS.E.Vhxc
 
-    if not self.optPartition["AB_SYM"]:
+    if not self.optPartition.ab_sym:
         Tsb       = 0.0
         Eksb      = 0.0
         Enucb     = 0.0
@@ -51,7 +51,7 @@ def energy(self):
             Eksb      += i_KS.scale * i_KS.E.Eks
             Enucb     += i_KS.scale * i_KS.E.Enuc
 
-            if self.optPartition["interaction_type"] == "dft":
+            if self.optPartition.interaction_type == "dft":
                 Exb   += i_KS.scale * i_KS.E.Ex
                 Ecb   += i_KS.scale * i_KS.E.Ec
                 Ehb   += i_KS.scale * i_KS.E.Eh
@@ -68,7 +68,7 @@ def energy(self):
         Vhxcb     = Vhxca.copy()
         self.E.Eb = self.E.Ea.copy()    
 
-    if self.optPartition["ENS_SPIN_SYM"]:
+    if self.optPartition.ens_spin_sym:
         #We double the fragment energies to account
         #for the spin flipped components
 
@@ -114,7 +114,7 @@ def energy(self):
     self.E.evals_a = []
     self.E.evals_b = []
 
-    if self.optPartition["AB_SYM"] is True:
+    if self.optPartition.ab_sym is True:
         for i_KS in [self.KSa]:
             self.E.evals_a = i_KS.E.evals
         self.E.evals_b = self.E.evals_a

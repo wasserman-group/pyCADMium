@@ -9,9 +9,9 @@ def vp_hxc(self):
     Calculate dft componets of vp
     """
 
-    if self.optPartition["hxc_part_type"] != "nohxc" and \
-       (self.optPartition["hxc_part_type"] == "exact" and \
-       self.optPartition["interaction_type"] == "ni") is False:
+    if self.optPartition.hxc_part_type != "nohxc" and \
+       (self.optPartition.hxc_part_type == "exact" and \
+        self.optPartition.interaction_type == "ni") is False:
         #Do we need to calculate non-additive dft potentials?
 
         #Calculate hxc functional for promolecular density
@@ -35,28 +35,28 @@ def vp_hxc(self):
             
     
     #Do calculations for overlap type functionals
-    if self.optPartition["hxc_part_type"] == "ovlp_xc" or \
-       self.optPartition["hxc_part_type"] == "ovlp_hxc" or \
-       self.optPartition["hxc_part_type"] == "ovlp_exx":
+    if self.optPartition.hxc_part_type == "ovlp_xc" or \
+       self.optPartition.hxc_part_type == "ovlp_hxc" or \
+       self.optPartition.hxc_part_type == "ovlp_exx":
         self.vp_overlap()
 
     #Do calculatiosn for surprisal type functionals
-    if self.optPartition["hxc_part_type"] == "surprisal":
+    if self.optPartition.hxc_part_type == "surprisal":
         pass
 
     #Collect hxc terms according to settings
 
-    if self.optPartition["hxc_part_type"] == "exact":
+    if self.optPartition.hxc_part_type == "exact":
         #Exactly matching
         for i_KS in [self.KSa, self.KSb]:
             i_KS.V.vp_hxc = i_KS.V.vp_h + i_KS.V.vp_x + i_KS.V.vp_c
         
-    elif self.optPartition["hxc_part_type"] == "hartree":
+    elif self.optPartition.hxc_part_type == "hartree":
         #Hartree only
         for i_KS in [self.KSa, self.KSb]:
             i_KS.V.vp_hxc = i_KS.V.vp_h
 
-    elif self.optPartition["hxc_part_type"] == "ovlp_xc":
+    elif self.optPartition.hxc_part_type == "ovlp_xc":
         #Overlap approximation for H2
         #Chain rule to evaluate overlap xc term
         self.energy()
@@ -65,7 +65,7 @@ def vp_hxc(self):
             i_KS.V.vp_hxc = i_KS.V.vp_h + self.E.F * (i_KS.V.vp_x + i_KS.V.vp_c) + \
                                           ( self.E.Ep_x + self.E.Ep_c ) * i_KS.V.dFdn
 
-    elif self.optPartition["hxc_part_type"] == "ovlp_hxc":
+    elif self.optPartition.hxc_part_type == "ovlp_hxc":
         #Overlap approximation for H2p
 
         self.EnsCorHart()
@@ -80,7 +80,7 @@ def vp_hxc(self):
                             + (1 - self.E.F) * (i_KS.V.vhcor) \
                             + (self.E.Ehcor) * i_KS.V.dFdn
 
-    elif self.optPartition["hxc_part_type"] == "ovlp_hxc2.0":
+    elif self.optPartition.hxc_part_type == "ovlp_hxc2.0":
         #Overlap approximation for H2p
 
         self.EnsCorHart()
@@ -95,7 +95,7 @@ def vp_hxc(self):
                             + (1 - self.E.F) * (i_KS.V.vhcor) \
                             + (self.E.Ehcor) * i_KS.V.dFdn
 
-    elif self.optPartition["hxc_part_type"] == "surprisal":
+    elif self.optPartition.hxc_part_type == "surprisal":
 
         self.Ep_hxc
         self.vp_surprise
@@ -106,6 +106,6 @@ def vp_hxc(self):
                             + self.V.ep_c * np.ones((1,2)) * self.nf * i_KS.V.v_s
 
     else:
-        raise ValueError (f"{self.optPartition['hxc_part_type']} is not an available hxc part method") 
+        raise ValueError (f"{self.optPartition.hxc_part_type} is not an available hxc part method") 
 
                         

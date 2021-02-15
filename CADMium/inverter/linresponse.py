@@ -58,7 +58,7 @@ def linresponse(self, n0, vs0=None):
     flag   = np.empty_like(self.solver, dtype=object)
     output = np.empty_like(self.solver, dtype=object)
     
-    if self.optInversion["ENS_SPIN_SYM"] is True:
+    if self.optInv.ens_spin_sym is True:
         #Invert density n0 to find vs
         #Preallocation
         #B is the inverse of n0 in main diagonal

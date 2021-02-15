@@ -261,11 +261,11 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                         (isolver[0].veff - evals[-1])[:,None]
                       ))
 
-    if self.optInversion["AB_SYM"] is True:
+    if self.optInv.ab_sym is True:
         X = ab_symmetrize(X, Nelem, Nmo, North, self)
     X = normalize(X, Nmo, Nelem, WWi, occ)
 
-    if self.optInversion["DISP"] is True:
+    if self.optInv.disp is True:
         print('      iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve\n');
         print('      --------------------------------------------------------------------------------\n');
 
@@ -274,7 +274,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     finished    = False
     ForceUpdate = False
 
-    if self.optInversion["AVOIDLOOP"] is True:
+    if self.optInv.avoid_loop is True:
         old_res_ks     = 0
         old_res_ncon   = 0
         older_res_ks   = 0
@@ -284,7 +284,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         iter += 1
         jac, eqn = kmatrix(X, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j)
 
-        if self.optInversion["AVOIDLOOP"] is True and iter > 1:
+        if self.optInv.avoid_loop is True and iter > 1:
             older_res_ks   = old_res_ks
             older_res_ncon = old_res_ncon
             old_res_ks     = res_ks
@@ -297,7 +297,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         res_Ncon = np.max(np.abs( eqn[ np.array(range(np.sum(Nmo)-1)) +Nelem * np.sum(Nmo) ] ))
         res = max(res_ks, res_ncon)
 
-        if self.optInversion["AVOIDLOOP"] is True and iter > 2:
+        if self.optInv.avoid_loop is True and iter > 2:
             if res      < 1e-6 and \
                res_ks   > old_res_ks     * 0.1 and \
                res_ks   < older_res_ks   * 10. and \
@@ -308,35 +308,35 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
             else:
                 ForceUpdate = False
 
-        if self.optInversion["DISP"]:
+        if self.optInv.disp:
              print(f"      {iter} {res_ks} {res_ncon} {res_Ncon}")
 
         if res >1e2:
             print(f"      ERROR too large: {res}")
             finished = True
 
-        if res < self.optInversion["TolInvert"]:
+        if res < self.optInv.tol_invert:
             finished = True
 
-        elif iter >= self.optInversion["MaxIterInvert"]:
+        elif iter >= self.optInv.max_iter_invert:
             finished = True
             warnings.warn('\n Convergence not reached at maximum iteration')
 
         else:
             #Convergence restrictions have been met
-            if (res_ncon > (res_ks * self.optInversion["ResFactor"]) or \
-                res_ks   < (self.optInversion["TolInvert"] * 1e2) or    \
+            if (res_ncon > (res_ks * self.optInv.res_factor) or \
+                res_ks   < (self.optInv.tol_invert * 1e2) or    \
                ForceUpdate) == True:
 
                 #Use Iterative?
-                if self.optInversion["USE_ITERATIVE"] == True:
-                    tol   = self.optInversion["Tolinsolve"]
-                    maxit = self.optInversion["MaxIterLinsolve"]
+                if self.optInv.use_iterative == True:
+                    tol   = self.optInv.tol_lin_solver
+                    maxit = self.optInv.max_iter_lin_solver
 
                     A = jac[ :(np.sum(Nmo) * Nelem), :(np.sum(Nmo) * Nelem)]
                     B = jac[ :(np.sum(Nmo) * Nelem), (np.sum(Nmo) * Nelem):]
                     M1 = np.concatenate((A,B), axis=1)
-                    M2 = np.concatenate((B.T , self.optInversion["Kval"] * eye((B.shape[1])).toarray()), axis=1)
+                    M2 = np.concatenate((B.T , self.optInv.k_val * eye((B.shape[1])).toarray()), axis=1)
                     M = np.concatenate((M1, M2), axis=0)
                     M = csc_matrix(M)
 
@@ -390,12 +390,12 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                                     (self.vs[:, ispin]-evals[-1])[:, None]),
                                     axis=0 )
                         
-            if self.optInversion["AB_SYM"] is True:
+            if self.optInv.ab_sym["AB_SYM"] is True:
                 X = ab_symmetrize(X, Nelem, Nmo, North, self)
 
             X = normalize(X, Nmo, Nelem, WWi, occ)
 
-        if self.optInversion["DISP"] is True:
+        if self.optInv.disp is True:
             pass
 
     self.vs[:, ispin] = X[ np.array(range(Nelem)) + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North, 0]
@@ -411,7 +411,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         isolver[it].calc_density()
         isolver[it].setveff(self.vs[:, ispin])
 
-    if res > self.optInversion["TolInvert"]:
+    if res > self.optInv.tol_invert:
         flag = False
     else:
         flag = True

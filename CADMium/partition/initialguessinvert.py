@@ -16,7 +16,7 @@ def initialguessinvert(self, ispin=0):
     v0 = np.zeros(( self.grid.Nelem, 1 ))
     n0 = np.zeros(( self.grid.Nelem, 1 ))
 
-    if self.optPartition["AB_SYM"] is not True:
+    if self.optPartition.ab_sym is not True:
         KSab = [self.KSa, self.KSb]
     else:
         KSab = [self.KSa]
@@ -24,14 +24,14 @@ def initialguessinvert(self, ispin=0):
     for i_KS in KSab:
         v0 += i_KS.veff[:, ispin][:, None] * i_KS.Q[:, ispin][:, None]
 
-    if self.optPartition["ENS_SPIN_SYM"] is True:
+    if self.optPartition.ens_spin_sym is True:
         v0 = np.sum(v0, axis=1)
         for i_KS in KSab:
             ospin = 1 if ispin == 0 else 0
             v0 += (i_KS.veff[:, ospin] - max([i_KS.u])) * i_KS.Q[:, ospin]
         v0 = v0[:, None]
 
-    if self.optPartition["AB_SYM"] is True:
+    if self.optPartition.ab_sym is True:
         v0 += self.grid.mirror(v0) 
 
 
@@ -61,7 +61,7 @@ def initialguessinvert(self, ispin=0):
         else:
             pass
 
-        if self.optPartition["AB_SYM"] is True:
+        if self.optPartition.ab_sym is True:
             phi = np.hstack((phi, self.grid.mirror( self.KSa.solver[i-1, ispin].phi )))
         else:#Beta Kohn Sham object
             if len(self.KSb.solver) >= i-1:
@@ -87,7 +87,7 @@ def initialguessinvert(self, ispin=0):
 
         # print("Phi before normaliation\n", phi)
 
-        if self.optPartition["ENS_SPIN_SYM"]:
+        if self.optPartition.ens_spin_sym:
             if m == 0:
                 phi0 = (phi / np.diag(phi.T @ W @ Wi @ phi)**0.5) * (1**0.5)
                 Eks  = np.sum(d)

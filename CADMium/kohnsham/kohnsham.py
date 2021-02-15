@@ -42,7 +42,6 @@ class KohnShamOptions(BaseModel):
         return v
 
 
-
 class Kohnsham():
     """
     Handles a standard Kohn-Sham calculation
