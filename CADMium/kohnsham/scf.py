@@ -25,7 +25,7 @@ def scf(self, optKS):
     for i in optKS.keys():
         i = i.lower()
         if i not in KohnShamSCFOptions().dict().keys():
-            raise ValueError(f"{i} is not a valid option for KohnSham")
+            raise ValueError(f"{i} is not a valid option for the SCF procedure")
     optKS = KohnShamSCFOptions(**optKS)
 
     if optKS.verbose is True:

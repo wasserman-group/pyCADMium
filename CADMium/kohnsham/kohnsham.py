@@ -41,11 +41,7 @@ class KohnShamOptions(BaseModel):
             raise ValueError(f"'interaction_type' must be one of the options: {values}")
         return v
 
-    @validator('xc_family')
-    def xc_family_values(cls, v):
-        values = ['lda', 'gga']
-        if v not in values:
-            raise ValueError(f"'xc_family' must be one of the options: {values}")
+
 
 class Kohnsham():
     """
