@@ -38,8 +38,8 @@ def simple(self, n0, vs0, tilde=None):
     print(f"Iteration        f(x)                     optimality\n")
 
     optimality = 1
-    tol        = self.optInversion["TolInvert"]
-    maxiter    = self.optInversion["MaxIterInvert"]
+    tol        = self.optInv.tol_invert
+    maxiter    = self.optInv.max_iter_invert
     iter       = 1
 
     while optimality > tol and iter < maxiter:

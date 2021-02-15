@@ -3,6 +3,7 @@ partition.py
 """
 import numpy as np
 from dataclasses import dataclass
+from pydantic import validator, BaseModel
 
 from .scf import scf
 from .vp_nuclear import vp_nuclear
@@ -18,7 +19,7 @@ from .partition_potential import partition_potential
 from ..common.coulomb import coulomb
 from ..libxc.libxc import Libxc
 from ..hartree.hartree import Hartree
-from ..kohnsham.kohnsham import Kohnsham
+from ..kohnsham.kohnsham import Kohnsham, KohnShamOptions
 
 @dataclass
 class V:    
@@ -27,6 +28,40 @@ class V:
 @dataclass
 class E:
     pass
+
+class PartitionOptions(KohnShamOptions):
+    vp_calc_type : str = 'component'
+    hxc_part_type : str = 'exact'
+    kinetic_part_type : str = 'vonweiz'
+    k_family : str = 'gga'
+    ke_func_id : int = 5
+    ke_param : dict = {}
+    ab_sym : bool = False
+    fractonal : bool = False
+    ens_spin_sym : bool = False
+    isolated : bool = False
+    fixed_q : bool = False
+
+    @validator('vp_calc_type')
+    def vp_calc_type_values(cls, v):
+        values = ['component', 'potential_inversion']
+        if v not in values:
+            raise ValueError(f"'vp_calc_type' must be one of the options: {values}")
+        return v
+
+    @validator('hxc_part_type')
+    def hxc_part_type_values(cls, v):
+        values = ['exact', 'overlap_hxc_2', 'overlap_hxc', 'overlap_xc', 'surprisal', 'hartree']
+        if v not in values:
+            raise ValueError(f"'hxc_part_type' must be one of the options: {values}")
+        return v
+
+    @validator('kinetic_part_type')
+    def kinetic_part_type_values(cls, v):
+        values = ['vonweiz','inversion','libxcke','paramke','none','twoorbital','fixed']
+        if v not in values:
+            raise ValueError(f"'kinetic_part_type' must be one of the options: {values}")
+        return v
 
 class Partition():
     """ 
@@ -104,10 +139,6 @@ class Partition():
         Convergence Parameters
     """
 
-    # grid : constr(regex="CADMium.psgrid.psgrid.Psgrid") = Field(
-    #     "CADMium.psgrid.psgrid.Psgrid",
-    #     description=("CADMium Prolate Spheroidal Object"),
-    # )
 
     def __init__(self, grid,
                        Za, Zb,
@@ -116,64 +147,23 @@ class Partition():
                        Nmo_b, N_b, nu_b, 
                        optPartition={}):
 
-        optPartition["interaction_type"] = optPartition["interaction_type"] if "interaction_type" in optPartition.keys() else "dft"
-        optPartition["vp_calc_type"] = optPartition["vp_calc_type"] if "vp_calc_type" in optPartition.keys() else "component"
-        optPartition["hxc_part_type"] = optPartition["hxc_part_type"] if "hxc_part_type" in optPartition.keys() else "exact"
-        optPartition["kinetic_part_type"] = optPartition["kinetic_part_type"] if "kinetic_part_type" in optPartition.keys() else "vonweiz"
-
-        optPartition["AB_SYM"] = optPartition["AB_SYM"] if "AB_SYM" in optPartition.keys() else False
-        optPartition["FRACTIONAL"] = optPartition["FRACTIONAL"] if "FRACTIONAL" in optPartition.keys() else False
-        optPartition["ENS_SPIN_SYM"] = optPartition["ENS_SPIN_SYM"] if "ENS_SPIN_SYM" in optPartition.keys() else False
-        optPartition["ISOLATED"] = optPartition["ISOLATED"] if "ISOLATED" in optPartition.keys() else False
-        optPartition["FIXEDQ"] = optPartition["FIXEDQ"] if "FIXEDQ" in optPartition.keys() else False
-        
-        optPartition["x_func_id"] = optPartition["x_func_id"] if "x_func_id" in optPartition.keys() else 1
-        optPartition["c_func_id"] = optPartition["c_func_id"] if "c_func_id" in optPartition.keys() else 12
-        optPartition["xc_family"] = optPartition["xc_family"] if "xc_family" in optPartition.keys() else "lda"
-        optPartition["k_family"] = optPartition["k_family"] if "k_family" in optPartition.keys() else "gga"
-        optPartition["ke_func_id"] = optPartition["ke_func_id"] if "ke_func_id" in optPartition.keys() else 5
-        optPartition["ke_param"] = optPartition["ke_param"] if "ke_param" in optPartition.keys() else {}
-        
+        #Validate options
+        optPartition =  {k.lower(): v for k, v in optPartition.items()}
+        for i in optPartition.keys():
+            if i not in PartitionOptions().dict().keys():
+                raise ValueError(f"{i} is not a valid option for KohnSham")
+        optPartition = PartitionOptions(**optPartition)
         self.optPartition = optPartition
 
-        #Calculation Options Validators:
-        if self.optPartition["interaction_type"]  not in ["dft", "ni"]:
-            raise ValueError("Only {'dft', 'ni'} are valid options for calculation")
-        
-        if self.optPartition["vp_calc_type"]  not in ["component", "potential_inversion"]:
-            raise ValueError("Only {'component', 'potential_inversion'} are valid options for vp")
-
-        if self.optPartition["hxc_part_type"] not in ["exact", "overlap_hxc", "overpal_xc", "surprisal", "hartree"]:
-            raise ValueError("Only {'exact', 'overlap_hxc', 'overpal_xc', 'surprisal', 'hartree'}  \
-                                are valid options for vp")
-
-        if self.optPartition["kinetic_part_type"] not in ["vonweiz", "inversion", "libxcke", "parmke", "two_orbital", "fixed"]:
-            raise ValueError("Only {'vonweiz', 'inversion', 'libxcke', 'parmke', 'two_orbital', 'fixed'} \
-                                are valud options for vp")
-
-        #Missing type assertions
-
+        #Grid
         self.grid = grid
-
-        #xc options
-        # self.xc_family = xc_family
-        # self.x_func_id = x_func_id
-        # self.c_func_id = c_func_id
 
         #Libxc function for fragment calculations
         self.exchange = None
         self.correlation = None
-        
-        #Kinetic Energy
-        # self.k_family = k_family
-        # self.ke_func_id = ke_func_id
-        # self.ke_param = ke_param
-
         self.kinetic = None
         self.inverter = None
         self.hartree = None
-
-        self.kientic_part_type = None
 
         #Polarization
         self.pol = pol
@@ -203,8 +193,8 @@ class Partition():
         self.nf = None
 
         #Sanity Check
-        if self.optPartition["AB_SYM"] and self.Za != self.Zb:
-            raise ValueError("AB_SYM is set but nuclear charges are not symmetric")
+        if optPartition.ab_sym and self.Za != self.Zb:
+            raise ValueError("optPartition.ab_sym is set but nuclear charges are not symmetric")
 
         self.inversion_info = None
 
@@ -212,9 +202,9 @@ class Partition():
         self.Alpha = None
         self.Beta = None
 
-        if self.optPartition["interaction_type"] == "dft":
-            self.exchange = Libxc(self.grid, self.optPartition["xc_family"], self.optPartition["x_func_id"])
-            self.correlation = Libxc(self.grid, self.optPartition["xc_family"], self.optPartition["c_func_id"])
+        if optPartition.interaction_type == "dft":
+            self.exchange = Libxc(self.grid, optPartition.xc_family, optPartition.xfunc_id)
+            self.correlation = Libxc(self.grid, optPartition.xc_family, optPartition.cfunc_id)
             self.hartree = Hartree(grid,
                                     #optPartition,
                                     )
@@ -223,24 +213,30 @@ class Partition():
             self.correlation = 0.0
             self.hartree = 0.0
 
+        optKS = dict( (k, optPartition[k]) for k in ('interaction_type', 
+                                                     'sym', 
+                                                     'fractional', 
+                                                     'xfunc_id', 
+                                                     'cfunc_id', 
+                                                     'xc_family') if k in optPartition )
     
         #Set up kohn sham objects
-        self.KSa = Kohnsham(self.grid, self.Za, 0, self.pol, self.Nmo_a, self.N_a, optPartition)
-        self.KSb = Kohnsham(self.grid, 0, self.Zb, self.pol, self.Nmo_b, self.N_b, optPartition)
+        self.KSa = Kohnsham(self.grid, self.Za, 0, self.pol, self.Nmo_a, self.N_a, optKS)
+        self.KSb = Kohnsham(self.grid, 0, self.Zb, self.pol, self.Nmo_b, self.N_b, optKS)
 
         #Figure out scale factors
         self.calc_scale_factors()
 
-        if self.optPartition["kinetic_part_type"] == "libxcke":
-            self.kinetic = Libxc(self.grid, self.optPartition["k_family"], self.optPartition["ke_func_id"])
-        elif self.optPartition["kinetic_part_type"] == "paramke":
-            self.kinetic = Paramke(self.grid, self.optPartition["k_family"], 
-                                              self.optPartition["ke_func_id"], 
-                                              self.optPartition["ke_param"])
+        if optPartition.kinetic_part_type == "libxcke":
+            self.kinetic = Libxc(self.grid, optPartition.k_family, optPartition.ke_func_id)
+        elif optPartition.kinetic_part_type == "paramke":
+            self.kinetic = Paramke(self.grid, optPartition.k_family, 
+                                              optPartition.ke_func_id, 
+                                              optPartition.ke_param)
         
         self.calc_nuclear_potential()
 
-    #Methods
+#-->Methods
     def calc_scale_factors(self):
         """
         Calculates scale factors
@@ -254,7 +250,7 @@ class Partition():
         #two because it will be combined with an ensemble component with 
         #flipped spins
 
-        if self.optPartition["ENS_SPIN_SYM"] is True:
+        if self.optPartition.ens_spin_sym is True:
             self.KSa.scale = self.KSa.scale / 2.0
             self.KSb.scale = self.KSb.scale / 2.0
 
@@ -304,7 +300,7 @@ class Partition():
 
         #If we have spin symmetry in the ensemble then add
         #each density with spin flipped version
-        if self.optPartition["ENS_SPIN_SYM"] is True:
+        if self.optPartition.ens_spin_sym is True:
             self.na_frac += self.grid.spinflip(self.na_frac)
             self.nb_frac += self.grid.spinflip(self.nb_frac)
 
@@ -361,8 +357,8 @@ class Partition():
         phi0, e0, vs0 = initialguessinvert(self, ispin)
         return phi0, e0, vs0
 
-    def scf(self, isolated=False, cont=False):
-        scf(self, optPartition=self.optPartition, isolated=isolated, cont=cont)
+    def scf(self, optSCF={}):
+        scf(self, optSCF)
 
     # def Ws(self):
     #     grad, Jac = Ws(self, vs)

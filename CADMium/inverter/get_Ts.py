@@ -11,8 +11,7 @@ def get_Ts(self):
 
     Ts = 0.0
 
-    if self.optInversion["ENS_SPIN_SYM"] is not True:
-        
+    if self.optInv.ens_spin_sym is not True:
         for i in range(self.solver.shape[0]):
             for j in range(self.solver.shape[1]):
                 #Get_ts cannot be computed as a pssolver method

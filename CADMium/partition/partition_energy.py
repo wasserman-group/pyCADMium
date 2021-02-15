@@ -7,7 +7,7 @@ def partition_energy(self):
     Calculates the partiton energy
     """
 
-    if not self.optPartition["ISOLATED"]:
+    if not self.optPartition.isolated:
         #Calculate components of the partition energy
         self.ep_nuclear() #Potential energy
         self.ep_kinetic() #Kinetic energy
