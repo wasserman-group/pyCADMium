@@ -25,7 +25,6 @@ def hydrogen():
             "interaction_type" : "dft",
             "SYM" : False,
             "FRACTIONAL" : True,
-            "DISP" : False,
             }
 
     #Grid Options
@@ -40,7 +39,7 @@ def hydrogen():
 
     #Kohn Sham object
     KS = Kohnsham(grid, Za, Zb, pol, Nmo, N, optKS)
-    KS.scf(optKS)
+    KS.scf()
 
     return KS
 

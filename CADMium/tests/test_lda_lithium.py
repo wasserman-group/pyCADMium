@@ -39,7 +39,7 @@ def lithium():
 
     #Kohn Sham object
     KS = Kohnsham(grid, Za, Zb, pol, Nmo, N, optKS)
-    KS.scf(optKS)
+    KS.scf()
 
     return KS
 
