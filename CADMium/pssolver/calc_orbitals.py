@@ -63,8 +63,7 @@ def calc_orbitals(self, solver_id, return_dict):
                     self.phi[:, i] = even/norm(even)
                     self.phi[:, j] = odd/norm(odd)
 
-
-        if self.SYM is True:
+        if self.optSolver.sym is True:
             for i in range(self.Nmo):
                 if self.phi[:,i].T @ self.grid.mirror(self.phi[:,i]) > 0:
 

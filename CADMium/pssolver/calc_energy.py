@@ -33,7 +33,8 @@ def calc_energy(self):
         self.eks += self.eig[i]
 
     #If we are doing fractional orbitals and are non-integer:
-    if self.FRACTIONAL is True and nu != 0:
+    if self.optSolver.fractional is True and nu != 0:
+    # if self.FRACTIONAL is True and nu != 0:
         self.eks += nu * self.eig[int(Nocc)]
 
     #Scale energy appropriately 
