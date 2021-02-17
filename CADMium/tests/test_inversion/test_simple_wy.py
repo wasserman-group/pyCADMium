@@ -2,8 +2,9 @@ import numpy as np
 import CADMium as cad
 import pytest
 
-@pytest.fixture()
-def he2():
+
+def test_inversion():
+
     a = 4.9322/2
 
     Za = 2
@@ -35,14 +36,12 @@ def he2():
 
     ks = cad.Kohnsham(X, Za, Zb, pol, Nmo, Nm, {})
     ks.scf({})
-    return ks
 
-def test_energy(he2):
-    assert(np.isclose(he2.E.E, -5.670495229536985))
+    #Test initial guess energy
+    assert(np.isclose(ks.E.E, -5.670495229536985))
 
-def test_inversion(he2):
     #Set up Inversion
-    dm = he2.n
+    dm = ks.n
 
     #Options
     optInversion = {"invert_type" : "wuyang"}
@@ -56,9 +55,11 @@ def test_inversion(he2):
     part.scf({"disp" : True, 
               "e_tol" : 1e-7})
 
+    #Test inversion energy
     assert(np.isclose(part.E.E, -4.8590922158945995))
 
     phi0, e0, v0 = part.initialguessinvert(ispin=0) 
     success, inv_info = WY.invert( dm, v0, phi0, e0, )
 
+    #Test inversion sucess
     assert( success, 1 )
