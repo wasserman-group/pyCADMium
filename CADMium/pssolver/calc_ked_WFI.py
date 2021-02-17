@@ -38,7 +38,8 @@ def calc_ked_WFI(self):
         self.ked_WFI += (phi_norm * (self.H0 @ phi_norm)) / self.grid.w[:, None]
 
     #If we are doing fractional robitals and are non-integer
-    if self.FRACTIONAL is True and nu != 0:
+    # if self.FRACTIONAL is True and nu != 0:
+    if self.optSolver.fractional is True and nu != 0:
         #Normalized orbital
         phi_norm = self.phi[:,i] / self.grid.integrate( self.phi[:, Nocc+1]**2)**0.5
         phi_norm = phi_norm[:, None]
