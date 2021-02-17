@@ -6,7 +6,7 @@ import numpy as np
 import numpy.matlib as matlab
 
 from scipy.sparse import csc_matrix
-from scipy.sparse import block_diag as blkdiag
+from scipy.sparse import block_diag
 from scipy.sparse import spdiags
 from scipy.sparse import eye
 from scipy.sparse.linalg import qmr
@@ -18,6 +18,11 @@ import scipy.sparse.linalg as sla
 import sys
 import warnings
 
+try:
+    from rich import print
+except:
+    pass
+
 class inversion_info:
     pass
 
@@ -26,8 +31,15 @@ def ab_symmetrize(x, Nelem, Nmo, North, self):
     """
     """
 
+    #Inner range of phi:
+    if np.sum(Nmo) - 1 == 0:
+        evals = np.vstack( (np.array([[0]])) )
+    else:
+        subset = np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem
+        evals = np.vstack( (x[subset], np.array([[0]])) )
+
     phi   = np.reshape( x[0:Nelem * np.sum(Nmo)], (Nelem, np.sum(Nmo)), order="F")
-    evals = np.vstack( (x[ np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem ], np.array([[0]])) )
+    #evals = np.vstack( (x[subset], np.array([[0]])) )
     Nmo = Nmo[:, None]
 
     #Check for degenerate and nearly degenerate orbitals
@@ -66,10 +78,10 @@ def normalize(x, Nmo, Nelem, WWi, occ):
     """
 
     phi = np.reshape( x[ np.array(range(Nelem*np.sum(Nmo))) ], (Nelem, np.sum(Nmo)) , order="F")
-    S = np.sum( WWi @ np.abs( phi )**2 , axis=0)
-    phi = phi @ np.diag( (occ/S)**0.5 )
-    x[0:Nelem * np.sum(Nmo)] = phi.flatten("F")[:, None]
-
+    S = np.sum( WWi @ np.abs( phi )**2 , axis=0)[:, None]
+    phi = phi @ np.diag( ((occ/S)**0.5)[:,0] )
+    phi = phi.flatten("F")
+    x[0:Nelem * np.sum(Nmo)] = phi[:, None]
 
     return x
 
@@ -77,12 +89,19 @@ def kmatrix(x, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j):
 
     North = len(i_orth)
 
+    #Inner range of phi:
+    if np.sum(Nmo) - 1 == 0:
+        evals    = np.array([[0]])
+    else:
+        subset = np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem
+        evals    = np.vstack(( x[ subset ], 0 ))
+
     # print("x from x matrix\n", x)
     phi      = np.reshape( x[ np.array(range( Nelem * np.sum(Nmo)))], 
                             (Nelem, np.sum(Nmo)), order="F")
     
     v        = x[ np.array(range(Nelem)) + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North ]
-    evals    = np.vstack(( x[ np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem ], 0 ))
+
 
     if North == 0:
         orthvals = np.zeros((1,0))
@@ -93,6 +112,7 @@ def kmatrix(x, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j):
 
     # #BSXFUN
     bsxfun = v - np.ones((v.shape[0], 1)) * evals.T
+    #bsxfun = v - np.dot(v, evals)
     vse = WWi @ bsxfun
     Hjac = H + spdiags( vse.flatten('F'), 0 ,np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem  )
     Ocon = np.zeros((North, 1))
@@ -117,14 +137,13 @@ def kmatrix(x, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j):
                                     [np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem], 
                                     order="F")
 
+
     KSeq = Hjac @ x[ np.array(range(np.sum(Nmo) * Nelem)) ]
 
     n = np.sum( np.abs(phi)**2, axis=1)
     S = np.sum( WWi @ np.abs(phi)**2, axis=0)
-
     ncon = WWi @ ((n-n0) / 2)[:, None]
-    Ncon = (- (S - occ) / 2)[:, None]
-
+    Ncon = (- (S - occ) / 2)[:,0][:,None]
     eqn = np.vstack(( KSeq, Ncon[:-1], Ocon, ncon  ))
 
     B2v = np.reshape(WWi @ phi, (np.sum(Nmo) * Nelem, 1), order="F")
@@ -172,6 +191,9 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
 
     """
     output = {"iterations" : None, "firstorderopt" : None }
+    if self.vs is None and self.us is None:
+        self.vs = np.zeros((self.grid.Nelem, self.solver.shape[1]))
+        self.us = np.zeros((self.grid.Nelem, self.solver.shape[1]))
 
     Nelem = self.grid.Nelem
     Wi = spdiags( 2*np.pi * self.grid.hr * self.grid.ha * self.grid.wi, 0, Nelem, Nelem)
@@ -180,30 +202,23 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
 
     isolver = self.solver[:, ispin]
     Nsol = isolver.shape[0]
-    #Nmo, N, m, = [], [], []
     Nmo, N, m = np.empty((Nsol), dtype=int), np.empty((Nsol), dtype=int), np.empty((Nsol), dtype=int)
     for i, j in enumerate(isolver):
         j.hamiltonian()
         Nmo[i] = j.Nmo
         N[i] = j.N
         m[i] = j.m
-    Nsol = isolver.shape[0]
-
-    if self.vs is None:
-        self.vs = np.zeros((self.grid.Nelem, self.solver.shape[1]))
-
-    if self.us is None:
-        self.us = np.zeros((self.solver.shape[1]))
-
+        
     #Transforming cell array from matlab to numpy array
-    C = np.empty((Nsol), dtype=object)
-    D = np.empty((Nsol), dtype=object)
+    C = np.empty((Nsol,1), dtype=object)  
+    D = np.empty((Nsol,1), dtype=object)
 
     for it in range(Nsol):
-        C[it] = matlab.repmat( Wi @ isolver[it].H0, Nmo[it], 1 )
+        # C[it] = matlab.repmat( Wi @ isolver[it].H0, Nmo[it], 1 )
+        C[it,0] = np.repeat( Wi @ isolver[it].H0, Nmo[it])[:,None]
 
         if m[it] == 0:            
-            D[it] = 2 * np.ones( (Nmo[it], 1) )
+            D[it,0] = 2 * np.ones( (Nmo[it], 1) )
 
             if isolver[it].pol == 1:
                 nu = N[it] / 2 - np.floor(N[it] / 2)
@@ -211,21 +226,25 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                 nu = N[it] - np.floor(N[it])
             
             if nu != 0:
-                D[it][Nmo[it]] = D[it][Nmo[it]] * nu
+                D[it,0][Nmo[it]] = D[it][Nmo[it]] * nu
         
         else:
-            D[it] = 4 *  np.ones((Nmo[it,0], 1))
+            D[it,0] = 4 *  np.ones((Nmo[it,0], 1))
             if isolver[it].pol == 1:
                 nu = N[it] / 4 - np.floor(N[it] / 4)
             else:
                 nu = N[it] / 2 - np.floor(N[it] / 2)
 
             if nu != 0:
-                D[it][Nmo[it]] = D[it][Nmo[it]] * nu
+                D[it,0][Nmo[it]] = D[it][Nmo[it]] * nu
 
-    C = np.squeeze(np.vstack((C[:])))
-    H = blkdiag(  C[:] )
-    occ = np.squeeze(np.vstack(D[:]))
+
+    H_matrices = []
+    for i in range(C[0,0].shape[0]):
+        H_matrices.append(C[0,0][i])
+    matrices = (H_matrices[i][0] for i in range(len(H_matrices)))
+    H = block_diag( matrices )
+    occ = np.vstack(D[:][0])
 
     B2i = np.array( range( 0, np.sum(Nmo) * Nelem ) )[:, None]
     B2j = matlab.repmat( np.array(range(0,Nelem))[:,None], np.sum(Nmo), 1 )
@@ -266,8 +285,11 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     X = normalize(X, Nmo, Nelem, WWi, occ)
 
     if self.optInv.disp is True:
-        print('      iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve\n');
-        print('      --------------------------------------------------------------------------------\n');
+        print('            _________________________')
+        print('           | Internal Inversion Loop |')
+        print('            _________________________')
+        print('           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve\n');
+        print('           ________________________________________________________________________________\n');
 
     iter        = 0
     res         = 1
@@ -290,11 +312,24 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
             old_res_ks     = res_ks
             old_res_ncon   = res_ncon
 
+        # if iter == 2:
+        #     sys.exit()
+
+        # print(eqn.T)
+        # print(jac[:,0])
+
+        #Inner range of phi:
+        if np.sum(Nmo) - 1 == 0:
+            res_Ncon = 0.0
+        else:
+            subset = np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem
+            res_Ncon = np.max(np.abs( eqn[ subset ] ))
+
         res_ks   = np.max(np.abs( eqn[ np.array(range(Nelem * np.sum(Nmo))) ]))
         res_ncon = np.max(np.abs(
                     eqn[ np.array(range( Nelem )) + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North  ]
                     ))
-        res_Ncon = np.max(np.abs( eqn[ np.array(range(np.sum(Nmo)-1)) +Nelem * np.sum(Nmo) ] ))
+        # res_Ncon = np.max(np.abs( eqn[ subset ] ))
         res = max(res_ks, res_ncon)
 
         if self.optInv.avoid_loop is True and iter > 2:
@@ -309,7 +344,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                 ForceUpdate = False
 
         if self.optInv.disp:
-             print(f"      {iter} {res_ks} {res_ncon} {res_Ncon}")
+             print(f"        {iter:5d}      {res_ks:7.5e}     {res_ncon:7.5e}     {res_Ncon:7.5e}")
 
         if res >1e2:
             print(f"      ERROR too large: {res}")
@@ -367,8 +402,17 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
 
             #If conditions have not been met, recalculate X
             else:
+
+                #Inner range of phi:
+                if np.sum(Nmo) - 1 == 0:
+                    subset = np.array(range(np.sum(Nmo) * Nelem))
+                    evals = np.concatenate( (np.array(([[0]])) ), axis=0 )
+                else:
+                    subset = np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem
+                    evals = np.concatenate( ( X[ subset ], np.array(([[0]])) ), axis=0 )
+
                 self.vs[:, ispin] = X[np.array(range(Nelem)) + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North, 0]
-                evals = np.concatenate( ( X[ np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem ], np.array(([[0]])) ), axis=0 )
+                evals = np.concatenate( ( X[ subset ], np.array(([[0]])) ), axis=0 )
 
                 for it in range(Nsol):
                     isolver[it].phi = np.reshape( X[ np.array(range(Nmo[it] * Nelem)) + np.sum(Nmo[0:it-1]) * Nelem] , (Nelem, Nmo[it]) , order="F")
@@ -390,7 +434,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                                     (self.vs[:, ispin]-evals[-1])[:, None]),
                                     axis=0 )
                         
-            if self.optInv.ab_sym["AB_SYM"] is True:
+            if self.optInv.ab_sym is True:
                 X = ab_symmetrize(X, Nelem, Nmo, North, self)
 
             X = normalize(X, Nmo, Nelem, WWi, occ)
@@ -398,8 +442,16 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         if self.optInv.disp is True:
             pass
 
+    #Inner range of phi:
+    if np.sum(Nmo) - 1 == 0:
+        subset = np.array(range(np.sum(Nmo) * Nelem))
+        evals = np.concatenate( (np.array(([[0]])) ), axis=0 )
+    else:
+        subset = np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem
+        evals = np.concatenate( ( X[ subset ], np.array(([[0]])) ), axis=0 )
+
     self.vs[:, ispin] = X[ np.array(range(Nelem)) + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North, 0]
-    evals = np.concatenate( ( X[ np.array(range(np.sum(Nmo) - 1)) + np.sum(Nmo) * Nelem ], np.array(([[0]])) ), axis=0 )
+    evals = np.concatenate( ( X[ subset ], np.array(([[0]])) ), axis=0 )
 
     for it in range(Nsol):
         isolver[it].phi = np.reshape( X[ np.array(range(Nmo[it] * Nelem)) + np.sum(Nmo[0:it-1]) * Nelem] , (Nelem, Nmo[it]) , order="F")

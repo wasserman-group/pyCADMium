@@ -74,9 +74,12 @@ class Kohnsham():
         self.V = V
         self.E = E
 
+        
+
+
         #Handle for the solver object
         self.solver = Pssolver(self.grid, self.Nmo, self.N,
-                               optKS.fractional, optKS.sym)
+                             {"fractional" : optKS.fractional, "sym" : optKS.sym})
 
         #Nuclear charges
         self.Za = Za

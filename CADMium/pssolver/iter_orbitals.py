@@ -31,7 +31,8 @@ def iter_orbitals(self, solver_id, return_dict):
         res = np.amax(np.abs(resvec), axis=0)
 
         for j in range(self.Nmo):
-            if res[j] > self.TOL_ORBITAL:
+            # if res[j] > self.TOL_ORBITAL:
+            if res[j] > self.optSolver.tol_orbital:
                 uno = Hks - W * self.eig[j]
                 dos =  (-W @ self.phi[:,j])[None].T
                 tres = -(W @ self.phi[:,j]).T
@@ -44,7 +45,8 @@ def iter_orbitals(self, solver_id, return_dict):
                 rhs = np.hstack((resvec[:, j], [0]))
                 C = csc_matrix(C)
 
-                if self.ITERLINSOLVE is True:
+                # if self.ITERLINSOLVE is True:
+                if self.optSolver.iter_lin_solver is True:
                     ILU = spilu(C)
                     approx_sol = LinearOperator((C.shape[0], C.shape[1]), ILU.solve)
                     x = bicgstab(C, rhs, tol=1e-15, M=approx_sol)[0]
