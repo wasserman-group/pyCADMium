@@ -16,8 +16,7 @@ def sigma(self, n):
         sigma = np.zeros((npoints, 3))
         sigma[:,2] = (self.grada @ n[:, 1]) ** 2 +  (self.gradr @ n[:, 1]) ** 2
         sigma[:,0] = (self.grada @ n[:, 0]) ** 2 +  (self.gradr @ n[:, 0]) ** 2
-        sigma[:,1] = self.grada @ n[:, 0] * self.grada @ n[:,1] + \ 
-                     self.gradr @ n[:, 0] * self.gradr @ n[:,1]
+        sigma[:,1] = self.grada @ n[:, 0] * self.grada @ n[:,1] + self.gradr @ n[:, 0] * self.gradr @ n[:,1]
 
     else:
         raise ValueError("Shape of density in second axis should not be greater than 2")
