@@ -5,7 +5,6 @@ kohnsham.py
 from dataclasses import dataclass
 from multiprocessing import Process, Manager, current_process
 from pydantic import validator, BaseModel
-
 import numpy as np
 
 from .scf import scf
@@ -20,11 +19,11 @@ class V:
 
 @dataclass
 class E:
-    E  : float
-    Ec : float
-    Ex : float
-    Eks: np.ndarray
-    Vks: np.ndarray
+    E  : float = 0.0 
+    Ec : float = 0.0
+    Ex : float = 0.0
+    Eks: np.ndarray = np.empty((1,1))
+    Vks: np.ndarray = np.empty((1,1))
 
 class KohnShamOptions(BaseModel):
     interaction_type : str = 'dft'
@@ -71,11 +70,8 @@ class Kohnsham():
         self.pol = pol
         
         #Structures to store component potentials and energies
-        self.V = V
-        self.E = E
-
-        
-
+        self.V = V()
+        self.E = E()
 
         #Handle for the solver object
         self.solver = Pssolver(self.grid, self.Nmo, self.N,
