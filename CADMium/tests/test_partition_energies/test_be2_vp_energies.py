@@ -24,10 +24,9 @@ def test_partition_energies():
     Nmo_m = [[4]]
     N_m   = [[8]]
 
-
     #Set up grid
     NP = 4
-    NM = [3,3]
+    NM = [4,4]
     L = np.arccosh(15/a)
     loc = np.array(range(-4,5)) #Stencil outline
 
@@ -40,7 +39,7 @@ def test_partition_energies():
     #Setup inverter object
     mol_solver = Pssolver(grid, Nmo_m, N_m, {"tol_orbital" : 1e-9})
     part.inverter = Inverter(grid, mol_solver, {"invert_type"    : "wuyang", 
-                                                "disp"           : True,
+                                                "disp"           : False, 
                                                 "ab_sym"         : True,
                                                 "ens_spin_sym"   : False,
                                                 "tol_lin_solver" : 1e-3,
@@ -48,42 +47,41 @@ def test_partition_energies():
                                                 "res_factor"     : 0,
                                             })
 
-
     part.optPartition.isolated = True
     part.scf({"disp"  : False,
             "alpha" : [0.6],
             "e_tol" : 1e-7})
 
     part.optPartition.isolated   = False
-    part.scf({"disp"       : True,
+    part.scf({"disp"       : False,
             "alpha"      : [0.3],
             "max_iter"   : 200,
             "e_tol"      : 1e-7,
             "continuing" : True, 
             "iterative"  : False})
 
-    expected = {'Ea': -14.620725296666407,
-                'Eb': -14.620725296666407,
-                'Ef': -29.241450593332814,
-                'Tsf': 23.94674969252165,
-                'Eksf': np.array([[-16.43163514]]),
-                'Enucf': -62.51175647729054,
-                'Exf': -4.41266533612583,
-                'Ecf': -0.44288284078384776,
-                'Ehf': 14.179104368345756,
-                'Vhxcf': 21.974617745569216,
-                'Ep': -3.538585137136643,
-                'Ep_pot': -7.103238227474018,
-                'Ep_kin': 0.06491019980946788,
-                'Ep_hxc': 3.499742890527907,
-                'Et': -32.78003573046946,
+    expected = {'Ea': -14.64239075876027,
+                'Eb': -14.64239075876027,
+                'Ef': -29.28478151752054,
+                'Tsf': 25.34937178021555,
+                'Eksf': np.array([[-16.72707747]]),
+                'Enucf': -63.73131825287787,
+                'Exf': -4.527858632036746,
+                'Ecf': -0.4495664797297575,
+                'Ehf': 14.074590066908286,
+                'Vhxcf': 21.60485817523808,
+                'Ep': -3.614959527515154,
+                'Ep_pot': -7.1522854050404625,
+                'Ep_kin': 0.0642644656425091,
+                'Ep_hxc': 3.4730614118827994,
+                'Et': -32.8997410450357,
                 'Vnn': 3.5382574082264484,
-                'E': -29.241778322243007,
+                'E': -29.361483636809247,
                 'evals_a': np.array([], dtype=np.float64),
                 'evals_b': np.array([], dtype=np.float64),
-                'Ep_h': 3.548294203236745,
-                'Ep_x': -0.04334766216506569,
-                'Ep_c': -0.0052036505437722536}
+                'Ep_h': 3.519875684463109,
+                'Ep_x': -0.04185713118930234,
+                'Ep_c': -0.004957141391007558}
 
     for i in part.E.__dict__:
         if i.startswith("__") is False:
