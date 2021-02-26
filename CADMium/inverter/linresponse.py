@@ -66,8 +66,9 @@ def linresponse(self, n0, vs0=None):
 
         self.B = B
 
-        self.solver[0,0].hamiltonian()
-        self.solver[0,0].e0 = -20
+        for j in range(self.solver.shape[0]):
+            self.solver[j,0].hamiltonian()
+            self.solver[j,0].e0 = -20
 
         res_lsq = least_squares(fun    = self.Ws,
                                 x0     = vs0[:, 0], 
@@ -95,8 +96,9 @@ def linresponse(self, n0, vs0=None):
 
             B = spdiags( 1./n0[:,i], 0, Nelem, Nelem)
             self.B = B
-            self.solver[0,i].hamiltonian()
-            self.solver[0,i].e0 = -20
+            for j in range(self.solver.shape[0]):
+                self.solver[j,i].hamiltonian()
+                self.solver[j,i].e0 = -20
 
             res_lsq = least_squares(fun    = self.Ws,
                                     x0     = vs0[:, i], 
@@ -104,12 +106,13 @@ def linresponse(self, n0, vs0=None):
                                     method = "trf", 
                                     args   = (i,))
 
+            for j in range(self.solver.shape[0]):
+                flag[j,i] = res_lsq.status
+                output[j,i] = res_lsq
 
             self.vs[:,i] = res_lsq.x
             self.us[i]   = self.solver[0,i].get_homo()
-            flag[0,i] = res_lsq.status
 
-            output[0,i] = res_lsq
 
     return flag, output
 

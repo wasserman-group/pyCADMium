@@ -3,10 +3,12 @@ EnsCorHar.py
 Calculates ensemble correlated hartree energy
 """
 
+import numpy as np
+
 def EnsCorHar(self):
 
     if True:
-        print("Warning. Missing if statement")
+        print("Warning: If len(KS) > 1 Has not been migrated from matlab")
         if self.optPartition.ens_spin_sym is not True:
             self.KSa.E.Ehcor = 0.0
             self.KSb.E.Ehcor = 0.0

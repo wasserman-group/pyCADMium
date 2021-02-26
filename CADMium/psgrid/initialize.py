@@ -11,7 +11,7 @@ import numpy as np
 
 from ..common.NC import NC
 
-def initialize(self, DISP=True, factor=True):
+def initialize(self, DISP=False, factor=True):
 
     #Number of points 
     self.Na = (self.NP-1) * self.NMa + 1 

@@ -1,6 +1,7 @@
 """
 partition.py
 """
+from copy import copy
 import numpy as np
 from dataclasses import dataclass
 from pydantic import validator, BaseModel
@@ -9,6 +10,9 @@ from .scf import scf
 from .vp_nuclear import vp_nuclear
 from .vp_kinetic import vp_kinetic
 from .vp_hxc import vp_hxc
+from .vp_overlap import vp_overlap
+from .vp_surprise import vp_surprise
+from .EnsCorHar import EnsCorHar
 from .energy import energy
 from .partition_energy import partition_energy
 from .ep_nuclear import ep_nuclear
@@ -30,17 +34,17 @@ class E:
     pass
 
 class PartitionOptions(KohnShamOptions):
-    vp_calc_type : str = 'component'
-    hxc_part_type : str = 'exact'
+    vp_calc_type      : str = 'component'
+    hxc_part_type     : str = 'exact'
     kinetic_part_type : str = 'vonweiz'
-    k_family : str = 'gga'
-    ke_func_id : int = 5
-    ke_param : dict = {}
-    ab_sym : bool = False
-    fractonal : bool = False
-    ens_spin_sym : bool = False
-    isolated : bool = False
-    fixed_q : bool = False
+    k_family          : str = 'gga'
+    ke_func_id        : int = 5
+    ke_param          : dict = {}
+    ab_sym            : bool = False
+    fractonal         : bool = False
+    ens_spin_sym      : bool = False
+    isolated          : bool = False
+    fixed_q           : bool = False
 
     @validator('vp_calc_type')
     def vp_calc_type_values(cls, v):
@@ -172,8 +176,8 @@ class Partition():
         self.Nf = None
 
         #Component molecular potentials and total energies
-        self.V = V
-        self.E = E
+        self.V = V()
+        self.E = E()
 
         #Kohn Sham objects
         self.KSa = None
@@ -241,7 +245,7 @@ class Partition():
         """
         Calculates scale factors
         """
-        #print("Warning: If len(KS) > 1 Has not been migrated from matlab")
+        print("Warning: If len(KS) > 1 Has not been migrated from matlab")
 
         self.KSa.scale = self.nu_a
         self.KSb.scale = self.nu_b
@@ -249,7 +253,6 @@ class Partition():
         #IF ENS_SPIN_SYM is set, then each scale factor is Reduced by a factor of 
         #two because it will be combined with an ensemble component with 
         #flipped spins
-
         if self.optPartition.ens_spin_sym is True:
             self.KSa.scale = self.KSa.scale / 2.0
             self.KSb.scale = self.KSb.scale / 2.0
@@ -272,20 +275,22 @@ class Partition():
         "Mirror fragment A to get B"
 
         #Mirror densities and Q functions
-        self.KSb.n = self.grid.mirror(self.KSa.n)
-        self.KSb.Q = self.grid.mirror(self.KSa.Q)
+        self.KSb.n = self.grid.mirror(self.KSa.n).copy()
+        self.KSb.Q = self.grid.mirror(self.KSa.Q).copy()
 
         #Energies don't need mirrored, just transfered
-        self.KSb.E = self.KSa.E
-        self.KSb.u = self.KSa.u
+        self.KSb.E = copy(self.KSa.E)
+        self.KSb.u = copy(self.KSa.u)
 
-        self.KSb.veff = self.grid.mirror(self.KSa.veff)
-        self.KSb.vext = self.grid.mirror(self.KSa.vext)
+        self.KSb.veff = self.grid.mirror(self.KSa.veff).copy()
+        self.KSb.vext = self.grid.mirror(self.KSa.vext).copy()
 
-        #Mirror all the potentials
-        for attribute in self.KSa.V.__dict__.keys():
-            if not attribute.startswith('__'):
-                setattr(self.KSb.V, attribute, getattr(self.KSa.V, attribute))
+        attributes = ["vx", "vc", "vh", "vp", "ex", "ec", "eh"]
+        #Mirror all potentials
+        for i in attributes:
+            if hasattr( self.KSa.V, i ) is True:
+                setattr( self.KSb.V, i, self.grid.mirror(getattr(self.KSa.V, i)).copy() )
+
 
     def calc_protomolecule(self):
         """
@@ -331,6 +336,12 @@ class Partition():
     def vp_hxc(self):
         vp_hxc(self)
 
+    def vp_overlap(self):
+        vp_overlap(self)
+    
+    def vp_surprise(self):
+        vp_surprise(self)
+
     def energy(self):
         energy(self)
 
@@ -345,6 +356,9 @@ class Partition():
 
     def ep_hxc(self):
         ep_hxc(self)
+
+    def EnsCorHar(self):
+        EnsCorHar(self)
 
     # def get_ts_WFI(self):
     #     ts = get_ts_WFI(self)

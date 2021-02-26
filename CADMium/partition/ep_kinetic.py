@@ -21,7 +21,6 @@ def ep_kinetic(self):
         tsm =   (np.sum(self.nf, axis=1)**(-0.5)) / self.grid.w \
               * (-0.5 * self.grid.elap @ np.sum(self.nf, axis=1)**0.5 )
 
-
         #Evaluate kinetic energy for integer ocupation 
         #Densities
         Tsf = 0.0 #Start with zero and sum fragment kinetic energy
@@ -44,7 +43,6 @@ def ep_kinetic(self):
 
         raise ValueError(f"Kinetic_part_type {self.optPartition.kinetic_part_type} \
                            has not been implemented")
-
 
     elif self.optPartition.kinetic_part_type == "inversion":
         

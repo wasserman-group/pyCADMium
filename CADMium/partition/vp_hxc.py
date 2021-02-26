@@ -69,7 +69,7 @@ def vp_hxc(self):
     elif self.optPartition.hxc_part_type == "overlap_hxc":
         #Overlap approximation for H2p
 
-        self.EnsCorHart()
+        self.EnsCorHar()
 
         #Chain rule to evaluate overlap hxc term 
         self.energy()

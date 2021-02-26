@@ -15,18 +15,18 @@ from .get_Ts import get_Ts
 # from .linresponse import Jacobian
 
 class InverterOptions(BaseModel):
-    ab_sym : bool = False
-    ens_spin_sym : bool = False
-    use_iterative : bool = False
-    disp : bool = False
-    avoid_loop : bool = False
-    invert_type : str = 'wuyang'
-    k_val : float = -1e-12
-    tol_lin_solver : float = 1e-2
-    tol_invert : float = 1e-15
+    ab_sym              : bool = False
+    ens_spin_sym        : bool = False
+    use_iterative       : bool = False
+    disp                : bool = False
+    avoid_loop          : bool = False
+    invert_type         : str = 'wuyang'
+    k_val               : float = -1e-12
+    tol_lin_solver      : float = 1e-2
+    tol_invert          : float = 1e-12
     max_iter_lin_solver : int = 2000
-    max_iter_invert : int = 20
-    res_factor : float = 1e0
+    max_iter_invert     : int = 100
+    res_factor          : float = 1e0
 
     @validator('invert_type')
     def invert_type_values(cls, v):
@@ -107,7 +107,7 @@ class Inverter():
         self.ts_WFI = None
         self.ts_WFII = None
 
-    def invert(self, n0, vs0, phi0=[], e0=[], ispin=[], Qi=[]):
+    def invert(self, n0, vs0, phi0=[], e0=[], ispin=0, Qi=[]):
         """
         Do the inverstion
         """
@@ -169,19 +169,13 @@ class Inverter():
         if self.optInv.ab_sym is True:
             vs = 0.5 * (vs + self.grid.mirror(vs))
 
-        # fig = plt.figure()
-        # x,y = self.grid.axis_plot(vs)
-        # plt.plot(x,y)
-        # # plt.xlim(-7,7)
-        # # plt.ylim(-5,5)
-        # plt.show()
-
         #Transfer new potentials to solver objects and calculate new densities
-        self.solver[0,spin].setveff(vs)
-        self.solver[0,spin].calc_orbitals()
-        self.solver[0,spin].calc_density()
-        self.solver[0,spin].calc_energy()
-        self.solver[0,spin].calc_response()
+        for i in range(self.solver.shape[0]):
+            self.solver[i,spin].setveff(vs)
+            self.solver[i,spin].calc_orbitals()
+            self.solver[i,spin].calc_density()
+            self.solver[i,spin].calc_energy()
+            self.solver[i,spin].calc_response()
 
         #Calculate new density     
         n = np.zeros((self.grid.Nelem, 1))  
@@ -213,7 +207,6 @@ class Inverter():
         """
         Calculates Jacobian for a given vs
         """
-
 
         #Calculate jacobian of error function.
         Jac = np.vstack( ( self.B @ self.solver[0,spin].chi, np.zeros((1, self.Nelem)) ) )
