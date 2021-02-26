@@ -8,30 +8,6 @@ from scipy.optimize import minimize
 from scipy.sparse import spdiags
 
 
-# def Jacobian(self, vs):
-#     """
-#     Calculates Jacobian of a given vs
-#     """
-
-#     if self.optInversion["AB_SYM"] is True:
-#         vs = 0.5 * (vs + self.grid.mirror(vs))
-
-#     #Transfer new potentials to solver objects and calculate new densities
-#     self.solver[0,0].setveff(vs)
-#     self.solver[0,0].calc_orbitals()
-#     self.solver[0,0].calc_density()
-#     self.solver[0,0].calc_energy()
-#     self.solver[0,0].calc_response()
-
-#     #Calculate new density      
-#     n = np.zeros((self.grid.Nelem, self.pol))  
-#     for i in range(self.Nmo.shape[0]):
-#         for j in range(self.Nmo.shape[1]):
-#             n[:,j] += np.squeeze(self.solver[i,j].n)
-
-#     if self.optInversion["AB_SYM"] is True:
-#         n = 0.5 * (n + self.grid.mirror(n))
-
 def linresponse(self, n0, vs0=None):
     """
     wuyang like inversion of the density with response
@@ -74,7 +50,9 @@ def linresponse(self, n0, vs0=None):
                                 x0     = vs0[:, 0], 
                                 jac    = self.Jacobian, 
                                 method = "trf", 
-                                args   = (0,))
+                                args   = (0,),
+                                xtol   = self.optInv.tol_invert,
+                                gtol   = self.optInv.tol_invert)
 
         #Get solution from least squares object
         self.vs[:,0] = res_lsq.x
@@ -104,7 +82,9 @@ def linresponse(self, n0, vs0=None):
                                     x0     = vs0[:, i], 
                                     jac    = self.Jacobian, 
                                     method = "trf", 
-                                    args   = (i,))
+                                    args   = (i,),
+                                    xtol   = self.optInv.tol_invert,
+                                    gtol   = self.optInv.tol_invert)
 
             for j in range(self.solver.shape[0]):
                 flag[j,i] = res_lsq.status
