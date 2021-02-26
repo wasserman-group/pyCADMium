@@ -277,6 +277,16 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
             phi   = np.hstack( (phi, (isolver[i].phi) ))
             evals = np.hstack( (evals, isolver[i].eig) )
 
+        #Sanity chech. If there is one evals. It wont be able to be concatenated
+        if evals.ndim == 1:
+            evals = evals[:,None]
+
+        # print("Evals", evals)
+        # print("Evals shape", evals.shape)
+        # print("Evals", evals[0:-1] - evals[-1])
+
+        # sys.exit()
+
         X = np.vstack(( phi.flatten("F")[:, None],
                         (evals[0:-1] - evals[-1]),
                         np.zeros((North, 1)),
@@ -425,13 +435,9 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                     isolver[it].phi = np.reshape( X[ np.array(range(Nmo[it] * Nelem)) + np.sum(Nmo[0:it-1]) * Nelem] , (Nelem, Nmo[it]) , order="F")
                     isolver[it].eig = evals[:Nmo[it] + np.sum(Nmo[:it-1])]
 
-                print("Eigenvalues?", isolver[0].eig)
-
                 for i in isolver:
                     i.setveff(self.vs[:, ispin])
                     i.calc_orbitals()
-
-                print("Eigenvalues?", isolver[0].eig)
 
                 phi = None
                 evals = None
