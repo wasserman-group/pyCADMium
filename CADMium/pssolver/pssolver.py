@@ -20,18 +20,14 @@ from .get_ked_WFI import get_ked_WFI
 eps = np.finfo(float).eps
 
 class SolverOptions(BaseModel):
-    fractional : bool = False
-    sym : bool = False
+    fractional      : bool = False
+    sym             : bool = False
     iter_lin_solver : bool = True
-    tol_orbital : float = 1e-15
-    tol_lin_solver : float = 1e-4
-    disp : bool = True
+    disp            : bool = True
+    tol_orbital     : float = 1e-15
+    tol_lin_solver  : float = 1e-4
 
-def Pssolver(grid, Nmo, N, optSolver={}
-            #  FRACTIONAL = False, 
-            #  SYM        = False
-             ):
-
+def Pssolver(grid, Nmo, N, optSolver={}):
     """
     Generates an array of solvers of shape Nmo[0]xNmo[1]
     """
@@ -101,13 +97,6 @@ class i_solver():
         self.ked_WFI = None #Use laplacian
         self.kedWFII = None #Use gradient
         
-
-        # self.FRACTIONAL = FRACTIONAL
-        # self.SYM = SYM
-        # self.ITERLINSOLVE = True
-        # self.TOL_ORBITAL = 2e-15
-        # self.TOL_IN_SOLVER = 1e-4
-        # self.tol = eps
         self.v0 = np.ones(self.grid.Nelem)
         # self.default_e0 = -20.0
 

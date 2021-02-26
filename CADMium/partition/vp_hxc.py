@@ -8,7 +8,7 @@ def vp_hxc(self):
     """
     Calculate dft componets of vp
     """
-
+    
     if self.optPartition.hxc_part_type != "nohxc" and \
        (self.optPartition.hxc_part_type == "exact" and \
         self.optPartition.interaction_type == "ni") is False:
@@ -35,9 +35,10 @@ def vp_hxc(self):
             
     
     #Do calculations for overlap type functionals
-    if self.optPartition.hxc_part_type == "ovlp_xc" or \
-       self.optPartition.hxc_part_type == "ovlp_hxc" or \
-       self.optPartition.hxc_part_type == "ovlp_exx":
+    if self.optPartition.hxc_part_type == "overlap_xc" or \
+       self.optPartition.hxc_part_type == "overlap_hxc" or \
+       self.optPartition.hxc_part_type == "overlap_exx":
+    
         self.vp_overlap()
 
     #Do calculatiosn for surprisal type functionals
@@ -56,7 +57,7 @@ def vp_hxc(self):
         for i_KS in [self.KSa, self.KSb]:
             i_KS.V.vp_hxc = i_KS.V.vp_h
 
-    elif self.optPartition.hxc_part_type == "ovlp_xc":
+    elif self.optPartition.hxc_part_type == "overlap_xc":
         #Overlap approximation for H2
         #Chain rule to evaluate overlap xc term
         self.energy()
@@ -65,10 +66,10 @@ def vp_hxc(self):
             i_KS.V.vp_hxc = i_KS.V.vp_h + self.E.F * (i_KS.V.vp_x + i_KS.V.vp_c) + \
                                           ( self.E.Ep_x + self.E.Ep_c ) * i_KS.V.dFdn
 
-    elif self.optPartition.hxc_part_type == "ovlp_hxc":
+    elif self.optPartition.hxc_part_type == "overlap_hxc":
         #Overlap approximation for H2p
 
-        self.EnsCorHart()
+        self.EnsCorHar()
 
         #Chain rule to evaluate overlap hxc term 
         self.energy()
@@ -80,7 +81,7 @@ def vp_hxc(self):
                             + (1 - self.E.F) * (i_KS.V.vhcor) \
                             + (self.E.Ehcor) * i_KS.V.dFdn
 
-    elif self.optPartition.hxc_part_type == "ovlp_hxc2.0":
+    elif self.optPartition.hxc_part_type == "overlap_hxc_2":
         #Overlap approximation for H2p
 
         self.EnsCorHart()

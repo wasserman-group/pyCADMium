@@ -5,17 +5,18 @@ scf.py
 import numpy as np
 from pydantic import validator, BaseModel
 
-
 class KohnShamSCFOptions(BaseModel):
-    e_tol : float = 10e-6
-    maxiter : int = 100
-    alpha : float = 0.5
-    verbose : bool = True
-    continuing : bool = False
-    iterative : bool = True
-    spinflipsym : bool = False
-    autotol : bool = False
-    autotoliter : int = 3
+    disp          : bool = True
+    continuing    : bool = False
+    iterative     : bool = True
+    spinflipsym   : bool = False
+    auto_tol       : bool = False
+    maxiter       : int = 100
+    auto_tol_iter : int = 3
+    e_tol         : float = 10e-6
+    alpha         : float = 0.5
+
+
 
 def scf(self, optKS):
     """
@@ -28,14 +29,14 @@ def scf(self, optKS):
             raise ValueError(f"{i} is not a valid option for the SCF procedure")
     optKS = KohnShamSCFOptions(**optKS)
 
-    if optKS.verbose is True:
+    if optKS.disp is True:
         print(' iter    Total Energy     HOMO Eigenvalue         Res       \n');
         print('----------------------------------------------------------- \n');
 
     if optKS.continuing is True:
         print("Am I continuing?")
         #If we continue a calculation, we check that we have an input density
-        assert len(self.n) == 0, "CONTINUE option is True, but there is no input density"
+        assert len(self.n) != 0, "CONTINUE option is True, but there is no input density"
         self.vext = np.zeros_like(self.vnuc) if self.vext is None else self.vext
     else:
         #We need an initial guess
@@ -55,12 +56,12 @@ def scf(self, optKS):
     old_n = np.zeros((self.grid.Nelem, self.pol))
     iter = 1
 
-    if optKS.autotol == True:
+    if optKS.auto_tol == True:
         min_dif = 10
         num_iter_not_min = 0
 
 
-    while (diff > optKS.e_tol or optKS.autotol == True and num_iter_not_min < opt.KS.autotoliter) and iter < optKS.maxiter:
+    while (diff > optKS.e_tol or optKS.auto_tol == True and num_iter_not_min < opt.KS.auto_tol_iter) and iter < optKS.maxiter:
 
 
         #Calculate and set new effective potential:
@@ -102,14 +103,14 @@ def scf(self, optKS):
         old_E = self.E.E
         old_n = self.n
 
-        if optKS.autotol is True:
+        if optKS.auto_tol is True:
             if dif < min_dif:
                 num_iter_not_min = 0
                 min_dif = diff
             else:
                 num_iter_not_min = num_iter_not_min + 1
 
-        if optKS.verbose is True:
-            print(f"   {iter}         {self.E.E:.3f}          {self.u:.3f}            {diff}")
+        if optKS.disp is True:
+            print(f"{iter:5d}      {self.E.E:+9.5f}      {self.u:+9.5e}       {diff:+9.5e}")
 
         iter += 1

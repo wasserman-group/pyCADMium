@@ -47,7 +47,6 @@ def calc_orbitals(self, solver_id, return_dict):
         self.eig = eig[indx]
         self.phi = phi[:,indx] 
 
-
         while np.isnan(self.phi).all() != np.zeros_like(self.phi).all():
             e0 = e0 - 0.1
             self.eig, self.phi = eigs(spsolve(W, H), k=self.Nmo, sigma=e0, v0=self.opt["v0"])
@@ -75,7 +74,6 @@ def calc_orbitals(self, solver_id, return_dict):
                     self.phi[:, i] = self.phi[:, i] - self.grid.mirror(self.phi[:,i])
 
     else:
-        self.eig = -1 / spacing(1)
-
+        self.eig = -1.0 / np.finfo(float).eps
     if return_dict is not None:
         return_dict[solver_id] = [self.eig, self.phi] 

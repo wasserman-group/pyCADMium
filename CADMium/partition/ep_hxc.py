@@ -94,25 +94,25 @@ def ep_hxc(self):
         #Hartee only
         self.E.Ep_hxc = self.E.Ep_h
 
-    elif self.optPartition.hxc_part_type == "ovlp_xc":
+    elif self.optPartition.hxc_part_type == "overlap_xc":
         #Overlap approximation for H2
         self.vp_overlap()
         self.E.Ep_hxc = self.E.Ep_h + self.E.F * (self.E.Ep_x + self.E.Ep_c)
 
-    elif self.optPartition.hxc_part_type == "ovlp_hxc":
+    elif self.optPartition.hxc_part_type == "overlap_hxc":
         "Overlap aprpoximation for H2"
         self.vp_overlap()
         self.EnsCorHar()
         self.E.Ep_hxc = self.E.F * ( self.E.Ep_h + self.E.Ep_x + self.E.Ep_c ) \
                         + (1 - self.E.F) * self.E.Ehcor
 
-    elif self.optPartition.hxc_part_type == "ovlp_hxc2.0":
+    elif self.optPartition.hxc_part_type == "overlap_hxc_2":
         self.vp_overlap()
         self.EnsCorHar()
         self.E.Ep_hxc = self.E.F * ( self.E.Ep_h + self.E.Ep_x + self.E.Ep_c ) \
                         + (1 - self.E.F) * self.E.Ehcor
 
-    elif self.optPartition.hxc_part_type:
+    elif self.optPartition.hxc_part_type == "surprise": 
         self.vp_surprise()
         self.E.Ep_hxc = self.E.Ep_h \
                       + self.grid.integrate( self.V.s * (self.V.ep_x + self.V.ep_c) * np.sum(self.nf, axis=1))

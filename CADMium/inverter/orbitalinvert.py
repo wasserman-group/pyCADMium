@@ -12,16 +12,14 @@ from scipy.sparse import eye
 from scipy.sparse.linalg import qmr
 from scipy.sparse.linalg import LinearOperator
 from scipy.sparse.linalg import spilu
+from scipy.sparse.linalg import spsolve
+from scipy.sparse.linalg import inv
+from scipy.sparse.linalg import lgmres
 
 import scipy.sparse.linalg as sla
 
 import sys
 import warnings
-
-try:
-    from rich import print
-except:
-    pass
 
 class inversion_info:
     pass
@@ -127,13 +125,13 @@ def kmatrix(x, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j):
         print("Warning North iteration may be *very* wrong")
         Ocon[i] = np.sum( WWi @ phi[:, iorht[i,0]] * phi[:, iorth[i, 1]] )
         ind = np.ravel_multi_index( ( range(0, Nelem) + (i_orth[i, 0]-1)*Nelem ,
-                                      range(0, Nelem) + (i_orth[i, 1]-1)*Nelem)
+                                      range(0, Nelem) + (i_orth[i, 1]-1)*Nelem),
                                     [np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem], 
                                     order="F")
                     
         Hjac[ind] = spdiags(WWi) @ orthvals[i]
         ind = np.ravel_multi_index( ( range(0, Nelem) + (i_orth[i, 1]-1)*Nelem , 
-                                      range(0, Nelem) + (i_orth[i, 0]-1)*Nelem)
+                                      range(0, Nelem) + (i_orth[i, 0]-1)*Nelem),
                                     [np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem], 
                                     order="F")
 
@@ -190,6 +188,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     %%%%%%%%%%%%%%%%%%%%%%%%
 
     """
+
     output = {"iterations" : None, "firstorderopt" : None }
     if self.vs is None and self.us is None:
         self.vs = np.zeros((self.grid.Nelem, self.solver.shape[1]))
@@ -257,6 +256,10 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     i_orth = np.zeros( (0, 1) )
     North = len( i_orth )
 
+    # print("E0 shape and values\n", e0)
+    # print("E0", e0.shape)
+    # print("How much am I requiresting?", np.sum(Nmo) - 1)
+
     #Initial Guess
     if isolver[0].phi is None:
         X = np.vstack((  phi0[:np.sum(Nmo) * Nelem], 
@@ -274,6 +277,16 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
             phi   = np.hstack( (phi, (isolver[i].phi) ))
             evals = np.hstack( (evals, isolver[i].eig) )
 
+        #Sanity chech. If there is one evals. It wont be able to be concatenated
+        if evals.ndim == 1:
+            evals = evals[:,None]
+
+        # print("Evals", evals)
+        # print("Evals shape", evals.shape)
+        # print("Evals", evals[0:-1] - evals[-1])
+
+        # sys.exit()
+
         X = np.vstack(( phi.flatten("F")[:, None],
                         (evals[0:-1] - evals[-1]),
                         np.zeros((North, 1)),
@@ -285,9 +298,9 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     X = normalize(X, Nmo, Nelem, WWi, occ)
 
     if self.optInv.disp is True:
-        print('            _________________________')
-        print('           | Internal Inversion Loop |')
-        print('            _________________________')
+        # print('            _________________________')
+        # print('           | Internal Inversion Loop |')
+        # print('            _________________________')
         print('           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve\n');
         print('           ________________________________________________________________________________\n');
 
@@ -311,12 +324,6 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
             older_res_ncon = old_res_ncon
             old_res_ks     = res_ks
             old_res_ncon   = res_ncon
-
-        # if iter == 2:
-        #     sys.exit()
-
-        # print(eqn.T)
-        # print(jac[:,0])
 
         #Inner range of phi:
         if np.sum(Nmo) - 1 == 0:
@@ -365,6 +372,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
 
                 #Use Iterative?
                 if self.optInv.use_iterative == True:
+                    warnings.warn("QMR solver may not work")
                     tol   = self.optInv.tol_lin_solver
                     maxit = self.optInv.max_iter_lin_solver
 
@@ -375,18 +383,28 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                     M = np.concatenate((M1, M2), axis=0)
                     M = csc_matrix(M)
 
+                    M_inv = inv(M)
+
                     lu = sla.splu(M)
-                    M1 = lu.L
-                    M2 = lu.U
 
-                    jac = jac
-                    eqn = eqn[:,0]
+                    #Neet to build a Linear operator out of L and U Matrix.
+                    #QMR is not written to take matrices, but Linear Operators. 
+                    M1 = lu.L.A
+                    M2 = lu.U.A
 
-                    jac = csc_matrix(jac)
-                    M1 = csc_matrix(M1)
-                    M2 = csc_matrix(M2)
+                    M1_solve  = lambda z: spsolve(M1, z)
+                    M1_solveH = lambda z: spsolve(np.conjugate(M1).T, z)
 
-                    dX, info = qmr( jac, -eqn, tol=tol,maxiter=maxit)  #,M1 = M1, M2 = M2)
+                    M2_solve  = lambda z: spsolve(M2, z)
+                    M2_solveH = lambda z: spsolve(np.conjugate(M2).T, z)
+
+                    LO_M1 = LinearOperator(M.shape, matvec=M1_solve, rmatvec=M1_solveH)
+                    LO_M2 = LinearOperator(M.shape, matvec=M2_solve, rmatvec=M2_solveH)
+
+                    # dX, info = lgmres(jac, -eqn, M=M)
+                    # # dX, info = sla.gmres(jac, -eqn, M=M_inv)
+                    # dX, info = qmr( jac, -eqn, tol=tol,maxiter=maxit, M1=LO_M1, M2=LO_M2)  
+                    dX, info = qmr(jac, -eqn, M1=LO_M1, M2=LO_M2)
                     dX = dX[:,None]
 
                     if info > 0:
@@ -402,7 +420,6 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
 
             #If conditions have not been met, recalculate X
             else:
-
                 #Inner range of phi:
                 if np.sum(Nmo) - 1 == 0:
                     subset = np.array(range(np.sum(Nmo) * Nelem))
@@ -412,9 +429,9 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                     evals = np.concatenate( ( X[ subset ], np.array(([[0]])) ), axis=0 )
 
                 self.vs[:, ispin] = X[np.array(range(Nelem)) + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North, 0]
-                evals = np.concatenate( ( X[ subset ], np.array(([[0]])) ), axis=0 )
 
                 for it in range(Nsol):
+
                     isolver[it].phi = np.reshape( X[ np.array(range(Nmo[it] * Nelem)) + np.sum(Nmo[0:it-1]) * Nelem] , (Nelem, Nmo[it]) , order="F")
                     isolver[it].eig = evals[:Nmo[it] + np.sum(Nmo[:it-1])]
 
@@ -451,7 +468,6 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         evals = np.concatenate( ( X[ subset ], np.array(([[0]])) ), axis=0 )
 
     self.vs[:, ispin] = X[ np.array(range(Nelem)) + np.sum(Nmo) * Nelem + np.sum(Nmo) - 1 + North, 0]
-    evals = np.concatenate( ( X[ subset ], np.array(([[0]])) ), axis=0 )
 
     for it in range(Nsol):
         isolver[it].phi = np.reshape( X[ np.array(range(Nmo[it] * Nelem)) + np.sum(Nmo[0:it-1]) * Nelem] , (Nelem, Nmo[it]) , order="F")

@@ -8,26 +8,21 @@ from pydantic import validator, BaseModel
 from typing import List
 import sys
 
-try:
-    from rich import print
-except:
-    pass
-
 class PartitionSCFOptions(BaseModel):
-    e_tol : float = 1e-10
-    max_iter : int = 100
-    alpha : List[float] = [0.6]
-    beta : List[float] = [0.82]
-    calc_type : str = 'pdft'
-    disp : bool = False
-    continuing : bool = False
+    e_tol               : float = 1e-7
+    max_iter            : int = 50
+    alpha               : List[float] = [0.82]
+    beta                : List[float] = [0.82]
+    calc_type           : str = 'pdft'
+    disp                : bool = False
+    continuing          : bool = False
     from_target_density : bool = False
-    iterative : bool = True
-    isolated : bool = False
-    auto_tol : bool = False
-    auto_tol_iter : int = 3
-    freeze_a : bool = False
-    freeze_b : bool = False 
+    iterative           : bool = True
+    isolated            : bool = False
+    auto_tol            : bool = False
+    auto_tol_iter       : int = 3
+    freeze_a            : bool = False
+    freeze_b            : bool = False 
 
     @validator('calc_type') 
     def calc_type_values(cls, v):
@@ -121,7 +116,6 @@ def scf(self, optSCF={}):
     dif        = 10.0
     old_E      = 0.0
     old_nf     = self.nf
-    vp         = np.zeros_like((self.grid.Nelem, self.pol))
     iterations = 1
     inversionfailures   = 0
     STOP       = False
@@ -129,22 +123,22 @@ def scf(self, optSCF={}):
     if optSCF.auto_tol is True:
         min_dif = 10.0
         num_iter_not_min = 0
-    
+
+#-----> SCF Procedure Begins
     while (dif > optSCF.e_tol 
            or (optSCF.auto_tol is True and num_iter_not_min < self.optPartition["AutoTolIter"])) \
-           and iterations <= optSCF.max_iter                                                \
+           and iterations <= optSCF.max_iter                                                     \
            and STOP is False:
 
-        #Set flags to avoid dead loops in inversion
+    #-----> Sanity Checks
         if (self.optPartition.kinetic_part_type == "inversion" and optSCF.isolated == False):
-
             if iterations == 1:
                 self.inverter.optInv.avoid_loop = True
             else:
                 self.inverter.optInv.avoid_loop = False
-            
+
+    #-----> Calculate V_Hxc
         for iKS in KSab:
-            #Calculate new local vhxc potentials
             vhxc_old = iKS.vhxc
             iKS.calc_hxc_potential()
             iKS.vhxc = 1.0 * iKS.vhxc + 0.0 * vhxc_old
@@ -152,40 +146,31 @@ def scf(self, optSCF={}):
         if self.optPartition.ab_sym:
             self.mirrorAB()
 
+    #-----> Calculate Partition Potential
         if not optSCF.isolated:
-            #Calculate the partition potential
-            vp = 0.0 * vp + 1.0 * self.partition_potential()
-
+            vp = self.partition_potential()
         else: 
-            #Otherwise fill in zeros
             vp = np.zeros_like(self.nf)
             for i_KS in KSab:
                 i_KS.V.vp = np.zeros_like(self.nf)
 
+    #-----> Add effective potentials to fragments
+            #Calculate new density
         for i_KS in KSab:
             if i_KS.V.frozen is not True:
-                #Each fragment feels the effective potential
-                #as an external potential
-                if optSCF.calc_type == "pdft":
-                    #Global partition optential
+                if optSCF.calc_type == "pdft": #Global partition optential
                     i_KS.vext = vp
-                elif optSCF.calc_type == "sdft":
-                    #Sybsystem-DFT
-                    #Fragment embedding poetntials
+                elif optSCF.calc_type == "sdft": #Sybsystem-DFT. Fragment embedding potentials
                     i_KS.vext = i_KS.V.vp
 
             #Set new effective potential
             i_KS.set_effective_potential()
-
             #Calculate new density
             nout = i_KS.calc_density(optSCF.iterative, dif)
-
             #Get the new chemical potential
             i_KS.calc_chempot()
-
             #Set new density with linear mixing
             i_KS.n = (1-i_KS.Alpha) * i_KS.n + i_KS.Alpha * nout
-
             #Calculate each fragment energy
             i_KS.energy()
 
@@ -198,7 +183,7 @@ def scf(self, optSCF={}):
         self.calc_Q()
         self.energy()
 
-        #Convergence check
+    #-----> Convergence Check
         dif_E  = np.abs( np.sum(self.E.E - old_E) / self.E.E )
         dif_nf = np.max(self.grid.integrate(np.abs(self.nf-old_nf)) / self.grid.integrate(np.abs(self.nf)))
         dif    = max(dif_E, dif_nf)
@@ -209,7 +194,6 @@ def scf(self, optSCF={}):
             if dif < min_dif:
                 num_iter_not_min = 0
                 min_dif = dif
-
             else:
                 num_iter_not_min = num_iter_not_min + 1
 
@@ -238,13 +222,12 @@ def scf(self, optSCF={}):
         # if True:
             if (self.optPartition.kinetic_part_type == "inversion" or \
             self.optPartition.vp_calc_type == "potential_inversion") and not optSCF.isolated: 
-                print(f"  {iterations:3d}          {self.E.Ea:+10.5f}      {self.E.Eb:+10.5f}                {max_nfev:3d}       {max_optimality:+7.3e}      {dif:+7.3e}")
+                print(f"  {iterations:3d}          {self.E.Ea:+10.5f}      {self.E.Eb:+10.5f}           {max_nfev:3d}       {max_optimality:+7.3e}      {dif:+7.3e}")
 
             else:
                 print(f"  {iterations:3d}         {self.E.Ea:10.5f}   {self.E.Eb:10.5f}       {dif:7.3e} ")
 
         iterations += 1
-
 
     if dif < optSCF.e_tol:
         flag = True
