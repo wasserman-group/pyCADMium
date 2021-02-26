@@ -24,10 +24,9 @@ def test_partition_energies():
     Nmo_m = [[4]]
     N_m   = [[8]]
 
-
     #Set up grid
     NP = 4
-    NM = [3,3]
+    NM = [4,4]
     L = np.arccosh(15/a)
     loc = np.array(range(-4,5)) #Stencil outline
 
@@ -40,7 +39,7 @@ def test_partition_energies():
     #Setup inverter object
     mol_solver = Pssolver(grid, Nmo_m, N_m, {"tol_orbital" : 1e-9})
     part.inverter = Inverter(grid, mol_solver, {"invert_type"    : "wuyang", 
-                                                "disp"           : True,
+                                                "disp"           : False, 
                                                 "ab_sym"         : True,
                                                 "ens_spin_sym"   : False,
                                                 "tol_lin_solver" : 1e-3,
@@ -48,14 +47,13 @@ def test_partition_energies():
                                                 "res_factor"     : 0,
                                             })
 
-
     part.optPartition.isolated = True
     part.scf({"disp"  : False,
             "alpha" : [0.6],
             "e_tol" : 1e-7})
 
     part.optPartition.isolated   = False
-    part.scf({"disp"       : True,
+    part.scf({"disp"       : False,
             "alpha"      : [0.3],
             "max_iter"   : 200,
             "e_tol"      : 1e-7,
