@@ -2,6 +2,8 @@
 energy.py
 """
 
+from copy import copy as copy
+
 def energy(self):
     """
     Calculate energies
@@ -59,14 +61,14 @@ def energy(self):
 
     else:
 
-        Tsb       = Tsa.copy()
-        Eksb      = Eksa.copy()
-        Enucb     = Enuca.copy()
-        Exb       = Exa.copy()
-        Ecb       = Eca.copy()
-        Ehb       = Eha.copy()
-        Vhxcb     = Vhxca.copy()
-        self.E.Eb = self.E.Ea.copy()    
+        Tsb       = copy(Tsa)
+        Eksb      = copy(Eksa)
+        Enucb     = copy(Enuca)
+        Exb       = copy(Exa)
+        Ecb       = copy(Eca)
+        Ehb       = copy(Eha)
+        Vhxcb     = copy(Vhxca)
+        self.E.Eb = copy(self.E.Ea)    
 
     if self.optPartition.ens_spin_sym:
         #We double the fragment energies to account
