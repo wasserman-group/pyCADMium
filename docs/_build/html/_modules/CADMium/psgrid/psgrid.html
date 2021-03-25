@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CADMium.psgrid.psgrid &mdash; CADMium  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> CADMium
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../prolate_spheroidal_grid.html">Prolate Spheroidal Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">CADMium</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>CADMium.psgrid.psgrid</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for CADMium.psgrid.psgrid</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">psgrid.py</span>
+<span class="sd">Provides handling for 2d finite difference meshes on a prolate spheroidal grid</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.initialize</span> <span class="kn">import</span> <span class="n">initialize</span>
+<span class="kn">from</span> <span class="nn">.mirror</span> <span class="kn">import</span> <span class="n">mirror</span>
+<span class="kn">from</span> <span class="nn">.spinflip</span> <span class="kn">import</span> <span class="n">spinflip</span>
+<span class="kn">from</span> <span class="nn">.square</span> <span class="kn">import</span> <span class="n">square</span>
+<span class="kn">from</span> <span class="nn">.sigma</span> <span class="kn">import</span> <span class="n">sigma</span>
+<span class="kn">from</span> <span class="nn">.integrate</span> <span class="kn">import</span> <span class="n">integrate</span>
+<span class="kn">from</span> <span class="nn">.finite_difference_1d</span> <span class="kn">import</span> <span class="n">finite_difference_1d</span>
+<span class="kn">from</span> <span class="nn">.finite_difference_2d</span> <span class="kn">import</span> <span class="n">finite_difference_2d</span>
+<span class="kn">from</span> <span class="nn">.operators</span> <span class="kn">import</span> <span class="n">operators</span>
+<span class="kn">from</span> <span class="nn">.factorize_laplacian</span> <span class="kn">import</span> <span class="n">factorize_laplacian</span>
+<span class="kn">from</span> <span class="nn">.reduced_grad</span> <span class="kn">import</span> <span class="n">reduced_grad</span>
+<span class="kn">from</span> <span class="nn">.plotter</span> <span class="kn">import</span> <span class="n">plotter</span>
+
+<div class="viewcode-block" id="Psgrid"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid">[docs]</a><span class="k">class</span> <span class="nc">Psgrid</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates spheroidal grid</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    NP: int</span>
+<span class="sd">        Number of points per integration block</span>
+<span class="sd">    NM: list</span>
+<span class="sd">        Number of angluar/radial blocks</span>
+<span class="sd">    a: float</span>
+<span class="sd">        half bond lenght</span>
+<span class="sd">    L: float</span>
+<span class="sd">        spheroidal box size</span>
+<span class="sd">    loc: np.ndarray</span>
+<span class="sd">        stencil required for derivatives</span>
+<span class="sd">       </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Na: int</span>
+<span class="sd">        Number of angular points</span>
+<span class="sd">    Nr: int</span>
+<span class="sd">        Number or radial points</span>
+<span class="sd">    Nelem: int</span>
+<span class="sd">        Total number of points</span>
+<span class="sd">    xa : np.ndarray</span>
+<span class="sd">        Angular coordinate</span>
+<span class="sd">    xr : np.ndarray</span>
+<span class="sd">        Radial coordinate</span>
+<span class="sd">    Xa : np.ndarray</span>
+<span class="sd">        Angular coordinate in 2D grid</span>
+<span class="sd">    Xr : np.ndarray</span>
+<span class="sd">        Angular coordiante in 2D grid</span>
+<span class="sd">    ha : float</span>
+<span class="sd">        Angular grid spacing</span>
+<span class="sd">    hr : float</span>
+<span class="sd">        Radial grid spacing    </span>
+<span class="sd">    Y : np.ndarray</span>
+<span class="sd">        Y axis cartesian representation of PS grid</span>
+<span class="sd">    Z : np.ndarray</span>
+<span class="sd">        Z axis cartesian representation of PS grid</span>
+<span class="sd">    a : float</span>
+<span class="sd">        Half bond length</span>
+<span class="sd">    R : float</span>
+<span class="sd">        Bond length</span>
+<span class="sd">    L : float</span>
+<span class="sd">        Spheroidal box size</span>
+<span class="sd">    w : np.ndarray</span>
+<span class="sd">        Volume element</span>
+<span class="sd">    wi : np.ndarray</span>
+<span class="sd">        Integration weights</span>
+<span class="sd">    f : np.ndarray</span>
+<span class="sd">        Orbital angular momentum poential</span>
+<span class="sd">    d1 : np.ndarray</span>
+<span class="sd">        First order coefficients</span>
+<span class="sd">    i1 : np.ndarray</span>
+<span class="sd">        Location of coefficients</span>
+<span class="sd">    d2 : np.ndarray</span>
+<span class="sd">        Second order coefficients</span>
+<span class="sd">    i2 : np.ndarray</span>
+<span class="sd">        Location of coefficients</span>
+<span class="sd">    eDa1 : np.ndarray</span>
+<span class="sd">        Angular Differentiator (Even symmetry)</span>
+<span class="sd">    eDa2 : np.ndarray</span>
+<span class="sd">        Angular Differentiator (Even symmetry)</span>
+<span class="sd">    eDr1 : np.ndarray</span>
+<span class="sd">        Radial Differentiator (Even symmetry)</span>
+<span class="sd">    eDr2 : np.ndarray</span>
+<span class="sd">        Radial Differentiator (Even symmetry)</span>
+<span class="sd">    oDa1 : np.ndarray</span>
+<span class="sd">        Angular Differentiator (Odd symmetry)</span>
+<span class="sd">    oDa2 : np.ndarray</span>
+<span class="sd">        Angular Differentiator (Odd symmetry)</span>
+<span class="sd">    oDr1 : np.ndarray</span>
+<span class="sd">        Radial Differentiator (Odd symmetry)</span>
+<span class="sd">    oDr2 : np.ndarray</span>
+<span class="sd">        Radial Differentiator (Odd symmetry)</span>
+<span class="sd">    elap : csc_matrix</span>
+<span class="sd">        Laplacian -&gt; Even</span>
+<span class="sd">    olap : csc_matrix</span>
+<span class="sd">        Laplacian -&gt; Odd</span>
+<span class="sd">    grada : csc_matrix</span>
+<span class="sd">        Angular gradient component</span>
+<span class="sd">        (We only need m+=even gradient)</span>
+<span class="sd">    gradr : csc_matrix</span>
+<span class="sd">        Radial gradient component</span>
+<span class="sd">    diva :  csc_matrix</span>
+<span class="sd">        Angular divergence component</span>
+<span class="sd">        (We only need m=even gradient)</span>
+<span class="sd">    divr : csc_matrix</span>
+<span class="sd">        Radial divergence component</span>
+<span class="sd">    bcN : int</span>
+<span class="sd">        Size of boundary region</span>
+<span class="sd">    bc1 : np.ndarray</span>
+<span class="sd">        Outer radial boundary conditions 1st order</span>
+<span class="sd">    bc2 : np.ndarray</span>
+<span class="sd">        Outer radial boundary conditions 2nd order</span>
+<span class="sd">    blap : csc_matrix</span>
+<span class="sd">        Laplacian for balues beond Xr=L boundary</span>
+<span class="sd">    bXa : np.ndarray</span>
+<span class="sd">        Coordinates just outside the Xr=L boundary</span>
+<span class="sd">    bXr : np.ndarray</span>
+<span class="sd">    h1 : np.ndarray</span>
+<span class="sd">    h2 : np.ndarray</span>
+<span class="sd">    h3 : np.ndarray</span>
+<span class="sd">    L_lap : csc_matrix</span>
+<span class="sd">    U_lap : csc_matrix</span>
+<span class="sd">    DISP : logical</span>
+<span class="sd">        Displays information about current run</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initialize()</span>
+<span class="sd">        Initalizes prolate spheroidal grid</span>
+<span class="sd">    mirror(fin)</span>
+<span class="sd">        Mirror function accros AB plane</span>
+<span class="sd">    square(fin)</span>
+<span class="sd">    sigma(fin)</span>
+<span class="sd">        Calculates gradient squared</span>
+<span class="sd">    spinflip(fin)</span>
+<span class="sd">        Flip spins</span>
+<span class="sd">    integrate(f)</span>
+<span class="sd">        Integrates a function f</span>
+<span class="sd">    finite_difference_1d()</span>
+<span class="sd">        Build finite difference operator matrices</span>
+<span class="sd">    finite_difference_2d()</span>
+<span class="sd">        Build finite difference operator matrices</span>
+<span class="sd">    operators()</span>
+<span class="sd">        Construct PS operators</span>
+<span class="sd">    factorize_laplacian(DISP)</span>
+<span class="sd">        Factorizes Laplacian for Hartree calculation</span>
+<span class="sd">    reduced_grad(n)</span>
+<span class="sd">        Calculates the reduced density gradient</span>
+<span class="sd">    plotter(fin, max=1, sym=1)</span>
+<span class="sd">        Plots function of psgrid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">NP</span><span class="p">,</span> <span class="n">NM</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
+
+        <span class="c1">#Mesh properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NP</span> <span class="o">=</span> <span class="n">NP</span>        <span class="c1">#Number of points per integration block</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NMa</span> <span class="o">=</span> <span class="n">NM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>    <span class="c1">#Number of angular blocks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NMr</span> <span class="o">=</span> <span class="n">NM</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>    <span class="c1">#Number of radial blocks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Na</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Number of angular points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nr</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Number of radial points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nelem</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1">#Total number of points</span>
+
+        <span class="c1">#Prolate Spheroidal Coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Angular coordinate in 1d array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xr</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Radial coordinate in 1d array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xa</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Angular coordinate in 2d grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xr</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Radial coordinate in 2d grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ha</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Angular grid spacing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hr</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Radial grid spacing</span>
+
+        <span class="c1">#Cartesian coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#Constants</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>          <span class="c1">#Half bond length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="kc">None</span>       <span class="c1">#Bond length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span>          <span class="c1">#Spheroidal box size</span>
+
+        <span class="c1">#volume element and integration weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="kc">None</span>       <span class="c1">#Volume element</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wi</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Integration weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="kc">None</span>       <span class="c1">#Orbital angular momentum potential</span>
+
+        <span class="c1">#Finite difference stencils</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d1</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#First order coefficients</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i1</span> <span class="o">=</span> <span class="n">loc</span>       <span class="c1">#Location</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d2</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1">#Second order coefficients</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i2</span> <span class="o">=</span> <span class="n">loc</span>       <span class="c1">#Location</span>
+
+        <span class="c1">#Basic finite difference operators</span>
+        <span class="c1"># m -&gt; even symmetry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eDa1</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Angular differentiator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eDa2</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Angular differentiator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eDr1</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Radial differentiator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eDr2</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Radial differentiator</span>
+        <span class="c1"># -&gt; odd symmetry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oDa1</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Angular differentiator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oDa2</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Angular differentiator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oDr1</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Radial differentiator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oDr2</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Radial differentiator</span>
+
+        <span class="c1">#Prolate spheroidal operators</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elap</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Laplacian -&gt; even</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">olap</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Laplacian -&gt; odd</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grada</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1">#Angular gradient component (we only need m=even gradient)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gradr</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1">#Radial gradient component</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diva</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Angular divergence component (we only need m=even gradient)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">divr</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Radial divergence component</span>
+
+        <span class="c1">#Boundary Conditions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bcN</span> <span class="o">=</span> <span class="kc">None</span>     <span class="c1">#Size of boundary region</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bc1</span> <span class="o">=</span> <span class="kc">None</span>     <span class="c1">#Outer radial boundary conditions 1st order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bc2</span> <span class="o">=</span> <span class="kc">None</span>     <span class="c1">#Outer radial boundary conditions 2nd order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blap</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1">#Laplacian for values beyond Xr=L boundary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bXa</span> <span class="o">=</span> <span class="kc">None</span>     <span class="c1">#Coordinates just outsise the Xr=Boundary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bXr</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#Scale Factors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h1</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h2</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h3</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L_lap</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U_lap</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DISP</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+    <span class="c1">#Import methods</span>
+    
+<div class="viewcode-block" id="Psgrid.initialize"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.mirror"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.mirror">[docs]</a>    <span class="k">def</span> <span class="nf">mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.square"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.square">[docs]</a>    <span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">square</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.sigma"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.sigma">[docs]</a>    <span class="k">def</span> <span class="nf">sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.spinflip"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.spinflip">[docs]</a>    <span class="k">def</span> <span class="nf">spinflip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">spinflip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.integrate"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.integrate">[docs]</a>    <span class="k">def</span> <span class="nf">integrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">integrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.finite_difference_1d"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.finite_difference_1d">[docs]</a>    <span class="k">def</span> <span class="nf">finite_difference_1d</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">finite_difference_1d</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.finite_difference_2d"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.finite_difference_2d">[docs]</a>    <span class="k">def</span> <span class="nf">finite_difference_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">finite_difference_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.operators"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.operators">[docs]</a>    <span class="k">def</span> <span class="nf">operators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">operators</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.factorize_laplacian"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.factorize_laplacian">[docs]</a>    <span class="k">def</span> <span class="nf">factorize_laplacian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DISP</span><span class="p">):</span>
+        <span class="n">factorize_laplacian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DISP</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.reduced_grad"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.reduced_grad">[docs]</a>    <span class="k">def</span> <span class="nf">reduced_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">reduced_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Psgrid.plotter"><a class="viewcode-back" href="../../../api/CADMium.Psgrid.html#CADMium.Psgrid.plotter">[docs]</a>    <span class="k">def</span> <span class="nf">plotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">full</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">plotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">sym</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">full</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">x</span></div></div>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Wasserman Group. Project structure based on the Computational Molecular Science Python Cookiecutter version 1.1
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
