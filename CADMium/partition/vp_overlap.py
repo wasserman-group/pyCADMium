@@ -1,5 +1,5 @@
 """
-vp_overalp.py
+vp_overlap.py
 Do calculations for overlap type functionals
 """
 
