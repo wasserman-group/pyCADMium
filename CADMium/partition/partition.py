@@ -262,7 +262,7 @@ class Partition():
         
         self.calc_nuclear_potential()
 
-#-->Methods
+#------> Class' Methods
     def calc_scale_factors(self):
         """
         Calculates scale factors
