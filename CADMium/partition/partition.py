@@ -217,13 +217,13 @@ class Partition():
             self.correlation = 0.0
             self.hartree = 0.0
 
-        optKS = dict( (k, optPartition[k]) for k in ('interaction_type', 
-                                                     'sym', 
-                                                     'fractional', 
-                                                     'xfunc_id', 
-                                                     'cfunc_id', 
-                                                     'xc_family') if k in optPartition )
-    
+        optKS = dict( (k, getattr(optPartition, k)) for k in ('interaction_type', 
+                                                            'sym', 
+                                                            'fractional', 
+                                                            'xfunc_id', 
+                                                            'cfunc_id', 
+                                                            'xc_family') if hasattr(optPartition, k) )
+                                                
         #Set up kohn sham objects
         self.KSa = Kohnsham(self.grid, self.Za, 0, self.pol, self.Nmo_a, self.N_a, optKS)
         self.KSb = Kohnsham(self.grid, 0, self.Zb, self.pol, self.Nmo_b, self.N_b, optKS)
@@ -291,7 +291,6 @@ class Partition():
             if hasattr( self.KSa.V, i ) is True:
                 setattr( self.KSb.V, i, self.grid.mirror(getattr(self.KSa.V, i)).copy() )
 
-
     def calc_protomolecule(self):
         """
         Calculate protomolecular density
@@ -309,7 +308,7 @@ class Partition():
             self.na_frac += self.grid.spinflip(self.na_frac)
             self.nb_frac += self.grid.spinflip(self.nb_frac)
 
-        #Nf is the sum of the ffragment densities
+        #Nf is the sum of the fragment densities
         self.nf = self.na_frac + self.nb_frac
 
     def calc_Q(self):
@@ -317,15 +316,12 @@ class Partition():
         Calculate Q functions
         """ 
 
-        self.KSa.Q = self.KSa.scale * self.KSa.n / self.nf
-        self.KSb.Q = self.KSb.scale * self.KSb.n / self.nf
+        with np.errstate(divide='ignore'):
+            self.KSa.Q = self.KSa.scale * self.KSa.n / self.nf
+            self.KSb.Q = self.KSb.scale * self.KSb.n / self.nf
 
-        for i in range(self.KSa.Q.shape[0]):
-            for j in range(self.KSa.Q.shape[1]):
-                if np.isnan(self.KSa.Q[i,j]):
-                    self.KSa.Q[i,j] = 0.0
-                if np.isnan(self.KSb.Q[i,j]):
-                    self.KSb.Q[i,j] = 0.0
+        self.KSa.Q = np.nan_to_num(self.KSa.Q, nan=0.0, posinf=0.0, neginf=0.0)
+        self.KSb.Q = np.nan_to_num(self.KSb.Q, nan=0.0, posinf=0.0, neginf=0.0)
 
     def vp_nuclear(self):
         vp_nuclear(self)
@@ -373,10 +369,6 @@ class Partition():
 
     def scf(self, optSCF={}):
         scf(self, optSCF)
-
-    # def Ws(self):
-    #     grad, Jac = Ws(self, vs)
-
 
 
 
