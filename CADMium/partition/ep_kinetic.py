@@ -3,6 +3,7 @@ ep_kinetic.py
 """
 
 import numpy as np
+import sys
 
 def ep_kinetic(self):
     """
@@ -41,8 +42,19 @@ def ep_kinetic(self):
          self.optPartition.kinetic_part_type == "paramke":
          #Use a kinetic energy from libxc
 
-        raise ValueError(f"Kinetic_part_type {self.optPartition.kinetic_part_type} \
-                           has not been implemented")
+        # Evaluate MOLECULAR kinetic energy
+        # Tsm and tsm calculated in ep_kinetic
+        tsm = self.tsm[:,0]
+        Tsm = self.Tsm
+
+        #Evaluate kinetic energy for integer occupation
+        Tsf = 0 #Start with zero and sum fragment Kinetic energy
+        tsf = np.zeros_like( tsm )
+
+        # Ts and ts for fragments obtained in ep_kinetic
+        for iKS in [self.KSa, self.KSb]:
+            Tsf += iKS.scale * iKS.V.Ts
+            tsf += iKS.scale * np.sum( iKS.Q, axis=1 ) * iKS.V.ts[:,0]
 
     elif self.optPartition.kinetic_part_type == "inversion":
         

@@ -65,8 +65,6 @@ class Libxc():
                                      - (self.grid.diva @ (vsigma[:,1] * (self.grid.grada @ n[:,0]))
                                        +self.grid.divr @ (vsigma[:,1] * (self.grid.gradr @ n[:,0])))
 
-        Vxc = self.grid.integrate(np.sum(vxc.copy() * n, axis=1))
-
         if return_epsilon is False:
             return exc, vxc
         

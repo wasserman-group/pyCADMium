@@ -3,42 +3,37 @@ vp_kinetic.py
 """
 
 import numpy as np
-np.set_printoptions(precision=8)
-import sys
+# np.set_printoptions(precision=8)
 
 def vp_kinetic(self):
     """
     Calculate Kinetic energy components of vp
     """
 
-    #Select method for calculating kinetic energy
+    # Select method for calculating kinetic energy
     if self.optPartition.kinetic_part_type == "vonweiz":
 
-        #Use the von-weizacker inversion
-        #May break if only one density 
+        # Use the von-weizacker inversion
         self.V.vt = (-0.5 * self.grid.elap @ (self.nf**0.5)) / (self.nf**0.5) / (self.grid.w * np.ones_like(self.nf).T).T
 
-        #Evaluate kinetic energy for integer ocupations
-        #Densities
-        #May break if only one density
-        # self.KSa.V.vt = (-0.5 * self.grid.elap @ (self.KSa.n**0.5)) / (self.KSa.n**0.5) / (self.grid.w)
-        # self.KSb.V.vt = (-0.5 * self.grid.elap @ (self.KSb.n**0.5)) / (self.KSb.n**0.5) / (self.grid.w)
-
+        # Evaluate kinetic energy for integer ocupations
         self.KSa.V.vt = (-0.5 * self.grid.elap @ (self.KSa.n**0.5)) / (self.KSa.n**0.5) / np.repeat(self.grid.w[:,None], self.KSa.n.shape[1], axis=1)
         self.KSb.V.vt = (-0.5 * self.grid.elap @ (self.KSb.n**0.5)) / (self.KSb.n**0.5) / np.repeat(self.grid.w[:,None], self.KSb.n.shape[1], axis=1)
 
-        for i in range(len(self.KSa.V.vt)):
-            if np.isnan(self.KSa.V.vt[i]) is True:
-                self.KSa.V.vt[i] = 0.0
-            if np.isnan(self.KSb.V.vt[i]) is True:
-                self.KSb.V.vt[i] = 0.0
+        # Get rid of infties/nans  
+        self.KSa.V.vt = np.nan_to_num(self.KSa.V.vt, nan=0.0, posinf=0.0, neginf=0.0)
+        self.KSb.V.vt = np.nan_to_num(self.KSb.V.vt, nan=0.0, posinf=0.0, neginf=0.0)
 
     elif self.optPartition.kinetic_part_type == "libxcke" or \
          self.optPartition.kinetic_part_type == "paramke":
         
         #Use a kinetic energy functional from libxc
-        #Evaluate molecular kinetic energy
-        raise ValueError("LibxcKe nor Paramke options are not avaliable")
+        #Evaluate MOLECULAR kinetic energy
+        self.Tsm, self.tsm, self.V.vt = self.kinetic.get_xc(self.nf, return_epsilon=True)
+
+        # Evaluate FRAGMENT kinetic energy
+        for iKS in [self.KSa, self.KSb]:
+            iKS.V.Ts, iKS.V.ts, iKS.V.vt = self.kinetic.get_xc(iKS.n, return_epsilon=True)            
 
     elif self.optPartition.kinetic_part_type == "inversion":
         #Find kinetic energy fucntional derivative for fragmetns using Euler equation
