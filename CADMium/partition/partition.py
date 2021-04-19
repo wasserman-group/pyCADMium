@@ -3,7 +3,8 @@ partition.py
 """
 from copy import copy
 import numpy as np
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 from pydantic import validator, BaseModel
 
 from .scf import scf
@@ -31,6 +32,27 @@ class V:
 
 @dataclass
 class E:
+    # Ea      : float = 0.0
+    # Eb      : float = 0.0 
+    # Ef      : float = 0.0
+    # Tsf     : float = 0.0
+    # Eksf    : List[float] = field(default_factory=list)
+    # Enucf   : float = 0.0
+    # Excf    : float = 0.0
+    # Ecf     : float = 0.0
+    # Ehf     : float = 0.0
+    # Vhxcf   : float = 0.0
+    # Ep_pot  : float = 0.0
+    # Ep_kin  : float = 0.0
+    # Ep_hxc  : float = 0.0
+    # Et      : float = 0.0
+    # Vnn     : float = 0.0
+    # E       : float = 0.0
+    # evals_a : List[float] = field(default_factory=list)
+    # evals_b : List[float] = field(default_factory=list)
+    # Ep_h    : float = 0.0
+    # Ep_x    : float = 0.0
+    # Ep_c    : float = 0.0
     pass
 
 class PartitionOptions(KohnShamOptions):
@@ -163,9 +185,9 @@ class Partition():
         self.grid = grid
 
         #Libxc function for fragment calculations
-        self.exchange = None
-        self.correlation = None
-        self.kinetic = None
+        # self.exchange = None
+        # self.correlation = None
+        # self.kinetic = None
         self.inverter = None
         self.hartree = None
 
@@ -315,11 +337,10 @@ class Partition():
         """
         Calculate Q functions
         """ 
+        np.seterr(divide='ignore', invalid='ignore')
 
-        with np.errstate(divide='ignore'):
-            self.KSa.Q = self.KSa.scale * self.KSa.n / self.nf
-            self.KSb.Q = self.KSb.scale * self.KSb.n / self.nf
-
+        self.KSa.Q = self.KSa.scale * self.KSa.n / self.nf
+        self.KSb.Q = self.KSb.scale * self.KSb.n / self.nf
         self.KSa.Q = np.nan_to_num(self.KSa.Q, nan=0.0, posinf=0.0, neginf=0.0)
         self.KSb.Q = np.nan_to_num(self.KSb.Q, nan=0.0, posinf=0.0, neginf=0.0)
 
