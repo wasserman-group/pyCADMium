@@ -181,43 +181,32 @@ class Partition():
         optPartition = PartitionOptions(**optPartition)
         self.optPartition = optPartition
 
-        #Grid
-        self.grid = grid
-
-        #Libxc function for fragment calculations
-        # self.exchange = None
-        # self.correlation = None
-        # self.kinetic = None
-        self.inverter = None
-        self.hartree = None
-
-        #Polarization
-        self.pol = pol
-
-        #Fragmentation 
-        self.Nf = None
-
-        #Component molecular potentials and total energies
-        self.V = V()
-        self.E = E()
-
-        #Kohn Sham objects
-        self.KSa = None
-        self.KSb = None
-
-        #Fragment nuclear charges and potentials
-        self.Za, self.Zb = Za, Zb
-        self.va, self.vb = None, None
-
+        # Initialize Partition
+        self.grid = grid                    # Grid
+        self.pol = pol                      # Polarization
+        self.Za, self.Zb = Za, Zb           # Fragment nuclear charges
+        
         #Fragment ensembles, mixing rations, sum of fragment ensembles
         self.na_frac, self.nb_fac = None, None
-        self.nu_a, self.nu_b = nu_a, nu_b
+        self.nu_a, self.nu_b = nu_a, nu_b  
         self.N_a = np.array(N_a)
         self.N_b = np.array(N_b)
         self.Nmo_a = np.array(Nmo_a)
         self.Nmo_b = np.array(Nmo_b)
         self.nf = None
 
+        #Component molecular potentials and total energies
+        self.V = V()
+        self.E = E()
+
+        #Libxc function for fragment calculations
+        self.inverter = None
+
+        
+        # #Fragmentation 
+        # self.Nf = None
+        # self.va, self.vb = None, None
+        
         #Sanity Check
         if optPartition.ab_sym and self.Za != self.Zb:
             raise ValueError("optPartition.ab_sym is set but nuclear charges are not symmetric")
@@ -228,6 +217,7 @@ class Partition():
         self.Alpha = None
         self.Beta = None
 
+        # Set up Exchange and Correlation Libxc Objects | Set up Hartree object
         if optPartition.interaction_type == "dft":
             self.exchange = Libxc(self.grid, optPartition.xc_family, optPartition.xfunc_id)
             self.correlation = Libxc(self.grid, optPartition.xc_family, optPartition.cfunc_id)
@@ -239,6 +229,7 @@ class Partition():
             self.correlation = 0.0
             self.hartree = 0.0
 
+        # Set up Kohn Sham objects
         optKS = dict( (k, getattr(optPartition, k)) for k in ('interaction_type', 
                                                             'sym', 
                                                             'fractional', 
@@ -246,13 +237,13 @@ class Partition():
                                                             'cfunc_id', 
                                                             'xc_family') if hasattr(optPartition, k) )
                                                 
-        #Set up kohn sham objects
         self.KSa = Kohnsham(self.grid, self.Za, 0, self.pol, self.Nmo_a, self.N_a, optKS)
         self.KSb = Kohnsham(self.grid, 0, self.Zb, self.pol, self.Nmo_b, self.N_b, optKS)
 
-        #Figure out scale factors
+        # Figure out scale factors
         self.calc_scale_factors()
 
+        # Set Kinetic Libxc object
         if optPartition.kinetic_part_type == "libxcke":
             self.kinetic = Libxc(self.grid, optPartition.k_family, optPartition.ke_func_id)
         elif optPartition.kinetic_part_type == "paramke":
@@ -376,9 +367,6 @@ class Partition():
 
     def EnsCorHar(self):
         EnsCorHar(self)
-
-    # def get_ts_WFI(self):
-    #     ts = get_ts_WFI(self)
 
     def partition_potential(self):
         vp = partition_potential(self)

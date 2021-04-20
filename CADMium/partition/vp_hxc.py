@@ -68,7 +68,6 @@ def vp_hxc(self):
 
     elif self.optPartition.hxc_part_type == "overlap_hxc":
         #Overlap approximation for H2p
-
         self.EnsCorHar()
 
         #Chain rule to evaluate overlap hxc term 
@@ -83,12 +82,10 @@ def vp_hxc(self):
 
     elif self.optPartition.hxc_part_type == "overlap_hxc_2":
         #Overlap approximation for H2p
-
-        self.EnsCorHart()
+        self.EnsCorHar()
 
         #Chain rule to evaluate overlap hxc term 
         self.energy()
-
         for i_KS in [self.KSa, self.KSb]:
 
             i_KS.V.vp_hxc = self.E.F * (i_KS.V.vp_x + i_KS.V.vp_c) + \
