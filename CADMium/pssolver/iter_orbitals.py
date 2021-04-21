@@ -59,7 +59,6 @@ def iter_orbitals(self, solver_id, return_dict):
             self.normalize_orbitals()
         
     else:
-        self.eig = -1 / np.spacing(1)
-
+        self.eig = np.array([-1 / np.finfo(float).eps])
     if return_dict is not None:
         return_dict[solver_id] = [self.eig, self.phi] 

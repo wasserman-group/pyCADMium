@@ -37,56 +37,74 @@ def scf(self, optSCF={}):
     SCF method to handle self consistent field calculations
     """
 
-    #Validate options
+    #---> Validate options
     optSCF =  {k.lower(): v for k, v in optSCF.items()}
     for i in optSCF.keys():
         if i not in PartitionSCFOptions().dict().keys():
             raise ValueError(f"{i} is not a valid option for KohnSham")
     optSCF = PartitionSCFOptions(**optSCF)
-
     optSCF.isolated = self.optPartition.isolated
 
-    #Sanity Check on options
+    #---> Sanity Check on options
     if self.inverter != None:
         if self.optPartition.ab_sym != self.inverter.optInv.ab_sym:
             warn("Warning optPartition.ab_sym != opt.Inverter.ab_sym. Is this the inteded behaviour")
         if self.optPartition.ens_spin_sym != self.inverter.optInv.ens_spin_sym:
             warn("Warning optPartition.ens_spin_sym != opt.Inverter.ab_sym. Is this the inteded behaviour")
 
+    #---> Do we freeze fragments?
     self.KSa.V.frozen = optSCF.freeze_a   
     self.KSb.V.frozen = optSCF.freeze_b
+    if self.ens:
+        self.KSA.V.frozen = optSCF.freeze_a   
+        self.KSB.V.frozen = optSCF.freeze_b
 
+    #---> SCF Mix
     if len(optSCF.alpha) == 1:
         self.Alpha = [optSCF.alpha[0], optSCF.alpha[0]]
     elif len(optSCF.alpha) == 2:
         self.Alpha = optSCF.alpha
     else:
         raise ValueError ("Max length of Alpha is 2")
-
     self.KSa.Alpha = self.Alpha[0]
     self.KSb.Alpha = self.Alpha[1]
+    if self.ens:
+        self.KSA.Alpha = self.Alpha[0]
+        self.KSB.Alpha = self.Alpha[1]
+
+    if self.optPartition.isolated:
+        print("----> Begin SCF calculation for *Isolated* Fragments\n")
+    else:
+        print("----> Begin SCF calculation for *Interacting* Fragments\n")
+
 
     if optSCF.disp is True:
         if self.optPartition.kinetic_part_type == "inversion":    
-            print(f"                Total Energy ( a.u.)                               Inversion                \n")
+            print(f"                Total Energy (a.u.)                                Inversion                \n")
             print(f"                __________________                ____________________________________     \n")
             print(f"Iteration         A              B                  iters      optimality        res       \n")
             print("___________________________________________________________________________________________ \n")
 
         else:
-            print(f"                  Total Energy            \n")
+            print(f"                Total Energy (a.u.)       \n")
             print(f"                __________________        \n")
             print(f"Iteration         A            B              res     \n")
             print("_______________________________________________________\n")
 
 
-    #Initial Guess Calculations
+    #---> Initial Guess
     if self.optPartition.ab_sym is True:
         #Only do calculations for fragment a
-        KSab = [self.KSa]
+        if not self.ens:
+            KSab = [self.KSa]
+        else:
+            KSab = [self.KSa, self.KSA]
 
     else:
-        KSab = [self.KSa, self.KSb]
+        if not self.ens:
+            KSab = [self.KSa, self.KSb]
+        else:
+            KSab = [self.KSa, self.KSA, self.KSb, self.KSB]
 
     for i_KS in KSab:
         if optSCF.continuing is True:
@@ -107,12 +125,12 @@ def scf(self, optSCF={}):
     if self.optPartition.ab_sym == True:
         self.mirrorAB()
 
-    #Form protomolecule and calculate Q-functions
+    #---> Form protomolecule and calculate Q-Functions
     if not optSCF.from_target_density: 
         self.calc_protomolecule()
     self.calc_Q()
 
-    #Start up the scf loop
+    #---> SCF Initialization
     dif        = 10.0
     old_E      = 0.0
     old_nf     = self.nf
@@ -124,7 +142,7 @@ def scf(self, optSCF={}):
         min_dif = 10.0
         num_iter_not_min = 0
 
-#-----> SCF Procedure Begins
+    #-----> SCF Procedure Begins
     while (dif > optSCF.e_tol 
            or (optSCF.auto_tol is True and num_iter_not_min < self.optPartition["AutoTolIter"])) \
            and iterations <= optSCF.max_iter                                                     \
@@ -217,7 +235,7 @@ def scf(self, optSCF={}):
                     if inversionfailures > 1:
                         raise SystemExit("Too many inversion failures. Stopping")
 
-        #Display
+    #---> Display
         if optSCF.disp is True:
         # if True:
             if (self.optPartition.kinetic_part_type == "inversion" or \

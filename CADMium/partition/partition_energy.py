@@ -8,7 +8,7 @@ def partition_energy(self):
     """
 
     if not self.optPartition.isolated:
-        #Calculate components of the partition energy
+        # Calculate components of the partition energy
         self.ep_nuclear() #Potential energy
         self.ep_kinetic() #Kinetic energy
         self.ep_hxc()     #Hxc energy

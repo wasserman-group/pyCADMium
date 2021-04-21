@@ -1,17 +1,15 @@
 """
 ep_kinetic.py
 """
-
 import numpy as np
-import sys
 
 def ep_kinetic(self):
     """
     Calculate kinetic energy components of Ep
     """
 
-    #Select method for calculating kinetic energy
 
+    #Select method for calculating kinetic energy
     if self.optPartition.kinetic_part_type == "vonweiz":
 
         #Use the von-Weizacker inversion
@@ -27,7 +25,12 @@ def ep_kinetic(self):
         Tsf = 0.0 #Start with zero and sum fragment kinetic energy
         tsf = np.zeros_like(tsm)
 
-        for i_KS in [self.KSa, self.KSb]:
+        if not self.ens:
+            iks = [self.KSa, self.KSb]
+        else:
+            iks = [self.KSa, self.KSA, self.KSb, self.KSB]
+
+        for i_KS in iks:
             Tsf += i_KS.scale * ( 2 * np.pi * self.grid.hr * self.grid.ha ) \
                               * np.sum( self.grid.wi * np.sum(i_KS.n, axis=1)**0.5 ) \
                               * ( -0.5 * self.grid.elap @ np.sum(i_KS.n, axis=1)**0.5 )
@@ -51,8 +54,13 @@ def ep_kinetic(self):
         Tsf = 0 #Start with zero and sum fragment Kinetic energy
         tsf = np.zeros_like( tsm )
 
+        if not self.ens:
+            iks = [self.KSa, self.KSb]
+        else:
+            iks = [self.KSa, self.KSA, self.KSb, self.KSB]
+
         # Ts and ts for fragments obtained in ep_kinetic
-        for iKS in [self.KSa, self.KSb]:
+        for iKS in iks:
             Tsf += iKS.scale * iKS.V.Ts
             tsf += iKS.scale * np.sum( iKS.Q, axis=1 ) * iKS.V.ts[:,0]
 
@@ -67,10 +75,15 @@ def ep_kinetic(self):
         tsf = tsf[:, None]
 
         if self.optPartition.ab_sym is not True:
-            KSab = [self.KSa, self.KSb]
-
+            if not self.ens:
+                KSab = [self.KSa, self.KSb]
+            else:
+                KSab = [self.KSa, self.KSA, self.KSb, self.KSB]
         else:
-            KSab = [self.KSa]
+            if not self.ens:
+                KSab = [self.KSa]
+            else:
+                KSab = [self.KSa, self.KSA]
 
         for i_KS in KSab:
             assert i_KS.E.Ts != None, ("Fragment energies must be evaluated before partition energy")
@@ -110,7 +123,7 @@ def ep_kinetic(self):
         raise ValueError("Twoorbital method not yet implemented")
 
     elif self.optPartition.kinetic_part_type == "fixed":
-        pass
+        raise ValueError("Fixed method not yet implemented")
 
     else:
         raise ValueError("Kinetic energy method not recognized")
@@ -130,7 +143,12 @@ def ep_kinetic(self):
 
     else:
         #Fixed vp_kinetic
-        KSab = [self.KSa, self.Ksb]
+
+        if not self.ens:
+            KSab = [self.KSa, self.Ksb]
+        else:
+            KSab = [self.KSa, self.KSA, self.KSb, self.KSB]
+
         Ep_kin = self.Ep_kin0
 
         for i_KS in KSab:
