@@ -67,8 +67,9 @@ def vp_hxc(self):
         self.energy()
         
         for i_KS in iks:
-            i_KS.V.vp_hxc = i_KS.V.vp_h + self.E.F * (i_KS.V.vp_x + i_KS.V.vp_c) + \
-                                          ( self.E.Ep_x + self.E.Ep_c ) * i_KS.V.dFdn
+            i_KS.V.vp_hxc =   i_KS.V.vp_h \
+                            + self.E.F * (i_KS.V.vp_x + i_KS.V.vp_c) \
+                            + ( self.E.Ep_x + self.E.Ep_c ) * i_KS.V.dFdn
 
     elif self.optPartition.hxc_part_type == "overlap_hxc":
         #Overlap approximation for H2p
@@ -77,21 +78,21 @@ def vp_hxc(self):
         self.energy()
 
         for i_KS in iks:
-            i_KS.V.vp_hxc = self.E.F * (i_KS.V.vp_x + i_KS.V.vp_c) + \
+            i_KS.V.vp_hxc = self.E.F * (i_KS.V.vp_h + i_KS.V.vp_x + i_KS.V.vp_c) + \
                             + (self.E.Ep_h + self.E.Ep_x + self.E.Ep_c) * i_KS.V.dFdn \
                             + (1 - self.E.F) * (i_KS.V.vhcor) \
                             + (self.E.Ehcor) * i_KS.V.dFdn
 
-    elif self.optPartition.hxc_part_type == "overlap_hxc_2":
-        #Overlap approximation for H2p
-        self.EnsCorHar()
-        #Chain rule to evaluate overlap hxc term 
-        self.energy()
-        for i_KS in iks:
-            i_KS.V.vp_hxc = self.E.F * (i_KS.V.vp_x + i_KS.V.vp_c) + \
-                            + (self.E.Ep_h + self.E.Ep_x + self.E.Ep_c) * i_KS.V.dFdn \
-                            + (1 - self.E.F) * (i_KS.V.vhcor) \
-                            + (self.E.Ehcor) * i_KS.V.dFdn
+    # elif self.optPartition.hxc_part_type == "overlap_hxc_2":
+    #     #Overlap approximation for H2p
+    #     self.EnsCorHar()
+    #     #Chain rule to evaluate overlap hxc term 
+    #     self.energy()
+    #     for i_KS in iks:
+    #         i_KS.V.vp_hxc = self.E.F * (i_KS.V.vp_h + i_KS.V.vp_x + i_KS.V.vp_c) + \
+    #                         + (self.E.Ep_h + self.E.Ep_x + self.E.Ep_c) * i_KS.V.dFdn \
+    #                         + (1 - self.E.F) * (i_KS.V.vhcor) \
+    #                         + (self.E.Ehcor) * i_KS.V.dFdn
 
     elif self.optPartition.hxc_part_type == "surprisal":
         #Hmmm (?)

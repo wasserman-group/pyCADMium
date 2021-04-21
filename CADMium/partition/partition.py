@@ -226,6 +226,11 @@ class Partition():
             raise ValueError("optPartition.ab_sym is set but nuclear charges are not symmetric")
         if self.nu_a != self.nu_b:
             warn("Warning. Fractional Ensemble is different for each fragment.")
+        # if np.mod(np.squeeze(self.N_a)[0], 1.0) !=0 and self.optPartition.fractional is False:
+        #     warn("Warning. Fractional number of electron requires fractional option active")
+        # if np.mod(np.squeeze(self.N_b)[0], 1.0) !=0 and self.optPartition.fractional is False:
+        #     warn("Warning. Fractional number of electron requires fractional option active")
+            
 
         self.inversion_info = None
 

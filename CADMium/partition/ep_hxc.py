@@ -7,7 +7,7 @@ def ep_hxc(self):
     """
     calculate dft components of Ep
     """
-    
+
     if self.optPartition.interaction_type == "dft":
 
         ###Hartree
@@ -120,13 +120,11 @@ def ep_hxc(self):
         #Hartee only
         self.E.Ep_hxc = self.E.Ep_h
 
-    elif self.optPartition.hxc_part_type == "overlap_xc":
-        #Overlap approximation for H2
+    elif self.optPartition.hxc_part_type == "overlap_xc": #Overlap approximation for H2
         self.vp_overlap()
         self.E.Ep_hxc = self.E.Ep_h + self.E.F * (self.E.Ep_x + self.E.Ep_c)
 
-    elif self.optPartition.hxc_part_type == "overlap_hxc":
-        "Overlap aprpoximation for H2"
+    elif self.optPartition.hxc_part_type == "overlap_hxc": #Overlap aprpoximation for H2
         self.vp_overlap()
         self.EnsCorHar()
         self.E.Ep_hxc = self.E.F * ( self.E.Ep_h + self.E.Ep_x + self.E.Ep_c ) \
