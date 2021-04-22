@@ -25,7 +25,7 @@ class InverterOptions(BaseModel):
     tol_lin_solver      : float = 1e-2
     tol_invert          : float = 1e-12
     max_iter_lin_solver : int = 2000
-    max_iter_invert     : int = 100
+    max_iter_invert     : int = 20
     res_factor          : float = 1e0
 
     @validator('invert_type')

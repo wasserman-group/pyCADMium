@@ -15,6 +15,9 @@ def partition_energy(self):
 
         self.E.Ep = self.E.Ep_pot + self.E.Ep_kin + self.E.Ep_hxc
 
+        # print("Leaving Through Parttition Energy")
+        # sys.exit()
+
     else:
         self.E.Ep     = 0.0
         self.E.Ep_pot = 0.0

@@ -88,9 +88,14 @@ def vp_kinetic(self):
             if self.pol == 2:
                 ntarget = 2 * ntarget
             phi0, e0, vs0 = self.initialguessinvert(ispin)
+            phi0 = phi0.flatten()[:,None]
+            e0   = e0.flatten()
 
             #Invert molecular problem:
             _, self.inversion_info = self.inverter.invert(ntarget, vs0, phi0, e0, ispin)
+
+        # print("Leaving through vp_kinetic")
+        # sys.exit()
 
         if self.optPartition.ens_spin_sym is True:
             self.inverter.solver[:,1] = self.inverter.solver[:,0]
