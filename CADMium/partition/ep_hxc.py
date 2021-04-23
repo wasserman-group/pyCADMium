@@ -19,13 +19,23 @@ def ep_hxc(self):
         ehf = np.zeros_like( ehm )
 
         if self.optPartition.ab_sym is True:
-            if hasattr(self.KSa.V, "frozen") is False or self.KSa.V.frozen is False:
-                ehf += np.sum( self.KSa.Q, axis=1 )[:,None] * self.KSa.V.eh[:, None]
+            # Ensemble?
+            if not self.ens:
+                iks = [self.KSa]
+            else:
+                iks = [self.KSa, self.KSA]
 
-            ehf += self.grid.mirror(ehf)
+            for i_KS in iks:
+                if hasattr(i_KS.V, "frozen") is False or i_KS.V.frozen is False:
+                    ehf += np.sum( i_KS.Q, axis=1 )[:,None] * i_KS.V.eh[:, None]
+                ehf += self.grid.mirror(ehf)
 
         else:
-            for i_KS in [self.KSa, self.KSb]:
+            if not self.ens:
+                iks = [self.KSa, self.KSb]
+            else:
+                iks = [self.KSa, self.KSA, self.KSb, self.KSB]
+            for i_KS in iks:
                 if hasattr(i_KS.V, "frozen") is False or i_KS.V.frozen is False:
                     ehf += np.sum(i_KS.Q, axis=1)[:,None] * i_KS.V.eh[:, None]
 
@@ -41,14 +51,22 @@ def ep_hxc(self):
         exf = np.zeros_like(self.nf)
 
         if self.optPartition.ab_sym is True:
-            for i_KS in [self.KSa]:
+            if not self.ens:
+                iks = [self.KSa]
+            else:
+                iks = [self.KSa, self.KSA]
+            for i_KS in iks:
                 if hasattr(i_KS.V, 'frozen') is False or i_KS.V.frozen is False:
                     exf += np.sum(i_KS.Q, axis=1)[:,None] * i_KS.V.ex
-
             exf += self.grid.mirror(exf)
 
         else:
-            for i_KS in [self.KSa, self.KSb]:
+            if not self.ens:
+                iks = [self.KSa, self.KSb]
+            else:
+                iks = [self.KSa, self.KSA, self.KSb, self.KSB]
+
+            for i_KS in iks:
                 if hasattr(i_KS.V, 'frozen') is False or i_KS.V.frozen is False:
                     exf += np.sum(i_KS.Q, axis=1)[:,None] * i_KS.V.ex
 
@@ -61,14 +79,22 @@ def ep_hxc(self):
         ecf = np.zeros_like(self.nf)
 
         if self.optPartition.ab_sym is True:
-            for i_KS in [self.KSa]:
+            if not self.ens:
+                iks = [self.KSa]
+            else:
+                iks = [self.KSa, self.KSA]
+            for i_KS in iks:
                 if hasattr(i_KS.V, 'frozen') is False or i_KS.V.frozen is False:
                     ecf += np.sum(i_KS.Q, axis=1)[:, None] * i_KS.V.ec
 
             ecf += self.grid.mirror(ecf)
 
         else:
-            for i_KS in [self.KSa, self.KSb]:
+            if not self.ens:
+                iks = [self.KSa, self.KSb]
+            else:
+                iks = [self.KSa, self.KSA, self.KSb, self.KSB]
+            for i_KS in iks:
                 if hasattr(i_KS.V, 'frozen') is False or i_KS.V.frozen is False:
                     ecf += np.sum(i_KS.Q, axis=1)[:, None] * i_KS.V.ec
 
@@ -94,13 +120,11 @@ def ep_hxc(self):
         #Hartee only
         self.E.Ep_hxc = self.E.Ep_h
 
-    elif self.optPartition.hxc_part_type == "overlap_xc":
-        #Overlap approximation for H2
+    elif self.optPartition.hxc_part_type == "overlap_xc": #Overlap approximation for H2
         self.vp_overlap()
         self.E.Ep_hxc = self.E.Ep_h + self.E.F * (self.E.Ep_x + self.E.Ep_c)
 
-    elif self.optPartition.hxc_part_type == "overlap_hxc":
-        "Overlap aprpoximation for H2"
+    elif self.optPartition.hxc_part_type == "overlap_hxc": #Overlap aprpoximation for H2
         self.vp_overlap()
         self.EnsCorHar()
         self.E.Ep_hxc = self.E.F * ( self.E.Ep_h + self.E.Ep_x + self.E.Ep_c ) \

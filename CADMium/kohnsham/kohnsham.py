@@ -40,7 +40,6 @@ class KohnShamOptions(BaseModel):
             raise ValueError(f"'interaction_type' must be one of the options: {values}")
         return v
 
-
 class Kohnsham():
     """
     Handles a standard Kohn-Sham calculation
@@ -222,7 +221,7 @@ class Kohnsham():
         #Collect total kinetic energy
         self.E.Ts  = 0.0
         #Collect all eigenvalues
-        self.E.evals = np.empty((0))    
+        self.E.evals = np.empty((0))
     
         #Get KohSham energies from solver object
         for i in range(self.Nmo.shape[0]):
@@ -232,8 +231,7 @@ class Kohnsham():
                 self.E.Eks[0,j] += self.solver[i,j].eks
                 self.E.Ts       += self.solver[i,j].Ts
                 self.E.Vks[0,j] += self.solver[i,j].Vs
-
-                np.append(self.E.evals, self.solver[i,j])
+                self.E.evals = np.append(self.E.evals, self.solver[i,j].eig)
 
         if self.optKS.interaction_type == 'ni':
             self.E.Vnuc = self.grid.integrate(np.sum(self.n * self.vnuc, axis=1))

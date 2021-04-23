@@ -1,7 +1,7 @@
 """
 energy.py
 """
-
+import numpy as np
 from copy import copy as copy
 
 def energy(self):
@@ -19,7 +19,14 @@ def energy(self):
     Vhxca     = 0.0
     self.E.Ea = 0.0
 
-    for i_KS in [self.KSa]:
+    if not self.ens:
+        iks_a = [self.KSa]
+        iks_b = [self.KSb]
+    else:
+        iks_a = [self.KSa, self.KSA]
+        iks_b = [self.KSB, self.KSB]
+
+    for i_KS in iks_a:
         if i_KS.E is None:
             i_KS.energy()
 
@@ -44,7 +51,7 @@ def energy(self):
         Vhxcb     = 0.0
         self.E.Eb = 0.0
 
-        for i_KS in [self.KSb]:
+        for i_KS in iks_b:
             if i_KS.E is None:
                 i_KS.energy()
 
@@ -111,23 +118,31 @@ def energy(self):
     #Nuclear nuclear repulsion
     self.E.Vnn = self.Za * self.Zb / (2 * self.grid.a)
 
+    # Set total energy
     self.E.E = self.E.Et + self.E.Vnn
 
     self.E.evals_a = []
     self.E.evals_b = []
 
     if self.optPartition.ab_sym is True:
-        for i_KS in [self.KSa]:
-            self.E.evals_a = i_KS.E.evals
+        if not self.ens:
+            iks = [self.KSa]
+        else:
+            iks = [self.KSa, self.KSA]
+        for i_KS in iks:
+            self.E.evals_a = np.append(self.E.evals_a, i_KS.E.evals)
         self.E.evals_b = self.E.evals_a
     
     else:
-        for i_KS in [self.KSa, self.KSb]:
-            self.E.evals_a = i_KS.E.evals
-            self.E.evals_b = i_KS.E.evals
-
-
-
+        if not self.ens:
+            iks_a = [self.KSa]
+            iks_b = [self.KSb]
+        else:
+            iks_a = [self.KSa, self.KSA]
+            iks_b = [self.KSb, self.KSB]
+        for i in range(len(iks_a)):
+            self.E.evals_a = np.append(self.E.evals_a, iks_a[i].E.evals)
+            self.E.evals_b = np.append(self.E.evals_b, iks_b[i].E.evals)
     
     
 

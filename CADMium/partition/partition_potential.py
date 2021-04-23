@@ -29,8 +29,12 @@ def partition_potential(self):
         self.V.vp_x   = np.zeros_like(self.nf)
         self.V.vp_c   = np.zeros_like(self.nf)
 
-        for i_KS in [self.KSa, self.KSb]:
+        if not self.ens:
+            iks = [self.KSa, self.KSb]
+        else:
+            iks = [self.KSa, self.KSA, self.KSb, self.KSB]
 
+        for i_KS in iks:
             i_KS.V.vp = i_KS.V.vp_pot + i_KS.V.vp_kin + i_KS.V.vp_hxc
 
             self.V.vp     +=  i_KS.V.vp     * i_KS.Q
@@ -69,21 +73,23 @@ def partition_potential(self):
 
         u = max((self.KSa.u, self.KSb.u))
 
-        for i_KS in [self.KSa, self.KSb]:
+        if not self.ens:
+            iks = [self.KSa, self.KSb]
+        else:
+            iks = [self.KSa, self.KSA, self.KSb, self.KSB]
+
+        for i_KS in iks:
             i_KS.V.vt = u - i_KS.veff
 
-        #From initial guess for molecular inversion
+        #Form initial guess for molecular inversion
         if self.pol == 2:
             vs0 = np.zeros_like(self.nf)
-
-            for i_KS in [self.KSa, self.KSb]:
+            for i_KS in iks:
                 vs0 += i_KS.veff * i_KS.Q
                 if hasattr(i_KS.V, 'vp_kin') is True:
                     vs0 -= i_KS.V.vp_kin * i_KS.Q
-
             if self.optPartition.ens_spin_sym:
                 vs0 += self.grid.spinfip(vs0)
-
         else:
             phi0, e0, vs0 = self.initialguessinvert()
 
@@ -97,9 +103,8 @@ def partition_potential(self):
 
         #Calculate hxc functional for promolecular density
         self.V.vh = self.hartree.v_hartree(self.nf)
-        ex, self.V.vx = self.exchange.get_xc(self.nf)
-        ec, self.V.vc = self.correlation.get_xc(self.nf)
-
+        _, self.V.vx = self.exchange.get_xc(self.nf)
+        _, self.V.vc = self.correlation.get_xc(self.nf)
         self.V.vhxc = self.V.vh + self.V.vx + self.V.vc
 
         if hasattr(self.V, 'vp') is False:

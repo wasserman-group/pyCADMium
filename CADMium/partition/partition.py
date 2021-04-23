@@ -6,6 +6,7 @@ import numpy as np
 from dataclasses import dataclass, field
 from typing import List
 from pydantic import validator, BaseModel
+from warnings import warn
 
 from .scf import scf
 from .vp_nuclear import vp_nuclear
@@ -62,6 +63,7 @@ class PartitionOptions(KohnShamOptions):
     k_family          : str = 'gga'
     ke_func_id        : int = 5
     ke_param          : dict = {}
+    disp              : bool = False
     ab_sym            : bool = False
     fractonal         : bool = False
     ens_spin_sym      : bool = False
@@ -189,33 +191,48 @@ class Partition():
         #Fragment ensembles, mixing rations, sum of fragment ensembles
         self.na_frac, self.nb_fac = None, None
         self.nu_a, self.nu_b = nu_a, nu_b  
-        self.N_a = np.array(N_a)
-        self.N_b = np.array(N_b)
-        self.Nmo_a = np.array(Nmo_a)
-        self.Nmo_b = np.array(Nmo_b)
-        self.nf = None
 
+        # Are we doing an ensemble calculation?
+        if nu_a == 1.0 and nu_b == 1.0:
+            self.ens = False
+            self.N_a = np.array(N_a)
+            self.N_b = np.array(N_b)
+            self.Nmo_a = np.array(Nmo_a)
+            self.Nmo_b = np.array(Nmo_b)
+        else:
+            self.ens = True
+            self.N_a = np.array(N_a[0])
+            self.N_b = np.array(N_b[0])
+            self.Nmo_a = np.array(Nmo_a[0])
+            self.Nmo_b = np.array(Nmo_b[0])
+            self.N_A = np.array(N_a[1])
+            self.N_B = np.array(N_b[1])
+            self.Nmo_A = np.array(Nmo_a[1])
+            self.Nmo_B = np.array(Nmo_b[1])
+            
         #Component molecular potentials and total energies
         self.V = V()
         self.E = E()
 
         #Libxc function for fragment calculations
         self.inverter = None
-
-        
-        # #Fragmentation 
-        # self.Nf = None
-        # self.va, self.vb = None, None
         
         #Sanity Check
         if optPartition.ab_sym and self.Za != self.Zb:
             raise ValueError("optPartition.ab_sym is set but nuclear charges are not symmetric")
+        if self.nu_a != self.nu_b:
+            warn("Warning. Fractional Ensemble is different for each fragment.")
+        # if np.mod(np.squeeze(self.N_a)[0], 1.0) !=0 and self.optPartition.fractional is False:
+        #     warn("Warning. Fractional number of electron requires fractional option active")
+        # if np.mod(np.squeeze(self.N_b)[0], 1.0) !=0 and self.optPartition.fractional is False:
+        #     warn("Warning. Fractional number of electron requires fractional option active")
+            
 
         self.inversion_info = None
 
         #Conversion parameters
-        self.Alpha = None
-        self.Beta = None
+        # self.Alpha = None
+        # self.Beta = None
 
         # Set up Exchange and Correlation Libxc Objects | Set up Hartree object
         if optPartition.interaction_type == "dft":
@@ -236,9 +253,13 @@ class Partition():
                                                             'xfunc_id', 
                                                             'cfunc_id', 
                                                             'xc_family') if hasattr(optPartition, k) )
-                                                
+
         self.KSa = Kohnsham(self.grid, self.Za, 0, self.pol, self.Nmo_a, self.N_a, optKS)
         self.KSb = Kohnsham(self.grid, 0, self.Zb, self.pol, self.Nmo_b, self.N_b, optKS)
+        if self.nu_a != 1.0 and self.nu_b != 1.0:
+
+            self.KSA = Kohnsham(self.grid, self.Za, 0, self.pol, self.Nmo_A, self.N_A, optKS)
+            self.KSB = Kohnsham(self.grid, 0, self.Zb, self.pol, self.Nmo_B, self.N_B, optKS)
 
         # Figure out scale factors
         self.calc_scale_factors()
@@ -258,10 +279,22 @@ class Partition():
         """
         Calculates scale factors
         """
-        print("Warning: If len(KS) > 1 Has not been migrated from matlab")
+        if self.ens:
+            self.KSa.scale = 1-self.nu_a
+            self.KSA.scale = self.nu_a
 
-        self.KSa.scale = self.nu_a
-        self.KSb.scale = self.nu_b
+            self.KSb.scale = 1-self.nu_b
+            self.KSB.scale = self.nu_b
+
+            if self.optPartition.disp:
+                print(f"      Active Ensemble:\n")
+                print(f"      Fragment A electrons bewteen: {self.N_a} and {self.N_A}")
+                print(f"      Fragment B electrons between: {self.N_b} and {self.N_B}")
+                print("\n")
+
+        else:
+            self.KSa.scale = self.nu_a
+            self.KSb.scale = self.nu_b
 
         #IF ENS_SPIN_SYM is set, then each scale factor is Reduced by a factor of 
         #two because it will be combined with an ensemble component with 
@@ -269,6 +302,10 @@ class Partition():
         if self.optPartition.ens_spin_sym is True:
             self.KSa.scale = self.KSa.scale / 2.0
             self.KSb.scale = self.KSb.scale / 2.0
+
+            if self.ens:
+                self.KSA.scale = self.KSA.scale / 2.0
+                self.KSB.scale = self.KSB.scale / 2.0
 
     def calc_nuclear_potential(self):
         """
@@ -279,41 +316,58 @@ class Partition():
         self.vb = coulomb(self.grid, 0, self.Zb)
 
         self.V.vext = np.zeros((self.va.shape[0], self.pol))
-
         self.V.vext[:,0] = self.va + self.vb
         if self.pol == 2:   
             self.V.vext[:,1] = self.va + self.vb
 
     def mirrorAB(self):
-        "Mirror fragment A to get B"
+        """
+        Mirror fragment A to get B
+        """
 
-        #Mirror densities and Q functions
-        self.KSb.n = self.grid.mirror(self.KSa.n).copy()
-        self.KSb.Q = self.grid.mirror(self.KSa.Q).copy()
+        if not self.ens:
+            KSa = [self.KSa]
+            KSb = [self.KSb]
+        else:
+            KSa = [self.KSa, self.KSA]
+            KSb = [self.KSb, self.KSB]
 
-        #Energies don't need mirrored, just transfered
-        self.KSb.E = copy(self.KSa.E)
-        self.KSb.u = copy(self.KSa.u)
+        for i in range(len(KSa)):
+            #Mirror densities and Q functions
+            KSb[i].n = self.grid.mirror(KSa[i].n).copy()
+            KSb[i].Q = self.grid.mirror(KSa[i].Q).copy()
 
-        self.KSb.veff = self.grid.mirror(self.KSa.veff).copy()
-        self.KSb.vext = self.grid.mirror(self.KSa.vext).copy()
+            #Energies don't need mirrored, just transfered
+            KSb[i].E = copy(KSa[i].E)
+            KSb[i].u = copy(KSa[i].u)
 
-        attributes = ["vx", "vc", "vh", "vp", "ex", "ec", "eh"]
-        #Mirror all potentials
-        for i in attributes:
-            if hasattr( self.KSa.V, i ) is True:
-                setattr( self.KSb.V, i, self.grid.mirror(getattr(self.KSa.V, i)).copy() )
+            KSb[i].veff = self.grid.mirror(KSa[i].veff).copy()
+            KSb[i].vext = self.grid.mirror(KSa[i].vext).copy()
+
+            attributes = ["vx", "vc", "vh", "vp", "ex", "ec", "eh"]
+            #Mirror all potentials
+            for j in attributes:
+                if hasattr(  KSa[i].V, j ) is True:
+                    setattr( KSb[i].V, j, self.grid.mirror(getattr(KSa[i].V, j)).copy() )
 
     def calc_protomolecule(self):
         """
         Calculate protomolecular density
         """
-        
         #Evaluate sum of fragment densities and weighing functions
         self.na_frac  = np.zeros_like(self.KSa.n)
         self.nb_frac  = np.zeros_like(self.KSb.n) 
-        self.na_frac += self.KSa.n * self.KSa.scale 
-        self.nb_frac += self.KSb.n * self.KSb.scale
+
+        if not self.ens:
+            iksa = [self.KSa]
+            iksb = [self.KSb]
+        else:
+            iksa = [self.KSa, self.KSA]
+            iksb = [self.KSb, self.KSB]
+
+        for i in range(len(iksa)):
+            self.na_frac += iksa[i].n * iksa[i].scale 
+            self.nb_frac += iksb[i].n * iksb[i].scale
 
         #If we have spin symmetry in the ensemble then add
         #each density with spin flipped version
@@ -330,10 +384,15 @@ class Partition():
         """ 
         np.seterr(divide='ignore', invalid='ignore')
 
-        self.KSa.Q = self.KSa.scale * self.KSa.n / self.nf
-        self.KSb.Q = self.KSb.scale * self.KSb.n / self.nf
-        self.KSa.Q = np.nan_to_num(self.KSa.Q, nan=0.0, posinf=0.0, neginf=0.0)
-        self.KSb.Q = np.nan_to_num(self.KSb.Q, nan=0.0, posinf=0.0, neginf=0.0)
+        if not self.ens:
+            iks = [self.KSa, self.KSb]
+        else:
+            iks = [self.KSa, self.KSA, self.KSb, self.KSB]
+
+        for i in iks:
+            i.Q = i.scale * i.n / self.nf
+            i.Q = np.nan_to_num(i.Q, nan=0.0, posinf=0.0, neginf=0.0)
+
 
     def vp_nuclear(self):
         vp_nuclear(self)

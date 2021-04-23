@@ -29,7 +29,7 @@ def calc_ked_WFI(self):
         else:
             Nocc = np.floor(self.N/2)
             nu = self.N / 2 - Nocc
-
+    
     #Construct density
     for i in range(int(Nocc)):
         #Normalized orbital
@@ -37,11 +37,11 @@ def calc_ked_WFI(self):
         phi_norm = phi_norm[:, None]
         self.ked_WFI += (phi_norm * (self.H0 @ phi_norm)) / self.grid.w[:, None]
 
-    #If we are doing fractional robitals and are non-integer
+    #If we are doing fractional orbitals and are non-integer
     # if self.FRACTIONAL is True and nu != 0:
-    if self.optSolver.fractional is True and nu != 0:
+    if self.optSolver.fractional and nu != 0:
         #Normalized orbital
-        phi_norm = self.phi[:,i] / self.grid.integrate( self.phi[:, Nocc+1]**2)**0.5
+        phi_norm = self.phi[:,i] / self.grid.integrate( self.phi[:, int(Nocc+1) ]**2)**0.5
         phi_norm = phi_norm[:, None]
         self.ked_WFI += nu * ( phi_norm * (self.H0 @ phi_norm) ) / self.grid.w[:, None]
 
