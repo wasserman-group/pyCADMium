@@ -63,6 +63,7 @@ class PartitionOptions(KohnShamOptions):
     k_family          : str = 'gga'
     ke_func_id        : int = 5
     ke_param          : dict = {}
+    disp              : bool = False
     ab_sym            : bool = False
     fractonal         : bool = False
     ens_spin_sym      : bool = False
@@ -208,11 +209,6 @@ class Partition():
             self.N_B = np.array(N_b[1])
             self.Nmo_A = np.array(Nmo_a[1])
             self.Nmo_B = np.array(Nmo_b[1])
-
-            print("----> Active Ensemble: \n")
-            print(f"      Fragment A electrons bewteen: {N_a[0]} and {N_a[1]}")
-            print(f"      Fragment B electrons between: {N_b[0]} and {N_b[1]}")
-            print("\n")
             
         #Component molecular potentials and total energies
         self.V = V()
@@ -289,6 +285,13 @@ class Partition():
 
             self.KSb.scale = 1-self.nu_b
             self.KSB.scale = self.nu_b
+
+            if self.optPartition.disp:
+                print(f"      Active Ensemble:\n")
+                print(f"      Fragment A electrons bewteen: {self.N_a} and {self.N_A}")
+                print(f"      Fragment B electrons between: {self.N_b} and {self.N_B}")
+                print("\n")
+
         else:
             self.KSa.scale = self.nu_a
             self.KSb.scale = self.nu_b

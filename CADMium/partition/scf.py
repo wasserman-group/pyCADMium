@@ -72,13 +72,12 @@ def scf(self, optSCF={}):
         self.KSA.Alpha = self.Alpha[0]
         self.KSB.Alpha = self.Alpha[1]
 
-    if self.optPartition.isolated:
-        print("----> Begin SCF calculation for *Isolated* Fragments\n")
-    else:
-        print("----> Begin SCF calculation for *Interacting* Fragments\n")
-
-
     if optSCF.disp is True:
+        if self.optPartition.isolated:
+            print("----> Begin SCF calculation for *Isolated* Fragments\n")
+        else:
+            print("----> Begin SCF calculation for *Interacting* Fragments\n")
+
         if self.optPartition.kinetic_part_type == "inversion":    
             print(f"                Total Energy (a.u.)                                Inversion                \n")
             print(f"                __________________                ____________________________________     \n")
@@ -246,9 +245,11 @@ def scf(self, optSCF={}):
                 print(f"  {iterations:3d}         {self.E.Ea:10.5f}   {self.E.Eb:10.5f}       {dif:7.3e} ")
 
         iterations += 1
+        if iterations == optSCF.max_iter:
+            warn("SCF Warning: Max number of Iterations Surpassed. Desired convergence may have not been achieved") 
 
-    if dif < optSCF.e_tol:
-        flag = True
+    # if dif < optSCF.e_tol:
+    #     flag = True
 
-    else:
-        flag = False
+    # else:
+    #     flag = False
