@@ -33,7 +33,8 @@ def calc_density(self):
         self.n += (self.phi[:,i]**2)[None].T / self.grid.integrate(self.phi[:,i]**2)
 
     #If we are doing fractional orbitals and are non-integer
-    if self.FRACTIONAL and nu != 0:
+    if self.optSolver.fractional and nu != 0:
+    # if self.FRACTIONAL and nu != 0:
         self.n += nu * (self.phi[:, int(Nocc)]**2)[None].T / self.grid.integrate(self.phi[:, int(Nocc)]**2)
 
     #Scale densities appropriately

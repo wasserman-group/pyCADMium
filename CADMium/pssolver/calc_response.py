@@ -2,8 +2,6 @@
 calc_response.py
 """
 
-import sys
-
 import numpy as np
 from scipy.sparse import spdiags
 from scipy.sparse import vstack as csc_vstack
@@ -69,7 +67,8 @@ def calc_response(self):
         self.chi += 2 * PHI @ x[0:Nelem, 0:Nelem]
 
     #If we are doing a fractional orbitals and are non-integer
-    if self.FRACTIONAL is True and nu != 0:
+    # if self.FRACTIONAL is True and nu != 0:
+    if self.optSolver.fractional is  True and nu != 0:
         print("Warning, you may need to confirm calc_response in CADMium")
         j = Nocc + 1
 

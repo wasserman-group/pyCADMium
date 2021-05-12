@@ -10,8 +10,9 @@ from numpy.linalg import norm
 from numpy import spacing
 import numpy as np
 
+import sys
 
-def calc_orbitals(self):
+def calc_orbitals(self, solver_id, return_dict):
     """
     calculate molecular orbitals and eigenvalues
     """
@@ -36,16 +37,21 @@ def calc_orbitals(self):
         H = self.H0 + Veff
 
         #Solve eigenvalue problem
-        self.eig, self.phi = eigs(spsolve(W, H), k=self.Nmo, sigma=self.e0, v0=self.opt["v0"])
-        self.eig = self.eig.real
-        self.phi = self.phi.real
+        eig, phi = eigs(spsolve(W, H), k=self.Nmo, sigma=self.e0, v0=self.opt["v0"])
+        eig = eig.real
+        phi = phi.real
         e0 = self.e0
+
+        #Ordering Orbitals. 
+        indx = eig.argsort()
+        self.eig = eig[indx]
+        self.phi = phi[:,indx] 
 
         while np.isnan(self.phi).all() != np.zeros_like(self.phi).all():
             e0 = e0 - 0.1
             self.eig, self.phi = eigs(spsolve(W, H), k=self.Nmo, sigma=e0, v0=self.opt["v0"])
-            self.eig = self.eig.real
-            self.phi = self.phi.real
+            eig = self.eig.real
+            phi = self.phi.real
 
         #Check for degenerate and nearly degenerate orbitals
         for i in range(self.Nmo-1):
@@ -56,8 +62,7 @@ def calc_orbitals(self):
                     self.phi[:, i] = even/norm(even)
                     self.phi[:, j] = odd/norm(odd)
 
-
-        if self.SYM is True:
+        if self.optSolver.sym is True:
             for i in range(self.Nmo):
                 if self.phi[:,i].T @ self.grid.mirror(self.phi[:,i]) > 0:
 
@@ -67,6 +72,8 @@ def calc_orbitals(self):
                 else:
 
                     self.phi[:, i] = self.phi[:, i] - self.grid.mirror(self.phi[:,i])
-    
+
     else:
-        self.eig = -1 / spacing(1)
+        self.eig = -1.0 / np.finfo(float).eps
+    if return_dict is not None:
+        return_dict[solver_id] = [self.eig, self.phi] 

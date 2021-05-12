@@ -4,6 +4,8 @@ from CADMium import Psgrid
 from CADMium.kohnsham import scf
 from CADMium import Kohnsham
 
+import time
+
 #Distance of the nucley from grid center
 a = 2
 
@@ -36,6 +38,12 @@ grid.initialize()
 
 #Kohn Sham object
 KS = Kohnsham(grid, Za, Zb, pol, Nmo, N, optKS)
+
+t0 = time.time()
+
 KS.scf(optKS)
 
+t = time.time() - t0
+
 print(f"Boron total Energy: {KS.E.E}")
+print(f"Took {t}, seconds")

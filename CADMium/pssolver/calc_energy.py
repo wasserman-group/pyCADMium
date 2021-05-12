@@ -33,7 +33,8 @@ def calc_energy(self):
         self.eks += self.eig[i]
 
     #If we are doing fractional orbitals and are non-integer:
-    if self.FRACTIONAL is True and nu != 0:
+    if self.optSolver.fractional is True and nu != 0:
+    # if self.FRACTIONAL is True and nu != 0:
         self.eks += nu * self.eig[int(Nocc)]
 
     #Scale energy appropriately 
@@ -47,7 +48,6 @@ def calc_energy(self):
         else:
             self.eks = 2 * self.eks
 
-    #Calculate potential energy of Kohn Sham 
     self.calc_density()
     self.Vs = self.grid.integrate((self.veff[None].T * self.n)[:,0])
     self.Ts = self.eks - self.Vs
@@ -58,5 +58,6 @@ def calc_energy(self):
     elif np.isinf(self.Vs) == True:
         print("Im infinity at Self.Vs in calc_energy")
 
-    elif self.Vs > 1e5:
+    elif np.abs(self.Vs) > 1e5:
+        self.Vs = 0
         print("Self.Vs in calc_energy is very big")

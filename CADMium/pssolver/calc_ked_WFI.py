@@ -32,17 +32,14 @@ def calc_ked_WFI(self):
 
     #Construct density
     for i in range(int(Nocc)):
-        # print("phi from pssolver", self.phi)
-        # print("phi subset", self.phi[:,i])
-        # print("integrate returns", self.grid.integrate( self.phi[:,i]**2 )**0.5)
-
         #Normalized orbital
         phi_norm = self.phi[:,i] / self.grid.integrate( self.phi[:,i]**2 )**0.5
         phi_norm = phi_norm[:, None]
         self.ked_WFI += (phi_norm * (self.H0 @ phi_norm)) / self.grid.w[:, None]
 
     #If we are doing fractional robitals and are non-integer
-    if self.FRACTIONAL is True and nu != 0:
+    # if self.FRACTIONAL is True and nu != 0:
+    if self.optSolver.fractional is True and nu != 0:
         #Normalized orbital
         phi_norm = self.phi[:,i] / self.grid.integrate( self.phi[:, Nocc+1]**2)**0.5
         phi_norm = phi_norm[:, None]

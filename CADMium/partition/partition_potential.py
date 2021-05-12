@@ -3,14 +3,13 @@ partition_potential
 """
 
 import numpy as np
-import sys
 
 def partition_potential(self):
     """
     Calculate the partition potential
     """
  
-    if self.optPartition["vp_calc_type"] == "component":
+    if self.optPartition.vp_calc_type== "component":
         
         #Calculate components
         #Potential energy compoenent
@@ -22,30 +21,27 @@ def partition_potential(self):
 
 
         #Build the partition potential and components
-        self.V.vp = np.zeros_like(self.nf)
+        self.V.vp     = np.zeros_like(self.nf)
         self.V.vp_pot = np.zeros_like(self.nf)
         self.V.vp_kin = np.zeros_like(self.nf)
         self.V.vp_hxc = np.zeros_like(self.nf)
-        self.V.vp_h = np.zeros_like(self.nf)
-        self.V.vp_x = np.zeros_like(self.nf)
-        self.V.vp_c = np.zeros_like(self.nf)
+        self.V.vp_h   = np.zeros_like(self.nf)
+        self.V.vp_x   = np.zeros_like(self.nf)
+        self.V.vp_c   = np.zeros_like(self.nf)
 
         for i_KS in [self.KSa, self.KSb]:
 
             i_KS.V.vp = i_KS.V.vp_pot + i_KS.V.vp_kin + i_KS.V.vp_hxc
 
-            self.V.vp = self.V.vp + i_KS.V.vp * i_KS.Q
+            self.V.vp     +=  i_KS.V.vp     * i_KS.Q
+            self.V.vp_pot +=  i_KS.V.vp_pot * i_KS.Q
+            self.V.vp_kin +=  i_KS.V.vp_kin * i_KS.Q
+            self.V.vp_hxc +=  i_KS.V.vp_hxc * i_KS.Q
+            self.V.vp_h   +=  i_KS.V.vp_h   * i_KS.Q
+            self.V.vp_x   +=  i_KS.V.vp_x   * i_KS.Q
+            self.V.vp_c   +=  i_KS.V.vp_c   * i_KS.Q
 
-            self.V.vp_pot = self.V.vp_pot + i_KS.V.vp_pot * i_KS.Q
-            self.V.vp_kin = self.V.vp_kin + i_KS.V.vp_kin * i_KS.Q
-            self.V.vp_hxc = self.V.vp_hxc + i_KS.V.vp_hxc * i_KS.Q
-
-            self.V.vp_h = self.V.vp_h + i_KS.V.vp_h * i_KS.Q
-            self.V.vp_x = self.V.vp_x + i_KS.V.vp_x * i_KS.Q
-            self.V.vp_c = self.V.vp_c + i_KS.V.vp_c * i_KS.Q
-
-
-        if self.optPartition["ENS_SPIN_SYM"]:
+        if self.optPartition.ens_spin_sym is True:
             self.V.vp     += self.grid.spinflip(self.V.vp)
             self.V.vp_pot += self.grid.spinflip(self.V.vp_pot)
             self.V.vp_kin += self.grid.spinflip(self.V.vp_kin)
@@ -54,7 +50,7 @@ def partition_potential(self):
             self.V.vp_x   += self.grid.spinflip(self.V.vp_x)
             self.V.vp_c   += self.grid.spinflip(self.V.vp_c)
 
-        if self.optPartition["AB_SYM"]:
+        if self.optPartition.ab_sym is True:
             self.V.vp     = 0.5 * ( self.V.vp + self.grid.mirror(self.V.vp ))
             self.V.vp_pot = 0.5 * ( self.V.vp_pot + self.grid.mirror(self.V.vp_pot) )
             self.V.vp_kin = 0.5 * ( self.V.vp_kin + self.grid.mirror(self.V.vp_kin) )
@@ -66,7 +62,7 @@ def partition_potential(self):
         vp = self.V.vp
 
             
-    elif self.optPartition["vp_calc_type"] == 'potential_inversion':
+    elif self.optPartition.vp_calc_type == 'potential_inversion':
 
         #Find kinetic energy functional derivative for
         #fragments using euler equation
@@ -85,7 +81,7 @@ def partition_potential(self):
                 if hasattr(i_KS.V, 'vp_kin') is True:
                     vs0 -= i_KS.V.vp_kin * i_KS.Q
 
-            if self.optPartition["ENS_SPIN_SYM"]:
+            if self.optPartition.ens_spin_sym:
                 vs0 += self.grid.spinfip(vs0)
 
         else:

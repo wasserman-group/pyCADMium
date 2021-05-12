@@ -275,14 +275,34 @@ class Psgrid():
         full, z, x = plotter(self, fin, max, sym)
         return full, z, x
 
-    def plot_along_axis(self, fin, max =1, sym=1):
-        f, x, y = plotter(self, fin, max, sym)
-        if np.mod(f.shape[1], 2) == 1:
-            mid = int(f.shape[0]/2) + 1
-        else: 
-            mid = int(f.shape[0]/2)
-        
-        return y[mid,:], f[mid,:]
+    def axis_plot(self, fin):
 
+        single = self.Z[0]
+        initial = True
+
+        xs = [self.Z[0]]
+        ys = [fin[0]]
+
+        for i in range(self.Nelem-1):
+            
+            if initial is True:
+                xs.append(self.Z[i])
+                ys.append(fin[i])
+            
+            if self.Z[i] == -1.0 * single:
+                xs.append(self.Z[i])
+                ys.append(fin[i])
+                xs.append(self.Z[i+1])
+                ys.append(fin[i+1])
+                single = self.Z[i+1]
+                initial = False
+                
+        indx = np.argsort(xs)
+        xs = np.array(xs)
+        ys = np.array(ys)
+        xs = xs[indx]
+        ys = ys[indx]
+
+        return xs, ys
 
 

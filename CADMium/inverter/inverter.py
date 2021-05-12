@@ -2,13 +2,38 @@
 inverter.py
 """
 
-import sys
 import numpy as np
+from pydantic import validator, BaseModel
+
 from .linresponse import linresponse
+from .orbitalinvert import orbitalinvert
+from .simple import simple
+
 from .get_ts_WFI import get_ts_WFI
 from .get_Ts import get_Ts
 # from .linresponse import Ws
 # from .linresponse import Jacobian
+
+class InverterOptions(BaseModel):
+    ab_sym              : bool = False
+    ens_spin_sym        : bool = False
+    use_iterative       : bool = False
+    disp                : bool = False
+    avoid_loop          : bool = False
+    invert_type         : str = 'wuyang'
+    k_val               : float = -1e-12
+    tol_lin_solver      : float = 1e-2
+    tol_invert          : float = 1e-12
+    max_iter_lin_solver : int = 2000
+    max_iter_invert     : int = 100
+    res_factor          : float = 1e0
+
+    @validator('invert_type')
+    def invert_type_values(cls, v):
+        values = ['wuyang', 'simple', 'orbitalinvert', 'qinvert', 'eigensolveinvert', 'test']
+        if v not in values:
+            raise ValueError(f"'invert_type' must be one of the options: {values}")
+        return v
 
 class Inverter():
     """
@@ -60,24 +85,15 @@ class Inverter():
         
     """
 
-    def __init__(self, grid, solver, optInversion):
-        optInversion["AB_SYM"] = optInversion["AB_SYM"] if "AB_SYM" in optInversion.keys() else False
-        optInversion["ENS_SPIN_SYM"] = optInversion["ENS_SPIN_SYM"] if "ENS_SPIN_SYM" in optInversion.keys() else False
-        optInversion["USE_ITERATIVER"] = optInversion["USE_ITERATIVE"] if "USE_ITERATIVE" in optInversion.keys() else False
-        optInversion["VERBOSE"] = optInversion["VERBOSE"] if "VERBOSE" in optInversion.keys() else False
-        
-        optInversion["AVOIDLOOP"] = optInversion["AVOIDLOOP"] if "AVOIDLOOP" in optInversion.keys() else False
+    def __init__(self, grid, solver, optInv={}):
 
-        optInversion["invert_type"] = optInversion["invert_type"] if "invert_type" in optInversion.keys() else "wuyang"
-        optInversion["Kval"] = optInversion["Kval"] if "Kval" in optInversion.keys() else -1e-12
-        optInversion["TolLinsolve"] = optInversion["TolLinsolve"] if "TolLinsolve" in optInversion.keys() else 1e-2
-        optInversion["TolInvert"] = optInversion["TolInvert"] if "TolInvert" in optInversion.keys() else 1e-12
-        optInversion["MaxIterLinsolve"] = optInversion["MaxIterLinsolve"] if "MaxIterLinsolve" in optInversion.keys() else 2000
-        optInversion["MaxIterInvert"] = optInversion["MaxIterInvert"] if "MaxIterInvert" in optInversion.keys() else 20
-        optInversion["ResFactor"] = optInversion["ResFactor"] if "ResFactor" in optInversion.keys() else 1e0
-
-        self.optInversion = optInversion
-
+        optInv =  {k.lower(): v for k, v in optInv.items()}
+        for i in optInv.keys():
+            if i not in InverterOptions().dict().keys():
+                raise ValueError(f"{i} is not a valid option for Inverter")
+        optInv = InverterOptions(**optInv)
+        self.optInv = optInv
+    
         self.grid = grid
         self.Nelem = grid.Nelem
         self.solver = solver
@@ -91,30 +107,30 @@ class Inverter():
         self.ts_WFI = None
         self.ts_WFII = None
 
-    def invert(self, n0, vs0, phi0=[], e0=[], ispin=[], Qi=[]):
+    def invert(self, n0, vs0, phi0=[], e0=[], ispin=0, Qi=[]):
         """
         Do the inverstion
         """
 
-        if self.optInversion["invert_type"] == "wuyang":
+        if self.optInv.invert_type == "wuyang":
             flag, output = self.linresponse(n0, vs0, ispin)
 
-        elif self.optInversion["invert_type"] == "simple":
-            self.simple(n0, vs0, ispin)
+        elif self.optInv.invert_type == "simple":
+            flag, output = self.simple(n0, vs0, ispin)
 
-        elif self.optInversion["invert_type"] == "orbitalinvert":
+        elif self.optInv.invert_type == "orbitalinvert":
             flag, output = self.orbitalinvert(n0, vs0, phi0, e0, ispin)
 
-        elif self.optInversion["invert_type"] == "qinvert":
+        elif self.optInv.invert_type == "qinvert":
             flag, output = self.qinvert(n0, vs0, phi0, e0, ispin, Qi)
 
-        elif self.optInversion["invert_type"] == "eigensolveinvert":
+        elif self.optInv.invert_type == "eigensolveinvert":
             flag, output = self.eigensolveinvert(n0, vs0, ispin)
 
-        elif self.optInversion["invert_type"] == "test":
+        elif self.optInv.invert_type == "test":
             flag, output = self.test(n0, vs0, phi0, e0, ispin)
         else:
-            raise ValueError(f"{self.optInversion['invert_type']} is not an available inversion method")
+            raise ValueError(f"{self.optInv.invert_type} is not an available inversion method")
 
         return flag, output
 
@@ -133,37 +149,57 @@ class Inverter():
         ts = get_ts_WFI(self)
         return ts
 
+    def simple(self, n0, vs0, ispin):
+        flag, output = simple(self, n0, vs0, ispin)
+        return flag, output
+
+    def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
+        flag, output = orbitalinvert(self, n0, vs0, phi0, e0, ispin)
+        return flag, output
+
     #Inversion methods
     def linresponse(self, n0, vs0, ispin):
-        flag, output = linresponse(self, n0, vs0)
+        flag, output = linresponse(self, n0, vs0, )
         return flag, output
 
     def Ws(self, vs, spin):
         """
         Calculates G for a given potential
         """
-
-        if self.optInversion["AB_SYM"] is True:
+        if self.optInv.ab_sym is True:
             vs = 0.5 * (vs + self.grid.mirror(vs))
 
         #Transfer new potentials to solver objects and calculate new densities
-        self.solver[0,spin].setveff(vs)
-        self.solver[0,spin].calc_orbitals()
-        self.solver[0,spin].calc_density()
-        self.solver[0,spin].calc_energy()
-        self.solver[0,spin].calc_response()
+        for i in range(self.solver.shape[0]):
+            self.solver[i,spin].setveff(vs)
+            self.solver[i,spin].calc_orbitals()
+            self.solver[i,spin].calc_density()
+            self.solver[i,spin].calc_energy()
+            self.solver[i,spin].calc_response()
 
         #Calculate new density     
         n = np.zeros((self.grid.Nelem, 1))  
         for i in range(self.solver.shape[0]):
             n[:,0] += np.squeeze(self.solver[i,spin].n)
 
-        if self.optInversion["AB_SYM"] is True:
+        if self.optInv.ab_sym is True:
             n = 0.5 * (n + self.grid.mirror(n))
 
+        if np.isnan(self.vs).any():
+            print("vs is nan")
+        if np.isinf(self.vs).any():
+            print("vs is inf")
+
         #Calculate error function
-        grad = np.vstack( ( self.B @ (n-self.n0), self.vs[self.Nelem-1] ) )
+        grad = np.vstack( ( self.B @ (n-self.n0[:, spin][:,None]), self.vs[self.Nelem-1, spin] ) )
         grad = np.squeeze(grad)
+
+        if np.isnan(grad).any() is True:
+            print("Grad is nan")
+        if np.isinf(grad).any() is True:
+            print("Grad is inf")
+
+        # print("max grad", np.linalg.norm(grad))
 
         return grad
 
@@ -177,7 +213,12 @@ class Inverter():
         Jac = np.asarray(Jac)
         Jac[-1, -1] = 1
 
-        if self.optInversion["AB_SYM"] is True:
+        if self.optInv.ab_sym is True:
             Jac[-1,:] = 0.5 * (Jac[-1,:] + self.grid.mirror(Jac[-1,:]))
+
+        if np.isnan(Jac).any():
+            print("Jac is nan")
+        if np.isinf(Jac).any():
+            print("Jac is inf")
 
         return Jac

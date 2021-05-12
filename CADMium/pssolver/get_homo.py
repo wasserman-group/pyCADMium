@@ -3,7 +3,6 @@ get_homo.py
 """
 
 import numpy as np
-import sys
 
 def get_homo(self):
     "Find  HOMO eigenvalue"

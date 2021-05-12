@@ -12,7 +12,7 @@ def ep_kinetic(self):
 
     #Select method for calculating kinetic energy
 
-    if self.optPartition["kinetic_part_type"] == "vonweiz":
+    if self.optPartition.kinetic_part_type == "vonweiz":
 
         #Use the von-Weizacker inversion
         Tsm =   (2 * np.pi * self.grid.hr * self.grid.ha ) \
@@ -20,8 +20,7 @@ def ep_kinetic(self):
               * (0.5 * self.grid.elap @ np.sum(self.nf, axis=1)**0.5))
 
         tsm =   (np.sum(self.nf, axis=1)**(-0.5)) / self.grid.w \
-              * (-0.5 * sefl.grid.elap @ np.sum(self.nf, axis=1)**0.5 )
-
+              * (-0.5 * self.grid.elap @ np.sum(self.nf, axis=1)**0.5 )
 
         #Evaluate kinetic energy for integer ocupation 
         #Densities
@@ -39,15 +38,25 @@ def ep_kinetic(self):
             tsf += i_KS.scale * np.sum(i_KS.Q, axis=1) * i_KS.V.ts
 
 
-    elif self.optPartition["kinetic_part_type"] == "libxcke" or \
-         self.optPartition["kinetic_part_type"] == "paramke":
+    elif self.optPartition.kinetic_part_type == "libxcke" or \
+         self.optPartition.kinetic_part_type == "paramke":
          #Use a kinetic energy from libxc
 
-        raise ValueError(f"Kinetic_part_type {self.optPartition['kinetic_part_type']} \
-                           has not been implemented")
+        # Evaluate MOLECULAR kinetic energy
+        # Tsm and tsm calculated in ep_kinetic
+        tsm = self.tsm[:,0]
+        Tsm = self.Tsm
 
+        #Evaluate kinetic energy for integer occupation
+        Tsf = 0 #Start with zero and sum fragment Kinetic energy
+        tsf = np.zeros_like( tsm )
 
-    elif self.optPartition["kinetic_part_type"] == "inversion":
+        # Ts and ts for fragments obtained in ep_kinetic
+        for iKS in [self.KSa, self.KSb]:
+            Tsf += iKS.scale * iKS.V.Ts
+            tsf += iKS.scale * np.sum( iKS.Q, axis=1 ) * iKS.V.ts[:,0]
+
+    elif self.optPartition.kinetic_part_type == "inversion":
         
         tsm = np.sum( self.inverter.get_ts_WFI(), axis=1 ) / np.sum( self.nf, axis=1 )
         Tsm = self.inverter.get_Ts()
@@ -57,7 +66,7 @@ def ep_kinetic(self):
         tsf = np.zeros_like(tsm)
         tsf = tsf[:, None]
 
-        if self.optPartition["AB_SYM"] is not True:
+        if self.optPartition.ab_sym is not True:
             KSab = [self.KSa, self.KSb]
 
         else:
@@ -86,21 +95,21 @@ def ep_kinetic(self):
 
             tsf += i_KS.scale * np.sum( i_KS.Q, axis=1 )[:,None] * np.sum( i_KS.V.ts, axis=1 )[:,None]
 
-        if self.optPartition["AB_SYM"] is True:
+        if self.optPartition.ab_sym is True:
             tsf += self.grid.mirror(tsf)
             Tsf *= 2.0
 
-    elif self.optPartition["kinetic_part_type"] == "none":
+    elif self.optPartition.kinetic_part_type == "none":
         Tsm = 0.0
         tsm = np.zeros((self.grid.Nelem, 1))
         
         Tsf = 0.0
         tsf = np.zeros((self.grid.Nelem, 1))
 
-    elif self.optPartition["kinetic_part_type"] == "twoorbital":
+    elif self.optPartition.kinetic_part_type == "twoorbital":
         raise ValueError("Twoorbital method not yet implemented")
 
-    elif self.optPartition["kinetic_part_type"] == "fixed":
+    elif self.optPartition.kinetic_part_type == "fixed":
         pass
 
     else:
@@ -108,11 +117,11 @@ def ep_kinetic(self):
 
 
     ###
-    if self.optPartition["kinetic_part_type"] != "fixed":
+    if self.optPartition.kinetic_part_type != "fixed":
         #if ENS_SPIN_SYM set we double the fragment energies to
         #account for the spin flipped components
 
-        if self.optPartition["ENS_SPIN_SYM"]:
+        if self.optPartition.ens_spin_sym:
             Tsf *= 2.0
             tsf *= 2.0
 
