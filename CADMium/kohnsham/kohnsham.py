@@ -211,6 +211,9 @@ class Kohnsham():
                 #Add up orbital's densities
                 nout[:,j] += np.squeeze(self.solver[i,j].n)
 
+        if self.optKS.sym is True:
+            nout = 0.5 * (nout + self.grid.mirror(nout))
+
         return nout
 
     def energy(self):
