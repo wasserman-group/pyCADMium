@@ -64,34 +64,17 @@ class i_solver():
 
         #Polarization of electrons handled by this solver
         self.pol = pol
-
-        #Effective Potential
-        #self.veff = np.zeros((self.grid.Nelem, self.pol))
-        self.veff = None
-
-        #Base Hamiltonian
-        self.H0 = None
-
-        #Molecular Orbitals
-        self.phi = None
-        #Eigenvalues
-        self.eig = None
-        
-        #Estimate of lowest energy value
-        self.e0 = -20
-        
-        #KohnSham energy
-        self.eks = None
-        #Kohn Sham potential 
-        self.Vs = None
-        #Kohn Sham kinetic energy
-        self.Ts = None
-        #Electron density
-        self.n = None
-        #Change in density from given change in potential
-        self.chi = None
-        #Highest occupied Molecular Orbital
-        self.homo = None
+        self.veff = None         # Effective potential
+        self.H0 = None           # Base Hamiltonian
+        self.phi = None          # Molecular Orbitals
+        self.eig = None          # Eigenvalues
+        self.e0 = -20            # Estimate of lowest energy value
+        self.eks = None          # KohnSham energy
+        self.Vs = None           # Kohn Sham potential
+        self.Ts = None           # Kohn Sham kinetic energy
+        self.n = None            # Electron density
+        self.chi = None          # Change in density from given change in potential
+        self.homo = None         # Highest occupied Molecular Orbital
 
         #kinetic energy densities | Not uniquely defined
         self.ked_WFI = None #Use laplacian
