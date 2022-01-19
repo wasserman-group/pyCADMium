@@ -107,16 +107,13 @@ def scf(self, optSCF={}):
 
     for i_KS in KSab:
         if optSCF.continuing is True:
-            #If we are continuiing a calculation, check that we have an input density
             assert i_KS.n is not None, "optSCF.continuing is True set but there is no input density"
         
         else:
             #We need initial guesses
             i_KS.vext = np.zeros_like(i_KS.vnuc)
             i_KS.vhxc = np.zeros_like(i_KS.vnuc)
-            i_KS.set_effective_potential()
-
-            #Initial guess for effective potential is just nuclear potential
+            i_KS.set_effective_potential() # Sets nuclear potential
             nout = i_KS.calc_density(optSCF.iterative)
             i_KS.n = nout
             i_KS.calc_chempot()
@@ -193,10 +190,10 @@ def scf(self, optSCF={}):
 
         if self.optPartition.ab_sym  is True:
             self.mirrorAB()
-
+    
         #Form promolecule and calculate q functions
         if not optSCF.from_target_density: 
-            self.calc_protomolecule()
+            self.calc_protomolecule()        
         self.calc_Q()
         self.energy()
 
@@ -245,6 +242,8 @@ def scf(self, optSCF={}):
                 print(f"  {iterations:3d}         {self.E.Ea:10.5f}   {self.E.Eb:10.5f}       {dif:7.3e} ")
 
         iterations += 1
+        # if iterations == 2 and self.optPartition.isolated is False:
+        #     sys.exit()
         if iterations == optSCF.max_iter:
             warn("SCF Warning: Max number of Iterations Surpassed. Desired convergence may have not been achieved") 
 
