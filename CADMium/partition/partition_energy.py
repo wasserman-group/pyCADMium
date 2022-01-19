@@ -12,11 +12,7 @@ def partition_energy(self):
         self.ep_nuclear() #Potential energy
         self.ep_kinetic() #Kinetic energy
         self.ep_hxc()     #Hxc energy
-
         self.E.Ep = self.E.Ep_pot + self.E.Ep_kin + self.E.Ep_hxc
-
-        # print("Leaving Through Parttition Energy")
-        # sys.exit()
 
     else:
         self.E.Ep     = 0.0
