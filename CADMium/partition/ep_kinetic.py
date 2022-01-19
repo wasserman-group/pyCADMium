@@ -1,14 +1,13 @@
 """
 ep_kinetic.py
 """
+import sys
 import numpy as np
 
 def ep_kinetic(self):
     """
     Calculate kinetic energy components of Ep
     """
-
-
     #Select method for calculating kinetic energy
     if self.optPartition.kinetic_part_type == "vonweiz":
 
@@ -39,7 +38,6 @@ def ep_kinetic(self):
                         * (-0.5 * self.grid.elap @ np.sum( i_KS.n, axis=1 )**0.5)
 
             tsf += i_KS.scale * np.sum(i_KS.Q, axis=1) * i_KS.V.ts
-
 
     elif self.optPartition.kinetic_part_type == "libxcke" or \
          self.optPartition.kinetic_part_type == "paramke":
@@ -120,7 +118,54 @@ def ep_kinetic(self):
         tsf = np.zeros((self.grid.Nelem, 1))
 
     elif self.optPartition.kinetic_part_type == "twoorbital":
-        raise ValueError("Twoorbital method not yet implemented")
+
+        n1 = self.na_frac
+        n2 = self.nb_frac
+        eT = -1/2 * self.grid.elap 
+
+        integrand = (n1**(0.5) - n2**(0.5))**2
+        C  = self.grid.integrate( np.sum(integrand, axis=1) )
+
+        phi1 = ( (self.grid.integrate( np.sum(n1+n2, axis=1) ))/2 )**(0.5) * (n1**(0.5) - n2**(0.5))/C**(0.5)  
+        phi2 = ((n1+n2) - phi1**2)**(0.5) 
+
+        TO_phi1 = self.grid.integrate( (phi1 * (eT @ phi1) / self.grid.w[:,None])[:,0] )
+        TO_phi2 = self.grid.integrate( (phi2 * (eT @ phi2) / self.grid.w[:,None])[:,0] )
+
+        self.V.phi1 = phi1
+        self.V.phi2 = phi2
+
+        Tsm = TO_phi1 + TO_phi2
+        tsm = (phi1 * (eT @ phi1) + phi2 * (eT @ phi2)) / self.grid.w[:,None] / np.sum(self.nf, axis=1)[:,None]
+        self.V.tsm = tsm
+
+        # Evaluate kinetic energy for fragments
+        Tsf = 0 # Start with zero and sum fragment kinetic energy. 
+        tsf = np.zeros_like( tsm )
+
+        if not self.optPartition.ab_sym:
+            KSab = [self.KSa, self.KSb]
+        else:
+            KSab = [self.KSa]
+        
+        for i_KS in KSab:
+            
+            Tsf +=  i_KS.scale * ( 2 * np.pi * self.grid.hr * self.grid.ha ) * np.sum( self.grid.wi * (np.sum(i_KS.n, axis=1)**0.5) * (eT@np.sum(i_KS.n, axis=1)**0.5) ) 
+            i_KS.V.ts = i_KS.scale * ( np.sum(i_KS.n, axis=1)**(0.5) ) * (eT @ np.sum( i_KS.n, axis=1 )**(0.5))  / (self.grid.w * np.sum(i_KS.n, axis=1) )
+
+            # print("1", ( np.sum(i_KS.n, axis=1)**(0.5) ) )
+            # print("2", (eT @ np.sum( i_KS.n, axis=1 )**(0.5)) )
+            # print("3", (self.grid.w * np.sum(i_KS.n, axis=1) ) )
+
+            tsf += i_KS.Q * i_KS.V.ts[:,None]
+
+        if self.optPartition.ab_sym:
+            tsf += tsf + self.grid.mirror(tsf)
+            Tsf *= 2      
+
+        # print("Yo soy Tsf", tsf)
+        # sys.exit()
+
 
     elif self.optPartition.kinetic_part_type == "fixed":
         raise ValueError("Fixed method not yet implemented")
