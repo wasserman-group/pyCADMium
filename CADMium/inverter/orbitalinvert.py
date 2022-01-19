@@ -256,10 +256,6 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
     i_orth = np.zeros( (0, 1) )
     North = len( i_orth )
 
-    # print("E0 shape and values\n", e0)
-    # print("E0", e0.shape)
-    # print("How much am I requiresting?", np.sum(Nmo) - 1)
-
     #Initial Guess
     if isolver[0].phi is None:
         X = np.vstack((  phi0[:np.sum(Nmo) * Nelem], 
@@ -280,12 +276,6 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
         #Sanity chech. If there is one evals. It wont be able to be concatenated
         if evals.ndim == 1:
             evals = evals[:,None]
-
-        # print("Evals", evals)
-        # print("Evals shape", evals.shape)
-        # print("Evals", evals[0:-1] - evals[-1])
-
-        # sys.exit()
 
         X = np.vstack(( phi.flatten("F")[:, None],
                         (evals[0:-1] - evals[-1]),
