@@ -94,9 +94,6 @@ def vp_kinetic(self):
             #Invert molecular problem:
             _, self.inversion_info = self.inverter.invert(ntarget, vs0, phi0, e0, ispin)
 
-        # print("Leaving through vp_kinetic")
-        # sys.exit()
-
         if self.optPartition.ens_spin_sym is True:
             self.inverter.solver[:,1] = self.inverter.solver[:,0]
             self.inverter.vs[:,1] = self.inverter.vs[:,0]
@@ -124,9 +121,6 @@ def vp_kinetic(self):
 
         if self.pol == 2:
             raise ValueError("Be Carefull. Verify with CADMium")
-        else:
-            n1 = n1
-            n2 = n2
 
         #Evaluate kinetic energy for integer occupation
         if not self.ens:
@@ -135,16 +129,13 @@ def vp_kinetic(self):
             iks = [self.KSa, self.KSA, self.KSb, self.KSB]
 
         for i_KS in iks:
-            i_KS.V.vt = (eT @ i_KS.n ** 0.5) / (2 * self.grid.w @ i_KS.n**0.5)
+            i_KS.V.vt = (eT @ i_KS.n ** 0.5) / (2 * self.grid.w[:,None] * i_KS.n**0.5)
 
         integrand = (n1**(0.5) - n2**(0.5))**2
         C = self.grid.integrate( np.sum(integrand, axis=1)  ) # If pol == 2 we may need to sum axis ==1 
-        print("C VP", C)
 
         phi1 = (n1**(0.5) - n2**(0.5)) / C**0.5  
         phi2 = ((n1 + n2)/2 - phi1**2)**0.5
-        self.V.phi1 = phi1
-        self.V.phi2 = phi2
 
         # Functional derivative of KEF wrt phi1
         dTO_dphi1 = (eT @ phi1) / self.grid.w[:,None]
@@ -158,7 +149,7 @@ def vp_kinetic(self):
         dTO2_dn2 = dTO_dphi2 * ( (1/4 + 1/2*(C * n2)**(-0.5)*phi1) /phi2) - 0.5 * (phi1/(C*n2)**(0.5)) * self.grid.integrate( (phi1**2 / phi2 * dTO_dphi2)[:,0] )
 
         self.V.vt = 2 * np.concatenate( (dTO1_dn1 + dTO2_dn1, dTO1_dn2 + dTO2_dn2), axis=1 )
-        
+
     elif self.optPartition.kinetic_part_type == "fixed":
         pass
 
@@ -178,8 +169,9 @@ def vp_kinetic(self):
             print("We need to fix two orbital approximation for ensemble")
             iks = [self.KSa, self.KSA, self.KSb, self.KSB]
 
-        self.KSa.V.vp_kin = self.V.vt[:,0][:,None] - self.KSa.V.vt
-        self.KSb.V.vp_kin = self.V.vt[:,1][:,None] - self.KSb.V.vt
+        self.KSa.V.vp_kin = (self.V.vt[:,0] - self.KSa.V.vt[:,0])[:,None]
+        self.KSb.V.vp_kin = (self.V.vt[:,1] - self.KSb.V.vt[:,0])[:,None]
+
 
     elif self.optPartition.kinetic_part_type != "fixed":
 
