@@ -1,7 +1,6 @@
 """
 partition_potential
 """
-
 import numpy as np
 
 def partition_potential(self):
@@ -64,7 +63,6 @@ def partition_potential(self):
             self.V.vp_c   = 0.5 * ( self.V.vp_c + self.grid.mirror(self.V.vp_c) )
 
         vp = self.V.vp
-
             
     elif self.optPartition.vp_calc_type == 'potential_inversion':
 
