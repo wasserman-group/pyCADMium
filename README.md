@@ -6,7 +6,7 @@ CADMium
 [//]: # (Badges)
 
 [![CI](https://img.shields.io/github/workflow/status/wasserman-group/CADMium/CI)](https://github.com/wasserman-group/CADMium/actions?query=workflow%3ACI)
-[![codecov](https://codecov.io/gh/wasserman-group/CADMium/branch/master/graph/badge.svg)](https://codecov.io/gh/wasserman-group/CADMium)
+[![codecov](https://codecov.io/gh/wasserman-group/CADMium/branch/main/graph/badge.svg)](https://codecov.io/gh/wasserman-group/CADMium)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/wasserman-group/CADMium.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/wasserman-group/CADMium/context:python)
 
 
