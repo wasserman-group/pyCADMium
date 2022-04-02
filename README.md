@@ -1,7 +1,7 @@
 
-
-![alt text](https://raw.githubusercontent.com/wasserman-group/pyCADMium/main/docs/pycadmium_logo.png)
-
+<p align="center">
+<img src="https://raw.githubusercontent.com/wasserman-group/pyCADMium/main/docs/pycadmium_logo.png" alt="logo" height=300>
+</p>
 <!-- [//]: # (Badges)
 
 [![CI](https://img.shields.io/github/workflow/status/wasserman-group/CADMium/CI)](https://github.com/wasserman-group/CADMium/actions?query=workflow%3ACI)
