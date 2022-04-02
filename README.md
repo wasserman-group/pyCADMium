@@ -1,8 +1,6 @@
-CADMium
-==============================
- *Chemical Atoms in Diatomic Molecules*
 
-![alt text](https://raw.githubusercontent.com/wasserman-group/pyCADMium/main/docs/logo.png)
+
+![alt text](https://raw.githubusercontent.com/wasserman-group/pyCADMium/main/docs/pycadmium_logo.png)
 
 <!-- [//]: # (Badges)
 
