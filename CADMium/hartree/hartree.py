@@ -59,12 +59,6 @@ class Hartree():
         #Calculate source term in Poisson's equation
         b  = -4.0 * np.pi * self.grid.w * nh
 
-        # print("integration weight")
-        # print(self.grid.w)
-
-        # print("b from poisson")
-        # print(b)
-
         #Use lhs of Poisson's equation in the boundary region to find
         #a corresponding source term wich implements boundary conditions
         #See Kobus et al Comp. Phys. Commun. 98(1996) 346-358
