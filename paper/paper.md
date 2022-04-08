@@ -62,5 +62,4 @@ Additionally, a repository of Jupyter Notebooks has been released that includes 
 # Acknowledgements
 
 Victor H. Chávez thanks Dr. Taylor A. Barnes of The Molecular Sciences Software Insitute for the massive help to set the continious integration for the package as well as multiple conversations about the scope and structure of the code.  
-This work was supported by the National Science Foundation under GrantNo. CHE-1900301. Victor H. Chavez was supported by a fellowship from The
-Molecular Sciences Software Institute under NSF grant OAC-1547580.  
+This work was supported by the National Science Foundation under Grant No. CHE-1900301. Victor H. Chavez was supported by a fellowship from The Molecular Sciences Software Institute under NSF grant OAC-1547580.  
