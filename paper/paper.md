@@ -44,7 +44,7 @@ Most practical calculations use a basis-set to represent operators and quantitie
 
 # Functionality
 
-Consider a PS grid with foci located at $(-a/2/0)$ and $(a/2,0)$, where $a$ represents the separation distance of a diatomic of interest. Place one (A, ∅) or two atoms (A, B) on each of these foci and specify its charge, number of electrons, and number of atomic and/or molecular orbitals. Continue by specifying the symmetry for orbitals to calculate. This implies that the user chooses where to allocate each of the avaliable electrons.  
+Consider a PS grid with foci located at $(-a/2/0)$ and $(a/2,0)$, where $a$ represents the separation distance of a diatomic of interest. Place one (A, ∅) or two atoms (A, B) on each of these foci and specify its charge, number of electrons, and number of atomic and/or molecular orbitals. Continue by specifying the symmetry of orbitals to calculate. This implies that the user chooses where to allocate each of the avaliable electrons.  
 
 Once the fragments and/or molecule is defined. ``pyCADMium`` can perform:
 
