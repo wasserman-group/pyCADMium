@@ -8,22 +8,22 @@ tags:
     - embedding methods  
 
 authors:
-    name: Victor H. Chávez   
-    orcid: 0000-0003-3765-2961    
-    affiliations: 1  
-    name: Jonathan Nafziger    
-    affiliations: 2    
-    name: Adam Wasserman    
-    orcid: 0000-0002-8037-4453    
-    affiliatios: 1, 3  
+    - name: Victor H. Chávez   
+      orcid: 0000-0003-3765-2961    
+      affiliations: 1  
+    - name: Jonathan Nafziger    
+      affiliations: 2    
+    - name: Adam Wasserman    
+      orcid: 0000-0002-8037-4453    
+      affiliatios: 1, 3  
 
 affiliations:  
-    name: Department of Chemistry, Purdue University, West Lafayette, Indiana, USA  
-    index: 1  
-    name: Gridspace, Los Angeles, California, USA  
-    index: 2  
-    name: Department of Physics and Astronomy, Purdue Unversity, West Lafayette, Indiana, USA  
-    index: 3  
+    - name: Department of Chemistry, Purdue University, West Lafayette, Indiana, USA  
+      index: 1  
+    - name: Gridspace, Los Angeles, California, USA  
+      index: 2  
+    - name: Department of Physics and Astronomy, Purdue Unversity, West Lafayette, Indiana, USA  
+      index: 3  
 
 date: 4 April 2022  
 bibliography: paper.bib  
