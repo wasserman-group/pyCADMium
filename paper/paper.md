@@ -1,5 +1,5 @@
 ---
-title: 'pyCADMium: Chemical Atoms in Molecules. A prolate spheroidal module for studying atoms and diatomics'  
+title: 'pyCADMium: Chemical Atoms in Molecules. A prolate spheroidal module for embedding calculations in diatomics'  
 
 tags:  
     - partition density functional theory  
