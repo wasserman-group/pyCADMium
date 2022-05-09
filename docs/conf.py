@@ -22,9 +22,8 @@ import CADMium
 
 # -- Project information -----------------------------------------------------
 
-project = 'CADMium'
-copyright = ("2020, Wasserman Group. Project structure based on the "
-             "Computational Molecular Science Python Cookiecutter version 1.1")
+project = 'pyCADMium'
+copyright = ("2022, Wasserman Group.")
 author = 'Wasserman Group'
 
 # The short X.Y version
@@ -54,13 +53,13 @@ extensions = [
     'sphinx_automodapi.automodsumm',
     'sphinx.ext.graphviz',
     'sphinx.ext.inheritance_diagram',
-    'nbsphinx',
 ]
 
 autosummary_generate = True
 napoleon_google_docstring = False
 napoleon_use_param = False
 napoleon_use_ivar = True
+inheritance_graph_attrs = dict(rankdir="TB", size='""')
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -95,7 +94,8 @@ pygments_style = 'default'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinx_rtd_theme'
+html_theme = 'insegel'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -127,7 +127,16 @@ htmlhelp_basename = 'CADMiumdoc'
 
 # -- Options for LaTeX output ------------------------------------------------
 
-latex_elements = {
+# from sphinxcontrib.pandoc_markdown import MarkdownParser
+
+# source_suffix = [source_suffix, '.md']
+# source_parsers = {
+#    '.md': MarkdownParser,
+# }
+
+#latex_engine = 'pdflatex'
+
+#latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
@@ -143,7 +152,7 @@ latex_elements = {
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
-}
+#}
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
