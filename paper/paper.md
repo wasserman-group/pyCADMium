@@ -55,9 +55,7 @@ Once the fragments and/or molecule is defined. ``pyCADMium`` can perform:
 
 # Statement of Need
 
-PS coordinates have proven to excel at accuracy in calculations using atoms and diatomic molecules [@B82,@L09]. Despite these coordinates being used thoroughly in literature, the options for freely-availiable modules that focuses on embedding applications in pretty much non-existent. We have proven in the past that the addition of different embedding methods such as subsystem-DFT can be easily done [@14JW]. We expect that more developers and research take advantage of our code and allow more embedding methods to be implemented in ``pyCADMium``.  
-
-Additionally, a repository of Jupyter Notebooks has been released that includes different examples of the functionalities availiable in the code as well as being able to reproduce some of the previously published results [@].
+PS coordinates have proven to excel at accuracy in calculations using atoms and diatomic molecules [@B82,@L09]. Despite these coordinates being used thoroughly in literature, the options for freely-available modules that focus on embedding applications are almost non-existent. In addition to P-DFT, our code can be used as described in [@14JW] to perform and easily develop other embedding calculations. Additionally, a repository of Jupyter Notebooks is availiable on [Github](https://github.com/wasserman-group/CADMium_examples) that includes various examples of the functionalities available in the code. 
 
 # Acknowledgements
 
