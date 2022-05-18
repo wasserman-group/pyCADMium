@@ -15,7 +15,7 @@ authors:
       affiliations: 2    
     - name: Adam Wasserman    
       orcid: 0000-0002-8037-4453    
-      affiliatios: 1, 3  
+      affiliatios: [1,3]
 
 affiliations:  
     - name: Department of Chemistry, Purdue University, West Lafayette, Indiana, USA  
@@ -37,9 +37,9 @@ Diatomic molecules are among the most useful systems to test new ideas in quantu
 - They highlight the present and ubiquitous problems of modern approximations.
 - By defining two fragments with an atom each, diatomics are ideal to implement and test quantum embedding methods.
 
-In this work, we introduce ``pyCADMium``, a Python module that uses a prolate spheroidal (PS) coordinate grid to accurately perform computational chemistry calculations on on systems with cylindrical symmetry. The name is an acronym for ``Chemical Atoms in Diatomic Molecules".``pyCADMium`` originated in a proprietary programming language but has been rewritten from the ground up as an open-source alternative. The code has been the main driving force behind the development of "Partition Density Functional Theory," [@20CW,@10EW,@17NW,@18JW] a method that uses quantum embedding to lower the cost of a calculation and fixes problems inherent to density functional approximations [@08CY].  
+In this work, we introduce ``pyCADMium``, a Python module that uses a prolate spheroidal (PS) coordinate grid to accurately perform computational chemistry calculations on on systems with cylindrical symmetry. The name is an acronym for ``Chemical Atoms in Diatomic Molecules".``pyCADMium`` originated in a proprietary programming language but has been rewritten from the ground up as an open-source alternative. The code has been the main driving force behind the development of "Partition Density Functional Theory," [@20CW;@10EW;@17NW;@18JW] a method that uses quantum embedding to lower the cost of a calculation and fixes problems inherent to density functional approximations [@08CY].  
 
-Most practical calculations use a basis-set to represent operators and quantities like potentials, orbitals, and densities [@12SO,@13H]. The lack of an accurate space representation of these and other operators gives rise to the basis-set incompleteness error. This error can be minimized by increasing the number of basis functions used, but it cannot be entirely eliminated in practice. On the other hand, grid-based methods intrinsically allow for an accurate representation [@octopus]. Nevertheless, the number of points required to achieve a significant accuracy can become quickly unmanageable. ``pyCADMium`` uses a PS grid to circumvent these issues. The PS grid is a coordinate system formed by revolving an elliptic coordinate plane around the line intersecting the two foci. These planes are formed by ellipses and hyperbolae that share the same focus [@arfken]. Atoms and diatomics are ideally suited for this coordinate system given that each foci can be used to allocate an atom. Additionally, the PS grid is denser around the foci in its cartesian representation, where we expect functions of molecular systems to change rapidly [@17RS].  
+Most practical calculations use a basis-set to represent operators and quantities like potentials, orbitals, and densities [@12SO;@13H]. The lack of an accurate space representation of these and other operators gives rise to the basis-set incompleteness error. This error can be minimized by increasing the number of basis functions used, but it cannot be entirely eliminated in practice. On the other hand, grid-based methods intrinsically allow for an accurate representation [@octopus]. Nevertheless, the number of points required to achieve a significant accuracy can become quickly unmanageable. ``pyCADMium`` uses a PS grid to circumvent these issues. The PS grid is a coordinate system formed by revolving an elliptic coordinate plane around the line intersecting the two foci. These planes are formed by ellipses and hyperbolae that share the same focus [@arfken]. Atoms and diatomics are ideally suited for this coordinate system given that each foci can be used to allocate an atom. Additionally, the PS grid is denser around the foci in its cartesian representation, where we expect functions of molecular systems to change rapidly [@17RS].  
 
 # Functionality
 
@@ -55,9 +55,12 @@ Once the fragments and/or molecule is defined. ``pyCADMium`` can perform:
 
 # Statement of Need
 
-PS coordinates have proven to excel at accuracy in calculations using atoms and diatomic molecules [@B82,@L09]. Despite these coordinates being used thoroughly in literature, the options for freely-available modules that focus on embedding applications are almost non-existent. In addition to P-DFT, our code can be used as described in [@14JW] to perform and easily develop other embedding calculations. Additionally, a repository of Jupyter Notebooks is availiable on [Github](https://github.com/wasserman-group/CADMium_examples) that includes various examples of the functionalities available in the code. 
+PS coordinates have proven to excel at accuracy in calculations using atoms and diatomic molecules [@B82;@L09]. Despite these coordinates being used thoroughly in literature, the options for freely-available modules that focus on embedding applications are almost non-existent. In addition to P-DFT, our code can be used as described in [@14JW] to perform and easily develop other embedding calculations. Additionally, a repository of Jupyter Notebooks is availiable on [Github](https://github.com/wasserman-group/CADMium_examples) that includes various examples of the functionalities available in the code. 
 
 # Acknowledgements
 
 Victor H. Chávez thanks Dr. Taylor A. Barnes of The Molecular Sciences Software Insitute for the massive help to set the continious integration for the package as well as multiple conversations about the scope and structure of the code.  
 This work was supported by the National Science Foundation under Grant No. CHE-1900301. Victor H. Chavez was supported by a fellowship from The Molecular Sciences Software Institute under NSF grant OAC-1547580.  
+
+# References
+
