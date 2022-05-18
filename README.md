@@ -10,7 +10,7 @@
 </p>
 
 
-- Prolate spheroidal coordinates grid-based code that solves a cylindrical problem analitically.  
+- Prolate spheroidal coordinates grid-based code that solves a cylindrical problem semianalitically.  
 - Calculations in atoms and diatomic molecules free from basis set incompleteness error. 
 - Kohn-Sham DFT calculations using density functional approximations from libxc. 
 - Density-to-potential inversion calculations. 
