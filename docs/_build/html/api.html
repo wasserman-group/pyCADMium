@@ -1,206 +1,58 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
   
-  <title>API Documentation &mdash; CADMium  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-
-  
-  
-  
+  <title>pyCADMium :: API Documentation</title>
   
 
-  
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="genindex.html"/>
 
-    
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Pssolver" href="api/CADMium.Pssolver.html" />
-    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+  <link rel="stylesheet" href="_static/css/insegel.css"/>
+  <link rel="stylesheet" href="_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
           
-
+          <h1>pyCADMium</h1>
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> CADMium
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
+      </div>
+      <div id="project-container">
         
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-CADMium">CADMium Package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/CADMium.Pssolver.html">Pssolver</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/CADMium.Inverter.html">Inverter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/CADMium.Kohnsham.html">Kohnsham</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/CADMium.Partition.html">Partition</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/CADMium.Psgrid.html">Psgrid</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-            
-          
-        </div>
+        <h1>Documentation</h1>
         
       </div>
-    </nav>
+    </header>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+    <div id="content-container">
 
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">CADMium</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
+      <div id="main-content-container">
+        <div id="main-content" role="main">
           
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>API Documentation</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="api-documentation">
+  <section id="api-documentation">
 <h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-CADMium">
+<section id="module-CADMium">
 <span id="cadmium-package"></span><h2>CADMium Package<a class="headerlink" href="#module-CADMium" title="Permalink to this headline">¶</a></h2>
 <p>CADMium
 A short description of the project.</p>
-<div class="section" id="functions">
+<section id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -208,13 +60,13 @@ A short description of the project.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CADMium.Pssolver.html#CADMium.Pssolver" title="CADMium.Pssolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pssolver</span></code></a>(grid, Nmo, N[, FRACTIONAL, SYM])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CADMium.Pssolver.html#CADMium.Pssolver" title="CADMium.Pssolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pssolver</span></code></a>(grid, Nmo, N[, optSolver])</p></td>
 <td><p>Generates an array of solvers of shape Nmo[0]xNmo[1]</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="classes">
+</section>
+<section id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -222,13 +74,13 @@ A short description of the project.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CADMium.Inverter.html#CADMium.Inverter" title="CADMium.Inverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Inverter</span></code></a>(grid, solver, optInversion)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CADMium.Inverter.html#CADMium.Inverter" title="CADMium.Inverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Inverter</span></code></a>(grid, solver[, optInv])</p></td>
+<td><p>Inverter handles inversion algorithms</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CADMium.Kohnsham.html#CADMium.Kohnsham" title="CADMium.Kohnsham"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kohnsham</span></code></a>(grid, Za, Zb, pol, Nmo, N, optKS)</p></td>
-<td><p>Handles a standard kohn sham calculation</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CADMium.Kohnsham.html#CADMium.Kohnsham" title="CADMium.Kohnsham"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kohnsham</span></code></a>(grid, Za, Zb, pol, Nmo, N[, optKS])</p></td>
+<td><p>Handles a standard Kohn-Sham calculation</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CADMium.Partition.html#CADMium.Partition" title="CADMium.Partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Partition</span></code></a>(grid, Za, Zb, pol, Nmo_a, N_a, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CADMium.Partition.html#CADMium.Partition" title="CADMium.Partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Partition</span></code></a>(grid, Za, Zb, pol, Nmo_a, N_a, ...)</p></td>
 <td><p>Handles calculation of all efective partiions.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/CADMium.Psgrid.html#CADMium.Psgrid" title="CADMium.Psgrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Psgrid</span></code></a>(NP, NM, a, L, loc)</p></td>
@@ -236,68 +88,114 @@ A short description of the project.</p>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="class-inheritance-diagram">
+</section>
+<section id="class-inheritance-diagram">
 <h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-4c0545ec6d4a0b1348afbbb8a019f35e87664704.png" alt="Inheritance diagram of CADMium.inverter.inverter.Inverter, CADMium.kohnsham.kohnsham.Kohnsham, CADMium.partition.partition.Partition, CADMium.psgrid.psgrid.Psgrid" class="inheritance graphviz" /></div>
-</div>
-</div>
-</div>
+<div class="graphviz"><img src="_images/inheritance-4d35e3a0ac29a6716d5740bc9e845cb54993da85.png" alt="Inheritance diagram of CADMium.inverter.inverter.Inverter, CADMium.kohnsham.kohnsham.Kohnsham, CADMium.partition.partition.Partition, CADMium.psgrid.psgrid.Psgrid" usemap="#inheritance7d6addbbc0" class="inheritance graphviz" /></div>
+<map id="inheritance7d6addbbc0" name="inheritance7d6addbbc0">
+<area shape="rect" id="node1" href="api/CADMium.Inverter.html#CADMium.Inverter" target="_top" title="Inverter handles inversion algorithms" alt="" coords="5,5,79,31"/>
+<area shape="rect" id="node2" href="api/CADMium.Kohnsham.html#CADMium.Kohnsham" target="_top" title="Handles a standard Kohn&#45;Sham calculation" alt="" coords="103,5,194,31"/>
+<area shape="rect" id="node3" href="api/CADMium.Partition.html#CADMium.Partition" target="_top" title="Handles calculation of all efective partiions. " alt="" coords="219,5,295,31"/>
+<area shape="rect" id="node4" href="api/CADMium.Psgrid.html#CADMium.Psgrid" target="_top" title="Generates spheroidal grid" alt="" coords="319,5,391,31"/>
+</map></section>
+</section>
+</section>
 
-
-           </div>
-           
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="api/CADMium.Pssolver.html" class="btn btn-neutral float-right" title="Pssolver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, Wasserman Group. Project structure based on the Computational Molecular Science Python Cookiecutter version 1.1
-
-    </p>
-  </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
 
         </div>
       </div>
 
-    </section>
+      <div id="side-menu-container">
 
-  </div>
-  
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
 
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
+        <div id="side-menu" role="navigation">
 
-  
+          
   
     
-   
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="_sources/api.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
 
 </body>
 </html>

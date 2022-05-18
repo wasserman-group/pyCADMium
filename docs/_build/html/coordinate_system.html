@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>pyCADMium :: The Coordinate System</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="genindex.html"/>
+
+  <link rel="stylesheet" href="_static/css/insegel.css"/>
+  <link rel="stylesheet" href="_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>pyCADMium</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <section id="the-coordinate-system">
+<h1>The Coordinate System<a class="headerlink" href="#the-coordinate-system" title="Permalink to this headline">¶</a></h1>
+<p>The PS grid is a two-center orthogonal coordinate system formed by revolving an elliptic coordinate plane around the line intersecting two foci. These planes are formed by ellipses and hyperbolae that share the same focus cite{arfken}. Assume that we place the foci in the Cartesian coordinates  <span class="math notranslate nohighlight">\((0,0,-a)\)</span> and <span class="math notranslate nohighlight">\((0,0,a)\)</span>. We can transform from one coordinate system to the other with</p>
+<div class="math notranslate nohighlight">
+\[x = a \cdot sinh(\mu) \cdot sin(\nu) \cdot cos(\phi)\]</div>
+<div class="math notranslate nohighlight">
+\[x = a \cdot sinh(\mu) \cdot sin(\nu) \cdot sin(\phi)\]</div>
+<div class="math notranslate nohighlight">
+\[x = a \cdot cosh(\mu) \cdot cos(\nu)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(a\)</span> is the distance between the foci, and <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\nu\)</span> correspond to the ellipsoidal and hyperboloid surfaces. In the case of an axially symmetric system, the molecular orbitals of interest are independent of the azimuth angle according to Equations (ref{coordinate_transformations}). The <span class="math notranslate nohighlight">\(\phi\)</span> coordinate can be treated analytically and our problem now becomes two-dimensional.</p>
+<p>To allow a more accurate description of the systems around the nuclei, the coordinates can be mapped into a new set of</p>
+<div class="math notranslate nohighlight">
+\[\mathfrak{e} = cosh^{-1}(\mu), \quad \mathfrak{e} \in [0, \infty)\]</div>
+<div class="math notranslate nohighlight">
+\[\mathfrak{h} = cos^{-1}(\nu), \quad  \mathfrak{h} \in [0,\pi]\]</div>
+<p>In the new coordinates, the ‘radial’ part of the laplacian is</p>
+<div class="math notranslate nohighlight">
+\[\nabla^2 =  \frac{4}{a^2 (\mu^2 - \nu^2)} \Bigg\{ \frac{\partial{^2}}{\partial{\mathfrak{e}^2}}
+\frac{\mu}{\sqrt{\mu^2 - 1}} \frac{\partial}{\partial \mathfrak{e}}
++\frac{\partial^2}{\partial \mathfrak{h}^2}
++\frac{\nu}{\sqrt{1-\nu^2}} \frac{\partial}{\partial \mathfrak{h}}
+- \mathbf{m_a^2} \cdot \Bigg(  \frac{1}{\mu - 1} + \frac{1}{1 - \nu^2}  \Bigg)
+\Bigg\}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{m_a^2}\)</span> is an integer and it specifies the rotation symmetry of the orbitals cite{96KS}:  \</p>
+<div class="math notranslate nohighlight">
+\[m_a = 0      \rightarrow \sigma \quad orbitals\]</div>
+<div class="math notranslate nohighlight">
+\[m_a = \pm 1  \rightarrow \pi    \quad orbitals\]</div>
+<div class="math notranslate nohighlight">
+\[m_a = \pm 2  \rightarrow \delta \quad orbitals\]</div>
+<div class="math notranslate nohighlight">
+\[m_a = \pm 3  \rightarrow \phi   \quad orbitals\]</div>
+<p>Orbitals that have a higher symmetry than <span class="math notranslate nohighlight">\(\phi\)</span> are not relevant for diatomic molecules at the DFT level of theory. Orbitals that have the same radial part and the same <span class="math notranslate nohighlight">\(m=\pm m_a\)</span> belong to the same shell.</p>
+<section id="symmetry-considerations">
+<h2>Symmetry Considerations<a class="headerlink" href="#symmetry-considerations" title="Permalink to this headline">¶</a></h2>
+<p>These coordinates have a convenient correspondence with the distances between any point at either of the foci of the coordinate system.</p>
+<div class="math notranslate nohighlight">
+\[r_1 = 2a ( cosh(\mathfrak{e}) + cos(\mathfrak{h}) ) = a (\mu + \nu)\]</div>
+<div class="math notranslate nohighlight">
+\[r_2 = 2a ( cosh(\mathfrak{e}) - cos(\mathfrak{h}) ) = a (\mu - \nu)\]</div>
+<p>where <span class="math notranslate nohighlight">\(r_1\)</span> and <span class="math notranslate nohighlight">\(r_2\)</span> represent the distances of any point <span class="math notranslate nohighlight">\((x,y,z)\)</span> to the foci. Additionally, the scales factors and the volume element for a PS grid are</p>
+<div class="math notranslate nohighlight">
+\[h_1 = h_2 = (r_1 \cdot r_2)^{1/2}\]</div>
+<div class="math notranslate nohighlight">
+\[h_3 = a \cdot sinh(\epsilon) \cdot sin(\hbar)\]</div>
+<p>Further discussions on the scale factors can be found on the curvilinear coordinate system section of Reference cite{arfken}.
+Equations ref{eq:rinPS} reveal a lot of interesting properties of the transformation in Equations ref{eq:sat} and ref{eq:sath}. If the sign of <span class="math notranslate nohighlight">\(\mu\)</span> or <span class="math notranslate nohighlight">\(nu\)</span> is changed, then the point <span class="math notranslate nohighlight">\((x,y,z) \rightarrow (-x,-y,z)\)</span>. Thus, a rotation by <span class="math notranslate nohighlight">\(\pi\)</span> radians leaves orbitals with even <span class="math notranslate nohighlight">\(m\)</span> unchanged  but reverses the sign of the orbitals with odd m-values:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Functions with <span class="math notranslate nohighlight">\(\sigma, \delta, ...\)</span> symmetry are even functions of <span class="math notranslate nohighlight">\((\mu, \nu)\)</span></p></li>
+<li><p>Functions with <span class="math notranslate nohighlight">\(\pi, \phi, ...\)</span> symmetry are odd functions of <span class="math notranslate nohighlight">\((\mu, \nu)\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>Mathematically, this is expressed as</p>
+<div class="math notranslate nohighlight">
+\[f(\mu, \nu)       = (-1)^m f(\mu, -\nu)\]</div>
+<div class="math notranslate nohighlight">
+\[f(\mu, \nu)       = (-1)^m f(-\mu, \nu)\]</div>
+<div class="math notranslate nohighlight">
+\[f(\pi + \mu, \nu) = (-1)^m f(\pi-\mu, \nu)\]</div>
+<p>Due to these properties, we are able to use the central difference formula in any function near the boundary line. These relations are also used to adjust <span class="math notranslate nohighlight">\(f\)</span> along <span class="math notranslate nohighlight">\((0,\mu), (\pi, \mu)\)</span> and <span class="math notranslate nohighlight">\((\mu, 0)\)</span> boundary lines for <span class="math notranslate nohighlight">\(\sigma\)</span> functions. Any function that has a higher <span class="math notranslate nohighlight">\(\sigma\)</span> symmetry vanish at these boundary lines.</p>
+</section>
+<section id="discretization">
+<h2>Discretization<a class="headerlink" href="#discretization" title="Permalink to this headline">¶</a></h2>
+<p>To discretize our system, we build a two-dimensional mesh with two evenly spaced one-dimensional grids. Since this system is orthogonal, the mesh is a product of two independent one-dimensional meshes that generate a rectangle of <span class="math notranslate nohighlight">\(N_a \times N_r\)</span> points, representing the number of angular and radial points. With appropriate boundary conditions, only half of the rectangle is required for homonuclear diatomics, otherwise the whole rectangle is constructed. After having defined our space, we require our differentiation and integration operations. Integration is performed through</p>
+<div class="math notranslate nohighlight">
+\[\int f(\mathbf{r}) \quad d\mathbf{r} \simeq \sum_{ij}^{N_1} w_{ij} \quad f_{ij}\]</div>
+<p>To calculate the weights proceed as stated in the Appendix ref{ap:Newton}. The first and second derivatives of the Laplacian defined on Equation ref{eq:laplacian} are approximated by finite different expression from the central difference formula.</p>
+<div class="math notranslate nohighlight">
+\[\frac{du}{dx}_j = \frac{1}{dx} \cdot (c1 \cdot u_{[i-j]} + c2 \cdot u_{[j]} + c3 \cdot u_{[j+1]})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\{c_i\}\)</span> are the finite difference coefficients.  An additional requirements for these operators is that they must have the appropriately boundary conditions for each symmetry class, therefore a distinct matrix is needed for each of the different orbitals symmetries.</p>
+<p>Although we have computed the integration and differentiation operators, we have not discuss how to produce the potentials that are usually used in a KS-DFT calculation. Each of them needs to be addressed individually.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The <strong>external</strong> potential is found by substitution of the transformation equations.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[v_{ext}(\mathbf{r}) = - \frac{ Z (cosh(\mathfrak{e}) - cos(\mathfrak{h}))}{ a (cosh^2(\mathfrak{e}) - cos^2(\mathfrak{h})) }\]</div>
+<ul class="simple">
+<li><p>The <strong>Hartree</strong> or the Coulomb potential arises from the total electron density. Although we know its explicit form as an integral involving the electronic density, it is more commonly known to be determined by solving the Poisson equation</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\nabla^2 v_{H}(\mathbf{r}) = -4\pi n(\mathbf{r})\]</div>
+<p>The Poisson equation is not solved by direct substitution of the matrices that we produced in the previous section. Instead they are solved using an LU decomposed Laplacian followed by setting up the boundary conditions as suggested in Reference cite{96KS}.</p>
+<ul class="simple">
+<li><p>The <strong>exchange-correlation</strong> potential is found through the library of exchange-correlation functionals <em>libxc</em> cite{libxc}. The library does not care about the coordinate system of the density, it only requires as input the value of the density and the gradient at the total discretized points. Currently no higher rungs than GGA are available in the current version of cad.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="_sources/coordinate_system.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

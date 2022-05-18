@@ -1,173 +1,79 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
   
-  <title>CADMium.partition.partition &mdash; CADMium  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
-
-  
-  
-  
+  <title>pyCADMium :: CADMium.partition.partition</title>
   
 
-  
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../../genindex.html"/>
 
-    
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
+  <link rel="stylesheet" href="../../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
           
-
+          <h1>pyCADMium</h1>
           
-            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> CADMium
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
+      </div>
+      <div id="project-container">
         
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../prolate_spheroidal_grid.html">Prolate Spheroidal Coordinates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
-</ul>
-
-            
-          
-        </div>
+        <h1>Documentation</h1>
         
       </div>
-    </nav>
+    </header>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+    <div id="content-container">
 
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">CADMium</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
+      <div id="main-content-container">
+        <div id="main-content" role="main">
           
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
-      <li>CADMium.partition.partition</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
   <h1>Source code for CADMium.partition.partition</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">partition.py</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">validator</span><span class="p">,</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
 
 <span class="kn">from</span> <span class="nn">.scf</span> <span class="kn">import</span> <span class="n">scf</span>
 <span class="kn">from</span> <span class="nn">.vp_nuclear</span> <span class="kn">import</span> <span class="n">vp_nuclear</span>
 <span class="kn">from</span> <span class="nn">.vp_kinetic</span> <span class="kn">import</span> <span class="n">vp_kinetic</span>
+<span class="kn">from</span> <span class="nn">.vp_hxc</span> <span class="kn">import</span> <span class="n">vp_hxc</span>
+<span class="kn">from</span> <span class="nn">.vp_overlap</span> <span class="kn">import</span> <span class="n">vp_overlap</span>
+<span class="kn">from</span> <span class="nn">.vp_surprise</span> <span class="kn">import</span> <span class="n">vp_surprise</span>
+<span class="kn">from</span> <span class="nn">.EnsCorHar</span> <span class="kn">import</span> <span class="n">EnsCorHar</span>
+<span class="kn">from</span> <span class="nn">.energy</span> <span class="kn">import</span> <span class="n">energy</span>
+<span class="kn">from</span> <span class="nn">.partition_energy</span> <span class="kn">import</span> <span class="n">partition_energy</span>
+<span class="kn">from</span> <span class="nn">.ep_nuclear</span> <span class="kn">import</span> <span class="n">ep_nuclear</span>
+<span class="kn">from</span> <span class="nn">.ep_kinetic</span> <span class="kn">import</span> <span class="n">ep_kinetic</span>
+<span class="kn">from</span> <span class="nn">.ep_hxc</span> <span class="kn">import</span> <span class="n">ep_hxc</span>
 <span class="kn">from</span> <span class="nn">.initialguessinvert</span> <span class="kn">import</span> <span class="n">initialguessinvert</span>
 <span class="kn">from</span> <span class="nn">.partition_potential</span> <span class="kn">import</span> <span class="n">partition_potential</span>
 <span class="kn">from</span> <span class="nn">..common.coulomb</span> <span class="kn">import</span> <span class="n">coulomb</span>
 <span class="kn">from</span> <span class="nn">..libxc.libxc</span> <span class="kn">import</span> <span class="n">Libxc</span>
 <span class="kn">from</span> <span class="nn">..hartree.hartree</span> <span class="kn">import</span> <span class="n">Hartree</span>
-<span class="kn">from</span> <span class="nn">..kohnsham.kohnsham</span> <span class="kn">import</span> <span class="n">Kohnsham</span>
+<span class="kn">from</span> <span class="nn">..kohnsham.kohnsham</span> <span class="kn">import</span> <span class="n">Kohnsham</span><span class="p">,</span> <span class="n">KohnShamOptions</span>
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">V</span><span class="p">:</span>    
@@ -175,7 +81,63 @@
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">E</span><span class="p">:</span>
+    <span class="c1"># Ea      : float = 0.0</span>
+    <span class="c1"># Eb      : float = 0.0 </span>
+    <span class="c1"># Ef      : float = 0.0</span>
+    <span class="c1"># Tsf     : float = 0.0</span>
+    <span class="c1"># Eksf    : List[float] = field(default_factory=list)</span>
+    <span class="c1"># Enucf   : float = 0.0</span>
+    <span class="c1"># Excf    : float = 0.0</span>
+    <span class="c1"># Ecf     : float = 0.0</span>
+    <span class="c1"># Ehf     : float = 0.0</span>
+    <span class="c1"># Vhxcf   : float = 0.0</span>
+    <span class="c1"># Ep_pot  : float = 0.0</span>
+    <span class="c1"># Ep_kin  : float = 0.0</span>
+    <span class="c1"># Ep_hxc  : float = 0.0</span>
+    <span class="c1"># Et      : float = 0.0</span>
+    <span class="c1"># Vnn     : float = 0.0</span>
+    <span class="c1"># E       : float = 0.0</span>
+    <span class="c1"># evals_a : List[float] = field(default_factory=list)</span>
+    <span class="c1"># evals_b : List[float] = field(default_factory=list)</span>
+    <span class="c1"># Ep_h    : float = 0.0</span>
+    <span class="c1"># Ep_x    : float = 0.0</span>
+    <span class="c1"># Ep_c    : float = 0.0</span>
     <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">PartitionOptions</span><span class="p">(</span><span class="n">KohnShamOptions</span><span class="p">):</span>
+    <span class="n">vp_calc_type</span>      <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;component&#39;</span>
+    <span class="n">hxc_part_type</span>     <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;exact&#39;</span>
+    <span class="n">kinetic_part_type</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;vonweiz&#39;</span>
+    <span class="n">k_family</span>          <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;gga&#39;</span>
+    <span class="n">ke_func_id</span>        <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">ke_param</span>          <span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">disp</span>              <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ab_sym</span>            <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">fractonal</span>         <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ens_spin_sym</span>      <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">isolated</span>          <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">fixed_q</span>           <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;vp_calc_type&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">vp_calc_type_values</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;component&#39;</span><span class="p">,</span> <span class="s1">&#39;potential_inversion&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;vp_calc_type&#39; must be one of the options: </span><span class="si">{</span><span class="n">values</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;hxc_part_type&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">hxc_part_type_values</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;exact&#39;</span><span class="p">,</span> <span class="s1">&#39;overlap_hxc_2&#39;</span><span class="p">,</span> <span class="s1">&#39;overlap_hxc&#39;</span><span class="p">,</span> <span class="s1">&#39;overlap_xc&#39;</span><span class="p">,</span> <span class="s1">&#39;surprisal&#39;</span><span class="p">,</span> <span class="s1">&#39;hartree&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;hxc_part_type&#39; must be one of the options: </span><span class="si">{</span><span class="n">values</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;kinetic_part_type&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">kinetic_part_type_values</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;vonweiz&#39;</span><span class="p">,</span><span class="s1">&#39;inversion&#39;</span><span class="p">,</span><span class="s1">&#39;libxcke&#39;</span><span class="p">,</span><span class="s1">&#39;paramke&#39;</span><span class="p">,</span><span class="s1">&#39;none&#39;</span><span class="p">,</span><span class="s1">&#39;twoorbital&#39;</span><span class="p">,</span><span class="s1">&#39;fixed&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;kinetic_part_type&#39; must be one of the options: </span><span class="si">{</span><span class="n">values</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
 
 <div class="viewcode-block" id="Partition"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition">[docs]</a><span class="k">class</span> <span class="nc">Partition</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; </span>
@@ -253,10 +215,6 @@
 <span class="sd">        Convergence Parameters</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># grid : constr(regex=&quot;CADMium.psgrid.psgrid.Psgrid&quot;) = Field(</span>
-    <span class="c1">#     &quot;CADMium.psgrid.psgrid.Psgrid&quot;,</span>
-    <span class="c1">#     description=(&quot;CADMium Prolate Spheroidal Object&quot;),</span>
-    <span class="c1"># )</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span>
                        <span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span><span class="p">,</span>
@@ -265,105 +223,69 @@
                        <span class="n">Nmo_b</span><span class="p">,</span> <span class="n">N_b</span><span class="p">,</span> <span class="n">nu_b</span><span class="p">,</span> 
                        <span class="n">optPartition</span><span class="o">=</span><span class="p">{}):</span>
 
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;interaction_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;interaction_type&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;interaction_type&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;dft&quot;</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;vp_calc_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;vp_calc_type&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;vp_calc_type&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;component&quot;</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;hxc_part_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;hxc_part_type&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;hxc_part_type&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;exact&quot;</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;kinetic_part_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;kinetic_part_type&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;kinetic_part_type&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;vonweiz&quot;</span>
-
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;AB_SYM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;AB_SYM&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;AB_SYM&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;FRACTIONAL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;FRACTIONAL&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;FRACTIONAL&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ENS_SPIN_SYM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ENS_SPIN_SYM&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;ENS_SPIN_SYM&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ISOLATED&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ISOLATED&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;ISOLATED&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;FIXEDQ&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;FIXEDQ&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;FIXEDQ&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
-        
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;x_func_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;x_func_id&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;x_func_id&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="mi">1</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;c_func_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;c_func_id&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;c_func_id&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="mi">12</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;xc_family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;xc_family&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;xc_family&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;lda&quot;</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;k_family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;k_family&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;k_family&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;gga&quot;</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ke_func_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ke_func_id&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;ke_func_id&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="mi">5</span>
-        <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ke_param&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ke_param&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;ke_param&quot;</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="p">{}</span>
-        
+        <span class="c1">#Validate options</span>
+        <span class="n">optPartition</span> <span class="o">=</span>  <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">PartitionOptions</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> is not a valid option for KohnSham&quot;</span><span class="p">)</span>
+        <span class="n">optPartition</span> <span class="o">=</span> <span class="n">PartitionOptions</span><span class="p">(</span><span class="o">**</span><span class="n">optPartition</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span> <span class="o">=</span> <span class="n">optPartition</span>
 
-        <span class="c1">#Calculation Options Validators:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;interaction_type&quot;</span><span class="p">]</span>  <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;dft&quot;</span><span class="p">,</span> <span class="s2">&quot;ni&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only {&#39;dft&#39;, &#39;ni&#39;} are valid options for calculation&quot;</span><span class="p">)</span>
+        <span class="c1"># Initialize Partition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span>                    <span class="c1"># Grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pol</span> <span class="o">=</span> <span class="n">pol</span>                      <span class="c1"># Polarization</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Za</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zb</span> <span class="o">=</span> <span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span>           <span class="c1"># Fragment nuclear charges</span>
         
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;vp_calc_type&quot;</span><span class="p">]</span>  <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;component&quot;</span><span class="p">,</span> <span class="s2">&quot;potential_inversion&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only {&#39;component&#39;, &#39;potential_inversion&#39;} are valid options for vp&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;hxc_part_type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="s2">&quot;overlap_hxc&quot;</span><span class="p">,</span> <span class="s2">&quot;overpal_xc&quot;</span><span class="p">,</span> <span class="s2">&quot;surprisal&quot;</span><span class="p">,</span> <span class="s2">&quot;hartree&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only {&#39;exact&#39;, &#39;overlap_hxc&#39;, &#39;overpal_xc&#39;, &#39;surprisal&#39;, &#39;hartree&#39;}  </span><span class="se">\</span>
-<span class="s2">                                are valid options for vp&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;kinetic_part_type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;vonweiz&quot;</span><span class="p">,</span> <span class="s2">&quot;inversion&quot;</span><span class="p">,</span> <span class="s2">&quot;libxcke&quot;</span><span class="p">,</span> <span class="s2">&quot;parmke&quot;</span><span class="p">,</span> <span class="s2">&quot;two_orbital&quot;</span><span class="p">,</span> <span class="s2">&quot;fixed&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only {&#39;vonweiz&#39;, &#39;inversion&#39;, &#39;libxcke&#39;, &#39;parmke&#39;, &#39;two_orbital&#39;, &#39;fixed&#39;} </span><span class="se">\</span>
-<span class="s2">                                are valud options for vp&quot;</span><span class="p">)</span>
-
-        <span class="c1">#Missing type assertions</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span>
-
-        <span class="c1">#xc options</span>
-        <span class="c1"># self.xc_family = xc_family</span>
-        <span class="c1"># self.x_func_id = x_func_id</span>
-        <span class="c1"># self.c_func_id = c_func_id</span>
-
-        <span class="c1">#Libxc function for fragment calculations</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">exchange</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="kc">None</span>
-        
-        <span class="c1">#Kinetic Energy</span>
-        <span class="c1"># self.k_family = k_family</span>
-        <span class="c1"># self.ke_func_id = ke_func_id</span>
-        <span class="c1"># self.ke_param = ke_param</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">kinetic</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inverter</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hartree</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">kientic_part_type</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="c1">#Polarization</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pol</span> <span class="o">=</span> <span class="n">pol</span>
-
-        <span class="c1">#Fragmentation </span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Nf</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="c1">#Component molecular potentials and total energies</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">V</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">E</span> <span class="o">=</span> <span class="n">E</span>
-
-        <span class="c1">#Kohn Sham objects</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="c1">#Fragment nuclear charges and potentials</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Za</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zb</span> <span class="o">=</span> <span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">va</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vb</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-
         <span class="c1">#Fragment ensembles, mixing rations, sum of fragment ensembles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">na_frac</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_fac</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nu_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_b</span> <span class="o">=</span> <span class="n">nu_a</span><span class="p">,</span> <span class="n">nu_b</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">N_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">N_a</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">N_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">N_b</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Nmo_a</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Nmo_b</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nf</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nu_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_b</span> <span class="o">=</span> <span class="n">nu_a</span><span class="p">,</span> <span class="n">nu_b</span>  
 
+        <span class="c1"># Are we doing an ensemble calculation?</span>
+        <span class="k">if</span> <span class="n">nu_a</span> <span class="o">==</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="n">nu_b</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ens</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">N_a</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">N_b</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Nmo_a</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Nmo_b</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ens</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">N_a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">N_b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Nmo_a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Nmo_b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">N_a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">N_b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Nmo_a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Nmo_b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            
+        <span class="c1">#Component molecular potentials and total energies</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">E</span> <span class="o">=</span> <span class="n">E</span><span class="p">()</span>
+
+        <span class="c1">#Libxc function for fragment calculations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inverter</span> <span class="o">=</span> <span class="kc">None</span>
+        
         <span class="c1">#Sanity Check</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;AB_SYM&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">Za</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zb</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;AB_SYM is set but nuclear charges are not symmetric&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">ab_sym</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">Za</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zb</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;optPartition.ab_sym is set but nuclear charges are not symmetric&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_a</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_b</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Warning. Fractional Ensemble is different for each fragment.&quot;</span><span class="p">)</span>
+        <span class="c1"># if np.mod(np.squeeze(self.N_a)[0], 1.0) !=0 and self.optPartition.fractional is False:</span>
+        <span class="c1">#     warn(&quot;Warning. Fractional number of electron requires fractional option active&quot;)</span>
+        <span class="c1"># if np.mod(np.squeeze(self.N_b)[0], 1.0) !=0 and self.optPartition.fractional is False:</span>
+        <span class="c1">#     warn(&quot;Warning. Fractional number of electron requires fractional option active&quot;)</span>
+            
 
         <span class="bp">self</span><span class="o">.</span><span class="n">inversion_info</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1">#Conversion parameters</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Alpha</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Beta</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># self.Alpha = None</span>
+        <span class="c1"># self.Beta = None</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;interaction_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;dft&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">exchange</span> <span class="o">=</span> <span class="n">Libxc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;xc_family&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;x_func_id&quot;</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="n">Libxc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;xc_family&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;c_func_id&quot;</span><span class="p">])</span>
+        <span class="c1"># Set up Exchange and Correlation Libxc Objects | Set up Hartree object</span>
+        <span class="k">if</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">interaction_type</span> <span class="o">==</span> <span class="s2">&quot;dft&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exchange</span> <span class="o">=</span> <span class="n">Libxc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">xc_family</span><span class="p">,</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">xfunc_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="n">Libxc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">xc_family</span><span class="p">,</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">cfunc_id</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hartree</span> <span class="o">=</span> <span class="n">Hartree</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span>
                                     <span class="c1">#optPartition,</span>
                                     <span class="p">)</span>
@@ -372,38 +294,66 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">correlation</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hartree</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-    
-        <span class="c1">#Set up kohn sham objects</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span> <span class="o">=</span> <span class="n">Kohnsham</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Za</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_a</span><span class="p">,</span> <span class="n">optPartition</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span> <span class="o">=</span> <span class="n">Kohnsham</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_b</span><span class="p">,</span> <span class="n">optPartition</span><span class="p">)</span>
+        <span class="c1"># Set up Kohn Sham objects</span>
+        <span class="n">optKS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">optPartition</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;interaction_type&#39;</span><span class="p">,</span> 
+                                                            <span class="s1">&#39;sym&#39;</span><span class="p">,</span> 
+                                                            <span class="s1">&#39;fractional&#39;</span><span class="p">,</span> 
+                                                            <span class="s1">&#39;xfunc_id&#39;</span><span class="p">,</span> 
+                                                            <span class="s1">&#39;cfunc_id&#39;</span><span class="p">,</span> 
+                                                            <span class="s1">&#39;xc_family&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">optPartition</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="p">)</span>
 
-        <span class="c1">#Figure out scale factors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span> <span class="o">=</span> <span class="n">Kohnsham</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Za</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_a</span><span class="p">,</span> <span class="n">optKS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span> <span class="o">=</span> <span class="n">Kohnsham</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_b</span><span class="p">,</span> <span class="n">optKS</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_a</span> <span class="o">!=</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_b</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">KSA</span> <span class="o">=</span> <span class="n">Kohnsham</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Za</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_A</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_A</span><span class="p">,</span> <span class="n">optKS</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">KSB</span> <span class="o">=</span> <span class="n">Kohnsham</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmo_B</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_B</span><span class="p">,</span> <span class="n">optKS</span><span class="p">)</span>
+
+        <span class="c1"># Figure out scale factors</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calc_scale_factors</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;kinetic_part_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;libxcke&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">kinetic</span> <span class="o">=</span> <span class="n">Libxc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_family</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ke_func_id</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;kinetic_part_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;paramke&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">kinetic</span> <span class="o">=</span> <span class="n">Paramke</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_family</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ke_func_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ke_param</span><span class="p">)</span>
+        <span class="c1"># Set Kinetic Libxc object</span>
+        <span class="k">if</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">kinetic_part_type</span> <span class="o">==</span> <span class="s2">&quot;libxcke&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kinetic</span> <span class="o">=</span> <span class="n">Libxc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">k_family</span><span class="p">,</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">ke_func_id</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">kinetic_part_type</span> <span class="o">==</span> <span class="s2">&quot;paramke&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kinetic</span> <span class="o">=</span> <span class="n">Paramke</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="n">optPartition</span><span class="o">.</span><span class="n">k_family</span><span class="p">,</span> 
+                                              <span class="n">optPartition</span><span class="o">.</span><span class="n">ke_func_id</span><span class="p">,</span> 
+                                              <span class="n">optPartition</span><span class="o">.</span><span class="n">ke_param</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">calc_nuclear_potential</span><span class="p">()</span>
 
-    <span class="c1">#Methods</span>
+<span class="c1">#------&gt; Class&#39; Methods</span>
 <div class="viewcode-block" id="Partition.calc_scale_factors"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.calc_scale_factors">[docs]</a>    <span class="k">def</span> <span class="nf">calc_scale_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculates scale factors</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1">#print(&quot;Warning: If len(KS) &gt; 1 Has not been migrated from matlab&quot;)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ens</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">nu_a</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">KSA</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_a</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_a</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_b</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">nu_b</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">KSB</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_b</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="o">.</span><span class="n">disp</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;      Active Ensemble:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;      Fragment A electrons bewteen: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">N_a</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">N_A</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;      Fragment B electrons between: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">N_b</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">N_B</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_a</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nu_b</span>
 
         <span class="c1">#IF ENS_SPIN_SYM is set, then each scale factor is Reduced by a factor of </span>
         <span class="c1">#two because it will be combined with an ensemble component with </span>
         <span class="c1">#flipped spins</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ENS_SPIN_SYM&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="o">.</span><span class="n">ens_spin_sym</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="mf">2.0</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="mf">2.0</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ens</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">KSA</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSA</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="mf">2.0</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">KSB</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSB</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="mf">2.0</span></div>
 
 <div class="viewcode-block" id="Partition.calc_nuclear_potential"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.calc_nuclear_potential">[docs]</a>    <span class="k">def</span> <span class="nf">calc_nuclear_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -414,69 +364,116 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">vb</span> <span class="o">=</span> <span class="n">coulomb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zb</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">vext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">va</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">))</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">vext</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">va</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vb</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>   
-            <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">vext</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">va</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vb</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">vext</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">va</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vb</span></div>
 
 <div class="viewcode-block" id="Partition.mirrorAB"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.mirrorAB">[docs]</a>    <span class="k">def</span> <span class="nf">mirrorAB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">&quot;Mirror fragment A to get B&quot;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mirror fragment A to get B</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1">#Mirror densities and Q functions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ens</span><span class="p">:</span>
+            <span class="n">KSa</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="p">]</span>
+            <span class="n">KSb</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">KSa</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSA</span><span class="p">]</span>
+            <span class="n">KSb</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSB</span><span class="p">]</span>
 
-        <span class="c1">#Energies don&#39;t need mirrored, just transfered</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">E</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">E</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">u</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">KSa</span><span class="p">)):</span>
+            <span class="c1">#Mirror densities and Q functions</span>
+            <span class="n">KSb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">KSa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">KSb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">KSa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">veff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">veff</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">vext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">vext</span><span class="p">)</span>
+            <span class="c1">#Energies don&#39;t need mirrored, just transfered</span>
+            <span class="n">KSb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">E</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">KSa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">E</span><span class="p">)</span>
+            <span class="n">KSb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">KSa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">u</span><span class="p">)</span>
 
-        <span class="c1">#Mirror all the potentials</span>
-        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">attribute</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">):</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">attribute</span><span class="p">))</span></div>
+            <span class="n">KSb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">veff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">KSa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">veff</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">KSb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">vext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">KSa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">vext</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+            <span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;vx&quot;</span><span class="p">,</span> <span class="s2">&quot;vc&quot;</span><span class="p">,</span> <span class="s2">&quot;vh&quot;</span><span class="p">,</span> <span class="s2">&quot;vp&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">,</span> <span class="s2">&quot;ec&quot;</span><span class="p">,</span> <span class="s2">&quot;eh&quot;</span><span class="p">]</span>
+            <span class="c1">#Mirror all potentials</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span>  <span class="n">KSa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">j</span> <span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span> <span class="n">KSb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">KSa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Partition.calc_protomolecule"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.calc_protomolecule">[docs]</a>    <span class="k">def</span> <span class="nf">calc_protomolecule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate protomolecular density</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
         <span class="c1">#Evaluate sum of fragment densities and weighing functions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">na_frac</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nb_frac</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">n</span><span class="p">)</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">na_frac</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">scale</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">nb_frac</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">scale</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ens</span><span class="p">:</span>
+            <span class="n">iksa</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="p">]</span>
+            <span class="n">iksb</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">iksa</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSA</span><span class="p">]</span>
+            <span class="n">iksb</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSB</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iksa</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">na_frac</span> <span class="o">+=</span> <span class="n">iksa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="n">iksa</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">nb_frac</span> <span class="o">+=</span> <span class="n">iksb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="n">iksb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span>
 
         <span class="c1">#If we have spin symmetry in the ensemble then add</span>
         <span class="c1">#each density with spin flipped version</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">[</span><span class="s2">&quot;ENS_SPIN_SYM&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="o">.</span><span class="n">ens_spin_sym</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">na_frac</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">spinflip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">na_frac</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">nb_frad</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">spinflip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_frac</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nb_frac</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">spinflip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_frac</span><span class="p">)</span>
 
-        <span class="c1">#Nf is the sum of the ffragment densities</span>
+        <span class="c1">#Nf is the sum of the fragment densities</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">na_frac</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_frac</span></div>
 
 <div class="viewcode-block" id="Partition.calc_Q"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.calc_Q">[docs]</a>    <span class="k">def</span> <span class="nf">calc_Q</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate Q functions</span>
 <span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">invalid</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">scale</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">n</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">scale</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">n</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ens</span><span class="p">:</span>
+            <span class="n">iks</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">iks</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSA</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">KSB</span><span class="p">]</span>
 
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">Q</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">Q</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">Q</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span></div>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">iks</span><span class="p">:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">scale</span> <span class="o">*</span> <span class="n">i</span><span class="o">.</span><span class="n">n</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nf</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">Q</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">posinf</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">neginf</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="Partition.vp_nuclear"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.vp_nuclear">[docs]</a>    <span class="k">def</span> <span class="nf">vp_nuclear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">vp_nuclear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Partition.vp_kinetic"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.vp_kinetic">[docs]</a>    <span class="k">def</span> <span class="nf">vp_kinetic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">vp_kinetic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">vp_hxc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">vp_hxc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">vp_overlap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">vp_overlap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">vp_surprise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">vp_surprise</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">partition_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">partition_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">ep_nuclear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ep_nuclear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">ep_kinetic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ep_kinetic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">ep_hxc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ep_hxc</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">EnsCorHar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">EnsCorHar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Partition.partition_potential"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.partition_potential">[docs]</a>    <span class="k">def</span> <span class="nf">partition_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">vp</span> <span class="o">=</span> <span class="n">partition_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -486,59 +483,101 @@
         <span class="n">phi0</span><span class="p">,</span> <span class="n">e0</span><span class="p">,</span> <span class="n">vs0</span> <span class="o">=</span> <span class="n">initialguessinvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ispin</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">phi0</span><span class="p">,</span> <span class="n">e0</span><span class="p">,</span> <span class="n">vs0</span></div>
 
-<div class="viewcode-block" id="Partition.scf"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.scf">[docs]</a>    <span class="k">def</span> <span class="nf">scf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">scf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optPartition</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optPartition</span><span class="p">)</span></div></div>
-
-
+<div class="viewcode-block" id="Partition.scf"><a class="viewcode-back" href="../../../api/CADMium.Partition.html#CADMium.Partition.scf">[docs]</a>    <span class="k">def</span> <span class="nf">scf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optSCF</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="n">scf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optSCF</span><span class="p">)</span></div></div>
 
 
 
 </pre></div>
 
-           </div>
-           
-          </div>
-          <footer>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, Wasserman Group. Project structure based on the Computational Molecular Science Python Cookiecutter version 1.1
-
-    </p>
-  </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
-
         </div>
       </div>
 
-    </section>
+      <div id="side-menu-container">
 
-  </div>
-  
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
 
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
+        <div id="side-menu" role="navigation">
 
-  
+          
   
     
-   
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
 
 </body>
 </html>

@@ -11,7 +11,7 @@ Python module that uses a prolate spheroidal (PS) coordinate grid to accurately 
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    coordinate_system

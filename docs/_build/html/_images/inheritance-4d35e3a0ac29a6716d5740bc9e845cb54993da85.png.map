@@ -1,0 +1,6 @@
+<map id="inheritance7d6addbbc0" name="inheritance7d6addbbc0">
+<area shape="rect" id="node1" href="api/CADMium.Inverter.html#CADMium.Inverter" target="_top" title="Inverter handles inversion algorithms" alt="" coords="5,5,79,31"/>
+<area shape="rect" id="node2" href="api/CADMium.Kohnsham.html#CADMium.Kohnsham" target="_top" title="Handles a standard Kohn&#45;Sham calculation" alt="" coords="103,5,194,31"/>
+<area shape="rect" id="node3" href="api/CADMium.Partition.html#CADMium.Partition" target="_top" title="Handles calculation of all efective partiions. " alt="" coords="219,5,295,31"/>
+<area shape="rect" id="node4" href="api/CADMium.Psgrid.html#CADMium.Psgrid" target="_top" title="Generates spheroidal grid" alt="" coords="319,5,391,31"/>
+</map>

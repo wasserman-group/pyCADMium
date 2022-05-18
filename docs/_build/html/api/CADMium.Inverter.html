@@ -1,213 +1,66 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
   
-  <title>Inverter &mdash; CADMium  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
-
-  
-  
-  
+  <title>pyCADMium :: Inverter</title>
   
 
-  
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../genindex.html"/>
 
-    
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Kohnsham" href="CADMium.Kohnsham.html" />
-    <link rel="prev" title="Pssolver" href="CADMium.Pssolver.html" /> 
+  <link rel="stylesheet" href="../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
           
-
+          <h1>pyCADMium</h1>
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> CADMium
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
+      </div>
+      <div id="project-container">
         
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-CADMium">CADMium Package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../api.html#functions">Functions</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../api.html#classes">Classes</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Inverter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CADMium.Kohnsham.html">Kohnsham</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CADMium.Partition.html">Partition</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CADMium.Psgrid.html">Psgrid</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-            
-          
-        </div>
+        <h1>Documentation</h1>
         
       </div>
-    </nav>
+    </header>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+    <div id="content-container">
 
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">CADMium</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
+      <div id="main-content-container">
+        <div id="main-content" role="main">
           
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../api.html">API Documentation</a> &raquo;</li>
-        
-      <li>Inverter</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="../_sources/api/CADMium.Inverter.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="inverter">
+  <section id="inverter">
 <h1>Inverter<a class="headerlink" href="#inverter" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="CADMium.Inverter">
-<em class="property">class </em><code class="sig-prename descclassname">CADMium.</code><code class="sig-name descname">Inverter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grid</span></em>, <em class="sig-param"><span class="n">solver</span></em>, <em class="sig-param"><span class="n">optInversion</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/inverter/inverter.html#Inverter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Inverter" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Inverter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">CADMium.</span></span><span class="sig-name descname"><span class="pre">Inverter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optInv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/inverter/inverter.html#Inverter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Inverter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Inverter handles inversion algorithms</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vs</strong> (<em>numpy array</em>) – Kohn Sham Potential</p></li>
-<li><p><strong>us</strong> (<em>float</em>) – Chemical Potential</p></li>
-<li><p><strong>ts_WFI</strong> – Kinetic energy density using laplacian</p></li>
-<li><p><strong>ts_WFII</strong> – Kinetic energy density using gradient</p></li>
-<li><p><strong>Ts</strong> (<em>float</em>) – Kinetic Energy</p></li>
+<li><p><strong>~Inverter.vs</strong> (<em>numpy array</em>) – Kohn Sham Potential</p></li>
+<li><p><strong>~Inverter.us</strong> (<em>float</em>) – Chemical Potential</p></li>
+<li><p><strong>~Inverter.ts_WFI</strong> – Kinetic energy density using laplacian</p></li>
+<li><p><strong>~Inverter.ts_WFII</strong> – Kinetic energy density using gradient</p></li>
+<li><p><strong>~Inverter.Ts</strong> (<em>float</em>) – Kinetic Energy</p></li>
 </ul>
 </dd>
 </dl>
@@ -247,74 +100,115 @@ grids.</p>
 </table>
 <p class="rubric">Methods Documentation</p>
 <dl class="py method">
-<dt id="CADMium.Inverter.invert">
-<code class="sig-name descname">invert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n0</span></em>, <em class="sig-param"><span class="n">vs0</span></em>, <em class="sig-param"><span class="n">phi0</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">e0</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">ispin</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">Qi</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/inverter/inverter.html#Inverter.invert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Inverter.invert" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Inverter.invert">
+<span class="sig-name descname"><span class="pre">invert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vs0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ispin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/inverter/inverter.html#Inverter.invert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Inverter.invert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Do the inverstion</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Inverter.linresponse">
-<code class="sig-name descname">linresponse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n0</span></em>, <em class="sig-param"><span class="n">vs0</span></em>, <em class="sig-param"><span class="n">ispin</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/inverter/inverter.html#Inverter.linresponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Inverter.linresponse" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Inverter.linresponse">
+<span class="sig-name descname"><span class="pre">linresponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vs0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ispin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/inverter/inverter.html#Inverter.linresponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Inverter.linresponse" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
-
-           </div>
-           
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="CADMium.Kohnsham.html" class="btn btn-neutral float-right" title="Kohnsham" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="CADMium.Pssolver.html" class="btn btn-neutral float-left" title="Pssolver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, Wasserman Group. Project structure based on the Computational Molecular Science Python Cookiecutter version 1.1
-
-    </p>
-  </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
 
         </div>
       </div>
 
-    </section>
+      <div id="side-menu-container">
 
-  </div>
-  
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
 
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
+        <div id="side-menu" role="navigation">
 
-  
+          
   
     
-   
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-CADMium">CADMium Package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../api.html#functions">Functions</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../_sources/api/CADMium.Inverter.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
 
 </body>
 </html>

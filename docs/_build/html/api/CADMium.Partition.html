@@ -1,241 +1,94 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
   
-  <title>Partition &mdash; CADMium  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
-
-  
-  
-  
+  <title>pyCADMium :: Partition</title>
   
 
-  
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../genindex.html"/>
 
-    
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Psgrid" href="CADMium.Psgrid.html" />
-    <link rel="prev" title="Kohnsham" href="CADMium.Kohnsham.html" /> 
+  <link rel="stylesheet" href="../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
           
-
+          <h1>pyCADMium</h1>
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> CADMium
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
+      </div>
+      <div id="project-container">
         
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-CADMium">CADMium Package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../api.html#functions">Functions</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../api.html#classes">Classes</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="CADMium.Inverter.html">Inverter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CADMium.Kohnsham.html">Kohnsham</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Partition</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CADMium.Psgrid.html">Psgrid</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-            
-          
-        </div>
+        <h1>Documentation</h1>
         
       </div>
-    </nav>
+    </header>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+    <div id="content-container">
 
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">CADMium</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
+      <div id="main-content-container">
+        <div id="main-content" role="main">
           
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../api.html">API Documentation</a> &raquo;</li>
-        
-      <li>Partition</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="../_sources/api/CADMium.Partition.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="partition">
+  <section id="partition">
 <h1>Partition<a class="headerlink" href="#partition" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="CADMium.Partition">
-<em class="property">class </em><code class="sig-prename descclassname">CADMium.</code><code class="sig-name descname">Partition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grid</span></em>, <em class="sig-param"><span class="n">Za</span></em>, <em class="sig-param"><span class="n">Zb</span></em>, <em class="sig-param"><span class="n">pol</span></em>, <em class="sig-param"><span class="n">Nmo_a</span></em>, <em class="sig-param"><span class="n">N_a</span></em>, <em class="sig-param"><span class="n">nu_a</span></em>, <em class="sig-param"><span class="n">Nmo_b</span></em>, <em class="sig-param"><span class="n">N_b</span></em>, <em class="sig-param"><span class="n">nu_b</span></em>, <em class="sig-param"><span class="n">optPartition</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">CADMium.</span></span><span class="sig-name descname"><span class="pre">Partition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Za</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nmo_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nmo_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optPartition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Handles calculation of all efective partiions.
 Provides an interface with libxc, hartree, and coulomb classes and functions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>grid</strong> (<em>psgrid</em>) – PsGrid object</p></li>
+<li><p><strong>~Partition.grid</strong> (<em>psgrid</em>) – PsGrid object</p></li>
 <li><p><strong>type</strong> (<em>interaction</em>) – {“dft”, “non-interacting”}</p></li>
-<li><p><strong>vp_calc_type</strong> (<em>str</em>) – Method for calculation of the partition potential</p></li>
-<li><p><strong>xc_family</strong> (<em>str</em>) – Functional family</p></li>
-<li><p><strong>x_func_id</strong> (<em>int</em>) – Exchange functional id</p></li>
-<li><p><strong>c_func_id</strong> (<em>int</em>) – Correlation functional id</p></li>
-<li><p><strong>exchange</strong> – Lambda function for exchange functional</p></li>
-<li><p><strong>correlation</strong> – Lambda function for correlation functional</p></li>
-<li><p><strong>k_family</strong> (<em>str</em>) – Kinetic energy functional family</p></li>
-<li><p><strong>ke_func_id</strong> (<em>str</em>) – Kinetic energy functional id</p></li>
-<li><p><strong>ke_param</strong> (<em>dict</em>) – Kinetic energy parameters</p></li>
-<li><p><strong>kinetic</strong> – Function for non-additive kinetic energy functiona</p></li>
-<li><p><strong>inverter</strong> – Inverter Lambda function for kinetic energy</p></li>
-<li><p><strong>hartree</strong> – Hatree Lambda function</p></li>
-<li><p><strong>hxc_part_type</strong> (<em>str</em>) – {“DFT”, “non-interacting”, “overlap approximation”}</p></li>
-<li><p><strong>kinetic_part_type</strong> – {“von-weizacker”, “inversion”, “approx kinetic energy functional”}</p></li>
-<li><p><strong>polarization</strong> – Polarization of fragments</p></li>
-<li><p><strong>Nf</strong> (<em>int</em>) – Number of fragments</p></li>
-<li><p><strong>V</strong> – Compotent molecular potential</p></li>
-<li><p><strong>E</strong> – Total Energies</p></li>
+<li><p><strong>~Partition.vp_calc_type</strong> (<em>str</em>) – Method for calculation of the partition potential</p></li>
+<li><p><strong>~Partition.xc_family</strong> (<em>str</em>) – Functional family</p></li>
+<li><p><strong>~Partition.x_func_id</strong> (<em>int</em>) – Exchange functional id</p></li>
+<li><p><strong>~Partition.c_func_id</strong> (<em>int</em>) – Correlation functional id</p></li>
+<li><p><strong>~Partition.exchange</strong> – Lambda function for exchange functional</p></li>
+<li><p><strong>~Partition.correlation</strong> – Lambda function for correlation functional</p></li>
+<li><p><strong>~Partition.k_family</strong> (<em>str</em>) – Kinetic energy functional family</p></li>
+<li><p><strong>~Partition.ke_func_id</strong> (<em>str</em>) – Kinetic energy functional id</p></li>
+<li><p><strong>~Partition.ke_param</strong> (<em>dict</em>) – Kinetic energy parameters</p></li>
+<li><p><strong>~Partition.kinetic</strong> – Function for non-additive kinetic energy functiona</p></li>
+<li><p><strong>~Partition.inverter</strong> – Inverter Lambda function for kinetic energy</p></li>
+<li><p><strong>~Partition.hartree</strong> – Hatree Lambda function</p></li>
+<li><p><strong>~Partition.hxc_part_type</strong> (<em>str</em>) – {“DFT”, “non-interacting”, “overlap approximation”}</p></li>
+<li><p><strong>~Partition.kinetic_part_type</strong> – {“von-weizacker”, “inversion”, “approx kinetic energy functional”}</p></li>
+<li><p><strong>~Partition.polarization</strong> – Polarization of fragments</p></li>
+<li><p><strong>~Partition.Nf</strong> (<em>int</em>) – Number of fragments</p></li>
+<li><p><strong>~Partition.V</strong> – Compotent molecular potential</p></li>
+<li><p><strong>~Partition.E</strong> – Total Energies</p></li>
 <li><p><strong>KSb</strong> (<em>KSa</em><em>,</em>) – Kohn Sham objects for fragments A and B</p></li>
 <li><p><strong>Zb</strong> (<em>Za</em><em>,</em>) – Fragment nuclear charges</p></li>
 <li><p><strong>vb</strong> (<em>va</em><em>,</em>) – Fragment potentials</p></li>
 <li><p><strong>nb_frac</strong> (<em>na_frac</em><em>,</em>) – Fragment ensembles</p></li>
 <li><p><strong>nu_b</strong> (<em>nu_a</em><em>,</em>) – Mixing rations</p></li>
-<li><p><strong>nf</strong> – Sum of fragment ensembles</p></li>
-<li><p><strong>AB_SYM</strong> (<em>bool</em>) – Use of AB symmetry for homonuclear diatomics</p></li>
-<li><p><strong>ENS_SPIN_SYM</strong> (<em>bool</em>) – Are the ensembles spin symmetric</p></li>
-<li><p><strong>ISOLATED</strong> (<em>bool</em>) – Prescence of partition potential. Checks isolated energies</p></li>
-<li><p><strong>FIXEDQ</strong> (<em>bool</em>) – Fixed local Q approximation</p></li>
-<li><p><strong>FRACTIONAL</strong> (<em>bool</em>) – Allow fractional occupation of the HOMO</p></li>
-<li><p><strong>inversion_info</strong> – Information about most recent inversion</p></li>
+<li><p><strong>~Partition.nf</strong> – Sum of fragment ensembles</p></li>
+<li><p><strong>~Partition.AB_SYM</strong> (<em>bool</em>) – Use of AB symmetry for homonuclear diatomics</p></li>
+<li><p><strong>~Partition.ENS_SPIN_SYM</strong> (<em>bool</em>) – Are the ensembles spin symmetric</p></li>
+<li><p><strong>~Partition.ISOLATED</strong> (<em>bool</em>) – Prescence of partition potential. Checks isolated energies</p></li>
+<li><p><strong>~Partition.FIXEDQ</strong> (<em>bool</em>) – Fixed local Q approximation</p></li>
+<li><p><strong>~Partition.FRACTIONAL</strong> (<em>bool</em>) – Allow fractional occupation of the HOMO</p></li>
+<li><p><strong>~Partition.inversion_info</strong> – Information about most recent inversion</p></li>
 <li><p><strong>Beta</strong> (<em>Alpha</em><em>,</em>) – Convergence Parameters</p></li>
 </ul>
 </dd>
@@ -268,7 +121,7 @@ Provides an interface with libxc, hartree, and coulomb classes and functions</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#CADMium.Partition.partition_potential" title="CADMium.Partition.partition_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partition_potential</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#CADMium.Partition.scf" title="CADMium.Partition.scf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scf</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#CADMium.Partition.scf" title="CADMium.Partition.scf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scf</span></code></a>([optSCF])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#CADMium.Partition.vp_kinetic" title="CADMium.Partition.vp_kinetic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vp_kinetic</span></code></a>()</p></td>
@@ -281,118 +134,159 @@ Provides an interface with libxc, hartree, and coulomb classes and functions</p>
 </table>
 <p class="rubric">Methods Documentation</p>
 <dl class="py method">
-<dt id="CADMium.Partition.calc_Q">
-<code class="sig-name descname">calc_Q</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.calc_Q"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.calc_Q" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.calc_Q">
+<span class="sig-name descname"><span class="pre">calc_Q</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.calc_Q"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.calc_Q" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate Q functions</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Partition.calc_nuclear_potential">
-<code class="sig-name descname">calc_nuclear_potential</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.calc_nuclear_potential"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.calc_nuclear_potential" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.calc_nuclear_potential">
+<span class="sig-name descname"><span class="pre">calc_nuclear_potential</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.calc_nuclear_potential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.calc_nuclear_potential" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate external nuclear potentials</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Partition.calc_protomolecule">
-<code class="sig-name descname">calc_protomolecule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.calc_protomolecule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.calc_protomolecule" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.calc_protomolecule">
+<span class="sig-name descname"><span class="pre">calc_protomolecule</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.calc_protomolecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.calc_protomolecule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate protomolecular density</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Partition.calc_scale_factors">
-<code class="sig-name descname">calc_scale_factors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.calc_scale_factors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.calc_scale_factors" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.calc_scale_factors">
+<span class="sig-name descname"><span class="pre">calc_scale_factors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.calc_scale_factors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.calc_scale_factors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates scale factors</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Partition.initialguessinvert">
-<code class="sig-name descname">initialguessinvert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ispin</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.initialguessinvert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.initialguessinvert" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.initialguessinvert">
+<span class="sig-name descname"><span class="pre">initialguessinvert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ispin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.initialguessinvert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.initialguessinvert" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Partition.mirrorAB">
-<code class="sig-name descname">mirrorAB</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.mirrorAB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.mirrorAB" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.mirrorAB">
+<span class="sig-name descname"><span class="pre">mirrorAB</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.mirrorAB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.mirrorAB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mirror fragment A to get B</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Partition.partition_potential">
-<code class="sig-name descname">partition_potential</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.partition_potential"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.partition_potential" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.partition_potential">
+<span class="sig-name descname"><span class="pre">partition_potential</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.partition_potential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.partition_potential" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Partition.scf">
-<code class="sig-name descname">scf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.scf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.scf" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.scf">
+<span class="sig-name descname"><span class="pre">scf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optSCF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.scf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.scf" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Partition.vp_kinetic">
-<code class="sig-name descname">vp_kinetic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.vp_kinetic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.vp_kinetic" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.vp_kinetic">
+<span class="sig-name descname"><span class="pre">vp_kinetic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.vp_kinetic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.vp_kinetic" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="CADMium.Partition.vp_nuclear">
-<code class="sig-name descname">vp_nuclear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.vp_nuclear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CADMium.Partition.vp_nuclear" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CADMium.Partition.vp_nuclear">
+<span class="sig-name descname"><span class="pre">vp_nuclear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/partition/partition.html#Partition.vp_nuclear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Partition.vp_nuclear" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
-
-           </div>
-           
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="CADMium.Psgrid.html" class="btn btn-neutral float-right" title="Psgrid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="CADMium.Kohnsham.html" class="btn btn-neutral float-left" title="Kohnsham" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, Wasserman Group. Project structure based on the Computational Molecular Science Python Cookiecutter version 1.1
-
-    </p>
-  </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
 
         </div>
       </div>
 
-    </section>
+      <div id="side-menu-container">
 
-  </div>
-  
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
 
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
+        <div id="side-menu" role="navigation">
 
-  
+          
   
     
-   
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-CADMium">CADMium Package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../api.html#functions">Functions</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../_sources/api/CADMium.Partition.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
 
 </body>
 </html>

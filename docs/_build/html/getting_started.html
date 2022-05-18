@@ -1,241 +1,297 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
   
-  <title>Getting Started &mdash; CADMium  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-
-  
-  
-  
+  <title>pyCADMium :: Getting Started</title>
   
 
-  
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="genindex.html"/>
 
-    
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API Documentation" href="api.html" />
-    <link rel="prev" title="Welcome to CADMium’s documentation!" href="index.html" /> 
+  <link rel="stylesheet" href="_static/css/insegel.css"/>
+  <link rel="stylesheet" href="_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
 </head>
 
-<body class="wy-body-for-nav">
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>pyCADMium</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
 
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-          
+    <div id="content-container">
 
+      <div id="main-content-container">
+        <div id="main-content" role="main">
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> CADMium
-          
+  <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>In this next section, we briefly go over each of the steps that one needs to do to use the many features in <em>pyCADMium</em>. We will start with defining the PS grid. To define a grid within <em>pyCADMium</em>, we need to specify the following parameters</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycadmium</span> <span class="kn">import</span> <span class="n">Psgrid</span>
 
-          
-          </a>
+<span class="n">a</span>  <span class="o">=</span> <span class="mf">2.615</span><span class="o">/</span><span class="mi">2</span>                    <span class="c1"># Distance between the two foci / 2 (a.u.)</span>
+<span class="n">NP</span> <span class="o">=</span> <span class="mi">7</span>                          <span class="c1"># Number of points per block</span>
+<span class="n">NM</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>                      <span class="c1"># Number of blocks [angular, radial]</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccosh</span><span class="p">(</span><span class="n">max_rad</span><span class="o">/</span><span class="n">a</span><span class="p">)</span>       <span class="c1"># Maximal radial coordinate value</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span> <span class="p">,</span> <span class="mi">5</span><span class="p">))</span>   <span class="c1"># Stencil for finite difference</span>
 
-          
-            
-            
-          
+<span class="n">grid</span> <span class="o">=</span> <span class="n">Psgrid</span><span class="p">(</span><span class="n">NP</span><span class="p">,</span> <span class="n">NM</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(a\)</span> is half the distance between the two foci. <span class="math notranslate nohighlight">\(NP\)</span> refers to the number of points in a block, <span class="math notranslate nohighlight">\(NM\)</span> is the number of points per block, given separately for the ‘angular’ and ‘radial’ one dimensional grids to define the PS rectangle.
+The blocking of the points does not affect the calculation numerically, it only multiplies each of the values of <span class="math notranslate nohighlight">\(NM\)</span> so that the total number of points in the grid equals <span class="math notranslate nohighlight">\((NP-1) * (NM[0]) * (NP-1) * (NM[1])\)</span>.
+We defined the size of the box as the maximal radial coordinate value. This quantity is modified according to the <em>coordinate system</em> section . The value of <span class="math notranslate nohighlight">\(L\)</span> must be contained within <span class="math notranslate nohighlight">\((-1,1)\)</span>. <cite>loc</cite> is required to select the coefficients for the finite difference approximation.
+Lastly, we provide all of the defined elements to generate a <code class="docutils literal notranslate"><span class="pre">PSgrid</span></code> object and we proceed to initialize it.</p>
+<p>—</p>
+<section id="molecules-in-the-psgrid">
+<h2>Molecules in the PSgrid<a class="headerlink" href="#molecules-in-the-psgrid" title="Permalink to this headline">¶</a></h2>
+<p>Let us focus on the first row homonuclear diatomics B <span class="math notranslate nohighlight">\(_2\)</span>, C <span class="math notranslate nohighlight">\(_2\)</span>, N <span class="math notranslate nohighlight">\(_2\)</span>, O <span class="math notranslate nohighlight">\(_2\)</span> and F <span class="math notranslate nohighlight">\(_2\)</span>. To use <em>pyCADMium</em> we stated that one needs to know about the orbital configuration of the diatomics. The next table shows the orbital configuration for these and other systems.</p>
+<div class="line-block">
+<div class="line"><strong>Molecule</strong> | <strong>Orbital Configuration</strong> | <strong>State</strong> |</div>
+</div>
+<div class="line-block">
+<div class="line">B2 | <span class="math notranslate nohighlight">\(1\sigma_g^2 \quad 1\sigma_u^2 \quad 2\sigma_g^2 \quad 2\sigma_u^2 \quad 1\pi_u^2\)</span> | <span class="math notranslate nohighlight">\(^3\Sigma_g^-\)</span> |</div>
+</div>
+<div class="line-block">
+<div class="line">C2 | <span class="math notranslate nohighlight">\(1\sigma_g^2 \quad 1\sigma_u^2 \quad 2\sigma_g^2 \quad 2\sigma_u^2 \quad 1\pi_u^4\)</span> | <span class="math notranslate nohighlight">\(^1\Sigma_g^+\)</span> |</div>
+</div>
+<div class="line-block">
+<div class="line">N2 | <span class="math notranslate nohighlight">\(1\sigma_g^2 \quad 1\sigma_u^2 \quad 2\sigma_g^2 \quad 2\sigma_u^2 \quad 3\sigma_u^2 \quad 1\pi_u^4\)</span> | <span class="math notranslate nohighlight">\(^1\Sigma_g^+\)</span> |</div>
+</div>
+<div class="line-block">
+<div class="line">O2 | <span class="math notranslate nohighlight">\(1\sigma_g^2 \quad 1\sigma_u^2 \quad 2\sigma_g^2 \quad 2\sigma_u^2 \quad 3\sigma_g^2 \quad 1\pi_u^4 \quad 1\pi_g^2\)</span> | <span class="math notranslate nohighlight">\(^3\Sigma_g^-\)</span> |</div>
+</div>
+<div class="line-block">
+<div class="line">F2 | <span class="math notranslate nohighlight">\(1\sigma_g^2 \quad 1\sigma_u^2 \quad 2\sigma_g^2 \quad 2\sigma_u^2 \quad 3\sigma_g^2 \quad 1\pi_u^4 \quad 1\pi_g^4\)</span> | <span class="math notranslate nohighlight">\(^1\Sigma_g^+\)</span> |</div>
+</div>
+<p>Let us use the F <span class="math notranslate nohighlight">\(_2\)</span> molecule as the example of the chapter. To define the geometry in <em>pyCADMium</em> we need to provide the following</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span>   <span class="o">=</span> <span class="mf">2.615</span><span class="o">/</span><span class="mi">2</span>      <span class="c1"># Separation distance / 2 (a.u.)</span>
+<span class="n">Za</span>  <span class="o">=</span> <span class="mf">9.0</span>          <span class="c1"># Fluorine Atom 1 Nuclear Charne</span>
+<span class="n">Zb</span>  <span class="o">=</span> <span class="mf">9.0</span>          <span class="c1"># Fluorine Atom 2 Nuclear Charge</span>
+<span class="n">pol</span> <span class="o">=</span> <span class="mi">1</span>            <span class="c1"># Set unpolarized system</span>
+<span class="n">Nmo</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">5</span><span class="p">],</span>  <span class="p">[</span><span class="mi">2</span><span class="p">]]</span>  <span class="c1"># Number of Molecular Orbitals</span>
+<span class="n">N</span>   <span class="o">=</span> <span class="p">[[</span><span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">]]</span>  <span class="c1"># Number of electrons</span>
+</pre></div>
+</div>
+<p>In the previous code, the <span class="math notranslate nohighlight">\(a\)</span> parameter is both the separation distance of the nuclei and the foci of the PS grid. We proceed to define the nuclear charges as well as the polarization of the system. Setting <code class="docutils literal notranslate"><span class="pre">pol</span> <span class="pre">=</span> <span class="pre">2</span></code> would explicitly compute the <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> components of the density.
+Finally, the molecular configuration along with its symmetries are specied in the next two lines. <code class="docutils literal notranslate"><span class="pre">Nmo</span></code> requires the <code class="docutils literal notranslate"><span class="pre">total</span></code> number of orbitals per symmetry.
+As we can appreciate from the orbital configuration table, this system has a total of 5 <span class="math notranslate nohighlight">\(\sigma\)</span> orbitals and 2 <span class="math notranslate nohighlight">\(\pi\)</span> orbitals, where we allocate 10 and 8 electrons, respectively.
+Nothing prevents us from plugging in different values of the orbitals and the electrons. Thus one must be mindful of the desired configuration.</p>
+<p>—</p>
+</section>
+<section id="kohn-sham-calculation">
+<h2>Kohn-Sham calculation<a class="headerlink" href="#kohn-sham-calculation" title="Permalink to this headline">¶</a></h2>
+<p>We are ready to finally complete a calculation using <em>pyCADMium</em>. The first calculation that we are going to do is to obtain the LDA energy of the F_2 molecule.
+To do so, we need to supply the previous geometry to a <code class="docutils literal notranslate"><span class="pre">Kohnsham</span></code> object. Besides the geometry, we can supply an additional dictionary with several options to control how our calculation behaves.
+The simplest example can be constructed as</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycadmium</span> <span class="kn">import</span> <span class="n">Kohnsham</span>
 
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<span class="n">optKS</span> <span class="o">=</span> <span class="p">{</span> <span class="c1"># Options for the KS calculation</span>
+        <span class="s1">&#39;interaction_type&#39;</span> <span class="p">:</span> <span class="s1">&#39;dft&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sym&#39;</span>              <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">}</span>
+<span class="n">optSCF</span> <span class="o">=</span> <span class="p">{</span> <span class="c1"># Options for the SCF cycle</span>
+        <span class="s1">&#39;maxiter&#39;</span> <span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="s1">&#39;e_tol&#39;</span>   <span class="p">:</span> <span class="mf">1e-9</span><span class="p">,</span>
+         <span class="p">}</span>
+
+<span class="n">KS</span> <span class="o">=</span> <span class="n">KohnSham</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="n">Nmo</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">optKS</span><span class="p">)</span>
+<span class="n">KS</span><span class="o">.</span><span class="n">scf</span><span class="p">(</span><span class="n">optSCF</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where we requested a KS-DFT calculation. If no functional is provided, by default <em>pyCADMium</em> uses the LDA.
+The <code class="docutils literal notranslate"><span class="pre">sym</span></code> option specifies that only half of the PS plane needs to be constructed due to the symmetry of the F_2 molecule.
+The next set of options controls the SCF procedure behaviour. Here we specified that we want a maximum of 100 iterations and that the procedure should stop if the differences in energy are less than 1e-9.
+We proceed by defining the <code class="docutils literal notranslate"><span class="pre">Kohnsham</span></code> object and start the SCF procedure. The results of the calculations such as the energies and potentials is available as properties of the <code class="docutils literal notranslate"><span class="pre">Kohnsham</span></code> object.</p>
+<blockquote>
+<div></div></blockquote>
+<p>One of the highlights of <em>pyCADMium</em> is its ability to treat each atom as a fragment. This feature allows it to be used for developing  embedding methods. In this section, we will briefly discuss the algorithm for a P-DFT calculation.
+Consider a set of two fragments <span class="math notranslate nohighlight">\(\{ n_1, n_2 \}\)</span>, each having <span class="math notranslate nohighlight">\(\{N_1, N_2\}\)</span> electrons respectively. We are interested in recreating the results of a KS-DFT calculation of the full system using only the information of the fragments.
+The number of electrons in each fragment must add up to <span class="math notranslate nohighlight">\(N_m\)</span>, the number of electrons in the full molecule. Additionally, we seek to minimize the sum of the energies of each fragments. Mathematically, this can be done through the unconstrained minimization of</p>
+<div class="math notranslate nohighlight">
+\[G[n] = \min_{ \{ n_{\alpha} \} } \Bigg\{ E_f[\{ n_{\alpha} \}] + \int d\mathbf{r} \cdot v_p(\mathbf{r}) \cdot (n_f(\mathbf{r}) - n(\mathbf{r}))  - \sum_{\alpha}\mu_{\alpha} \Bigg( \int d\mathbf{r}  \cdot n_{\alpha}(\mathbf{r}) - N_{\alpha} \Bigg) \Bigg\}\]</div>
+<p>Where each <span class="math notranslate nohighlight">\(E_f[n_1]\)</span> corresponds to the each of the fragment energies. <span class="math notranslate nohighlight">\(E_f[n_1] = T_s[n_1] + E_{\rm Hxc}[n_1] + \int v_{\alpha}(\mathbf{r}) n_1(\mathbf{r}) d\mathbf{r}\)</span> and the two other terms are the Lagrange multipliers: the partition potential <span class="math notranslate nohighlight">\(v_p(\mathbf{r})\)</span> and the chemical potential <span class="math notranslate nohighlight">\(\mu_{\alpha}\)</span>.
+To minimize, perform a functional derivative with respect to to the density <span class="math notranslate nohighlight">\(n_1\)</span></p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial G}{ \partial n_1} = 0\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{\partial E[\{ n_{\alpha} \}]}{\partial n_1 } + v_p(\mathbf{r}) = \mu_{\alpha}\]</div>
+<p>To solve the above equation, we use a set of KS systems as fragments, each of them in the influence of the multiplicative potential <span class="math notranslate nohighlight">\(v_{\alpha}(\mathbf{r}) + v_p(\mathbf{r})\)</span>. With the exact partition potential, we can solve the Kohn-Sham equations for the P-DFT problem</p>
+<div class="math notranslate nohighlight">
+\[\{ -\frac{1}{2} \nabla^2 + v_{\alpha,eff}[\{ n_{\alpha} \}](\mathbf{r}) + v_p[\{ n_{\alpha} \}](\mathbf{r}) \} \phi_{i, \alpha}(\mathbf{r}) = \varepsilon_{i, \alpha} \phi_{i, \alpha}(\mathbf{r})\]</div>
+<p>Since the potentials inside the brackets depend on the fragment densities—the quantity we are looking for— we solve these equations self-consistently. At convergence, we obtain a set of fragment orbitals that we use to build the fragment densities as <span class="math notranslate nohighlight">\(n_1 = \sum_{i}^{N_f} | \phi_{i, \alpha}(\mathbf{r}) |^2\)</span> .</p>
+<p>In <em>pyCADMium</em> we make use of the class <code class="docutils literal notranslate"><span class="pre">Partition</span></code> to define an embedded calculation. This class allows us to define the properties of each fragments as well as the properties of the full molecular system that we ought to solve. To define a <code class="docutils literal notranslate"><span class="pre">Partition</span></code> object, follow the F_2 example that we have been studying</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycadmium</span> <span class="kn">import</span> <span class="n">Partition</span>
+
+<span class="n">optPartition</span> <span class="o">=</span> <span class="p">{</span> <span class="c1"># Options for the object Partition</span>
+                 <span class="s1">&#39;kinetic_part_type&#39;</span> <span class="p">:</span> <span class="s1">&#39;inversion&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;ab_sym&#39;</span>            <span class="p">:</span>  <span class="kc">True</span><span class="p">,</span>
+                 <span class="s1">&#39;ens_spin_sym&#39;</span>      <span class="p">:</span>  <span class="kc">True</span>
+                 <span class="s1">&#39;isolated&#39;</span>          <span class="p">:</span>  <span class="kc">True</span><span class="p">}}</span>
+
+<span class="n">part</span> <span class="o">=</span> <span class="n">Partition</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="n">MOa</span><span class="p">,</span> <span class="n">Na</span><span class="p">,</span> <span class="n">nua</span><span class="p">,</span> <span class="n">MOb</span><span class="p">,</span> <span class="n">Nb</span><span class="p">,</span> <span class="n">nub</span><span class="p">,</span> <span class="n">optPartition</span><span class="p">)</span>
+<span class="n">part</span><span class="o">.</span><span class="n">scf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In the previous example, we first set up the options for our object using a dictionary. By setting <code class="docutils literal notranslate"><span class="pre">isolated</span> <span class="pre">=</span> <span class="pre">True</span></code>, we won’t be doing a P-DFT calculation just yet.
+Instead, we want to generate an initial guess for the calculation by simply adding the components of the individual fragments. Since the fragments are have no interaction between each other there is no partition potential, and thus no partition energy.</p>
+<p>—</p>
+<p>To find the exact partition potential, we make use of numerical inversions. This allows us to obtain the exact Kohn-Sham potential for the sum of fragment densities (This quantity is <strong>not obtained</strong> in a <code class="docutils literal notranslate"><span class="pre">forward</span></code> manner, and thus, we don’t have access to the Kohn-Sham potential that produces such a density), as well as the kinetic potential of the sum of fragment densities needed to compute the partition potential.</p>
+<p>In <em>pyCADMium</em>, we make use of the class <code class="docutils literal notranslate"><span class="pre">Inverter</span></code> to access a handful of methods to invert a density. For brevity, we will only discuss the <em>orbital invert</em> method that has shown to be the most robust and reliable.
+The numerical inversion is essentially a direct search for orbitals that satisfy the KS equations while satisfying some constraints at each point of the two-dimensional space. The conditions form a set of residuals:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Orbitals solve the KS Equations <span class="math notranslate nohighlight">\(\rightarrow res_{ij}^{KS} = \{-1/2 \nabla^2 \phi_i\}_j + v_{s,j}\phi_{i,j} - \varepsilon_{i} \phi_{i,j}\)</span></p></li>
+<li><p>Orbitals are normalized <span class="math notranslate nohighlight">\(\rightarrow res_{ij}^{N} = \sum_j \mid \phi_{i,j} \mid^2 - 1\)</span></p></li>
+<li><p>Sum of the squares of each orbitals equals the target density <span class="math notranslate nohighlight">\(\rightarrow res_{ij}^{n} = \sum_j \mid \phi_{i,j} \mid^2 - n_j\)</span></p></li>
+</ol>
+</div></blockquote>
+<p>where the <span class="math notranslate nohighlight">\(j\)</span> index runs over grid points and the <span class="math notranslate nohighlight">\(i\)</span> point runs through the orbitals. Combine all residuals to form a vector function that takes the orbitals, energies and effective potential as its argument.
+If we find the root of this function, we find the effective potential that reproduces the given density. The Jacobian of the residual function happens to be a sparse square matrix that can be treated with the Newton-Raphson minimization to find which vector minimizes the residuals.
+Additionally, the HOMO eigenvalue is fixed to be zero to avoid shifting the potential, and the HOMO normalization constraint is removed allowing it to be satisfied by the overall density constraint.
+These numerical inversion are used at each step in the P-DFT scf procedure to determine the functional derivatives of <span class="math notranslate nohighlight">\(ts_{nad}\)</span>.</p>
+<p>Remember that we already constructed an initial guess for our P-DFT calculation. Then, in order to complete it alongside with the inversion procedure, we write</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycadmium</span> <span class="kn">import</span> <span class="n">Partition</span>
+<span class="kn">from</span> <span class="nn">pycadmium</span> <span class="kn">import</span> <span class="n">Pssovler</span><span class="p">,</span> <span class="n">Inverter</span>
+
+<span class="n">optInverter</span> <span class="o">=</span> <span class="p">{</span> <span class="c1"># Options for the object Inverter</span>
+                <span class="s1">&#39;invert_type&#39;</span>     <span class="p">:</span> <span class="s1">&#39;orbitalinvert&#39;</span><span class="p">,</span>
+               <span class="p">}</span>
+
+<span class="c1"># Inverter Requires a PSsolver Object</span>
+<span class="n">mol_solver</span> <span class="o">=</span> <span class="n">Pssolver</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">MOm</span><span class="p">,</span> <span class="n">Nm</span><span class="p">,</span> <span class="p">{})</span>
+<span class="n">part</span><span class="o">.</span><span class="n">inverter</span> <span class="o">=</span> <span class="n">Inverter</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mol_solver</span><span class="p">,</span> <span class="n">optInverter</span><span class="p">)</span>
+
+<span class="c1"># We now want the fragments to be under the presence of the partition potential</span>
+<span class="n">part</span><span class="o">.</span><span class="n">optPartition</span><span class="o">.</span><span class="n">isolated</span>   <span class="o">=</span> <span class="kc">False</span>
+<span class="c1"># &#39;continuing&#39; ensures we use the generated initial guess</span>
+<span class="n">part</span><span class="o">.</span><span class="n">scf</span><span class="p">({</span><span class="s2">&quot;continuing&quot;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>We will be using the <code class="docutils literal notranslate"><span class="pre">orbitalinvert</span></code>, this can be set in the options for the <code class="docutils literal notranslate"><span class="pre">Inverter</span></code>. A <code class="docutils literal notranslate"><span class="pre">Psolver</span></code> object is needed. This object simply stores the results from a calculation.
+Each <code class="docutils literal notranslate"><span class="pre">Kohnsham</span></code> object defines one per orbital. We define the <code class="docutils literal notranslate"><span class="pre">Inverter</span></code> <em>as an attribute of the partition</em>. We continue by specifying the <code class="docutils literal notranslate"><span class="pre">Partition</span></code> object that want to perform a P-DFT calculation without isolated fragments and we trigger the SCF calculation.</p>
+<p>In this section, we do not discuss any results. To find a set of examples for different use cases of <em>pyCADMium</em>, please visit <code class="docutils literal notranslate"><span class="pre">github.com/wasserman-group/pyCADMium_examples</span></code>. Where the results for this and many other calculations are found.</p>
+</section>
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
 </div>
 
-          
-        </div>
+        <div id="side-menu" role="navigation">
 
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+  
+    
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
-            
-          
+  
+
+
         </div>
+
         
+
       </div>
-    </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">CADMium</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Getting Started</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>This page details how to get started with CADMium.</p>
-</div>
-
-
-           </div>
-           
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="api.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to CADMium’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
     </div>
-  
 
-  <hr/>
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="_sources/getting_started.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
 
-  <div role="contentinfo">
-    <p>
+            
+
+            
+        </ul>
+
         
-        &copy; Copyright 2020, Wasserman Group. Project structure based on the Computational Molecular Science Python Cookiecutter version 1.1
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
 
-    </p>
-  </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
 
         </div>
-      </div>
+    </div>
 
-    </section>
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
 
-  </div>
-  
-
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
       });
-  </script>
+    </script>
 
-  
-  
-    
-   
+</footer> 
+
+</div>
 
 </body>
 </html>
