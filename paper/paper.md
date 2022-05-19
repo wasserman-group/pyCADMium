@@ -11,9 +11,9 @@ authors:
       affiliations: "1"  
     - name: Jonathan Nafziger    
       affiliations: "2"    
-    - name: Adam Wasserman
+    - name: Adam Wasserman^[Corresponding author]
       orcid: 0000-0002-8037-4453    
-      affiliatios: "1,3"^[Corresponding author]
+      affiliatios: "1,3"
 affiliations:  
     - name: Department of Chemistry, Purdue University, West Lafayette, Indiana, USA  
       index: 1  
