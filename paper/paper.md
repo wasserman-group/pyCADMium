@@ -1,5 +1,5 @@
 ---
-title: 'pyCADMium: Chemical Atoms in Molecules. A prolate spheroidal module for embedding calculations in diatomics'  
+title: 'pyCADMium: Chemical Atoms in Diatomic Molecules. A prolate spheroidal Python module for embedding calculations'  
 
 tags:  
     - partition density functional theory  
@@ -15,7 +15,7 @@ authors:
       affiliations: 2    
     - name: Adam Wasserman    
       orcid: 0000-0002-8037-4453    
-      affiliatios: [1,3]
+      affiliatios: "1,3"
 
 affiliations:  
     - name: Department of Chemistry, Purdue University, West Lafayette, Indiana, USA  
