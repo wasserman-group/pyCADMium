@@ -1,22 +1,19 @@
 ---
 title: 'pyCADMium: Chemical Atoms in Diatomic Molecules. A prolate spheroidal Python module for embedding calculations'  
-
 tags:  
     - partition density functional theory  
     - computational chemistry  
     - density functional theory  
     - embedding methods  
-
 authors:
-    - name: Victor H. Chávez   
+    - name: Victor H. Chávez^[Corresponding author]   
       orcid: 0000-0003-3765-2961    
-      affiliations: 1  
+      affiliations: "1"  
     - name: Jonathan Nafziger    
-      affiliations: 2    
+      affiliations: "2"    
     - name: Adam Wasserman
       orcid: 0000-0002-8037-4453    
-      affiliatios: "1,3"
-
+      affiliatios: "1,3"^[Corresponding author]
 affiliations:  
     - name: Department of Chemistry, Purdue University, West Lafayette, Indiana, USA  
       index: 1  
@@ -24,7 +21,6 @@ affiliations:
       index: 2  
     - name: Department of Physics and Astronomy, Purdue Unversity, West Lafayette, Indiana, USA  
       index: 3  
-
 date: 16 Mayo 2022  
 bibliography: paper.bib  
 
