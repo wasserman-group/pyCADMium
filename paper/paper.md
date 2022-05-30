@@ -6,11 +6,11 @@ tags:
     - density functional theory  
     - embedding methods  
 authors:
-    - name: Victor H. Chávez
+    - name: Victor H. Ch\'avez
       orcid: 0000-0003-3765-2961    
-      affiliations: "1"  
+      affiliations: 1  
     - name: Jonathan Nafziger    
-      affiliations: "2"    
+      affiliations: 2    
     - name: Adam Wasserman
       orcid: 0000-0002-8037-4453    
       affiliatios: "1,3"
