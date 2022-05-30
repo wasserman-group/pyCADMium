@@ -1,7 +1,7 @@
 """
 vp_kinetic.py
 """
-import sys
+
 import numpy as np
 # np.set_printoptions(precision=8)
 
@@ -162,13 +162,7 @@ def vp_kinetic(self):
         Two orbital requires special treatment because
         molecular funcitonal derivative depends on the fragments
         """
-
-        if not self.ens:
-            iks = [self.KSa, self.KSb]
-        else:
-            print("We need to fix two orbital approximation for ensemble")
-            iks = [self.KSa, self.KSA, self.KSb, self.KSB]
-
+        
         self.KSa.V.vp_kin = (self.V.vt[:,0] - self.KSa.V.vt[:,0])[:,None]
         self.KSb.V.vp_kin = (self.V.vt[:,1] - self.KSb.V.vt[:,0])[:,None]
 

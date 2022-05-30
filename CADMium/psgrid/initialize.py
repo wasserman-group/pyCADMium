@@ -30,7 +30,7 @@ def initialize(self, DISP=False, factor=True):
     self.xr = self.xr + self.hr/2
     self.xr = self.xr[:-1]
 
-    Nrange = len(self.i1)
+    # Nrange = len(self.i1)
 
     #Boundary region
     self.bcN = int(np.floor(max([self.i1.shape[0], self.i2.shape[0]])/2))

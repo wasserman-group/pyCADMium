@@ -84,13 +84,13 @@ class Paramke():
         sval = {"f" : s, "ds": np.ones((n.shape[0], n.shape[1]))}
 
         if self.func_id == 1001:
-            Raise ValueError("Automatic Differenciation not yet Implemented")
+            raise ValueError("Automatic Differenciation not yet Implemented")
             #Required parameters are {"kappa", "mu"}
             #F = TW_paramke(s, self.param)
             #dFds = dTW_paramke(sval, self.param)
 
         if self.func_id == 1002:
-            Raise ValueError("Automatic Differenciation not yet implemented")
+            raise ValueError("Automatic Differenciation not yet implemented")
 
 
         C_TF  = 0.3 * (3*np.pi**2)**(2/3)

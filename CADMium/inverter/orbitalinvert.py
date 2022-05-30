@@ -11,14 +11,11 @@ from scipy.sparse import spdiags
 from scipy.sparse import eye
 from scipy.sparse.linalg import qmr
 from scipy.sparse.linalg import LinearOperator
-from scipy.sparse.linalg import spilu
+#from scipy.sparse.linalg import spilu
 from scipy.sparse.linalg import spsolve
 from scipy.sparse.linalg import inv
-from scipy.sparse.linalg import lgmres
+#from scipy.sparse.linalg import lgmres
 
-import scipy.sparse.linalg as sla
-
-import sys
 import warnings
 
 class inversion_info:
@@ -189,7 +186,6 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
 
     """
 
-    output = {"iterations" : None, "firstorderopt" : None }
     if self.vs is None and self.us is None:
         self.vs = np.zeros((self.grid.Nelem, self.solver.shape[1]))
         self.us = np.zeros((self.grid.Nelem, self.solver.shape[1]))
@@ -375,7 +371,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
 
                     M_inv = inv(M)
 
-                    lu = sla.splu(M)
+                    lu = scipy.sparse.linalg.splu(M)
 
                     #Neet to build a Linear operator out of L and U Matrix.
                     #QMR is not written to take matrices, but Linear Operators. 
@@ -392,7 +388,7 @@ def orbitalinvert(self, n0, vs0, phi0, e0, ispin):
                     LO_M2 = LinearOperator(M.shape, matvec=M2_solve, rmatvec=M2_solveH)
 
                     # dX, info = lgmres(jac, -eqn, M=M)
-                    # # dX, info = sla.gmres(jac, -eqn, M=M_inv)
+                    # # dX, info = scipy.sparse.linalg.gmres(jac, -eqn, M=M_inv)
                     # dX, info = qmr( jac, -eqn, tol=tol,maxiter=maxit, M1=LO_M1, M2=LO_M2)  
                     dX, info = qmr(jac, -eqn, M1=LO_M1, M2=LO_M2)
                     dX = dX[:,None]

@@ -3,7 +3,7 @@ scf.py
 """
 
 import numpy as np
-from pydantic import validator, BaseModel
+from pydantic import BaseModel
 
 class KohnShamSCFOptions(BaseModel):
     disp          : bool = True

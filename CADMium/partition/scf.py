@@ -6,7 +6,6 @@ import numpy as np
 from warnings import warn
 from pydantic import validator, BaseModel
 from typing import List
-import sys
 
 class PartitionSCFOptions(BaseModel):
     e_tol               : float = 1e-7

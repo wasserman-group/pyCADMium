@@ -4,7 +4,7 @@ pssolver.py
 
 import numpy as np
 from scipy.sparse import spdiags
-from pydantic import validator, BaseModel
+from pydantic import BaseModel
 
 from .calc_orbitals import calc_orbitals
 from .calc_density import calc_density

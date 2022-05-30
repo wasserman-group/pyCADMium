@@ -10,8 +10,6 @@ from numpy.linalg import norm
 from numpy import spacing
 import numpy as np
 
-import sys
-
 def calc_orbitals(self, solver_id, return_dict):
     """
     calculate molecular orbitals and eigenvalues
@@ -50,8 +48,8 @@ def calc_orbitals(self, solver_id, return_dict):
         while np.isnan(self.phi).all() != np.zeros_like(self.phi).all():
             e0 = e0 - 0.1
             self.eig, self.phi = eigs(spsolve(W, H), k=self.Nmo, sigma=e0, v0=self.opt["v0"])
-            eig = self.eig.real
-            phi = self.phi.real
+            self.eig = self.eig.real
+            self.phi = self.phi.real
 
         #Check for degenerate and nearly degenerate orbitals
         for i in range(self.Nmo-1):

@@ -3,18 +3,15 @@ initialguessinvert.py
 """
 
 import numpy as np
-from scipy.sparse import spdiags, diags, csc_matrix
+from scipy.sparse import spdiags, csc_matrix
 from scipy.sparse.linalg import spsolve 
 from scipy.linalg import eig, eigh
-from scipy.sparse.linalg import eigs
-
-import sys
-
+# from scipy.sparse.linalg import eigs
 
 def initialguessinvert(self, ispin=0):
 
     v0 = np.zeros(( self.grid.Nelem, 1 ))
-    n0 = np.zeros(( self.grid.Nelem, 1 ))
+    # n0 = np.zeros(( self.grid.Nelem, 1 ))
 
     if self.optPartition.ab_sym is not True:
         if not self.ens:
