@@ -4,7 +4,7 @@ linresponse.py
 
 import numpy as np
 from scipy.optimize import least_squares
-from scipy.optimize import minimize
+#from scipy.optimize import minimize
 from scipy.sparse import spdiags
 
 

@@ -76,9 +76,7 @@ def finite_difference_coefficients(x, deriv):
     """
     
     position = np.argwhere(a)[:2]
-    
-    error_order = position[1][0] - deriv
-    
-    coefficient_table = coefficient_table[:, 0:N]  
+    # error_order = position[1][0] - deriv
+    # coefficient_table = coefficient_table[:, 0:N]  
     
     return c.T[0]

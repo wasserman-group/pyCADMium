@@ -3,9 +3,9 @@ partition.py
 """
 from copy import copy
 import numpy as np
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List
-from pydantic import validator, BaseModel
+from pydantic import validator
 from warnings import warn
 
 from .scf import scf

@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from CADMium import Pssolver, Psgrid, Partition, Inverter
 import pytest
 

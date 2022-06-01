@@ -70,9 +70,7 @@ def simple(self, n0, vs0, tilde=None):
     for i in range(self.solver.shape[0]):
         for j in range(self.solver.shape[1]):
             self.us = np.max(self.solver[i,j].eig) if np.max(self.solver[i,j].eig) > max else max
-
-    Eks = 0.0
-
+            
     if tilde is not None:
         self.solver[i,j].calc_energy()
 

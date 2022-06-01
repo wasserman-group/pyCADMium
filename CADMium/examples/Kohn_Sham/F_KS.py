@@ -1,7 +1,6 @@
 import numpy as np
 
 from CADMium import Psgrid
-from CADMium.kohnsham import scf
 from CADMium import Kohnsham
 
 #Distance of the nucley from grid center

@@ -1,163 +1,87 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
   
-  <title>CADMium.inverter.inverter &mdash; CADMium  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
-
-  
-  
-  
+  <title>pyCADMium :: CADMium.inverter.inverter</title>
   
 
-  
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../../genindex.html"/>
 
-    
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
+  <link rel="stylesheet" href="../../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
           
-
+          <h1>pyCADMium</h1>
           
-            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> CADMium
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
+      </div>
+      <div id="project-container">
         
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../prolate_spheroidal_grid.html">Prolate Spheroidal Coordinates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
-</ul>
-
-            
-          
-        </div>
+        <h1>Documentation</h1>
         
       </div>
-    </nav>
+    </header>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+    <div id="content-container">
 
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">CADMium</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
+      <div id="main-content-container">
+        <div id="main-content" role="main">
           
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
-      <li>CADMium.inverter.inverter</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
   <h1>Source code for CADMium.inverter.inverter</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">inverter.py</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">validator</span><span class="p">,</span> <span class="n">BaseModel</span>
+
 <span class="kn">from</span> <span class="nn">.linresponse</span> <span class="kn">import</span> <span class="n">linresponse</span>
+<span class="kn">from</span> <span class="nn">.orbitalinvert</span> <span class="kn">import</span> <span class="n">orbitalinvert</span>
+<span class="kn">from</span> <span class="nn">.simple</span> <span class="kn">import</span> <span class="n">simple</span>
+
+<span class="kn">from</span> <span class="nn">.get_ts_WFI</span> <span class="kn">import</span> <span class="n">get_ts_WFI</span>
+<span class="kn">from</span> <span class="nn">.get_Ts</span> <span class="kn">import</span> <span class="n">get_Ts</span>
+<span class="c1"># from .linresponse import Ws</span>
+<span class="c1"># from .linresponse import Jacobian</span>
+
+<span class="k">class</span> <span class="nc">InverterOptions</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">ab_sym</span>              <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ens_spin_sym</span>        <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">use_iterative</span>       <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">disp</span>                <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">avoid_loop</span>          <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">invert_type</span>         <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;wuyang&#39;</span>
+    <span class="n">k_val</span>               <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1e-12</span>
+    <span class="n">tol_lin_solver</span>      <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-2</span>
+    <span class="n">tol_invert</span>          <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-12</span>
+    <span class="n">max_iter_lin_solver</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2000</span>
+    <span class="n">max_iter_invert</span>     <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">res_factor</span>          <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e0</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;invert_type&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">invert_type_values</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;wuyang&#39;</span><span class="p">,</span> <span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="s1">&#39;orbitalinvert&#39;</span><span class="p">,</span> <span class="s1">&#39;qinvert&#39;</span><span class="p">,</span> <span class="s1">&#39;eigensolveinvert&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;invert_type&#39; must be one of the options: </span><span class="si">{</span><span class="n">values</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
 
 <div class="viewcode-block" id="Inverter"><a class="viewcode-back" href="../../../api/CADMium.Inverter.html#CADMium.Inverter">[docs]</a><span class="k">class</span> <span class="nc">Inverter</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -209,112 +133,233 @@
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">optInversion</span><span class="p">):</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;AB_SYM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;AB_SYM&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;AB_SYM&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;ENS_SPIN_SYM&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;ENS_SPIN_SYM&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;ENS_SPIN_SYM&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;USE_ITERATIVER&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;USE_ITERATIVE&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;USE_ITERATIVE&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;VERBOSE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;VERBOSE&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;VERBOSE&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
-        
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;AVOIDLOOP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;AVOIDLOOP&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;AVOIDLOOP&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">optInv</span><span class="o">=</span><span class="p">{}):</span>
 
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;invert_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;invert_type&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;invert_type&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;wuyang&quot;</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;Kval&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;Kval&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;Kval&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1e-12</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;TolLinsolve&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;TolLinsolve&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;TolLinsolve&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="mf">1e-2</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;TolInvert&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;TolInvert&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;TolInvert&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="mf">1e-12</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;MaxIterLinsolve&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;MaxIterLinsolve&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;MaxIterLinsolve&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="mi">2000</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;MaxIterInvert&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;MaxIterInvert&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;MaxIterInvert&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="mi">20</span>
-        <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;ResFactor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;ResFactor&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;ResFactor&quot;</span> <span class="ow">in</span> <span class="n">optInversion</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="mf">1e0</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">optInversion</span> <span class="o">=</span> <span class="n">optInversion</span>
-
+        <span class="n">optInv</span> <span class="o">=</span>  <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">optInv</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">optInv</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">InverterOptions</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> is not a valid option for Inverter&quot;</span><span class="p">)</span>
+        <span class="n">optInv</span> <span class="o">=</span> <span class="n">InverterOptions</span><span class="p">(</span><span class="o">**</span><span class="n">optInv</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span> <span class="o">=</span> <span class="n">optInv</span>
+    
         <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nelem</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">Nelem</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nmo</span> <span class="o">=</span> <span class="n">solver</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Nmo</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span>  <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n0</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">vs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">us</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ts_WFI</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ts_WFII</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Inverter.invert"><a class="viewcode-back" href="../../../api/CADMium.Inverter.html#CADMium.Inverter.invert">[docs]</a>    <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">phi0</span><span class="o">=</span><span class="p">[],</span> <span class="n">e0</span><span class="o">=</span><span class="p">[],</span> <span class="n">ispin</span><span class="o">=</span><span class="p">[],</span> <span class="n">Qi</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="Inverter.invert"><a class="viewcode-back" href="../../../api/CADMium.Inverter.html#CADMium.Inverter.invert">[docs]</a>    <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">phi0</span><span class="o">=</span><span class="p">[],</span> <span class="n">e0</span><span class="o">=</span><span class="p">[],</span> <span class="n">ispin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">Qi</span><span class="o">=</span><span class="p">[]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Do the inverstion</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">flag</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;invert_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;wuyang&quot;</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I&#39;m inverting th&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">invert_type</span> <span class="o">==</span> <span class="s2">&quot;wuyang&quot;</span><span class="p">:</span>
             <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linresponse</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;invert_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;simple&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">invert_type</span> <span class="o">==</span> <span class="s2">&quot;simple&quot;</span><span class="p">:</span>
+            <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simple</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;invert_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;orbitalinvert&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">invert_type</span> <span class="o">==</span> <span class="s2">&quot;orbitalinvert&quot;</span><span class="p">:</span>
             <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">orbitalinvert</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">phi0</span><span class="p">,</span> <span class="n">e0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;invert_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;qinvert&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">invert_type</span> <span class="o">==</span> <span class="s2">&quot;qinvert&quot;</span><span class="p">:</span>
             <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qinvert</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">phi0</span><span class="p">,</span> <span class="n">e0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">,</span> <span class="n">Qi</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;invert_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;eigensolveinvert&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">invert_type</span> <span class="o">==</span> <span class="s2">&quot;eigensolveinvert&quot;</span><span class="p">:</span>
             <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eigensolveinvert</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInversion</span><span class="p">[</span><span class="s2">&quot;invert_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;test&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">invert_type</span> <span class="o">==</span> <span class="s2">&quot;test&quot;</span><span class="p">:</span>
             <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">phi0</span><span class="p">,</span> <span class="n">e0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">optInversion</span><span class="p">[</span><span class="s1">&#39;invert_type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> is not an available inversion method&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">invert_type</span><span class="si">}</span><span class="s2"> is not an available inversion method&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">flag</span><span class="p">,</span> <span class="n">output</span></div>
 
+    <span class="k">def</span> <span class="nf">get_vt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets kinetic potential</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">Nelem</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">us</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">vs</span>
+        <span class="k">return</span> <span class="n">vt</span>
+
+    <span class="k">def</span> <span class="nf">get_Ts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Ts</span> <span class="o">=</span> <span class="n">get_Ts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Ts</span>
+
+    <span class="k">def</span> <span class="nf">get_ts_WFI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">get_ts_WFI</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ts</span>
+
+    <span class="k">def</span> <span class="nf">simple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">):</span>
+        <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">simple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">flag</span><span class="p">,</span> <span class="n">output</span>
+
+    <span class="k">def</span> <span class="nf">orbitalinvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">phi0</span><span class="p">,</span> <span class="n">e0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">):</span>
+        <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">orbitalinvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">phi0</span><span class="p">,</span> <span class="n">e0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">flag</span><span class="p">,</span> <span class="n">output</span>
+
     <span class="c1">#Inversion methods</span>
 <div class="viewcode-block" id="Inverter.linresponse"><a class="viewcode-back" href="../../../api/CADMium.Inverter.html#CADMium.Inverter.linresponse">[docs]</a>    <span class="k">def</span> <span class="nf">linresponse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="n">ispin</span><span class="p">):</span>
-        <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">linresponse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">)</span></div></div>
+        <span class="n">flag</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">linresponse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n0</span><span class="p">,</span> <span class="n">vs0</span><span class="p">,</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="n">flag</span><span class="p">,</span> <span class="n">output</span></div>
+
+    <span class="k">def</span> <span class="nf">Ws</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vs</span><span class="p">,</span> <span class="n">spin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates G for a given potential</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">ab_sym</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">vs</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">vs</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">vs</span><span class="p">))</span>
+
+        <span class="c1">#Transfer new potentials to solver objects and calculate new densities</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">spin</span><span class="p">]</span><span class="o">.</span><span class="n">setveff</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">spin</span><span class="p">]</span><span class="o">.</span><span class="n">calc_orbitals</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">spin</span><span class="p">]</span><span class="o">.</span><span class="n">calc_density</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">spin</span><span class="p">]</span><span class="o">.</span><span class="n">calc_energy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">spin</span><span class="p">]</span><span class="o">.</span><span class="n">calc_response</span><span class="p">()</span>
+
+        <span class="c1">#Calculate new density     </span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">Nelem</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>  
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">n</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">spin</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">ab_sym</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vs is nan&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vs is inf&quot;</span><span class="p">)</span>
+
+        <span class="c1">#Calculate error function</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">@</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n0</span><span class="p">[:,</span> <span class="n">spin</span><span class="p">][:,</span><span class="kc">None</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">Nelem</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">spin</span><span class="p">]</span> <span class="p">)</span> <span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Grad is nan&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Grad is inf&quot;</span><span class="p">)</span>
+
+        <span class="c1"># print(&quot;max grad&quot;, np.linalg.norm(grad))</span>
+
+        <span class="k">return</span> <span class="n">grad</span>
+
+    <span class="k">def</span> <span class="nf">Jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vs</span><span class="p">,</span> <span class="n">spin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates Jacobian for a given vs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#Calculate jacobian of error function.</span>
+        <span class="n">Jac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">spin</span><span class="p">]</span><span class="o">.</span><span class="n">chi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nelem</span><span class="p">))</span> <span class="p">)</span> <span class="p">)</span>
+        <span class="n">Jac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Jac</span><span class="p">)</span>
+        <span class="n">Jac</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optInv</span><span class="o">.</span><span class="n">ab_sym</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">Jac</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">Jac</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">Jac</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]))</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Jac</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jac is nan&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">Jac</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jac is inf&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Jac</span></div>
 </pre></div>
-
-           </div>
-           
-          </div>
-          <footer>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        
-        &copy; Copyright 2020, Wasserman Group. Project structure based on the Computational Molecular Science Python Cookiecutter version 1.1
-
-    </p>
-  </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
 
         </div>
       </div>
 
-    </section>
+      <div id="side-menu-container">
 
-  </div>
-  
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
 
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
+        <div id="side-menu" role="navigation">
 
-  
+          
   
     
-   
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
 
 </body>
 </html>

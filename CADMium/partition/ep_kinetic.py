@@ -1,7 +1,6 @@
 """
 ep_kinetic.py
 """
-import sys
 import numpy as np
 
 def ep_kinetic(self):
