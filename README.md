@@ -9,11 +9,11 @@
 <img src="https://raw.githubusercontent.com/wasserman-group/pyCADMium/main/docs/pycadmium_logo_2.png" alt="logo" height=300>
 </p>
 
-- Prolate spheroidal coordinates grid-based code that solves a cylindrical problem semianalitically.  
-- Calculations in atoms and diatomic molecules free from basis set incompleteness error. 
-- Kohn-Sham DFT calculations using density functional approximations from libxc. 
+- Prolate spheroidal coordinates grid-based code that solves a cylindrical problem semi-analytically.  
+- Calculations of atoms and diatomic molecules free from basis set incompleteness error. `COMMENT [raghurama123]: This is not technically true as the grids form the basis set now, and each basis function is a Dirac-delta function. Instead, a suggestion is to use "- Calculations of atoms and diatomic molecules in real space"`
+- Kohn-Sham DFT calculations using density functional approximations by inerfacing with libxc. 
 - Density-to-potential inversion calculations. 
-- Fragment-based calculations using Partition-DFT. 
+- Fragment-based calculations using partition-DFT. 
 
 
 ### Getting started:  
@@ -25,7 +25,7 @@ git clone https://github.com/wasserman-group/CADMium.git
 cd CADMium
 pip install . 
 ```
-- Libxc and pylibxc must be installed as well. 
+- libxc and pylibxc must be installed as well. 
 ```
 conda install -c conda-forge libxc
 ```
