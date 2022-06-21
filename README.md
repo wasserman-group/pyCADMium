@@ -10,7 +10,7 @@
 </p>
 
 - Prolate spheroidal coordinates grid-based code that solves a cylindrical problem semi-analytically.  
-- Calculations of atoms and diatomic molecules free from basis set incompleteness error. `[COMMENT raghurama123]: This is not technically true as the grids form the basis set now, and each basis function is a Dirac-delta function. Instead, a suggestion is to use "- Calculations of atoms and diatomic molecules in real space"`
+- Calculations of atoms and diatomic molecules in real space.
 - Kohn-Sham DFT calculations using density functional approximations by interfacing with libxc. 
 - Density-to-potential inversion calculations. 
 - Fragment-based calculations using partition-DFT. 
