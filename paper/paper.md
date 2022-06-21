@@ -29,7 +29,6 @@ bibliography: paper.bib
 
 Diatomic molecules are among the most useful systems to test new ideas in quantum chemistry:
 
-- With only a handful of electrons, their computing time is short. `[COMMENT raghurama123]: This is a bit confusing. A reader may wonder if a diatomic with heavy atoms (say Uranium dimer) qualifies as a system with a handful of electrons. Please remove this sentence and/or include another point` 
 - They highlight the present and ubiquitous problems of modern approximations. 
 - By defining two fragments with an atom each, diatomics are ideal to implement and test quantum embedding methods.
 
@@ -37,7 +36,7 @@ Most practical calculations use a finite basis set of fixed functional form to r
 
 # Summary 
 
-In this work, we introduce ``pyCADMium``, a Python module that uses a PS coordinate grid to accurately perform computational chemistry calculations on systems with cylindrical symmetry. The name is an acronym for ``Chemical Atoms in Diatomic Molecules".``pyCADMium`` originated in a proprietary programming language but has been rewritten from the ground up as an open-source alternative. The code has been the main driving force behind the development of "Partition Density Functional Theory," [@20CW;@10EW;@17NW;@18JW] a method that uses quantum embedding to lower the cost of a calculation and fixes problems inherent to density functional approximations [@08CY].  
+In this work, we introduce ``pyCADMium``, a Python module that uses a PS coordinate grid to accurately perform computational chemistry calculations on systems with cylindrical symmetry. The name is an acronym for ``Chemical Atoms in Diatomic Molecules``.``pyCADMium`` originated in a proprietary programming language but has been rewritten from the ground up as an open-source alternative. The code has been the main driving force behind the development of "Partition Density Functional Theory," [@20CW;@10EW;@17NW;@18JW] a method that uses quantum embedding to lower the cost of a calculation and fixes problems inherent to density functional approximations [@08CY].  
 
 The PS grid is a coordinate system formed by revolving an elliptic coordinate plane around the line intersecting the two foci. These planes are formed by ellipses and hyperbolae that share the same focus [@arfken]. Atoms and diatomics are ideally suited for this coordinate system given that each foci can be used to allocate an atom. Additionally, the PS grid is denser around the foci in its cartesian representation, where we expect wave functions of molecular systems to change rapidly [@17RS].  
 
@@ -55,7 +54,7 @@ Once the fragments and/or molecule is defined. ``pyCADMium`` can perform:
 
 # Statement of Need
 
-PS coordinates have proven to excel at accuracy in calculations using atoms and diatomic molecules [@B82]. Despite these coordinates being used thoroughly in literature, the options for freely-available modules that focus on embedding applications are almost non-existent. In addition to P-DFT, our code can be used as described in [@14NW] to perform and easily develop other embedding calculations. Additionally, a repository of Jupyter Notebooks is available on [Github](https://github.com/wasserman-group/CADMium_examples) that includes various examples of the functionalities available in the code. 
+PS coordinates have proven to excel at accuracy in calculations using atoms and diatomic molecules [@B82]. Despite these coordinates being used thoroughly in literature [@darsec], the options for freely-available modules that focus on embedding applications are almost non-existent. In addition to P-DFT, our code can be used as described in [@14NW] to perform and easily develop other embedding calculations. Additionally, a repository of Jupyter Notebooks is available on [Github](https://github.com/wasserman-group/CADMium_examples) that includes various examples of the functionalities available in the code. 
 
 # Acknowledgements
 
