@@ -51,7 +51,8 @@ Once the fragments and/or molecule is defined. ``pyCADMium`` can perform:
 
 # Statement of Need
 
-PS coordinates have proven to excel at accuracy in calculations using atoms and diatomic molecules [@B82]. Despite these coordinates being used thoroughly in literature, the options for freely-available modules that focus on embedding applications are almost non-existent. In addition to P-DFT, our code can be used as described in [@14NW] to perform and easily develop other embedding calculations. Additionally, a repository of Jupyter Notebooks is availiable on [Github](https://github.com/wasserman-group/CADMium_examples) that includes various examples of the functionalities available in the code. 
+PS coordinates have proven to excel at accuracy in calculations using atoms and diatomic molecules [@B82]. Despite these coordinates being used thoroughly in literature, the options for freely-available modules that focus on embedding applications are almost non-existent. One example worth mentioning is ``DARSEC`` [@darsec] another all electron code that uses the same prolate spheroidal mehtodology to solve the Kohn-Sham Equations. Although the algorithms described in the paper follow a similar algorithm, is hard to discuss the distinct nuances since the code is not of free access. 
+In addition to P-DFT, our code can be used as described in [@14NW] to perform and easily develop other embedding calculations. Additionally, a repository of Jupyter Notebooks is availiable on [Github](https://github.com/wasserman-group/CADMium_examples) that includes various examples of the functionalities available in the code. 
 
 # Acknowledgements
 
