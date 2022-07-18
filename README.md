@@ -9,11 +9,11 @@
 <img src="https://raw.githubusercontent.com/wasserman-group/pyCADMium/main/docs/pycadmium_logo_2.png" alt="logo" height=300>
 </p>
 
-- Prolate spheroidal coordinates grid-based code that solves a cylindrical problem semianalitically.  
-- Calculations in atoms and diatomic molecules free from basis set incompleteness error. 
-- Kohn-Sham DFT calculations using density functional approximations from libxc. 
+- Prolate spheroidal coordinates grid-based code that solves a cylindrical problem semi-analytically.  
+- Calculations of atoms and diatomic molecules in real space.
+- Kohn-Sham DFT calculations using density functional approximations by interfacing with libxc. 
 - Density-to-potential inversion calculations. 
-- Fragment-based calculations using Partition-DFT. 
+- Fragment-based calculations using partition-DFT. 
 
 
 ### Getting started:  
@@ -25,19 +25,20 @@ git clone https://github.com/wasserman-group/CADMium.git
 cd CADMium
 pip install . 
 ```
-- Libxc and pylibxc must be installed as well. 
+pylibxc must be installed as well. 
+```
+pip install pylibxc2
+```
+- Alternative, one can install libxc through conda and install pylibxc manually. 
 ```
 conda install -c conda-forge libxc
-```
-- To communicate libxc with your python site-packages folder:
-```
-wget http://www.tddft.org/programs/libxc/down.php?file=5.0.0/libxc-5.0.0.tar.gz
-cd libxc-5.0.0
-tar -xf libxc-5.0.0.tar.gz
+wget http://www.tddft.org/programs/libxc/down.php?file=5.0.0/libxc-5.0.0.tar.gz # Replace with most recent libxc download link
+tar -xf libxc-5.0.0.tar.gz                                                      # Replace with name of downloaded file
+cd libxc-5.0.0                                                                  # Replace with name of downloaded file
 python setup.py install
 ```
 
-- If any unexpected error occurs, please contact us at: gonza445@purdue.edu  
+- If any unexpected error occurs, please contact us at: victorandscience@gmail.com
 
 ### Tutorials:
 Learn how to use CADMium with these [examples](https://github.com/wasserman-group/CADMium_examples).  
