@@ -14,6 +14,7 @@ Python module that uses a prolate spheroidal (PS) coordinate grid to accurately 
    :maxdepth: 3
    :caption: Contents:
 
+   installation
    coordinate_system
    getting_started
    api
