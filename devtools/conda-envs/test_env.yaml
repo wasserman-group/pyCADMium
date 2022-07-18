@@ -22,6 +22,7 @@ dependencies:
   - cmake
 
     # Pip-only installs
-  #- pip:
-  #  - codecov
+  - pip:
+   - codecov
+   - pylibxc2
 
