@@ -23,6 +23,5 @@ dependencies:
 
     # Pip-only installs
   - pip:
-   - codecov
    - pylibxc2
 
