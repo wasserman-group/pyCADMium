@@ -61,5 +61,4 @@ def test_inversion():
     phi0, e0, v0 = part.initialguessinvert(ispin=0) 
     success, inv_info = WY.invert( dm, v0, phi0, e0, )
 
-    #Test inversion sucess
-    assert( success, 1 )
+
