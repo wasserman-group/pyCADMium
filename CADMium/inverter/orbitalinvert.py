@@ -119,18 +119,19 @@ def kmatrix(x, i_orth, Nelem, Nmo, WWi, H, n0, occ, B2i, B2j, B3i, B3j):
         B4 = np.zeros(( np.sum(Nmo) * Nelem, North ))
     
     for i in range(North):
-        print("Warning North iteration may be *very* wrong")
-        Ocon[i] = np.sum( WWi @ phi[:, iorht[i,0]] * phi[:, iorth[i, 1]] )
-        ind = np.ravel_multi_index( ( range(0, Nelem) + (i_orth[i, 0]-1)*Nelem ,
-                                      range(0, Nelem) + (i_orth[i, 1]-1)*Nelem),
-                                    [np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem], 
-                                    order="F")
+        raise ValueError("pyCADMium Error. Exit")
+        # print("Warning North iteration may be *very* wrong")
+        # Ocon[i] = np.sum( WWi @ phi[:, iorht[i,0]] * phi[:, iorth[i, 1]] )
+        # ind = np.ravel_multi_index( ( range(0, Nelem) + (i_orth[i, 0]-1)*Nelem ,
+        #                               range(0, Nelem) + (i_orth[i, 1]-1)*Nelem),
+        #                             [np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem], 
+        #                             order="F")
                     
-        Hjac[ind] = spdiags(WWi) @ orthvals[i]
-        ind = np.ravel_multi_index( ( range(0, Nelem) + (i_orth[i, 1]-1)*Nelem , 
-                                      range(0, Nelem) + (i_orth[i, 0]-1)*Nelem),
-                                    [np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem], 
-                                    order="F")
+        # Hjac[ind] = spdiags(WWi) @ orthvals[i]
+        # ind = np.ravel_multi_index( ( range(0, Nelem) + (i_orth[i, 1]-1)*Nelem , 
+        #                               range(0, Nelem) + (i_orth[i, 0]-1)*Nelem),
+        #                             [np.sum(Nmo) * Nelem, np.sum(Nmo) * Nelem], 
+        #                             order="F")
 
 
     KSeq = Hjac @ x[ np.array(range(np.sum(Nmo) * Nelem)) ]
