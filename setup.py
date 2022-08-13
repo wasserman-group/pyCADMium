@@ -49,6 +49,8 @@ setup(
     install_requires=["numpy", 
                       "scipy",
                       "setuptools",
+                      "pytest",
+                      "pydantic"
                       "wheel"],              # Required packages, pulls from pip if needed; do not use for Conda deployment
     # platforms=['Linux',
     #            'Mac OS-X',
