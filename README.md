@@ -38,7 +38,9 @@ cd libxc-5.0.0                                                                  
 python setup.py install
 ```
 
-- If any unexpected error occurs, please contact us at: victorandscience@gmail.com
+### Community Guideliness
+- If any unexpected error occurs, please contact us at: victorandscience@gmail.com.  
+- Any comment, suggestion or change is welcomed as an issue or a pull request. 
 
 ### Tutorials:
 Learn how to use CADMium with these [examples](https://github.com/wasserman-group/CADMium_examples).  
