@@ -23,5 +23,4 @@ dependencies:
 
     # Pip-only installs
   - pip:
-   - pylibxc2
-
+    - pylibxc2
