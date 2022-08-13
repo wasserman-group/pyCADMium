@@ -19,6 +19,9 @@ class V:
 
 @dataclass
 class E:
+    """
+    Data class with Kohn-Sham Energy components
+    """
     E  : float = 0.0 
     Ec : float = 0.0
     Ex : float = 0.0
@@ -134,9 +137,9 @@ class Kohnsham():
 
     def calc_nuclear_potential(self):
         """
-        Calculate nuclear potential
+        Calculate nuclear potential using the common Coulomb function. 
+        Sets the nuclear potential in the object's attribute self.vnuc
         """
-
         v  = coulomb(self.grid, self.Za, self.Zb)
 
         self.vnuc = np.zeros((v.shape[0], self.pol))
@@ -153,9 +156,10 @@ class Kohnsham():
         
     def set_effective_potential(self):
         """
-        Sets new effective potential
+        Sets new effective potential. 
+        Distributes the current effective potential (vnuc + vhxc)
+        To each orbital's sovler. 
         """
-
         self.veff = self.vnuc + self.vext + self.vhxc
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):
@@ -163,15 +167,38 @@ class Kohnsham():
 
     def set_veff_external(self, veff):
         """
-        Sets user defined veff to solvers
+        Distribute veff to each of the orbital's solvers. 
+
+        Parameters
+        ----------
+        veff: np.ndarray
+            Effective potential to distribute. 
+            It shape must be consistent with current set grid. 
+
+        Returns
+        -------
+        None
         """
         for j in range(self.Nmo.shape[1]):
             for i in range(self.Nmo.shape[0]):
                 self.solver[i,j].setveff(self.veff[:,j])
 
     def calc_density(self, ITERATIVE=False, dif=0.0):
-        #Removed setting Iterative False if only one argument is given
+        """
+        Calculates density using each of the orbitals solvers. 
+        Each of the orbital solvers is solved in parallel using Python's std
+        multiprocessing module.
 
+        Parameters
+        ----------
+        Iterative: bool. Optional. Default=False. 
+            Switches to iterative way of diagonalizing each orbitals. 
+        
+        Returns
+        -------
+        nout: np.ndarray    
+            Numpy array with resulting electronic density. 
+        """
         starttol = 0.01
 
         #Calculate new densities      
@@ -217,6 +244,21 @@ class Kohnsham():
         return nout
 
     def energy(self):
+        """
+        Computes each of the energy components using Kohn-Sham definition
+        and the selected density functional approximation. 
+
+        Parameters
+        -----------
+        None
+
+        Returns
+        -------
+        None
+            Sets each of the energy components in the data class E. 
+            Which is an attribute of the object. 
+        """
+
         #Collect energy
         self.E.Eks = np.zeros((1, self.pol))
         #Collect total potential energy 
@@ -289,7 +331,19 @@ class Kohnsham():
         # print("Total", self.E.E)
         
     def calc_hxc_potential(self):
-        "Calculate new potential for each fragment"
+        """
+        Calculates the HXC potential using the current density
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+            Sets the Hartee and Exchange-Correlation energy and potential
+            in the E and V data classes. 
+        """
 
         #Fragment effective potentials
 
@@ -309,7 +363,18 @@ class Kohnsham():
             self.vhxc = 0.5 * (self.vhxc + self.grid.mirror(self.vhxc))
 
     def calc_chempot(self):
+        """
+        Calculates the chemical potential as the maximum of the homo per orbital
 
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+            Sets chemical potential in self.u
+        """
         homos = []
         for i in range(self.Nmo.shape[0]):
             for j in range(self.Nmo.shape[1]):
