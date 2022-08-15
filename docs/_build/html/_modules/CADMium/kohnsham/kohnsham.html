@@ -67,6 +67,9 @@
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">E</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Data class with Kohn-Sham Energy components</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">E</span>  <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span> 
     <span class="n">Ec</span> <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">Ex</span> <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -182,9 +185,9 @@
 
 <div class="viewcode-block" id="Kohnsham.calc_nuclear_potential"><a class="viewcode-back" href="../../../api/CADMium.Kohnsham.html#CADMium.Kohnsham.calc_nuclear_potential">[docs]</a>    <span class="k">def</span> <span class="nf">calc_nuclear_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate nuclear potential</span>
+<span class="sd">        Calculate nuclear potential using the common Coulomb function. </span>
+<span class="sd">        Sets the nuclear potential in the object&#39;s attribute self.vnuc</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">v</span>  <span class="o">=</span> <span class="n">coulomb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Za</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zb</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">vnuc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">))</span>
@@ -201,9 +204,10 @@
         
 <div class="viewcode-block" id="Kohnsham.set_effective_potential"><a class="viewcode-back" href="../../../api/CADMium.Kohnsham.html#CADMium.Kohnsham.set_effective_potential">[docs]</a>    <span class="k">def</span> <span class="nf">set_effective_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets new effective potential</span>
+<span class="sd">        Sets new effective potential. </span>
+<span class="sd">        Distributes the current effective potential (vnuc + vhxc)</span>
+<span class="sd">        To each orbital&#39;s sovler. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">veff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vnuc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vext</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vhxc</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nmo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nmo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
@@ -211,15 +215,38 @@
 
     <span class="k">def</span> <span class="nf">set_veff_external</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">veff</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets user defined veff to solvers</span>
+<span class="sd">        Distribute veff to each of the orbital&#39;s solvers. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        veff: np.ndarray</span>
+<span class="sd">            Effective potential to distribute. </span>
+<span class="sd">            It shape must be consistent with current set grid. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nmo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nmo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">setveff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">veff</span><span class="p">[:,</span><span class="n">j</span><span class="p">])</span>
 
 <div class="viewcode-block" id="Kohnsham.calc_density"><a class="viewcode-back" href="../../../api/CADMium.Kohnsham.html#CADMium.Kohnsham.calc_density">[docs]</a>    <span class="k">def</span> <span class="nf">calc_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ITERATIVE</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dif</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="c1">#Removed setting Iterative False if only one argument is given</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates density using each of the orbitals solvers. </span>
+<span class="sd">        Each of the orbital solvers is solved in parallel using Python&#39;s std</span>
+<span class="sd">        multiprocessing module.</span>
 
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Iterative: bool. Optional. Default=False. </span>
+<span class="sd">            Switches to iterative way of diagonalizing each orbitals. </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        nout: np.ndarray    </span>
+<span class="sd">            Numpy array with resulting electronic density. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">starttol</span> <span class="o">=</span> <span class="mf">0.01</span>
 
         <span class="c1">#Calculate new densities      </span>
@@ -265,6 +292,21 @@
         <span class="k">return</span> <span class="n">nout</span></div>
 
 <div class="viewcode-block" id="Kohnsham.energy"><a class="viewcode-back" href="../../../api/CADMium.Kohnsham.html#CADMium.Kohnsham.energy">[docs]</a>    <span class="k">def</span> <span class="nf">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes each of the energy components using Kohn-Sham definition</span>
+<span class="sd">        and the selected density functional approximation. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">            Sets each of the energy components in the data class E. </span>
+<span class="sd">            Which is an attribute of the object. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="c1">#Collect energy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">Eks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">))</span>
         <span class="c1">#Collect total potential energy </span>
@@ -337,7 +379,19 @@
         <span class="c1"># print(&quot;Total&quot;, self.E.E)</span>
         
 <div class="viewcode-block" id="Kohnsham.calc_hxc_potential"><a class="viewcode-back" href="../../../api/CADMium.Kohnsham.html#CADMium.Kohnsham.calc_hxc_potential">[docs]</a>    <span class="k">def</span> <span class="nf">calc_hxc_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">&quot;Calculate new potential for each fragment&quot;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the HXC potential using the current density</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">            Sets the Hartee and Exchange-Correlation energy and potential</span>
+<span class="sd">            in the E and V data classes. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1">#Fragment effective potentials</span>
 
@@ -357,7 +411,18 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">vhxc</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vhxc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vhxc</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Kohnsham.calc_chempot"><a class="viewcode-back" href="../../../api/CADMium.Kohnsham.html#CADMium.Kohnsham.calc_chempot">[docs]</a>    <span class="k">def</span> <span class="nf">calc_chempot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the chemical potential as the maximum of the homo per orbital</span>
 
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">            Sets chemical potential in self.u</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">homos</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nmo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nmo</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
@@ -389,6 +454,7 @@
   
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../coordinate_system.html">The Coordinate System</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../coordinate_system.html#discretization">Discretization</a></li>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>pyCADMium :: &lt;no title&gt;</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="genindex.html"/>
+
+  <link rel="stylesheet" href="_static/css/insegel.css"/>
+  <link rel="stylesheet" href="_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>pyCADMium</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <p># Compiling CADMium’s Documentation</p>
+<p>The docs for this project are built with [Sphinx](<a class="reference external" href="http://www.sphinx-doc.org/en/master/">http://www.sphinx-doc.org/en/master/</a>).
+To compile the docs, first ensure that Sphinx and the ReadTheDocs theme are installed.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
+<span class="pre">conda</span> <span class="pre">install</span> <span class="pre">sphinx</span> <span class="pre">sphinx_rtd_theme</span>
+<span class="pre">`</span></code></p>
+<p>Once installed, you can use the <cite>Makefile</cite> in this directory to compile static HTML pages by
+<code class="docutils literal notranslate"><span class="pre">`bash</span>
+<span class="pre">make</span> <span class="pre">html</span>
+<span class="pre">`</span></code></p>
+<p>The compiled docs will be in the <cite>_build</cite> directory and can be viewed by opening <cite>index.html</cite> (which may itself
+be inside a directory called <cite>html/</cite> depending on what version of Sphinx is installed).</p>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="_sources/README.md.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>pyCADMium :: F_2 LDA</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../genindex.html"/>
+
+  <link rel="stylesheet" href="../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="../../None"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>pyCADMium</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="F_2-LDA">
+<h1>F_2 LDA<a class="headerlink" href="#F_2-LDA" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">CADMium</span> <span class="kn">import</span> <span class="n">Psgrid</span>
+<span class="kn">from</span> <span class="nn">CADMium</span> <span class="kn">import</span> <span class="n">Kohnsham</span>
+
+<span class="c1">#Distance of the nucley from grid center</span>
+<span class="n">a</span> <span class="o">=</span>  <span class="mf">2.61</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="c1">#Nuclear charges on centers AB</span>
+<span class="n">Za</span>  <span class="o">=</span> <span class="mi">9</span>
+<span class="n">Zb</span> <span class="o">=</span> <span class="mi">9</span>
+
+<span class="c1">#Set polaization. 1 Unpolarized, 2 Polarized</span>
+<span class="n">pol</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">Nmo</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">]]</span>
+<span class="n">N</span>   <span class="o">=</span> <span class="p">[[</span><span class="mi">10</span><span class="p">],[</span><span class="mi">8</span><span class="p">]]</span>
+
+<span class="n">optKS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;interaction_type&quot;</span> <span class="p">:</span> <span class="s2">&quot;dft&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SYM&quot;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;FRACTIONAL&quot;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">}</span>
+
+<span class="c1">#Grid Options</span>
+<span class="n">NP</span> <span class="o">=</span> <span class="mi">7</span> <span class="c1">#Number of points per block</span>
+<span class="n">NM</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">16</span><span class="p">,</span><span class="mi">16</span><span class="p">]</span> <span class="c1">#Number of blocks [angular, radial]</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccosh</span><span class="p">(</span><span class="mf">10.</span><span class="o">/</span><span class="n">a</span><span class="p">)</span> <span class="c1">#Maximum radial coordinate value</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span> <span class="c1">#Non inclusive on upper bound</span>
+
+<span class="c1">#Create and initialize grid object</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">Psgrid</span><span class="p">(</span><span class="n">NP</span><span class="p">,</span> <span class="n">NM</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+<span class="c1">#Kohn Sham object</span>
+<span class="n">KS</span> <span class="o">=</span> <span class="n">Kohnsham</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="n">Nmo</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">optKS</span><span class="p">)</span>
+<span class="n">KS</span><span class="o">.</span><span class="n">scf</span><span class="p">({</span>
+        <span class="s2">&quot;alpha&quot;</span> <span class="p">:</span> <span class="mf">0.1</span>
+      <span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Total Energy: </span><span class="si">{</span><span class="n">KS</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">E</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -319.01838      +1.60351e-01       +1.00000e+00
+    2      -302.67085      +1.60118e-02       +5.40109e-02
+    3      -282.78688      -1.08019e-01       +7.03143e-02
+    4      -267.70349      -2.27884e-01       +5.63437e-02
+    5      -256.07324      -3.16335e-01       +4.54177e-02
+    6      -246.65516      -3.80504e-01       +3.81832e-02
+    7      -238.91135      -4.25934e-01       +3.24129e-02
+    8      -232.50125      -4.56875e-01       +2.75702e-02
+    9      -227.17430      -4.76684e-01       +2.34487e-02
+   10      -222.73492      -4.88035e-01       +1.99312e-02
+   11      -219.02643      -4.93047e-01       +1.69317e-02
+   12      -215.92174      -4.93396e-01       +1.43788e-02
+   13      -213.31697      -4.90393e-01       +1.22108e-02
+   14      -211.12693      -4.85059e-01       +1.03731e-02
+   15      -209.28154      -4.78182e-01       +8.81778e-03
+   16      -208.01295      -4.77901e-01       +6.09857e-03
+   17      -206.34999      -4.62871e-01       +8.05893e-03
+   18      -205.23835      -4.54225e-01       +5.41635e-03
+   19      -204.29112      -4.45680e-01       +1.58033e-02
+   20      -203.45379      -4.31665e-01       +4.11562e-03
+   21      -202.98892      -4.31521e-01       +2.29010e-03
+   22      -202.15114      -4.20401e-01       +4.14432e-03
+   23      -201.66665      -4.15125e-01       +2.40243e-03
+   24      -201.24346      -4.09109e-01       +2.10286e-03
+   25      -200.87369      -4.03246e-01       +1.84084e-03
+   26      -200.55233      -3.97815e-01       +1.60234e-03
+   27      -200.27343      -3.92862e-01       +1.39263e-03
+   28      -200.03116      -3.88367e-01       +1.21113e-03
+   29      -199.82045      -3.84301e-01       +1.05450e-03
+   30      -199.63695      -3.80632e-01       +9.19198e-04
+   31      -199.47694      -3.77326e-01       +8.02137e-04
+   32      -199.33727      -3.74354e-01       +7.00678e-04
+   33      -199.21523      -3.71685e-01       +6.12595e-04
+   34      -199.10851      -3.69291e-01       +5.36004e-04
+   35      -199.01511      -3.67147e-01       +4.69310e-04
+   36      -198.93331      -3.65227e-01       +4.11160e-04
+   37      -198.86164      -3.63510e-01       +3.60401e-04
+   38      -198.79881      -3.61975e-01       +3.16045e-04
+   39      -198.74371      -3.60604e-01       +2.77251e-04
+   40      -198.69537      -3.59379e-01       +2.43294e-04
+   41      -198.65295      -3.58285e-01       +2.13549e-04
+   42      -198.61571      -3.57310e-01       +1.87478e-04
+   43      -198.58302      -3.56439e-01       +1.64615e-04
+   44      -198.55432      -3.55662e-01       +1.44557e-04
+   45      -198.52912      -3.54969e-01       +1.26953e-04
+   46      -198.50698      -3.54352e-01       +1.11497e-04
+   47      -198.48755      -3.53801e-01       +9.79248e-05
+   48      -198.47048      -3.53310e-01       +8.60037e-05
+   49      -198.45549      -3.52872e-01       +7.55311e-05
+   50      -198.44233      -3.52482e-01       +6.63300e-05
+   51      -198.43077      -3.52134e-01       +5.84837e-05
+   52      -198.42062      -3.51823e-01       +5.19780e-05
+   53      -198.41171      -3.51547e-01       +4.61970e-05
+   54      -198.40389      -3.51300e-01       +4.10598e-05
+   55      -198.39703      -3.51080e-01       +3.64948e-05
+   56      -198.39101      -3.50884e-01       +3.24378e-05
+   57      -198.38572      -3.50710e-01       +2.88322e-05
+   58      -198.38109      -3.50554e-01       +2.56276e-05
+   59      -198.37702      -3.50415e-01       +2.27792e-05
+   60      -198.37345      -3.50291e-01       +2.02476e-05
+   61      -198.37033      -3.50181e-01       +1.79977e-05
+   62      -198.36759      -3.50082e-01       +1.59978e-05
+   63      -198.36519      -3.49995e-01       +1.42201e-05
+   64      -198.36308      -3.49916e-01       +1.26400e-05
+   65      -198.36124      -3.49846e-01       +1.12354e-05
+   66      -198.35963      -3.49784e-01       +9.98682e-06
+ Total Energy: -198.35962903765648
+</pre></div></div>
+</div>
+<p>Compare against CCCBDB Enerty: Etot = -198.706387</p>
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">CONTENTS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">GRID EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Grids/Grid.html">Generating a basic Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Grids/CADMIUM_LOGO.html">How to genererate pyCADMiums logo?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT EXAMPLES:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="00_README.html">Atoms and Diatomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_H_Exact.html">Hydrogen Exact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_NaCl.html">Sodium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_CO.html">CO LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_LDA_H.html">Hydgrogen LDA with Plotted Potentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_LDA_He.html">Helium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_O2.html"><span class="math notranslate nohighlight">\(O_2\)</span> LDA</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">F_2 LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_LDA_C.html">Value from Nist: Etot = -37.425749</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_LDA_N.html">Value from Nist: Etot = -54.025016</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_LDA_O.html">NIST Total Energy: -74.473077</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_LDA_F.html">Nist Total Energy: Etot = -99.099648</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_LDA_Ne.html">NIST Total Energy: Etot = -128.233481</a></li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../../_sources/examples/KS_DFT/04_F2.ipynb.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

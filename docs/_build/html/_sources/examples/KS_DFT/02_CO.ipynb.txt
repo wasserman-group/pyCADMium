@@ -1,0 +1,134 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### CO LDA"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      " iter    Total Energy     HOMO Eigenvalue         Res       \n",
+      "\n",
+      "----------------------------------------------------------- \n",
+      "\n",
+      "    1      -166.17653      +3.85098e-02       +1.00000e+00\n",
+      "    2      -152.61827      -7.58870e-02       +8.88377e-02\n",
+      "    3      -142.19491      -2.30085e-01       +7.33033e-02\n",
+      "    4      -133.59140      -3.34899e-01       +6.44017e-02\n",
+      "    5      -126.89214      -3.58781e-01       +5.27949e-02\n",
+      "    6      -122.55250      -3.74701e-01       +3.54105e-02\n",
+      "    7      -119.66968      -3.81800e-01       +2.40898e-02\n",
+      "    8      -117.68735      -3.82429e-01       +1.68441e-02\n",
+      "    9      -116.28788      -3.79183e-01       +1.20345e-02\n",
+      "   10      -115.28271      -3.74072e-01       +8.71919e-03\n",
+      "   11      -114.66753      -3.73817e-01       +5.36495e-03\n",
+      "   12      -113.99060      -3.63055e-01       +5.93845e-03\n",
+      "   13      -113.61324      -3.58188e-01       +3.32144e-03\n",
+      "   14      -113.32633      -3.53767e-01       +2.53172e-03\n",
+      "   15      -113.11276      -3.50057e-01       +1.88810e-03\n",
+      "   16      -112.95364      -3.47006e-01       +1.40870e-03\n",
+      "   17      -112.83465      -3.44524e-01       +1.05462e-03\n",
+      "   18      -112.74541      -3.42523e-01       +7.91480e-04\n",
+      "   19      -112.67837      -3.40919e-01       +5.95013e-04\n",
+      "   20      -112.62792      -3.39639e-01       +4.47876e-04\n",
+      "   21      -112.58993      -3.38622e-01       +3.37426e-04\n",
+      "   22      -112.56130      -3.37816e-01       +2.54361e-04\n",
+      "   23      -112.53971      -3.37178e-01       +1.91802e-04\n",
+      "   24      -112.52344      -3.36674e-01       +1.44638e-04\n",
+      "   25      -112.51117      -3.36276e-01       +1.09054e-04\n",
+      "   26      -112.50192      -3.35963e-01       +8.21957e-05\n",
+      "   27      -112.49496      -3.35715e-01       +6.19189e-05\n",
+      "   28      -112.48971      -3.35520e-01       +4.66115e-05\n",
+      "   29      -112.48577      -3.35367e-01       +3.50581e-05\n",
+      "   30      -112.48281      -3.35246e-01       +2.64905e-05\n",
+      "   31      -112.48058      -3.35151e-01       +2.14108e-05\n",
+      "   32      -112.47892      -3.35076e-01       +1.72917e-05\n",
+      "   33      -112.47767      -3.35017e-01       +1.39547e-05\n",
+      "   34      -112.47674      -3.34970e-01       +1.12533e-05\n",
+      "   35      -112.47604      -3.34934e-01       +9.06948e-06\n",
+      " Total Energy: -112.47604334096278\n"
+     ]
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "from CADMium import Psgrid\n",
+    "from CADMium import Kohnsham\n",
+    "\n",
+    "#Distance of the nucley from grid center\n",
+    "a =  2.12707573 / 2\n",
+    "\n",
+    "#Nuclear charges on centers AB\n",
+    "Za  = 8\n",
+    "Zb = 6\n",
+    "\n",
+    "#Set polaization. 1 Unpolarized, 2 Polarized\n",
+    "pol = 1\n",
+    "\n",
+    "Nmo = [[5], [2]]\n",
+    "N   = [[10],[4]]\n",
+    "\n",
+    "optKS = {\n",
+    "        \"interaction_type\" : \"dft\",\n",
+    "        \"SYM\" : False,\n",
+    "        \"FRACTIONAL\" : False,\n",
+    "        }\n",
+    "\n",
+    "#Grid Options\n",
+    "NP = 7 #Number of points per block\n",
+    "NM =  [16,16] #Number of blocks [angular, radial]\n",
+    "L = np.arccosh(15./a) #Maximum radial coordinate value\n",
+    "loc = np.array(range(-4,5)) #Non inclusive on upper bound\n",
+    "\n",
+    "#Create and initialize grid object\n",
+    "grid = Psgrid(NP, NM, a, L, loc)\n",
+    "grid.initialize()\n",
+    "\n",
+    "#Kohn Sham object\n",
+    "KS = Kohnsham(grid, Za, Zb, pol, Nmo, N, optKS)\n",
+    "KS.scf({\n",
+    "        \"alpha\" : 0.2  \n",
+    "      })\n",
+    "\n",
+    "print(f\" Total Energy: {KS.E.E}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Compare againts CCCBDB LDA Energy: Etot -112.748985"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

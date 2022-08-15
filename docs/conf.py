@@ -53,6 +53,7 @@ extensions = [
     'sphinx_automodapi.automodsumm',
     'sphinx.ext.graphviz',
     'sphinx.ext.inheritance_diagram',
+    'nbsphinx',
 ]
 
 autosummary_generate = True
@@ -60,6 +61,8 @@ napoleon_google_docstring = False
 napoleon_use_param = False
 napoleon_use_ivar = True
 inheritance_graph_attrs = dict(rankdir="TB", size='""')
+nbsphinx_allow_errors = True
+nbsphinx_execute = 'never'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -68,7 +71,7 @@ templates_path = ['_templates']
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = [".rst"]
 
 # The master toctree document.
 master_doc = 'index'

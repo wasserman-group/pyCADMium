@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>pyCADMium :: Defining Grids</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../genindex.html"/>
+
+  <link rel="stylesheet" href="../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="../None"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>pyCADMium</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="Defining-Grids">
+<h1>Defining Grids<a class="headerlink" href="#Defining-Grids" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Creates a basic grid by specifying the number of points. Each grid depends on the number of radial/angular blocks that is multiplied by the number of points per block.</p></li>
+<li><p>Naturally, with a greater number of points, the calculation is more accurate and expensive.</p></li>
+<li><p>Here, we do an example with the Boron atom. Additionally, we include a 2D plot to see how the points are distributed in space.</p></li>
+<li><p>Lastly, we create a 3D plot showing the convergence of the energy with respect to the number of points.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">from</span> <span class="nn">CADMium</span> <span class="kn">import</span> <span class="n">Psgrid</span>
+<span class="kn">from</span> <span class="nn">CADMium</span> <span class="kn">import</span> <span class="n">Kohnsham</span>
+
+<span class="c1">#Distance of the nucley from grid center</span>
+<span class="n">a</span> <span class="o">=</span>  <span class="mi">5</span>
+
+<span class="c1">#Grid Options</span>
+<span class="n">NP</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1">#Number of points per block</span>
+<span class="n">NM</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="c1">#Number of blocks [angular, radial]</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccosh</span><span class="p">(</span><span class="mf">15.</span><span class="o">/</span><span class="n">a</span><span class="p">)</span><span class="c1">#Maximum radial coordinate value</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span> <span class="c1">#Non inclusive on upper bound</span>
+
+<span class="c1">#Create and initialize grid object</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">Psgrid</span><span class="p">(</span><span class="n">NP</span><span class="p">,</span> <span class="n">NM</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">Z</span><span class="p">),</span> <span class="n">grid</span><span class="o">.</span><span class="n">Z</span><span class="p">)),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">Y</span><span class="p">),</span> <span class="n">grid</span><span class="o">.</span><span class="n">Y</span><span class="p">)))</span>
+
+<span class="c1"># The Boron atom is located at one of the dense areas.</span>
+<span class="c1"># If two atoms are present, each one is located at each foci.</span>
+<span class="c1"># The separation distance translate into the distance between foci.</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.collections.PathCollection at 0x7fa0918f9ca0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_Grid_3_1.png" src="../_images/examples_Grid_3_1.png" />
+</div>
+</div>
+<p>How much would our grid affect a calculation?</p>
+<p>Let us redo the previous procedure with the ability of changing both the number of blocks and points per block. Don’t fret too much on each of the small details of the calculation, you’ll be able to abstract them as you follow more examples.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the number of points that we are going to explore.</span>
+<span class="c1"># We use very small values to make it go fast.</span>
+
+<span class="n">points_per_block</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">ang_points</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">rad_points</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">all_ang</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">all_rad</span> <span class="o">=</span> <span class="p">[]</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Nuclear charges on centers AB</span>
+<span class="n">Za</span>  <span class="o">=</span> <span class="mi">5</span>
+<span class="n">Zb</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1">#Set polaization. 1 Unpolarized, 2 Polarized</span>
+<span class="n">pol</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1">#Assign electronic structure</span>
+<span class="n">Nmo</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">N</span>   <span class="o">=</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="n">optKS</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ang_points</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">rad_points</span><span class="p">:</span>
+
+        <span class="c1">#Grid Options</span>
+        <span class="n">a</span> <span class="o">=</span>  <span class="mf">1.0</span>
+        <span class="n">NP</span> <span class="o">=</span> <span class="mi">7</span> <span class="c1">#Number of points per block</span>
+        <span class="n">NM</span> <span class="o">=</span>  <span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="c1">#Number of blocks [angular, radial]</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccosh</span><span class="p">(</span><span class="mf">15.</span><span class="o">/</span><span class="n">a</span><span class="p">)</span> <span class="c1">#Maximum radial coordinate value</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span> <span class="c1">#Non inclusive on upper bound</span>
+
+        <span class="c1">#Create and initialize grid object</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">Psgrid</span><span class="p">(</span><span class="n">NP</span><span class="p">,</span> <span class="n">NM</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+        <span class="c1">#Kohn Sham object</span>
+        <span class="n">KS</span> <span class="o">=</span> <span class="n">Kohnsham</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="n">Nmo</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">optKS</span><span class="p">)</span>
+        <span class="n">KS</span><span class="o">.</span><span class="n">scf</span><span class="p">(</span><span class="n">optKS</span><span class="p">)</span>
+
+        <span class="n">energy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">KS</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">E</span><span class="p">)</span>
+        <span class="n">all_ang</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">all_rad</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.85187      -2.76665e-01       +1.00000e+00
+    2      -25.48169      -4.21852e-01       +1.46361e-01
+    3      -24.55273      -4.69748e-01       +7.05942e-02
+    4      -24.21184      -4.86792e-01       +3.41545e-02
+    5      -24.08530      -4.92447e-01       +1.71583e-02
+    6      -24.03953      -4.94155e-01       +8.75097e-03
+    7      -24.02406      -4.94571e-01       +4.41074e-03
+    8      -24.01737      -4.94717e-01       +2.37986e-03
+    9      -24.01626      -4.94601e-01       +1.22774e-03
+   10      -24.01604      -4.94522e-01       +6.31166e-04
+   11      -24.01606      -4.94473e-01       +3.24030e-04
+   12      -24.01612      -4.94445e-01       +1.66164e-04
+   13      -24.01617      -4.94429e-01       +8.51265e-05
+   14      -24.01620      -4.94421e-01       +4.35799e-05
+   15      -24.01622      -4.94416e-01       +2.22995e-05
+   16      -24.01623      -4.94414e-01       +1.14069e-05
+   17      -24.01623      -4.94413e-01       +5.83399e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -28.13381      -1.35263e-01       +1.00000e+00
+    2      -25.24803      -2.98326e-01       +1.59366e-01
+    3      -24.16902      -3.58970e-01       +8.33263e-02
+    4      -23.80344      -3.81395e-01       +4.15207e-02
+    5      -23.68091      -3.90414e-01       +2.08619e-02
+    6      -23.64357      -3.94111e-01       +1.07453e-02
+    7      -23.63448      -3.95609e-01       +5.61351e-03
+    8      -23.63346      -3.96210e-01       +2.84760e-03
+    9      -23.63434      -3.96493e-01       +1.64363e-03
+   10      -23.63590      -3.96559e-01       +8.62630e-04
+   11      -23.63687      -3.96581e-01       +4.50125e-04
+   12      -23.63743      -3.96587e-01       +2.34110e-04
+   13      -23.63774      -3.96589e-01       +1.21437e-04
+   14      -23.63791      -3.96589e-01       +6.28507e-05
+   15      -23.63800      -3.96588e-01       +3.24711e-05
+   16      -23.63805      -3.96588e-01       +1.67689e-05
+   17      -23.63807      -3.96588e-01       +8.65555e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.83082      -2.95307e-01       +1.00000e+00
+    2      -25.71877      -4.52539e-01       +1.48269e-01
+    3      -24.86640      -5.07378e-01       +7.64401e-02
+    4      -24.55315      -5.28981e-01       +3.56528e-02
+    5      -24.44030      -5.36482e-01       +1.76132e-02
+    6      -24.40135      -5.38959e-01       +8.87665e-03
+    7      -24.38923      -5.39698e-01       +4.46973e-03
+    8      -24.38396      -5.40020e-01       +2.39187e-03
+    9      -24.38390      -5.39938e-01       +1.23567e-03
+   10      -24.38418      -5.39872e-01       +6.33072e-04
+   11      -24.38444      -5.39828e-01       +3.24961e-04
+   12      -24.38462      -5.39802e-01       +1.66727e-04
+   13      -24.38473      -5.39788e-01       +8.55058e-05
+   14      -24.38479      -5.39779e-01       +4.37975e-05
+   15      -24.38482      -5.39775e-01       +2.24166e-05
+   16      -24.38483      -5.39773e-01       +1.14660e-05
+   17      -24.38484      -5.39771e-01       +5.86277e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.73104      -2.37631e-01       +1.00000e+00
+    2      -25.38780      -4.04895e-01       +1.54734e-01
+    3      -24.46449      -4.60200e-01       +7.95738e-02
+    4      -24.13455      -4.79057e-01       +3.80463e-02
+    5      -24.01586      -4.85170e-01       +1.89430e-02
+    6      -23.97468      -4.86944e-01       +9.61860e-03
+    7      -23.96196      -4.87333e-01       +4.84081e-03
+    8      -23.95601      -4.87480e-01       +2.60575e-03
+    9      -23.95569      -4.87317e-01       +1.34488e-03
+   10      -23.95584      -4.87212e-01       +6.88668e-04
+   11      -23.95603      -4.87150e-01       +3.52830e-04
+   12      -23.95617      -4.87116e-01       +1.80848e-04
+   13      -23.95625      -4.87097e-01       +9.26052e-05
+   14      -23.95630      -4.87087e-01       +4.73711e-05
+   15      -23.95633      -4.87081e-01       +2.42147e-05
+   16      -23.95634      -4.87078e-01       +1.23727e-05
+   17      -23.95635      -4.87077e-01       +6.32047e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -31.15721      -4.71411e-02       +1.00000e+00
+    2      -25.04459      -2.01558e-01       +2.44070e-01
+    3      -23.05259      -2.43010e-01       +1.18335e-01
+    4      -22.39443      -2.46425e-01       +5.97137e-02
+    5      -22.17192      -2.42830e-01       +2.96003e-02
+    6      -22.09417      -2.39592e-01       +1.48213e-02
+    7      -22.06573      -2.37572e-01       +7.45135e-03
+    8      -22.05631      -2.36458e-01       +3.73692e-03
+    9      -22.05046      -2.35878e-01       +1.90525e-03
+   10      -22.04857      -2.35579e-01       +9.66113e-04
+   11      -22.04774      -2.35429e-01       +4.89302e-04
+   12      -22.04736      -2.35354e-01       +2.48034e-04
+   13      -22.04718      -2.35316e-01       +1.25817e-04
+   14      -22.04710      -2.35298e-01       +6.38668e-05
+   15      -22.04705      -2.35289e-01       +3.24417e-05
+   16      -22.04703      -2.35284e-01       +1.64907e-05
+   17      -22.04702      -2.35282e-01       +8.38777e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.85810      -2.56719e-01       +1.00000e+00
+    2      -25.49116      -4.16210e-01       +1.54027e-01
+    3      -24.55624      -4.68619e-01       +7.90912e-02
+    4      -24.21984      -4.86945e-01       +3.81190e-02
+    5      -24.09901      -4.92878e-01       +1.89401e-02
+    6      -24.05728      -4.94595e-01       +9.66290e-03
+    7      -24.04457      -4.94966e-01       +4.87450e-03
+    8      -24.03864      -4.95104e-01       +2.64141e-03
+    9      -24.03841      -4.94943e-01       +1.36651e-03
+   10      -24.03862      -4.94840e-01       +7.02018e-04
+   11      -24.03885      -4.94778e-01       +3.60105e-04
+   12      -24.03901      -4.94744e-01       +1.84400e-04
+   13      -24.03911      -4.94725e-01       +9.43074e-05
+   14      -24.03917      -4.94715e-01       +4.81841e-05
+   15      -24.03920      -4.94710e-01       +2.46010e-05
+   16      -24.03921      -4.94707e-01       +1.25539e-05
+   17      -24.03922      -4.94705e-01       +6.40463e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.43654      -1.65412e-01       +1.00000e+00
+    2      -24.78830      -3.33232e-01       +1.58872e-01
+    3      -23.81365      -3.83609e-01       +8.28597e-02
+    4      -23.48505      -3.98478e-01       +4.09655e-02
+    5      -23.37073      -4.02390e-01       +2.06317e-02
+    6      -23.33215      -4.03052e-01       +1.06205e-02
+    7      -23.31975      -4.02900e-01       +5.46911e-03
+    8      -23.31684      -4.02644e-01       +2.75276e-03
+    9      -23.31487      -4.02494e-01       +1.47969e-03
+   10      -23.31495      -4.02343e-01       +7.59680e-04
+   11      -23.31508      -4.02260e-01       +3.88025e-04
+   12      -23.31518      -4.02216e-01       +1.98104e-04
+   13      -23.31524      -4.02193e-01       +1.01043e-04
+   14      -23.31527      -4.02180e-01       +5.15096e-05
+   15      -23.31529      -4.02174e-01       +2.62641e-05
+   16      -23.31530      -4.02171e-01       +1.33971e-05
+   17      -23.31530      -4.02169e-01       +6.83600e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.92058      -2.58146e-01       +1.00000e+00
+    2      -25.55068      -4.12107e-01       +1.52829e-01
+    3      -24.60402      -4.63601e-01       +7.70864e-02
+    4      -24.26597      -4.82169e-01       +3.75801e-02
+    5      -24.14328      -4.88585e-01       +1.87645e-02
+    6      -24.10047      -4.90660e-01       +9.58610e-03
+    7      -24.08707      -4.91243e-01       +4.82854e-03
+    8      -24.08116      -4.91501e-01       +2.62135e-03
+    9      -24.08098      -4.91392e-01       +1.35464e-03
+   10      -24.08123      -4.91313e-01       +6.95867e-04
+   11      -24.08150      -4.91263e-01       +3.57345e-04
+   12      -24.08168      -4.91234e-01       +1.83205e-04
+   13      -24.08179      -4.91218e-01       +9.38200e-05
+   14      -24.08185      -4.91209e-01       +4.80092e-05
+   15      -24.08189      -4.91204e-01       +2.45549e-05
+   16      -24.08191      -4.91201e-01       +1.25525e-05
+   17      -24.08192      -4.91200e-01       +6.41453e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -25.85664      -4.28936e-02       +1.00000e+00
+    2      -22.05906      -1.51416e-01       +2.22167e-01
+    3      -20.97351      -1.46369e-01       +1.12019e-01
+    4      -20.63250      -1.29429e-01       +5.55638e-02
+    5      -20.50740      -1.18679e-01       +2.70844e-02
+    6      -20.45576      -1.13076e-01       +1.32632e-02
+    7      -20.43280      -1.10270e-01       +6.55342e-03
+    8      -20.42403      -1.08891e-01       +3.28304e-03
+    9      -20.41707      -1.08190e-01       +1.61186e-03
+   10      -20.41433      -1.07879e-01       +8.08838e-04
+   11      -20.41300      -1.07725e-01       +4.06351e-04
+   12      -20.41234      -1.07649e-01       +2.04729e-04
+   13      -20.41201      -1.07611e-01       +1.03250e-04
+   14      -20.41184      -1.07593e-01       +5.21464e-05
+   15      -20.41176      -1.07584e-01       +2.63651e-05
+   16      -20.41172      -1.07579e-01       +1.33403e-05
+   17      -20.41169      -1.07577e-01       +6.75589e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.62561      -2.72600e-01       +1.00000e+00
+    2      -25.32017      -4.10686e-01       +1.54645e-01
+    3      -24.40633      -4.51256e-01       +7.23368e-02
+    4      -24.06370      -4.64173e-01       +3.43996e-02
+    5      -23.93178      -4.67351e-01       +1.71416e-02
+    6      -23.88120      -4.67718e-01       +8.69707e-03
+    7      -23.86322      -4.67448e-01       +4.36908e-03
+    8      -23.85354      -4.67266e-01       +2.32696e-03
+    9      -23.85107      -4.66977e-01       +1.19000e-03
+   10      -23.85008      -4.66817e-01       +6.06344e-04
+   11      -23.84967      -4.66730e-01       +3.08909e-04
+   12      -23.84950      -4.66685e-01       +1.57263e-04
+   13      -23.84943      -4.66661e-01       +8.00280e-05
+   14      -23.84939      -4.66649e-01       +4.07177e-05
+   15      -23.84938      -4.66642e-01       +2.07157e-05
+   16      -23.84937      -4.66639e-01       +1.05400e-05
+   17      -23.84937      -4.66638e-01       +5.36416e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.85681      -2.56279e-01       +1.00000e+00
+    2      -25.48978      -4.16132e-01       +1.54421e-01
+    3      -24.55442      -4.68507e-01       +7.88662e-02
+    4      -24.21791      -4.86818e-01       +3.79028e-02
+    5      -24.09705      -4.92743e-01       +1.89366e-02
+    6      -24.05532      -4.94455e-01       +9.66276e-03
+    7      -24.04266      -4.94825e-01       +4.86401e-03
+    8      -24.03662      -4.94971e-01       +2.64177e-03
+    9      -24.03643      -4.94804e-01       +1.36407e-03
+   10      -24.03665      -4.94698e-01       +6.99816e-04
+   11      -24.03688      -4.94636e-01       +3.58594e-04
+   12      -24.03705      -4.94601e-01       +1.83448e-04
+   13      -24.03715      -4.94582e-01       +9.37636e-05
+   14      -24.03720      -4.94572e-01       +4.78969e-05
+   15      -24.03723      -4.94567e-01       +2.44527e-05
+   16      -24.03725      -4.94564e-01       +1.24781e-05
+   17      -24.03726      -4.94563e-01       +6.36639e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -28.16779      -2.20862e-01       +1.00000e+00
+    2      -25.39209      -3.68727e-01       +1.58612e-01
+    3      -24.32385      -4.12442e-01       +8.16640e-02
+    4      -23.94515      -4.26379e-01       +3.90672e-02
+    5      -23.81212      -4.30137e-01       +1.94522e-02
+    6      -23.76732      -4.30815e-01       +9.91383e-03
+    7      -23.75474      -4.30701e-01       +4.99025e-03
+    8      -23.74811      -4.30605e-01       +2.69149e-03
+    9      -23.74804      -4.30346e-01       +1.38548e-03
+   10      -23.74834      -4.30199e-01       +7.08552e-04
+   11      -23.74861      -4.30118e-01       +3.62174e-04
+   12      -23.74880      -4.30075e-01       +1.84878e-04
+   13      -23.74891      -4.30052e-01       +9.43049e-05
+   14      -23.74897      -4.30040e-01       +4.80871e-05
+   15      -23.74900      -4.30034e-01       +2.45116e-05
+   16      -23.74902      -4.30031e-01       +1.24913e-05
+   17      -23.74903      -4.30029e-01       +6.36508e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.81218      -6.48243e-02       +1.00000e+00
+    2      -24.65717      -2.53466e-01       +1.83328e-01
+    3      -23.52601      -3.22381e-01       +9.09170e-02
+    4      -23.16765      -3.35203e-01       +4.75393e-02
+    5      -23.04564      -3.36579e-01       +2.40426e-02
+    6      -23.00387      -3.35972e-01       +1.23563e-02
+    7      -22.99033      -3.35153e-01       +6.35448e-03
+    8      -22.98750      -3.34551e-01       +3.20097e-03
+    9      -22.98508      -3.34230e-01       +1.71162e-03
+   10      -22.98512      -3.33987e-01       +8.75199e-04
+   11      -22.98525      -3.33857e-01       +4.46072e-04
+   12      -22.98535      -3.33790e-01       +2.27278e-04
+   13      -22.98542      -3.33755e-01       +1.15779e-04
+   14      -22.98546      -3.33737e-01       +5.89747e-05
+   15      -22.98548      -3.33729e-01       +3.00417e-05
+   16      -22.98549      -3.33724e-01       +1.53064e-05
+   17      -22.98549      -3.33722e-01       +7.80227e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -31.03930      -5.00866e-02       +1.00000e+00
+    2      -25.06771      -1.97200e-01       +2.38218e-01
+    3      -23.08997      -2.34769e-01       +1.17563e-01
+    4      -22.42445      -2.37284e-01       +5.88306e-02
+    5      -22.19305      -2.33522e-01       +2.90469e-02
+    6      -22.10938      -2.30260e-01       +1.45201e-02
+    7      -22.07755      -2.28251e-01       +7.29077e-03
+    8      -22.06647      -2.27151e-01       +3.64971e-03
+    9      -22.05950      -2.26579e-01       +1.85852e-03
+   10      -22.05709      -2.26289e-01       +9.40777e-04
+   11      -22.05599      -2.26143e-01       +4.75680e-04
+   12      -22.05547      -2.26071e-01       +2.40791e-04
+   13      -22.05522      -2.26035e-01       +1.21992e-04
+   14      -22.05510      -2.26017e-01       +6.18635e-05
+   15      -22.05504      -2.26008e-01       +3.13979e-05
+   16      -22.05501      -2.26004e-01       +1.59468e-05
+   17      -22.05499      -2.26002e-01       +8.10485e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -28.15547      -1.61171e-01       +1.00000e+00
+    2      -25.11139      -3.35052e-01       +1.59761e-01
+    3      -23.98812      -3.93157e-01       +8.21289e-02
+    4      -23.59137      -4.12427e-01       +4.04434e-02
+    5      -23.45067      -4.18037e-01       +2.03572e-02
+    6      -23.40166      -4.19353e-01       +1.04408e-02
+    7      -23.38494      -4.19465e-01       +5.37458e-03
+    8      -23.38005      -4.19320e-01       +2.70210e-03
+    9      -23.37736      -4.19229e-01       +1.45514e-03
+   10      -23.37708      -4.19096e-01       +7.45595e-04
+   11      -23.37704      -4.19022e-01       +3.80785e-04
+   12      -23.37705      -4.18982e-01       +1.94446e-04
+   13      -23.37707      -4.18962e-01       +9.92569e-05
+   14      -23.37709      -4.18951e-01       +5.06598e-05
+   15      -23.37710      -4.18945e-01       +2.58550e-05
+   16      -23.37710      -4.18942e-01       +1.31965e-05
+   17      -23.37710      -4.18941e-01       +6.73864e-06
+ iter    Total Energy     HOMO Eigenvalue         Res
+
+-----------------------------------------------------------
+
+    1      -27.85737      -2.56324e-01       +1.00000e+00
+    2      -25.48978      -4.16122e-01       +1.54220e-01
+    3      -24.55444      -4.68503e-01       +7.87766e-02
+    4      -24.21794      -4.86817e-01       +3.78407e-02
+    5      -24.09708      -4.92744e-01       +1.89209e-02
+    6      -24.05535      -4.94457e-01       +9.66861e-03
+    7      -24.04273      -4.94827e-01       +4.86643e-03
+    8      -24.03662      -4.94978e-01       +2.65179e-03
+    9      -24.03645      -4.94808e-01       +1.36823e-03
+   10      -24.03668      -4.94701e-01       +7.01665e-04
+   11      -24.03692      -4.94639e-01       +3.59471e-04
+   12      -24.03708      -4.94603e-01       +1.83925e-04
+   13      -24.03718      -4.94584e-01       +9.40011e-05
+   14      -24.03724      -4.94574e-01       +4.79995e-05
+   15      -24.03727      -4.94569e-01       +2.44944e-05
+   16      -24.03728      -4.94566e-01       +1.24944e-05
+   17      -24.03729      -4.94565e-01       +6.37225e-06
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">all_ang</span><span class="p">,</span> <span class="n">all_rad</span><span class="p">,</span> <span class="n">energy</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;X Label&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Y Label&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;Z Label&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_Grid_7_0.png" src="../_images/examples_Grid_7_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Optional. If `plotly` is installed:</span>
+
+<span class="c1"># fig = go.Figure(data=[go.Scatter3d(</span>
+<span class="c1">#     x=all_ang,</span>
+<span class="c1">#     y=all_rad,</span>
+<span class="c1">#     z=energy,</span>
+<span class="c1">#     mode=&#39;markers&#39;,</span>
+<span class="c1">#     marker=dict(</span>
+<span class="c1">#         size=5,</span>
+<span class="c1">#         color=energy,                # set color to an array/list of desired values</span>
+<span class="c1">#         colorscale=&#39;Viridis&#39;,   # choose a colorscale</span>
+<span class="c1">#         opacity=0.8</span>
+<span class="c1">#     )</span>
+<span class="c1"># )])</span>
+
+<span class="c1"># fig.show()</span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Jupyter Notebook Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Defining Grids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CADMIUM_LOGO.html">How to genererate pyCADMiums logo?</a></li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../_sources/examples/Grid.ipynb.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### H2 FOO PDFT Inversion"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "----> Begin SCF calculation for *Isolated* Fragments\n",
+      "\n",
+      "                Total Energy (a.u.)       \n",
+      "\n",
+      "                __________________        \n",
+      "\n",
+      "Iteration         A            B              res     \n",
+      "\n",
+      "_______________________________________________________\n",
+      "\n",
+      "    1           -0.48020     -0.48020       1.000e+00 \n",
+      "    2           -0.45519     -0.45519       2.286e-01 \n",
+      "    3           -0.44824     -0.44824       6.783e-02 \n",
+      "    4           -0.44635     -0.44635       1.880e-02 \n",
+      "    5           -0.44584     -0.44584       5.089e-03 \n",
+      "    6           -0.44571     -0.44571       1.351e-03 \n",
+      "    7           -0.44567     -0.44567       3.488e-04 \n",
+      "    8           -0.44566     -0.44566       8.599e-05 \n",
+      "    9           -0.44566     -0.44566       1.935e-05 \n",
+      "   10           -0.44566     -0.44566       3.488e-06 \n",
+      "   11           -0.44566     -0.44566       1.179e-06 \n",
+      "   12           -0.44566     -0.44566       4.803e-07 \n",
+      "   13           -0.44566     -0.44566       2.149e-07 \n",
+      "   14           -0.44566     -0.44566       1.172e-07 \n",
+      "   15           -0.44566     -0.44566       5.666e-08 \n",
+      "   16           -0.44566     -0.44566       2.583e-08 \n",
+      "   17           -0.44566     -0.44566       1.141e-08 \n",
+      "   18           -0.44566     -0.44566       4.941e-09 \n",
+      "----> Begin SCF calculation for *Interacting* Fragments\n",
+      "\n",
+      "                Total Energy (a.u.)       \n",
+      "\n",
+      "                __________________        \n",
+      "\n",
+      "Iteration         A            B              res     \n",
+      "\n",
+      "_______________________________________________________\n",
+      "\n",
+      "    1           -0.30808     -0.30808       1.000e+00 \n",
+      "    2           -0.39247     -0.39247       2.612e-01 \n",
+      "    3           -0.41055     -0.41055       5.422e-02 \n",
+      "    4           -0.41386     -0.41386       9.816e-03 \n",
+      "    5           -0.41447     -0.41447       1.741e-03 \n",
+      "    6           -0.41460     -0.41460       3.968e-04 \n",
+      "    7           -0.41463     -0.41463       1.683e-04 \n",
+      "    8           -0.41463     -0.41463       7.136e-05 \n",
+      "    9           -0.41464     -0.41464       3.026e-05 \n",
+      "   10           -0.41464     -0.41464       1.280e-05 \n",
+      "   11           -0.41464     -0.41464       5.404e-06 \n",
+      "   12           -0.41464     -0.41464       2.288e-06 \n",
+      "   13           -0.41464     -0.41464       9.689e-07 \n",
+      "   14           -0.41464     -0.41464       4.105e-07 \n",
+      "   15           -0.41464     -0.41464       1.740e-07 \n",
+      "   16           -0.41464     -0.41464       7.379e-08 \n",
+      "   17           -0.41464     -0.41464       3.137e-08 \n",
+      "   18           -0.41464     -0.41464       1.345e-08 \n"
+     ]
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "from CADMium import Pssolver, Psgrid, Partition, Inverter\n",
+    "import CADMium\n",
+    "\n",
+    "a = 1.446/2\n",
+    "Za, Zb = 1,1\n",
+    "pol = 2\n",
+    "\n",
+    "#Set up grid\n",
+    "NP = 7\n",
+    "NM = [4,4]\n",
+    "L = np.arccosh(10/a)\n",
+    "loc = np.array(range(-4,5)) #Stencil outline\n",
+    "grid = Psgrid(NP, NM, a, L, loc)\n",
+    "grid.initialize()\n",
+    "\n",
+    "\n",
+    "# ALPHA FRAGMENT\n",
+    "Nmo_a = [[1   ,  1]];\n",
+    "N_a   = [[0.5 , 0.5]]; \n",
+    "nu_a = 1.0\n",
+    "\n",
+    "#Fragment b electrons\n",
+    "Nmo_b = [[1   ,   1]]; \n",
+    "N_b   = [[0.5 , 0.5]];  \n",
+    "nu_b = 1.0\n",
+    "\n",
+    "#Molecular elctron configuration\n",
+    "Nmo_m = [[1,1]]\n",
+    "N_m   = [[1,1]]\n",
+    "\n",
+    "\n",
+    "part = Partition(grid, Za, Zb, pol, Nmo_a, N_a, nu_a, Nmo_b, N_b, nu_b, {  \"AB_SYM\"            : True,\n",
+    "                                                                           \"fractional\"        : True,\n",
+    "#                                                                          \"ENS_SPIN_SYM\"      : False,  \n",
+    "                                                                           \"interaction_type\"  : \"dft\", \n",
+    "                                                                           \"kinetic_part_type\" : \"libxcke\",\n",
+    "                                                                           \"hxc_part_type\"     : \"exact\",\n",
+    "                                                                           \"k_family\"          : \"gga\", \n",
+    "                                                                           \"ke_func_id\"        : 500,\n",
+    "                                                                            })\n",
+    "\n",
+    "#Setup inverter object\n",
+    "mol_solver = Pssolver(grid, Nmo_m, N_m)\n",
+    "part.inverter = Inverter(grid, mol_solver, {  \"AB_SYM\"         : True,\n",
+    "#                                               \"ENS_SPIN_SYM\"   : False,  \n",
+    "                                              \"use_iterative\"  : False,\n",
+    "                                              \"invert_type\"    : \"wuyang\",\n",
+    "                                              \"DISP\"           : False,  \n",
+    "                                            })\n",
+    "\n",
+    "part.optPartition.isolated = True\n",
+    "part.scf({\"disp\"  : True,\n",
+    "          \"alpha\" : [0.6],\n",
+    "          \"e_tol\" : 1e-8})\n",
+    "\n",
+    "part.optPartition.isolated   = False\n",
+    "part.scf({\"disp\"       : True,\n",
+    "          \"alpha\"      : [0.6],\n",
+    "          \"max_iter\"   : 200,\n",
+    "          \"e_tol\"      : 2e-8,\n",
+    "          \"iterative\"  : False,\n",
+    "          \"continuing\" : True})"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Separation Distance: 1.446\n",
+      "Fragment Energy: -0.8292816151184538\n",
+      "Partition Energy: -0.9999712791390211\n",
+      "Vnn Energy 0.6915629322268326\n",
+      "Total Energy: -1.1376899620306422\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"Separation Distance:\", 2*a)\n",
+    "print(\"Fragment Energy:\", part.E.Ef)\n",
+    "print(\"Partition Energy:\", part.E.Ep)\n",
+    "print(\"Vnn Energy\", part.E.Vnn)\n",
+    "print(\"Total Energy:\", part.E.E)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

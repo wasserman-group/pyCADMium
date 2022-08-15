@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>pyCADMium :: &lt;no title&gt;</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../genindex.html"/>
+
+  <link rel="stylesheet" href="../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="../../None"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>pyCADMium</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">CADMium</span> <span class="kn">import</span> <span class="n">Pssolver</span><span class="p">,</span> <span class="n">Psgrid</span><span class="p">,</span> <span class="n">Partition</span><span class="p">,</span> <span class="n">Inverter</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mf">1.037</span>
+<span class="c1">#Nuclear charge for fragments A and B</span>
+<span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span><span class="mi">7</span>
+<span class="c1">#Set polarization 1-Unpolarized, 2-Polarized</span>
+<span class="n">pol</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="c1">#Fragment a electrons [alpha, beta]</span>
+<span class="n">Nmo_a</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span> <span class="c1">#Number of molecular orbitals to calculate</span>
+<span class="n">N_a</span>   <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="c1">#Ensemble mix</span>
+<span class="n">nu_a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1">#Fragment b electrons</span>
+<span class="n">Nmo_b</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">N_b</span>   <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="c1">#Ensemble mix</span>
+<span class="n">nu_b</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1">#Molecular elctron configuration</span>
+<span class="n">Nmo_m</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">N_m</span>   <span class="o">=</span> <span class="p">[[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+
+
+<span class="c1">#Set up grid</span>
+<span class="n">NP</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">NM</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccosh</span><span class="p">(</span><span class="mi">15</span><span class="o">/</span><span class="n">a</span><span class="p">)</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span> <span class="c1">#Stencil outline</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">Psgrid</span><span class="p">(</span><span class="n">NP</span><span class="p">,</span> <span class="n">NM</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+<span class="n">part</span> <span class="o">=</span> <span class="n">Partition</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="n">Nmo_a</span><span class="p">,</span> <span class="n">N_a</span><span class="p">,</span> <span class="n">nu_a</span><span class="p">,</span> <span class="n">Nmo_b</span><span class="p">,</span> <span class="n">N_b</span><span class="p">,</span> <span class="n">nu_b</span><span class="p">,</span> <span class="p">{</span> <span class="s2">&quot;kinetic_part_type&quot;</span> <span class="p">:</span> <span class="s2">&quot;inversion&quot;</span><span class="p">,</span>
+                                                                          <span class="s2">&quot;ab_sym&quot;</span>            <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                                                                          <span class="s2">&quot;ens_spin_sym&quot;</span>      <span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="c1">#Setup inverter object</span>
+<span class="n">mol_solver</span> <span class="o">=</span> <span class="n">Pssolver</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">Nmo_m</span><span class="p">,</span> <span class="n">N_m</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;tol_orbital&quot;</span> <span class="p">:</span> <span class="mf">1e-9</span><span class="p">})</span>
+<span class="n">part</span><span class="o">.</span><span class="n">inverter</span> <span class="o">=</span> <span class="n">Inverter</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mol_solver</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;invert_type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;orbitalinvert&quot;</span><span class="p">,</span>
+                                            <span class="s2">&quot;ab_sym&quot;</span>         <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                                            <span class="s2">&quot;ens_spin_sym&quot;</span>   <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                            <span class="s2">&quot;tol_lin_solver&quot;</span> <span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+                                            <span class="s2">&quot;tol_invert&quot;</span>     <span class="p">:</span> <span class="mf">1e-4</span><span class="p">,</span>
+                                            <span class="s2">&quot;res_factor&quot;</span>     <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                           <span class="p">})</span>
+
+<span class="n">part</span><span class="o">.</span><span class="n">optPartition</span><span class="o">.</span><span class="n">isolated</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">part</span><span class="o">.</span><span class="n">scf</span><span class="p">({</span><span class="s2">&quot;disp&quot;</span>  <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+          <span class="s2">&quot;alpha&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">],</span>
+          <span class="s2">&quot;e_tol&quot;</span> <span class="p">:</span> <span class="mf">1e-7</span><span class="p">})</span>
+
+<span class="n">D0_frag_a</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">D0_frag_b</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">part</span><span class="o">.</span><span class="n">optPartition</span><span class="o">.</span><span class="n">isolated</span>   <span class="o">=</span> <span class="kc">False</span>
+<span class="n">part</span><span class="o">.</span><span class="n">scf</span><span class="p">({</span><span class="s2">&quot;disp&quot;</span>       <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+          <span class="s2">&quot;alpha&quot;</span>      <span class="p">:</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">],</span>
+          <span class="s2">&quot;max_iter&quot;</span>   <span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+          <span class="s2">&quot;e_tol&quot;</span>      <span class="p">:</span> <span class="mf">1e-7</span><span class="p">,</span>
+          <span class="s2">&quot;continuing&quot;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+          <span class="s2">&quot;iterative&quot;</span>  <span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+
+<span class="c1"># #Store full densities under the presence of vp.</span>
+<span class="n">Dvp_frag_a</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">KSa</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">Dvp_frag_b</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">KSb</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+----&gt; Begin SCF calculation for *Isolated* Fragments
+
+                Total Energy (a.u.)                                Inversion
+
+                __________________                ____________________________________
+
+Iteration         A              B                  iters      optimality        res
+
+___________________________________________________________________________________________
+
+    1          -65.79147    -65.79147       1.000e+00
+    2          -53.38830    -53.38830       4.710e-01
+    3          -54.91631    -54.91631       2.190e-01
+    4          -54.43006    -54.43006       8.828e-02
+    5          -54.21110    -54.21110       3.373e-02
+    6          -54.15788    -54.15788       1.341e-02
+    7          -54.14333    -54.14333       5.423e-03
+    8          -54.14678    -54.14678       2.219e-03
+    9          -54.13941    -54.13941       1.334e-03
+   10          -54.14012    -54.14012       6.612e-04
+   11          -54.14023    -54.14023       3.527e-04
+   12          -54.14034    -54.14034       1.871e-04
+   13          -54.14038    -54.14038       9.972e-05
+   14          -54.14040    -54.14040       5.328e-05
+   15          -54.14041    -54.14041       2.852e-05
+   16          -54.14042    -54.14042       1.528e-05
+   17          -54.14042    -54.14042       8.199e-06
+   18          -54.14042    -54.14042       4.403e-06
+   19          -54.14042    -54.14042       2.366e-06
+   20          -54.14042    -54.14042       1.271e-06
+   21          -54.14042    -54.14042       6.835e-07
+   22          -54.14042    -54.14042       3.675e-07
+   23          -54.14042    -54.14042       1.976e-07
+   24          -54.14042    -54.14042       1.063e-07
+   25          -54.14042    -54.14042       5.714e-08
+----&gt; Begin SCF calculation for *Interacting* Fragments
+
+                Total Energy (a.u.)                                Inversion
+
+                __________________                ____________________________________
+
+Iteration         A              B                  iters      optimality        res
+
+___________________________________________________________________________________________
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">----------------------------------------------------------</span>
+<span class="ansi-red-fg">IndexError</span>               Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-4-a0901eb1f491&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     51</span>
+<span class="ansi-green-intense-fg ansi-bold">     52</span> part<span class="ansi-blue-fg">.</span>optPartition<span class="ansi-blue-fg">.</span>isolated   <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">False</span>
+<span class="ansi-green-fg">---&gt; 53</span><span class="ansi-red-fg"> part.scf({&#34;disp&#34;       : True,
+</span><span class="ansi-green-intense-fg ansi-bold">     54</span>           <span class="ansi-blue-fg">&#34;alpha&#34;</span>      <span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0.3</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     55</span>           <span class="ansi-blue-fg">&#34;max_iter&#34;</span>   <span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">200</span><span class="ansi-blue-fg">,</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/partition.py</span> in <span class="ansi-cyan-fg">scf</span><span class="ansi-blue-fg">(self, optSCF)</span>
+<span class="ansi-green-intense-fg ansi-bold">    438</span>
+<span class="ansi-green-intense-fg ansi-bold">    439</span>     <span class="ansi-green-fg">def</span> scf<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> optSCF<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 440</span><span class="ansi-red-fg">         </span>scf<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> optSCF<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    441</span>
+<span class="ansi-green-intense-fg ansi-bold">    442</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/scf.py</span> in <span class="ansi-cyan-fg">scf</span><span class="ansi-blue-fg">(self, optSCF)</span>
+<span class="ansi-green-intense-fg ansi-bold">    166</span>     <span class="ansi-red-fg">#-----&gt; Calculate Partition Potential</span>
+<span class="ansi-green-intense-fg ansi-bold">    167</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> optSCF<span class="ansi-blue-fg">.</span>isolated<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 168</span><span class="ansi-red-fg">             </span>vp <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>partition_potential<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    169</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    170</span>             vp <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>zeros_like<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>nf<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/partition.py</span> in <span class="ansi-cyan-fg">partition_potential</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    430</span>
+<span class="ansi-green-intense-fg ansi-bold">    431</span>     <span class="ansi-green-fg">def</span> partition_potential<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 432</span><span class="ansi-red-fg">         </span>vp <span class="ansi-blue-fg">=</span> partition_potential<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    433</span>         <span class="ansi-green-fg">return</span> vp
+<span class="ansi-green-intense-fg ansi-bold">    434</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/partition_potential.py</span> in <span class="ansi-cyan-fg">partition_potential</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">     16</span>         self<span class="ansi-blue-fg">.</span>vp_nuclear<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     17</span>         <span class="ansi-red-fg">#Calculate kinetic term</span>
+<span class="ansi-green-fg">---&gt; 18</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>vp_kinetic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     19</span>         <span class="ansi-red-fg">#Calculate hxc terms</span>
+<span class="ansi-green-intense-fg ansi-bold">     20</span>         self<span class="ansi-blue-fg">.</span>vp_hxc<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/partition.py</span> in <span class="ansi-cyan-fg">vp_kinetic</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    400</span>
+<span class="ansi-green-intense-fg ansi-bold">    401</span>     <span class="ansi-green-fg">def</span> vp_kinetic<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 402</span><span class="ansi-red-fg">         </span>vp_kinetic<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    403</span>
+<span class="ansi-green-intense-fg ansi-bold">    404</span>     <span class="ansi-green-fg">def</span> vp_hxc<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/vp_kinetic.py</span> in <span class="ansi-cyan-fg">vp_kinetic</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">     93</span>
+<span class="ansi-green-intense-fg ansi-bold">     94</span>             <span class="ansi-red-fg">#Invert molecular problem:</span>
+<span class="ansi-green-fg">---&gt; 95</span><span class="ansi-red-fg">             </span>_<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>inversion_info <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>inverter<span class="ansi-blue-fg">.</span>invert<span class="ansi-blue-fg">(</span>ntarget<span class="ansi-blue-fg">,</span> vs0<span class="ansi-blue-fg">,</span> phi0<span class="ansi-blue-fg">,</span> e0<span class="ansi-blue-fg">,</span> ispin<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     96</span>
+<span class="ansi-green-intense-fg ansi-bold">     97</span>         <span class="ansi-red-fg"># print(&#34;Leaving through vp_kinetic&#34;)</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/inverter/inverter.py</span> in <span class="ansi-cyan-fg">invert</span><span class="ansi-blue-fg">(self, n0, vs0, phi0, e0, ispin, Qi)</span>
+<span class="ansi-green-intense-fg ansi-bold">    120</span>
+<span class="ansi-green-intense-fg ansi-bold">    121</span>         <span class="ansi-green-fg">elif</span> self<span class="ansi-blue-fg">.</span>optInv<span class="ansi-blue-fg">.</span>invert_type <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;orbitalinvert&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 122</span><span class="ansi-red-fg">             </span>flag<span class="ansi-blue-fg">,</span> output <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>orbitalinvert<span class="ansi-blue-fg">(</span>n0<span class="ansi-blue-fg">,</span> vs0<span class="ansi-blue-fg">,</span> phi0<span class="ansi-blue-fg">,</span> e0<span class="ansi-blue-fg">,</span> ispin<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    123</span>
+<span class="ansi-green-intense-fg ansi-bold">    124</span>         <span class="ansi-green-fg">elif</span> self<span class="ansi-blue-fg">.</span>optInv<span class="ansi-blue-fg">.</span>invert_type <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;qinvert&#34;</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/inverter/inverter.py</span> in <span class="ansi-cyan-fg">orbitalinvert</span><span class="ansi-blue-fg">(self, n0, vs0, phi0, e0, ispin)</span>
+<span class="ansi-green-intense-fg ansi-bold">    155</span>
+<span class="ansi-green-intense-fg ansi-bold">    156</span>     <span class="ansi-green-fg">def</span> orbitalinvert<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> n0<span class="ansi-blue-fg">,</span> vs0<span class="ansi-blue-fg">,</span> phi0<span class="ansi-blue-fg">,</span> e0<span class="ansi-blue-fg">,</span> ispin<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 157</span><span class="ansi-red-fg">         </span>flag<span class="ansi-blue-fg">,</span> output <span class="ansi-blue-fg">=</span> orbitalinvert<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> n0<span class="ansi-blue-fg">,</span> vs0<span class="ansi-blue-fg">,</span> phi0<span class="ansi-blue-fg">,</span> e0<span class="ansi-blue-fg">,</span> ispin<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    158</span>         <span class="ansi-green-fg">return</span> flag<span class="ansi-blue-fg">,</span> output
+<span class="ansi-green-intense-fg ansi-bold">    159</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/inverter/orbitalinvert.py</span> in <span class="ansi-cyan-fg">orbitalinvert</span><span class="ansi-blue-fg">(self, n0, vs0, phi0, e0, ispin)</span>
+<span class="ansi-green-intense-fg ansi-bold">    229</span>
+<span class="ansi-green-intense-fg ansi-bold">    230</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 231</span><span class="ansi-red-fg">             </span>D<span class="ansi-blue-fg">[</span>it<span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">4</span> <span class="ansi-blue-fg">*</span>  np<span class="ansi-blue-fg">.</span>ones<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">(</span>Nmo<span class="ansi-blue-fg">[</span>it<span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    232</span>             <span class="ansi-green-fg">if</span> isolver<span class="ansi-blue-fg">[</span>it<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>pol <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    233</span>                 nu <span class="ansi-blue-fg">=</span> N<span class="ansi-blue-fg">[</span>it<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">/</span> <span class="ansi-cyan-fg">4</span> <span class="ansi-blue-fg">-</span> np<span class="ansi-blue-fg">.</span>floor<span class="ansi-blue-fg">(</span>N<span class="ansi-blue-fg">[</span>it<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">/</span> <span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">IndexError</span>: too many indices for array: array is 1-dimensional, but 2 were indexed
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">CONTENTS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">GRID EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Grids/Grid.html">Generating a basic Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Grids/CADMIUM_LOGO.html">How to genererate pyCADMiums logo?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../KS_DFT/02_CO.html">CCCBDB LDA Energy: Etot -112.748985</a></li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../../_sources/examples/INV/PDFT_Calculation_N2.ipynb.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

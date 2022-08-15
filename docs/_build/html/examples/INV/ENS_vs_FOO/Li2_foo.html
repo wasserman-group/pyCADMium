@@ -1,0 +1,2380 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>pyCADMium :: Li2 FOO PDFT Inversion</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../../genindex.html"/>
+
+  <link rel="stylesheet" href="../../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="../../../None"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>pyCADMium</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<section id="Li2-FOO-PDFT-Inversion">
+<h1>Li2 FOO PDFT Inversion<a class="headerlink" href="#Li2-FOO-PDFT-Inversion" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">CADMium</span> <span class="kn">import</span> <span class="n">Pssolver</span><span class="p">,</span> <span class="n">Psgrid</span><span class="p">,</span> <span class="n">Partition</span><span class="p">,</span> <span class="n">Inverter</span>
+<span class="kn">import</span> <span class="nn">CADMium</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="mf">5.122</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span><span class="mi">3</span>
+<span class="n">pol</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1">#Set up grid</span>
+<span class="n">NP</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">NM</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccosh</span><span class="p">(</span><span class="mi">15</span><span class="o">/</span><span class="n">a</span><span class="p">)</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span> <span class="c1">#Stencil outline</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">Psgrid</span><span class="p">(</span><span class="n">NP</span><span class="p">,</span> <span class="n">NM</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+
+<span class="c1"># ALPHA FRAGMENT</span>
+<span class="n">Nmo_a</span> <span class="o">=</span> <span class="p">[[</span>  <span class="mi">3</span><span class="p">,</span>  <span class="mi">3</span><span class="p">]];</span>
+<span class="n">N_a</span>   <span class="o">=</span> <span class="p">[[</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">]];</span>
+<span class="n">nu_a</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="c1">#Fragment b electrons</span>
+<span class="n">Nmo_b</span> <span class="o">=</span> <span class="p">[[</span>  <span class="mi">3</span><span class="p">,</span>   <span class="mi">3</span><span class="p">]]</span>
+<span class="n">N_b</span>   <span class="o">=</span> <span class="p">[[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]]</span>
+<span class="n">nu_b</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="c1">#Molecular elctron configuration</span>
+<span class="n">Nmo_m</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span>
+<span class="n">N_m</span>   <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]]</span>
+
+
+<span class="n">part</span> <span class="o">=</span> <span class="n">Partition</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">Za</span><span class="p">,</span> <span class="n">Zb</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="n">Nmo_a</span><span class="p">,</span> <span class="n">N_a</span><span class="p">,</span> <span class="n">nu_a</span><span class="p">,</span> <span class="n">Nmo_b</span><span class="p">,</span> <span class="n">N_b</span><span class="p">,</span> <span class="n">nu_b</span><span class="p">,</span> <span class="p">{</span>  <span class="s2">&quot;AB_SYM&quot;</span>            <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="c1">#                                                                              &quot;ENS_SPIN_SYM&quot;      : False,</span>
+                                                                              <span class="s2">&quot;fractional&quot;</span>         <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                                                                               <span class="s2">&quot;interaction_type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;dft&quot;</span><span class="p">,</span>
+                                                                               <span class="s2">&quot;kinetic_part_type&quot;</span> <span class="p">:</span> <span class="s2">&quot;inversion&quot;</span><span class="p">,</span>
+                                                                               <span class="s2">&quot;hxc_part_type&quot;</span>     <span class="p">:</span> <span class="s2">&quot;exact&quot;</span><span class="p">,</span>
+                                                                                <span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;be careful! Treating ensembles with nu_x=1.0 will break things&quot;</span><span class="p">)</span>
+
+<span class="c1">#Setup inverter object</span>
+<span class="n">mol_solver</span> <span class="o">=</span> <span class="n">Pssolver</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">Nmo_m</span><span class="p">,</span> <span class="n">N_m</span><span class="p">)</span>
+<span class="n">part</span><span class="o">.</span><span class="n">inverter</span> <span class="o">=</span> <span class="n">Inverter</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">mol_solver</span><span class="p">,</span> <span class="p">{</span>  <span class="s2">&quot;AB_SYM&quot;</span>         <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="c1">#                                               &quot;ENS_SPIN_SYM&quot;   : False,</span>
+                                              <span class="s2">&quot;use_iterative&quot;</span>  <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                              <span class="s2">&quot;invert_type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;orbitalinvert&quot;</span><span class="p">,</span>
+                                              <span class="s2">&quot;DISP&quot;</span>           <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                                            <span class="p">})</span>
+
+<span class="n">part</span><span class="o">.</span><span class="n">optPartition</span><span class="o">.</span><span class="n">isolated</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">part</span><span class="o">.</span><span class="n">scf</span><span class="p">({</span><span class="s2">&quot;disp&quot;</span>  <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+          <span class="s2">&quot;alpha&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">],</span>
+          <span class="s2">&quot;e_tol&quot;</span> <span class="p">:</span> <span class="mf">1e-8</span><span class="p">})</span>
+
+<span class="n">part</span><span class="o">.</span><span class="n">optPartition</span><span class="o">.</span><span class="n">isolated</span>   <span class="o">=</span> <span class="kc">False</span>
+<span class="n">part</span><span class="o">.</span><span class="n">scf</span><span class="p">({</span><span class="s2">&quot;disp&quot;</span>       <span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+          <span class="s2">&quot;alpha&quot;</span>      <span class="p">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">],</span>
+          <span class="s2">&quot;max_iter&quot;</span>   <span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+          <span class="s2">&quot;e_tol&quot;</span>      <span class="p">:</span> <span class="mf">2e-8</span><span class="p">,</span>
+          <span class="s2">&quot;iterative&quot;</span>  <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+          <span class="s2">&quot;continuing&quot;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+be careful! Treating ensembles with nu_x=1.0 will break things
+----&gt; Begin SCF calculation for *Isolated* Fragments
+
+                Total Energy (a.u.)                                Inversion
+
+                __________________                ____________________________________
+
+Iteration         A              B                  iters      optimality        res
+
+___________________________________________________________________________________________
+
+    1           -8.62423     -8.62423       1.000e+00
+    2           -7.58300     -7.58300       1.553e-01
+    3           -7.37647     -7.37647       6.135e-02
+    4           -7.33997     -7.33997       2.884e-02
+    5           -7.33449     -7.33449       1.298e-02
+    6           -7.33432     -7.33432       5.837e-03
+    7           -7.33482     -7.33482       2.542e-03
+    8           -7.33498     -7.33498       1.233e-03
+    9           -7.33512     -7.33512       5.541e-04
+   10           -7.33518     -7.33518       2.491e-04
+   11           -7.33520     -7.33520       1.121e-04
+   12           -7.33521     -7.33521       5.070e-05
+   13           -7.33521     -7.33521       2.302e-05
+   14           -7.33522     -7.33522       1.051e-05
+   15           -7.33522     -7.33522       4.815e-06
+   16           -7.33522     -7.33522       2.211e-06
+   17           -7.33522     -7.33522       1.020e-06
+   18           -7.33522     -7.33522       4.716e-07
+   19           -7.33522     -7.33522       2.187e-07
+   20           -7.33522     -7.33522       1.017e-07
+   21           -7.33522     -7.33522       4.750e-08
+   22           -7.33522     -7.33522       2.224e-08
+   23           -7.33522     -7.33522       1.044e-08
+   24           -7.33522     -7.33522       4.909e-09
+----&gt; Begin SCF calculation for *Interacting* Fragments
+
+                Total Energy (a.u.)                                Inversion
+
+                __________________                ____________________________________
+
+Iteration         A              B                  iters      optimality        res
+
+___________________________________________________________________________________________
+
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      3.50204e+01     2.55710e-01     6.66134e-16
+            2      1.06722e-12     2.98091e-02     1.11022e-15
+            3      5.56514e-03     3.39313e-02     4.44089e-16
+            4      3.82194e-03     3.42071e-02     3.33067e-16
+            5      2.04850e-03     3.41334e-02     1.55431e-15
+            6      6.45043e-04     3.40713e-02     2.22045e-16
+            7      4.83325e-04     3.40410e-02     8.88178e-16
+            8      2.88263e-04     3.40319e-02     6.66134e-16
+            9      1.95020e-04     3.40325e-02     8.88178e-16
+           10      1.29188e-04     3.40358e-02     0.00000e+00
+           11      8.25086e-05     3.40388e-02     5.55112e-16
+           12      5.79957e-05     3.40406e-02     4.44089e-16
+           13      4.17533e-05     3.40413e-02     9.99201e-16
+           14      2.61697e-05     3.40414e-02     1.77636e-15
+           15      1.54112e-05     3.40412e-02     1.88738e-15
+           16      1.10793e-05     3.40410e-02     1.55431e-15
+           17      8.62757e-06     3.40408e-02     1.33227e-15
+           18      5.75556e-06     3.40407e-02     8.88178e-16
+           19      3.29707e-06     3.40407e-02     1.88738e-15
+           20      2.30929e-06     3.40406e-02     0.00000e+00
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/inverter/orbitalinvert.py:365: UserWarning:
+ Convergence not reached at maximum iteration
+  warnings.warn(&#39;\n Convergence not reached at maximum iteration&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      3.50204e+01     2.55710e-01     6.66134e-16
+            2      1.06722e-12     2.98091e-02     1.11022e-15
+            3      5.56514e-03     3.39313e-02     4.44089e-16
+            4      3.82194e-03     3.42071e-02     3.33067e-16
+            5      2.04850e-03     3.41334e-02     1.55431e-15
+            6      6.45043e-04     3.40713e-02     2.22045e-16
+            7      4.83325e-04     3.40410e-02     8.88178e-16
+            8      2.88263e-04     3.40319e-02     6.66134e-16
+            9      1.95020e-04     3.40325e-02     8.88178e-16
+           10      1.29188e-04     3.40358e-02     0.00000e+00
+           11      8.25086e-05     3.40388e-02     5.55112e-16
+           12      5.79957e-05     3.40406e-02     4.44089e-16
+           13      4.17533e-05     3.40413e-02     9.99201e-16
+           14      2.61697e-05     3.40414e-02     1.77636e-15
+           15      1.54112e-05     3.40412e-02     1.88738e-15
+           16      1.10793e-05     3.40410e-02     1.55431e-15
+           17      8.62757e-06     3.40408e-02     1.33227e-15
+           18      5.75556e-06     3.40407e-02     8.88178e-16
+           19      3.29707e-06     3.40407e-02     1.88738e-15
+           20      2.30929e-06     3.40406e-02     0.00000e+00
+    1            -7.30861        -7.30861            20       +3.404e-02      +1.000e+00
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      2.30929e-06     4.08229e-02     0.00000e+00
+            2      1.63981e-02     3.51216e-02     1.77636e-15
+            3      4.93738e-03     3.51453e-02     1.55431e-15
+            4      3.46597e-03     3.48897e-02     1.77636e-15
+            5      2.21489e-03     3.47538e-02     7.77156e-16
+            6      1.45137e-03     3.46722e-02     1.55431e-15
+            7      8.43242e-04     3.46203e-02     1.44329e-15
+            8      6.31213e-04     3.45875e-02     7.77156e-16
+            9      5.36186e-04     3.45669e-02     1.66533e-15
+           10      4.53217e-04     3.45539e-02     6.66134e-16
+           11      3.81664e-04     3.45453e-02     0.00000e+00
+           12      3.20486e-04     3.45393e-02     8.88178e-16
+           13      2.68497e-04     3.45348e-02     7.77156e-16
+           14      2.24513e-04     3.45312e-02     1.55431e-15
+           15      1.87424e-04     3.45281e-02     1.33227e-15
+           16      1.61577e-04     3.45253e-02     8.88178e-16
+           17      1.47904e-04     3.45228e-02     2.22045e-16
+           18      1.35144e-04     3.45206e-02     1.11022e-15
+           19      1.23281e-04     3.45186e-02     2.22045e-16
+           20      1.12288e-04     3.45169e-02     0.00000e+00
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      2.30929e-06     4.08229e-02     0.00000e+00
+            2      1.63981e-02     3.51216e-02     1.77636e-15
+            3      4.93738e-03     3.51453e-02     1.55431e-15
+            4      3.46597e-03     3.48897e-02     1.77636e-15
+            5      2.21489e-03     3.47538e-02     7.77156e-16
+            6      1.45137e-03     3.46722e-02     1.55431e-15
+            7      8.43242e-04     3.46203e-02     1.44329e-15
+            8      6.31213e-04     3.45875e-02     7.77156e-16
+            9      5.36186e-04     3.45669e-02     1.66533e-15
+           10      4.53217e-04     3.45539e-02     6.66134e-16
+           11      3.81664e-04     3.45453e-02     0.00000e+00
+           12      3.20486e-04     3.45393e-02     8.88178e-16
+           13      2.68497e-04     3.45348e-02     7.77156e-16
+           14      2.24513e-04     3.45312e-02     1.55431e-15
+           15      1.87424e-04     3.45281e-02     1.33227e-15
+           16      1.61577e-04     3.45253e-02     8.88178e-16
+           17      1.47904e-04     3.45228e-02     2.22045e-16
+           18      1.35144e-04     3.45206e-02     1.11022e-15
+           19      1.23281e-04     3.45186e-02     2.22045e-16
+           20      1.12288e-04     3.45169e-02     0.00000e+00
+    2            -7.31509        -7.31509            20       +3.452e-02      +4.566e-02
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.12288e-04     3.70946e-02     0.00000e+00
+            2      4.70574e-03     3.43298e-02     1.88738e-15
+            3      6.66530e-03     3.36779e-02     8.88178e-16
+            4      4.07534e-03     3.33603e-02     6.66134e-16
+            5      2.31414e-03     3.32040e-02     2.22045e-16
+            6      1.91976e-03     3.31245e-02     0.00000e+00
+            7      1.62614e-03     3.30830e-02     2.66454e-15
+            8      1.52041e-03     3.30608e-02     2.22045e-16
+            9      1.21888e-03     3.30485e-02     4.44089e-16
+           10      8.71077e-04     3.30412e-02     9.99201e-16
+           11      5.65416e-04     3.30365e-02     2.22045e-16
+           12      3.35832e-04     3.30331e-02     0.00000e+00
+           13      2.05801e-04     3.30303e-02     1.66533e-15
+           14      1.63312e-04     3.30279e-02     1.11022e-16
+           15      1.25967e-04     3.30258e-02     1.77636e-15
+           16      1.12853e-04     3.30239e-02     7.77156e-16
+           17      9.75125e-05     3.30221e-02     5.32907e-15
+           18      8.18967e-05     3.30205e-02     1.88738e-15
+           19      6.81558e-05     3.30191e-02     1.88738e-15
+           20      6.52670e-05     3.30177e-02     1.11022e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.12288e-04     3.70946e-02     0.00000e+00
+            2      4.70574e-03     3.43298e-02     1.88738e-15
+            3      6.66530e-03     3.36779e-02     8.88178e-16
+            4      4.07534e-03     3.33603e-02     6.66134e-16
+            5      2.31414e-03     3.32040e-02     2.22045e-16
+            6      1.91976e-03     3.31245e-02     0.00000e+00
+            7      1.62614e-03     3.30830e-02     2.66454e-15
+            8      1.52041e-03     3.30608e-02     2.22045e-16
+            9      1.21888e-03     3.30485e-02     4.44089e-16
+           10      8.71077e-04     3.30412e-02     9.99201e-16
+           11      5.65416e-04     3.30365e-02     2.22045e-16
+           12      3.35832e-04     3.30331e-02     0.00000e+00
+           13      2.05801e-04     3.30303e-02     1.66533e-15
+           14      1.63312e-04     3.30279e-02     1.11022e-16
+           15      1.25967e-04     3.30258e-02     1.77636e-15
+           16      1.12853e-04     3.30239e-02     7.77156e-16
+           17      9.75125e-05     3.30221e-02     5.32907e-15
+           18      8.18967e-05     3.30205e-02     1.88738e-15
+           19      6.81558e-05     3.30191e-02     1.88738e-15
+           20      6.52670e-05     3.30177e-02     1.11022e-16
+    3            -7.33000        -7.33000            20       +3.302e-02      +2.906e-02
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      6.52670e-05     3.27020e-02     1.11022e-16
+            2      6.09602e-03     3.26822e-02     4.44089e-16
+            3      4.34288e-03     3.21415e-02     1.66533e-15
+            4      3.44706e-03     3.18263e-02     5.55112e-16
+            5      2.50769e-03     3.16500e-02     1.66533e-15
+            6      2.33528e-03     3.15531e-02     3.77476e-15
+            7      1.98041e-03     3.15007e-02     8.88178e-16
+            8      1.50644e-03     3.14730e-02     1.88738e-15
+            9      1.03219e-03     3.14590e-02     3.10862e-15
+           10      6.84622e-04     3.14524e-02     3.33067e-16
+           11      6.53820e-04     3.14499e-02     2.22045e-15
+           12      6.18484e-04     3.14497e-02     1.33227e-15
+           13      5.80818e-04     3.14507e-02     3.10862e-15
+           14      5.42337e-04     3.14524e-02     3.33067e-15
+           15      5.04076e-04     3.14546e-02     1.33227e-15
+           16      4.66731e-04     3.14570e-02     1.55431e-15
+           17      4.30761e-04     3.14595e-02     9.99201e-16
+           18      3.96459e-04     3.14622e-02     2.22045e-16
+           19      3.64001e-04     3.14648e-02     2.44249e-15
+           20      3.33478e-04     3.14675e-02     0.00000e+00
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      6.52670e-05     3.27020e-02     1.11022e-16
+            2      6.09602e-03     3.26822e-02     4.44089e-16
+            3      4.34288e-03     3.21415e-02     1.66533e-15
+            4      3.44706e-03     3.18263e-02     5.55112e-16
+            5      2.50769e-03     3.16500e-02     1.66533e-15
+            6      2.33528e-03     3.15531e-02     3.77476e-15
+            7      1.98041e-03     3.15007e-02     8.88178e-16
+            8      1.50644e-03     3.14730e-02     1.88738e-15
+            9      1.03219e-03     3.14590e-02     3.10862e-15
+           10      6.84622e-04     3.14524e-02     3.33067e-16
+           11      6.53820e-04     3.14499e-02     2.22045e-15
+           12      6.18484e-04     3.14497e-02     1.33227e-15
+           13      5.80818e-04     3.14507e-02     3.10862e-15
+           14      5.42337e-04     3.14524e-02     3.33067e-15
+           15      5.04076e-04     3.14546e-02     1.33227e-15
+           16      4.66731e-04     3.14570e-02     1.55431e-15
+           17      4.30761e-04     3.14595e-02     9.99201e-16
+           18      3.96459e-04     3.14622e-02     2.22045e-16
+           19      3.64001e-04     3.14648e-02     2.44249e-15
+           20      3.33478e-04     3.14675e-02     0.00000e+00
+    4            -7.33243        -7.33243            20       +3.147e-02      +2.544e-02
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      3.33478e-04     3.03701e-02     0.00000e+00
+            2      2.12301e-03     3.16236e-02     9.99201e-16
+            3      1.22079e-03     3.17381e-02     7.77156e-16
+            4      9.10054e-04     3.17577e-02     1.11022e-15
+            5      6.36184e-04     3.17586e-02     1.77636e-15
+            6      5.68660e-04     3.17544e-02     1.77636e-15
+            7      4.76056e-04     3.17493e-02     1.77636e-15
+            8      3.83687e-04     3.17448e-02     1.88738e-15
+            9      3.61975e-04     3.17414e-02     1.88738e-15
+           10      3.40307e-04     3.17391e-02     9.99201e-16
+           11      3.19099e-04     3.17377e-02     1.99840e-15
+           12      2.98589e-04     3.17370e-02     1.22125e-15
+           13      2.78911e-04     3.17369e-02     4.44089e-16
+           14      2.60140e-04     3.17372e-02     1.33227e-15
+           15      2.42309e-04     3.17378e-02     0.00000e+00
+           16      2.25431e-04     3.17385e-02     1.11022e-16
+           17      2.09499e-04     3.17394e-02     1.99840e-15
+           18      1.94498e-04     3.17402e-02     1.33227e-15
+           19      1.80404e-04     3.17411e-02     2.77556e-15
+           20      1.67186e-04     3.17420e-02     2.22045e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      3.33478e-04     3.03701e-02     0.00000e+00
+            2      2.12301e-03     3.16236e-02     9.99201e-16
+            3      1.22079e-03     3.17381e-02     7.77156e-16
+            4      9.10054e-04     3.17577e-02     1.11022e-15
+            5      6.36184e-04     3.17586e-02     1.77636e-15
+            6      5.68660e-04     3.17544e-02     1.77636e-15
+            7      4.76056e-04     3.17493e-02     1.77636e-15
+            8      3.83687e-04     3.17448e-02     1.88738e-15
+            9      3.61975e-04     3.17414e-02     1.88738e-15
+           10      3.40307e-04     3.17391e-02     9.99201e-16
+           11      3.19099e-04     3.17377e-02     1.99840e-15
+           12      2.98589e-04     3.17370e-02     1.22125e-15
+           13      2.78911e-04     3.17369e-02     4.44089e-16
+           14      2.60140e-04     3.17372e-02     1.33227e-15
+           15      2.42309e-04     3.17378e-02     0.00000e+00
+           16      2.25431e-04     3.17385e-02     1.11022e-16
+           17      2.09499e-04     3.17394e-02     1.99840e-15
+           18      1.94498e-04     3.17402e-02     1.33227e-15
+           19      1.80404e-04     3.17411e-02     2.77556e-15
+           20      1.67186e-04     3.17420e-02     2.22045e-16
+    5            -7.32765        -7.32765            20       +3.174e-02      +8.252e-03
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.67186e-04     3.15123e-02     2.22045e-16
+            2      2.02071e-03     3.18953e-02     3.33067e-16
+            3      2.53387e-03     3.21310e-02     1.33227e-15
+            4      1.28383e-03     3.22500e-02     7.77156e-16
+            5      9.45443e-04     3.23079e-02     2.44249e-15
+            6      8.86413e-04     3.23349e-02     1.33227e-15
+            7      7.22052e-04     3.23468e-02     0.00000e+00
+            8      5.07402e-04     3.23516e-02     2.22045e-15
+            9      3.08579e-04     3.23532e-02     1.99840e-15
+           10      2.11248e-04     3.23536e-02     2.99760e-15
+           11      1.85149e-04     3.23536e-02     1.11022e-15
+           12      1.56338e-04     3.23534e-02     6.66134e-16
+           13      1.35993e-04     3.23532e-02     8.88178e-16
+           14      1.17852e-04     3.23531e-02     1.55431e-15
+           15      1.01851e-04     3.23529e-02     0.00000e+00
+           16      8.78414e-05     3.23528e-02     1.22125e-15
+           17      7.56385e-05     3.23527e-02     0.00000e+00
+           18      6.50479e-05     3.23525e-02     2.22045e-15
+           19      5.58809e-05     3.23524e-02     4.21885e-15
+           20      4.79619e-05     3.23522e-02     1.77636e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.67186e-04     3.15123e-02     2.22045e-16
+            2      2.02071e-03     3.18953e-02     3.33067e-16
+            3      2.53387e-03     3.21310e-02     1.33227e-15
+            4      1.28383e-03     3.22500e-02     7.77156e-16
+            5      9.45443e-04     3.23079e-02     2.44249e-15
+            6      8.86413e-04     3.23349e-02     1.33227e-15
+            7      7.22052e-04     3.23468e-02     0.00000e+00
+            8      5.07402e-04     3.23516e-02     2.22045e-15
+            9      3.08579e-04     3.23532e-02     1.99840e-15
+           10      2.11248e-04     3.23536e-02     2.99760e-15
+           11      1.85149e-04     3.23536e-02     1.11022e-15
+           12      1.56338e-04     3.23534e-02     6.66134e-16
+           13      1.35993e-04     3.23532e-02     8.88178e-16
+           14      1.17852e-04     3.23531e-02     1.55431e-15
+           15      1.01851e-04     3.23529e-02     0.00000e+00
+           16      8.78414e-05     3.23528e-02     1.22125e-15
+           17      7.56385e-05     3.23527e-02     0.00000e+00
+           18      6.50479e-05     3.23525e-02     2.22045e-15
+           19      5.58809e-05     3.23524e-02     4.21885e-15
+           20      4.79619e-05     3.23522e-02     1.77636e-15
+    6            -7.32638        -7.32638            20       +3.235e-02      +1.087e-02
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.79619e-05     3.24919e-02     1.77636e-15
+            2      1.81187e-03     3.24719e-02     2.22045e-16
+            3      1.62554e-03     3.26576e-02     6.66134e-16
+            4      1.09488e-03     3.27565e-02     6.66134e-16
+            5      8.25164e-04     3.28052e-02     3.88578e-15
+            6      6.80390e-04     3.28274e-02     8.88178e-16
+            7      5.37952e-04     3.28361e-02     2.22045e-15
+            8      3.86801e-04     3.28385e-02     4.44089e-16
+            9      2.83188e-04     3.28381e-02     2.22045e-16
+           10      2.50800e-04     3.28367e-02     6.66134e-16
+           11      2.20342e-04     3.28349e-02     2.44249e-15
+           12      1.92497e-04     3.28332e-02     1.88738e-15
+           13      1.67504e-04     3.28316e-02     5.55112e-16
+           14      1.45342e-04     3.28302e-02     6.66134e-16
+           15      1.25852e-04     3.28289e-02     1.11022e-16
+           16      1.08809e-04     3.28277e-02     0.00000e+00
+           17      9.63945e-05     3.28265e-02     2.22045e-15
+           18      9.02214e-05     3.28255e-02     1.99840e-15
+           19      8.43410e-05     3.28245e-02     3.33067e-16
+           20      7.87568e-05     3.28237e-02     1.44329e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.79619e-05     3.24919e-02     1.77636e-15
+            2      1.81187e-03     3.24719e-02     2.22045e-16
+            3      1.62554e-03     3.26576e-02     6.66134e-16
+            4      1.09488e-03     3.27565e-02     6.66134e-16
+            5      8.25164e-04     3.28052e-02     3.88578e-15
+            6      6.80390e-04     3.28274e-02     8.88178e-16
+            7      5.37952e-04     3.28361e-02     2.22045e-15
+            8      3.86801e-04     3.28385e-02     4.44089e-16
+            9      2.83188e-04     3.28381e-02     2.22045e-16
+           10      2.50800e-04     3.28367e-02     6.66134e-16
+           11      2.20342e-04     3.28349e-02     2.44249e-15
+           12      1.92497e-04     3.28332e-02     1.88738e-15
+           13      1.67504e-04     3.28316e-02     5.55112e-16
+           14      1.45342e-04     3.28302e-02     6.66134e-16
+           15      1.25852e-04     3.28289e-02     1.11022e-16
+           16      1.08809e-04     3.28277e-02     0.00000e+00
+           17      9.63945e-05     3.28265e-02     2.22045e-15
+           18      9.02214e-05     3.28255e-02     1.99840e-15
+           19      8.43410e-05     3.28245e-02     3.33067e-16
+           20      7.87568e-05     3.28237e-02     1.44329e-15
+    7            -7.32843        -7.32843            20       +3.282e-02      +1.743e-03
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      7.87568e-05     3.27049e-02     1.44329e-15
+            2      6.84307e-04     3.28957e-02     1.11022e-16
+            3      7.06520e-04     3.30075e-02     0.00000e+00
+            4      4.82260e-04     3.30662e-02     2.66454e-15
+            5      3.52714e-04     3.30937e-02     6.66134e-16
+            6      2.97236e-04     3.31040e-02     1.55431e-15
+            7      2.84297e-04     3.31056e-02     5.55112e-16
+            8      2.65860e-04     3.31029e-02     1.77636e-15
+            9      2.44686e-04     3.30985e-02     8.88178e-16
+           10      2.22586e-04     3.30937e-02     4.44089e-16
+           11      2.00709e-04     3.30891e-02     7.77156e-16
+           12      1.79756e-04     3.30850e-02     8.88178e-16
+           13      1.67635e-04     3.30813e-02     0.00000e+00
+           14      1.57434e-04     3.30780e-02     1.99840e-15
+           15      1.47615e-04     3.30752e-02     1.33227e-15
+           16      1.38216e-04     3.30726e-02     5.55112e-16
+           17      1.29257e-04     3.30704e-02     4.44089e-16
+           18      1.20746e-04     3.30685e-02     1.55431e-15
+           19      1.12682e-04     3.30667e-02     1.11022e-15
+           20      1.05059e-04     3.30651e-02     7.77156e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      7.87568e-05     3.27049e-02     1.44329e-15
+            2      6.84307e-04     3.28957e-02     1.11022e-16
+            3      7.06520e-04     3.30075e-02     0.00000e+00
+            4      4.82260e-04     3.30662e-02     2.66454e-15
+            5      3.52714e-04     3.30937e-02     6.66134e-16
+            6      2.97236e-04     3.31040e-02     1.55431e-15
+            7      2.84297e-04     3.31056e-02     5.55112e-16
+            8      2.65860e-04     3.31029e-02     1.77636e-15
+            9      2.44686e-04     3.30985e-02     8.88178e-16
+           10      2.22586e-04     3.30937e-02     4.44089e-16
+           11      2.00709e-04     3.30891e-02     7.77156e-16
+           12      1.79756e-04     3.30850e-02     8.88178e-16
+           13      1.67635e-04     3.30813e-02     0.00000e+00
+           14      1.57434e-04     3.30780e-02     1.99840e-15
+           15      1.47615e-04     3.30752e-02     1.33227e-15
+           16      1.38216e-04     3.30726e-02     5.55112e-16
+           17      1.29257e-04     3.30704e-02     4.44089e-16
+           18      1.20746e-04     3.30685e-02     1.55431e-15
+           19      1.12682e-04     3.30667e-02     1.11022e-15
+           20      1.05059e-04     3.30651e-02     7.77156e-16
+    8            -7.32912        -7.32912            20       +3.307e-02      +4.253e-03
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.05059e-04     3.29080e-02     7.77156e-16
+            2      4.93515e-04     3.30772e-02     6.66134e-16
+            3      9.27718e-04     3.30957e-02     1.11022e-16
+            4      5.53864e-04     3.31055e-02     9.99201e-16
+            5      1.55060e-04     3.31097e-02     1.44329e-15
+            6      1.69861e-04     3.31101e-02     2.66454e-15
+            7      1.65917e-04     3.31082e-02     4.44089e-16
+            8      1.32740e-04     3.31053e-02     2.22045e-16
+            9      1.25983e-04     3.31019e-02     4.44089e-16
+           10      1.19168e-04     3.30985e-02     1.99840e-15
+           11      1.12415e-04     3.30954e-02     2.44249e-15
+           12      1.05798e-04     3.30925e-02     6.66134e-16
+           13      9.93712e-05     3.30900e-02     6.66134e-16
+           14      9.31687e-05     3.30879e-02     3.55271e-15
+           15      8.72146e-05     3.30860e-02     2.22045e-15
+           16      8.15242e-05     3.30843e-02     2.22045e-15
+           17      7.61059e-05     3.30829e-02     3.10862e-15
+           18      7.09633e-05     3.30816e-02     4.44089e-16
+           19      6.60960e-05     3.30805e-02     4.44089e-16
+           20      6.15005e-05     3.30795e-02     2.22045e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.05059e-04     3.29080e-02     7.77156e-16
+            2      4.93515e-04     3.30772e-02     6.66134e-16
+            3      9.27718e-04     3.30957e-02     1.11022e-16
+            4      5.53864e-04     3.31055e-02     9.99201e-16
+            5      1.55060e-04     3.31097e-02     1.44329e-15
+            6      1.69861e-04     3.31101e-02     2.66454e-15
+            7      1.65917e-04     3.31082e-02     4.44089e-16
+            8      1.32740e-04     3.31053e-02     2.22045e-16
+            9      1.25983e-04     3.31019e-02     4.44089e-16
+           10      1.19168e-04     3.30985e-02     1.99840e-15
+           11      1.12415e-04     3.30954e-02     2.44249e-15
+           12      1.05798e-04     3.30925e-02     6.66134e-16
+           13      9.93712e-05     3.30900e-02     6.66134e-16
+           14      9.31687e-05     3.30879e-02     3.55271e-15
+           15      8.72146e-05     3.30860e-02     2.22045e-15
+           16      8.15242e-05     3.30843e-02     2.22045e-15
+           17      7.61059e-05     3.30829e-02     3.10862e-15
+           18      7.09633e-05     3.30816e-02     4.44089e-16
+           19      6.60960e-05     3.30805e-02     4.44089e-16
+           20      6.15005e-05     3.30795e-02     2.22045e-15
+    9            -7.32818        -7.32818            20       +3.308e-02      +1.433e-03
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      6.15005e-05     3.31172e-02     2.22045e-15
+            2      3.57539e-04     3.30511e-02     4.44089e-16
+            3      3.43902e-04     3.30103e-02     5.55112e-16
+            4      1.94047e-04     3.29917e-02     1.44329e-15
+            5      1.60127e-04     3.29839e-02     1.11022e-15
+            6      1.34064e-04     3.29811e-02     2.66454e-15
+            7      1.08129e-04     3.29805e-02     0.00000e+00
+            8      7.66539e-05     3.29808e-02     2.44249e-15
+            9      5.08405e-05     3.29813e-02     2.22045e-16
+           10      4.56329e-05     3.29819e-02     1.11022e-15
+           11      4.05195e-05     3.29823e-02     4.44089e-16
+           12      3.57078e-05     3.29827e-02     6.66134e-16
+           13      3.12969e-05     3.29830e-02     1.66533e-15
+           14      2.73216e-05     3.29832e-02     1.11022e-15
+           15      2.37793e-05     3.29834e-02     1.33227e-15
+           16      2.06476e-05     3.29836e-02     4.44089e-16
+           17      1.78944e-05     3.29837e-02     1.99840e-15
+           18      1.54839e-05     3.29838e-02     1.11022e-16
+           19      1.33800e-05     3.29839e-02     0.00000e+00
+           20      1.15481e-05     3.29840e-02     3.33067e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      6.15005e-05     3.31172e-02     2.22045e-15
+            2      3.57539e-04     3.30511e-02     4.44089e-16
+            3      3.43902e-04     3.30103e-02     5.55112e-16
+            4      1.94047e-04     3.29917e-02     1.44329e-15
+            5      1.60127e-04     3.29839e-02     1.11022e-15
+            6      1.34064e-04     3.29811e-02     2.66454e-15
+            7      1.08129e-04     3.29805e-02     0.00000e+00
+            8      7.66539e-05     3.29808e-02     2.44249e-15
+            9      5.08405e-05     3.29813e-02     2.22045e-16
+           10      4.56329e-05     3.29819e-02     1.11022e-15
+           11      4.05195e-05     3.29823e-02     4.44089e-16
+           12      3.57078e-05     3.29827e-02     6.66134e-16
+           13      3.12969e-05     3.29830e-02     1.66533e-15
+           14      2.73216e-05     3.29832e-02     1.11022e-15
+           15      2.37793e-05     3.29834e-02     1.33227e-15
+           16      2.06476e-05     3.29836e-02     4.44089e-16
+           17      1.78944e-05     3.29837e-02     1.99840e-15
+           18      1.54839e-05     3.29838e-02     1.11022e-16
+           19      1.33800e-05     3.29839e-02     0.00000e+00
+           20      1.15481e-05     3.29840e-02     3.33067e-16
+   10            -7.32765        -7.32765            20       +3.298e-02      +1.848e-03
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.15481e-05     3.31001e-02     3.33067e-16
+            2      2.06304e-04     3.29544e-02     2.66454e-15
+            3      2.41270e-04     3.29099e-02     3.44169e-15
+            4      1.57426e-04     3.28887e-02     1.22125e-15
+            5      1.26658e-04     3.28797e-02     2.88658e-15
+            6      1.08053e-04     3.28769e-02     4.21885e-15
+            7      1.05634e-04     3.28772e-02     4.44089e-16
+            8      1.00548e-04     3.28788e-02     9.99201e-16
+            9      9.39175e-05     3.28809e-02     8.88178e-16
+           10      8.65133e-05     3.28831e-02     2.22045e-16
+           11      7.88539e-05     3.28851e-02     4.88498e-15
+           12      7.12789e-05     3.28868e-02     2.22045e-15
+           13      6.40035e-05     3.28884e-02     6.66134e-16
+           14      5.83923e-05     3.28897e-02     2.10942e-15
+           15      5.54569e-05     3.28909e-02     2.22045e-16
+           16      5.25253e-05     3.28919e-02     1.11022e-15
+           17      4.96284e-05     3.28928e-02     1.99840e-15
+           18      4.67899e-05     3.28936e-02     9.99201e-16
+           19      4.40277e-05     3.28943e-02     4.44089e-16
+           20      4.13553e-05     3.28950e-02     3.33067e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.15481e-05     3.31001e-02     3.33067e-16
+            2      2.06304e-04     3.29544e-02     2.66454e-15
+            3      2.41270e-04     3.29099e-02     3.44169e-15
+            4      1.57426e-04     3.28887e-02     1.22125e-15
+            5      1.26658e-04     3.28797e-02     2.88658e-15
+            6      1.08053e-04     3.28769e-02     4.21885e-15
+            7      1.05634e-04     3.28772e-02     4.44089e-16
+            8      1.00548e-04     3.28788e-02     9.99201e-16
+            9      9.39175e-05     3.28809e-02     8.88178e-16
+           10      8.65133e-05     3.28831e-02     2.22045e-16
+           11      7.88539e-05     3.28851e-02     4.88498e-15
+           12      7.12789e-05     3.28868e-02     2.22045e-15
+           13      6.40035e-05     3.28884e-02     6.66134e-16
+           14      5.83923e-05     3.28897e-02     2.10942e-15
+           15      5.54569e-05     3.28909e-02     2.22045e-16
+           16      5.25253e-05     3.28919e-02     1.11022e-15
+           17      4.96284e-05     3.28928e-02     1.99840e-15
+           18      4.67899e-05     3.28936e-02     9.99201e-16
+           19      4.40277e-05     3.28943e-02     4.44089e-16
+           20      4.13553e-05     3.28950e-02     3.33067e-15
+   11            -7.32802        -7.32802            20       +3.289e-02      +7.247e-04
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.13553e-05     3.29383e-02     3.33067e-15
+            2      1.25935e-04     3.28828e-02     1.11022e-16
+            3      2.39313e-04     3.28636e-02     1.33227e-15
+            4      1.48186e-04     3.28537e-02     8.88178e-16
+            5      9.36298e-05     3.28492e-02     5.10703e-15
+            6      9.23300e-05     3.28479e-02     1.11022e-16
+            7      8.95899e-05     3.28482e-02     4.44089e-16
+            8      8.60622e-05     3.28494e-02     1.11022e-15
+            9      8.21220e-05     3.28508e-02     1.66533e-15
+           10      7.79906e-05     3.28524e-02     0.00000e+00
+           11      7.38021e-05     3.28538e-02     4.44089e-16
+           12      6.96407e-05     3.28551e-02     1.11022e-15
+           13      6.55601e-05     3.28563e-02     2.55351e-15
+           14      6.15955e-05     3.28573e-02     1.99840e-15
+           15      5.77700e-05     3.28582e-02     4.44089e-16
+           16      5.40982e-05     3.28591e-02     1.11022e-15
+           17      5.05893e-05     3.28598e-02     1.99840e-15
+           18      4.72482e-05     3.28604e-02     1.55431e-15
+           19      4.40766e-05     3.28610e-02     1.33227e-15
+           20      4.10741e-05     3.28616e-02     1.88738e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.13553e-05     3.29383e-02     3.33067e-15
+            2      1.25935e-04     3.28828e-02     1.11022e-16
+            3      2.39313e-04     3.28636e-02     1.33227e-15
+            4      1.48186e-04     3.28537e-02     8.88178e-16
+            5      9.36298e-05     3.28492e-02     5.10703e-15
+            6      9.23300e-05     3.28479e-02     1.11022e-16
+            7      8.95899e-05     3.28482e-02     4.44089e-16
+            8      8.60622e-05     3.28494e-02     1.11022e-15
+            9      8.21220e-05     3.28508e-02     1.66533e-15
+           10      7.79906e-05     3.28524e-02     0.00000e+00
+           11      7.38021e-05     3.28538e-02     4.44089e-16
+           12      6.96407e-05     3.28551e-02     1.11022e-15
+           13      6.55601e-05     3.28563e-02     2.55351e-15
+           14      6.15955e-05     3.28573e-02     1.99840e-15
+           15      5.77700e-05     3.28582e-02     4.44089e-16
+           16      5.40982e-05     3.28591e-02     1.11022e-15
+           17      5.05893e-05     3.28598e-02     1.99840e-15
+           18      4.72482e-05     3.28604e-02     1.55431e-15
+           19      4.40766e-05     3.28610e-02     1.33227e-15
+           20      4.10741e-05     3.28616e-02     1.88738e-15
+   12            -7.32843        -7.32843            20       +3.286e-02      +5.879e-04
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.10741e-05     3.28337e-02     1.55431e-15
+            2      6.87177e-05     3.28646e-02     2.22045e-16
+            3      5.81620e-05     3.28680e-02     1.99840e-15
+            4      5.76604e-05     3.28685e-02     1.77636e-15
+            5      5.52348e-05     3.28685e-02     1.66533e-15
+            6      5.20051e-05     3.28685e-02     3.10862e-15
+            7      4.85127e-05     3.28685e-02     2.44249e-15
+            8      4.50201e-05     3.28686e-02     5.99520e-15
+            9      4.16520e-05     3.28688e-02     2.22045e-16
+           10      3.84644e-05     3.28691e-02     6.21725e-15
+           11      3.54785e-05     3.28693e-02     5.55112e-15
+           12      3.26981e-05     3.28696e-02     1.77636e-15
+           13      3.01183e-05     3.28698e-02     3.33067e-15
+           14      2.77300e-05     3.28701e-02     4.66294e-15
+           15      2.58090e-05     3.28703e-02     3.33067e-15
+           16      2.41328e-05     3.28705e-02     4.88498e-15
+           17      2.25544e-05     3.28707e-02     1.99840e-15
+           18      2.10699e-05     3.28709e-02     4.88498e-15
+           19      1.96749e-05     3.28711e-02     2.44249e-15
+           20      1.83650e-05     3.28713e-02     5.99520e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.10741e-05     3.28337e-02     1.55431e-15
+            2      6.87177e-05     3.28646e-02     2.22045e-16
+            3      5.81620e-05     3.28680e-02     1.99840e-15
+            4      5.76604e-05     3.28685e-02     1.77636e-15
+            5      5.52348e-05     3.28685e-02     1.66533e-15
+            6      5.20051e-05     3.28685e-02     3.10862e-15
+            7      4.85127e-05     3.28685e-02     2.44249e-15
+            8      4.50201e-05     3.28686e-02     5.99520e-15
+            9      4.16520e-05     3.28688e-02     2.22045e-16
+           10      3.84644e-05     3.28691e-02     6.21725e-15
+           11      3.54785e-05     3.28693e-02     5.55112e-15
+           12      3.26981e-05     3.28696e-02     1.77636e-15
+           13      3.01183e-05     3.28698e-02     3.33067e-15
+           14      2.77300e-05     3.28701e-02     4.66294e-15
+           15      2.58090e-05     3.28703e-02     3.33067e-15
+           16      2.41328e-05     3.28705e-02     4.88498e-15
+           17      2.25544e-05     3.28707e-02     1.99840e-15
+           18      2.10699e-05     3.28709e-02     4.88498e-15
+           19      1.96749e-05     3.28711e-02     2.44249e-15
+           20      1.83650e-05     3.28713e-02     5.99520e-15
+   13            -7.32840        -7.32840            20       +3.287e-02      +4.831e-04
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.83650e-05     3.28429e-02     6.21725e-15
+            2      5.12631e-05     3.28780e-02     6.66134e-16
+            3      5.26443e-05     3.28875e-02     1.99840e-15
+            4      3.22334e-05     3.28916e-02     4.44089e-16
+            5      2.65210e-05     3.28931e-02     9.99201e-16
+            6      2.61255e-05     3.28935e-02     1.22125e-15
+            7      2.52596e-05     3.28933e-02     2.44249e-15
+            8      2.37941e-05     3.28929e-02     4.44089e-16
+            9      2.20174e-05     3.28924e-02     1.88738e-15
+           10      2.01145e-05     3.28920e-02     1.11022e-16
+           11      1.82016e-05     3.28916e-02     8.88178e-16
+           12      1.63499e-05     3.28912e-02     3.33067e-16
+           13      1.46008e-05     3.28910e-02     1.11022e-15
+           14      1.29767e-05     3.28907e-02     2.22045e-16
+           15      1.14873e-05     3.28905e-02     2.55351e-15
+           16      1.01343e-05     3.28903e-02     6.66134e-16
+           17      8.91440e-06     3.28902e-02     0.00000e+00
+           18      7.82103e-06     3.28901e-02     4.44089e-16
+           19      7.03492e-06     3.28899e-02     8.88178e-16
+           20      6.63745e-06     3.28898e-02     8.88178e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.83650e-05     3.28429e-02     6.21725e-15
+            2      5.12631e-05     3.28780e-02     6.66134e-16
+            3      5.26443e-05     3.28875e-02     1.99840e-15
+            4      3.22334e-05     3.28916e-02     4.44089e-16
+            5      2.65210e-05     3.28931e-02     9.99201e-16
+            6      2.61255e-05     3.28935e-02     1.22125e-15
+            7      2.52596e-05     3.28933e-02     2.44249e-15
+            8      2.37941e-05     3.28929e-02     4.44089e-16
+            9      2.20174e-05     3.28924e-02     1.88738e-15
+           10      2.01145e-05     3.28920e-02     1.11022e-16
+           11      1.82016e-05     3.28916e-02     8.88178e-16
+           12      1.63499e-05     3.28912e-02     3.33067e-16
+           13      1.46008e-05     3.28910e-02     1.11022e-15
+           14      1.29767e-05     3.28907e-02     2.22045e-16
+           15      1.14873e-05     3.28905e-02     2.55351e-15
+           16      1.01343e-05     3.28903e-02     6.66134e-16
+           17      8.91440e-06     3.28902e-02     0.00000e+00
+           18      7.82103e-06     3.28901e-02     4.44089e-16
+           19      7.03492e-06     3.28899e-02     8.88178e-16
+           20      6.63745e-06     3.28898e-02     8.88178e-16
+   14            -7.32818        -7.32818            20       +3.289e-02      +1.406e-04
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      6.63745e-06     3.28876e-02     8.88178e-16
+            2      4.17167e-05     3.28936e-02     6.66134e-16
+            3      4.82133e-05     3.28994e-02     5.55112e-16
+            4      3.95938e-05     3.29024e-02     2.22045e-16
+            5      4.03162e-05     3.29036e-02     2.66454e-15
+            6      3.95098e-05     3.29039e-02     2.44249e-15
+            7      3.79339e-05     3.29037e-02     2.88658e-15
+            8      3.59966e-05     3.29033e-02     3.10862e-15
+            9      3.39177e-05     3.29029e-02     2.77556e-15
+           10      3.18157e-05     3.29024e-02     4.44089e-16
+           11      2.97539e-05     3.29020e-02     2.22045e-15
+           12      2.77660e-05     3.29016e-02     4.44089e-16
+           13      2.58687e-05     3.29012e-02     1.22125e-15
+           14      2.40696e-05     3.29009e-02     0.00000e+00
+           15      2.23714e-05     3.29006e-02     3.10862e-15
+           16      2.07734e-05     3.29004e-02     2.88658e-15
+           17      1.92733e-05     3.29002e-02     7.77156e-16
+           18      1.78679e-05     3.29000e-02     1.77636e-15
+           19      1.65533e-05     3.28998e-02     9.99201e-16
+           20      1.53255e-05     3.28996e-02     8.88178e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      6.63745e-06     3.28876e-02     8.88178e-16
+            2      4.17167e-05     3.28936e-02     6.66134e-16
+            3      4.82133e-05     3.28994e-02     5.55112e-16
+            4      3.95938e-05     3.29024e-02     2.22045e-16
+            5      4.03162e-05     3.29036e-02     2.66454e-15
+            6      3.95098e-05     3.29039e-02     2.44249e-15
+            7      3.79339e-05     3.29037e-02     2.88658e-15
+            8      3.59966e-05     3.29033e-02     3.10862e-15
+            9      3.39177e-05     3.29029e-02     2.77556e-15
+           10      3.18157e-05     3.29024e-02     4.44089e-16
+           11      2.97539e-05     3.29020e-02     2.22045e-15
+           12      2.77660e-05     3.29016e-02     4.44089e-16
+           13      2.58687e-05     3.29012e-02     1.22125e-15
+           14      2.40696e-05     3.29009e-02     0.00000e+00
+           15      2.23714e-05     3.29006e-02     3.10862e-15
+           16      2.07734e-05     3.29004e-02     2.88658e-15
+           17      1.92733e-05     3.29002e-02     7.77156e-16
+           18      1.78679e-05     3.29000e-02     1.77636e-15
+           19      1.65533e-05     3.28998e-02     9.99201e-16
+           20      1.53255e-05     3.28996e-02     8.88178e-16
+   15            -7.32810        -7.32810            20       +3.290e-02      +1.975e-04
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.53255e-05     3.29061e-02     8.88178e-16
+            2      2.88589e-05     3.29004e-02     4.44089e-16
+            3      3.43611e-05     3.29018e-02     7.77156e-16
+            4      3.58500e-05     3.29028e-02     0.00000e+00
+            5      3.53418e-05     3.29033e-02     8.88178e-16
+            6      3.38704e-05     3.29034e-02     1.99840e-15
+            7      3.19707e-05     3.29033e-02     0.00000e+00
+            8      2.99199e-05     3.29031e-02     9.99201e-16
+            9      2.78604e-05     3.29028e-02     1.33227e-15
+           10      2.58636e-05     3.29026e-02     4.44089e-16
+           11      2.39634e-05     3.29023e-02     8.88178e-16
+           12      2.21744e-05     3.29021e-02     2.22045e-16
+           13      2.05003e-05     3.29019e-02     0.00000e+00
+           14      1.89399e-05     3.29017e-02     8.88178e-16
+           15      1.74889e-05     3.29015e-02     2.33147e-15
+           16      1.61419e-05     3.29013e-02     4.44089e-16
+           17      1.48929e-05     3.29012e-02     1.99840e-15
+           18      1.37358e-05     3.29010e-02     1.33227e-15
+           19      1.26647e-05     3.29009e-02     1.77636e-15
+           20      1.16737e-05     3.29008e-02     3.33067e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.53255e-05     3.29061e-02     8.88178e-16
+            2      2.88589e-05     3.29004e-02     4.44089e-16
+            3      3.43611e-05     3.29018e-02     7.77156e-16
+            4      3.58500e-05     3.29028e-02     0.00000e+00
+            5      3.53418e-05     3.29033e-02     8.88178e-16
+            6      3.38704e-05     3.29034e-02     1.99840e-15
+            7      3.19707e-05     3.29033e-02     0.00000e+00
+            8      2.99199e-05     3.29031e-02     9.99201e-16
+            9      2.78604e-05     3.29028e-02     1.33227e-15
+           10      2.58636e-05     3.29026e-02     4.44089e-16
+           11      2.39634e-05     3.29023e-02     8.88178e-16
+           12      2.21744e-05     3.29021e-02     2.22045e-16
+           13      2.05003e-05     3.29019e-02     0.00000e+00
+           14      1.89399e-05     3.29017e-02     8.88178e-16
+           15      1.74889e-05     3.29015e-02     2.33147e-15
+           16      1.61419e-05     3.29013e-02     4.44089e-16
+           17      1.48929e-05     3.29012e-02     1.99840e-15
+           18      1.37358e-05     3.29010e-02     1.33227e-15
+           19      1.26647e-05     3.29009e-02     1.77636e-15
+           20      1.16737e-05     3.29008e-02     3.33067e-16
+   16            -7.32816        -7.32816            20       +3.290e-02      +3.663e-05
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.16737e-05     3.29023e-02     5.55112e-16
+            2      1.55213e-05     3.29002e-02     5.55112e-16
+            3      1.72207e-05     3.28996e-02     3.10862e-15
+            4      1.74563e-05     3.28994e-02     2.22045e-16
+            5      1.69829e-05     3.28994e-02     2.22045e-16
+            6      1.61842e-05     3.28993e-02     3.77476e-15
+            7      1.52550e-05     3.28993e-02     1.22125e-15
+            8      1.42932e-05     3.28993e-02     6.66134e-16
+            9      1.33474e-05     3.28992e-02     3.33067e-16
+           10      1.24403e-05     3.28992e-02     3.44169e-15
+           11      1.15819e-05     3.28991e-02     4.32987e-15
+           12      1.07753e-05     3.28990e-02     4.66294e-15
+           13      1.00206e-05     3.28990e-02     1.55431e-15
+           14      9.31596e-06     3.28989e-02     5.44009e-15
+           15      8.65900e-06     3.28988e-02     8.88178e-16
+           16      8.04700e-06     3.28988e-02     1.66533e-15
+           17      7.47717e-06     3.28987e-02     1.99840e-15
+           18      6.94680e-06     3.28987e-02     3.10862e-15
+           19      6.45330e-06     3.28986e-02     2.33147e-15
+           20      5.99419e-06     3.28986e-02     6.66134e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.16737e-05     3.29023e-02     5.55112e-16
+            2      1.55213e-05     3.29002e-02     5.55112e-16
+            3      1.72207e-05     3.28996e-02     3.10862e-15
+            4      1.74563e-05     3.28994e-02     2.22045e-16
+            5      1.69829e-05     3.28994e-02     2.22045e-16
+            6      1.61842e-05     3.28993e-02     3.77476e-15
+            7      1.52550e-05     3.28993e-02     1.22125e-15
+            8      1.42932e-05     3.28993e-02     6.66134e-16
+            9      1.33474e-05     3.28992e-02     3.33067e-16
+           10      1.24403e-05     3.28992e-02     3.44169e-15
+           11      1.15819e-05     3.28991e-02     4.32987e-15
+           12      1.07753e-05     3.28990e-02     4.66294e-15
+           13      1.00206e-05     3.28990e-02     1.55431e-15
+           14      9.31596e-06     3.28989e-02     5.44009e-15
+           15      8.65900e-06     3.28988e-02     8.88178e-16
+           16      8.04700e-06     3.28988e-02     1.66533e-15
+           17      7.47717e-06     3.28987e-02     1.99840e-15
+           18      6.94680e-06     3.28987e-02     3.10862e-15
+           19      6.45330e-06     3.28986e-02     2.33147e-15
+           20      5.99419e-06     3.28986e-02     6.66134e-16
+   17            -7.32822        -7.32822            20       +3.290e-02      +6.886e-05
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      5.99419e-06     3.28972e-02     3.33067e-16
+            2      1.01094e-05     3.28978e-02     3.21965e-15
+            3      1.12052e-05     3.28968e-02     2.88658e-15
+            4      8.61102e-06     3.28962e-02     1.33227e-15
+            5      7.12177e-06     3.28960e-02     1.11022e-15
+            6      7.15069e-06     3.28960e-02     1.11022e-15
+            7      6.95264e-06     3.28960e-02     4.44089e-16
+            8      6.64258e-06     3.28961e-02     2.22045e-16
+            9      6.28219e-06     3.28962e-02     1.11022e-16
+           10      5.90453e-06     3.28962e-02     2.22045e-16
+           11      5.52729e-06     3.28963e-02     1.77636e-15
+           12      5.15986e-06     3.28963e-02     2.77556e-15
+           13      4.80711e-06     3.28964e-02     1.55431e-15
+           14      4.47142e-06     3.28964e-02     0.00000e+00
+           15      4.15379e-06     3.28965e-02     1.77636e-15
+           16      3.85445e-06     3.28965e-02     4.44089e-16
+           17      3.57317e-06     3.28965e-02     3.10862e-15
+           18      3.30949e-06     3.28966e-02     8.88178e-16
+           19      3.06277e-06     3.28966e-02     6.66134e-16
+           20      2.83230e-06     3.28966e-02     0.00000e+00
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      5.99419e-06     3.28972e-02     3.33067e-16
+            2      1.01094e-05     3.28978e-02     3.21965e-15
+            3      1.12052e-05     3.28968e-02     2.88658e-15
+            4      8.61102e-06     3.28962e-02     1.33227e-15
+            5      7.12177e-06     3.28960e-02     1.11022e-15
+            6      7.15069e-06     3.28960e-02     1.11022e-15
+            7      6.95264e-06     3.28960e-02     4.44089e-16
+            8      6.64258e-06     3.28961e-02     2.22045e-16
+            9      6.28219e-06     3.28962e-02     1.11022e-16
+           10      5.90453e-06     3.28962e-02     2.22045e-16
+           11      5.52729e-06     3.28963e-02     1.77636e-15
+           12      5.15986e-06     3.28963e-02     2.77556e-15
+           13      4.80711e-06     3.28964e-02     1.55431e-15
+           14      4.47142e-06     3.28964e-02     0.00000e+00
+           15      4.15379e-06     3.28965e-02     1.77636e-15
+           16      3.85445e-06     3.28965e-02     4.44089e-16
+           17      3.57317e-06     3.28965e-02     3.10862e-15
+           18      3.30949e-06     3.28966e-02     8.88178e-16
+           19      3.06277e-06     3.28966e-02     6.66134e-16
+           20      2.83230e-06     3.28966e-02     0.00000e+00
+   18            -7.32822        -7.32822            20       +3.290e-02      +2.565e-05
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      2.83230e-06     3.28967e-02     2.22045e-16
+            2      9.91889e-06     3.28961e-02     1.55431e-15
+            3      1.30524e-05     3.28953e-02     1.99840e-15
+            4      1.41552e-05     3.28949e-02     1.66533e-15
+            5      1.42236e-05     3.28947e-02     1.11022e-15
+            6      1.37779e-05     3.28947e-02     2.22045e-15
+            7      1.30907e-05     3.28948e-02     8.88178e-16
+            8      1.23044e-05     3.28949e-02     4.21885e-15
+            9      1.14929e-05     3.28950e-02     1.77636e-15
+           10      1.06940e-05     3.28951e-02     1.11022e-15
+           11      9.92660e-06     3.28953e-02     2.22045e-16
+           12      9.19927e-06     3.28954e-02     8.88178e-16
+           13      8.51535e-06     3.28954e-02     1.55431e-15
+           14      7.87535e-06     3.28955e-02     7.77156e-16
+           15      7.27832e-06     3.28956e-02     3.33067e-15
+           16      6.72256e-06     3.28957e-02     0.00000e+00
+           17      6.20602e-06     3.28957e-02     8.88178e-16
+           18      5.72651e-06     3.28958e-02     1.99840e-15
+           19      5.28181e-06     3.28958e-02     4.44089e-16
+           20      4.86973e-06     3.28959e-02     1.22125e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      2.83230e-06     3.28967e-02     2.22045e-16
+            2      9.91889e-06     3.28961e-02     1.55431e-15
+            3      1.30524e-05     3.28953e-02     1.99840e-15
+            4      1.41552e-05     3.28949e-02     1.66533e-15
+            5      1.42236e-05     3.28947e-02     1.11022e-15
+            6      1.37779e-05     3.28947e-02     2.22045e-15
+            7      1.30907e-05     3.28948e-02     8.88178e-16
+            8      1.23044e-05     3.28949e-02     4.21885e-15
+            9      1.14929e-05     3.28950e-02     1.77636e-15
+           10      1.06940e-05     3.28951e-02     1.11022e-15
+           11      9.92660e-06     3.28953e-02     2.22045e-16
+           12      9.19927e-06     3.28954e-02     8.88178e-16
+           13      8.51535e-06     3.28954e-02     1.55431e-15
+           14      7.87535e-06     3.28955e-02     7.77156e-16
+           15      7.27832e-06     3.28956e-02     3.33067e-15
+           16      6.72256e-06     3.28957e-02     0.00000e+00
+           17      6.20602e-06     3.28957e-02     8.88178e-16
+           18      5.72651e-06     3.28958e-02     1.99840e-15
+           19      5.28181e-06     3.28958e-02     4.44089e-16
+           20      4.86973e-06     3.28959e-02     1.22125e-15
+   19            -7.32821        -7.32821            20       +3.290e-02      +2.223e-05
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.86973e-06     3.28970e-02     1.22125e-15
+            2      8.68148e-06     3.28957e-02     3.55271e-15
+            3      1.02238e-05     3.28954e-02     2.22045e-16
+            4      1.06141e-05     3.28953e-02     0.00000e+00
+            5      1.04308e-05     3.28953e-02     1.33227e-15
+            6      9.97345e-06     3.28953e-02     2.44249e-15
+            7      9.45327e-06     3.28954e-02     1.99840e-15
+            8      8.93129e-06     3.28955e-02     2.44249e-15
+            9      8.39830e-06     3.28955e-02     6.66134e-16
+           10      7.87525e-06     3.28956e-02     3.55271e-15
+           11      7.37223e-06     3.28957e-02     2.44249e-15
+           12      6.89374e-06     3.28958e-02     7.77156e-16
+           13      6.44139e-06     3.28959e-02     1.22125e-15
+           14      6.01530e-06     3.28959e-02     1.44329e-15
+           15      5.61485e-06     3.28960e-02     1.55431e-15
+           16      5.23906e-06     3.28960e-02     1.22125e-15
+           17      4.88676e-06     3.28961e-02     1.99840e-15
+           18      4.55675e-06     3.28961e-02     1.11022e-16
+           19      4.24782e-06     3.28962e-02     8.88178e-16
+           20      3.95878e-06     3.28962e-02     4.44089e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.86973e-06     3.28970e-02     1.22125e-15
+            2      8.68148e-06     3.28957e-02     3.55271e-15
+            3      1.02238e-05     3.28954e-02     2.22045e-16
+            4      1.06141e-05     3.28953e-02     0.00000e+00
+            5      1.04308e-05     3.28953e-02     1.33227e-15
+            6      9.97345e-06     3.28953e-02     2.44249e-15
+            7      9.45327e-06     3.28954e-02     1.99840e-15
+            8      8.93129e-06     3.28955e-02     2.44249e-15
+            9      8.39830e-06     3.28955e-02     6.66134e-16
+           10      7.87525e-06     3.28956e-02     3.55271e-15
+           11      7.37223e-06     3.28957e-02     2.44249e-15
+           12      6.89374e-06     3.28958e-02     7.77156e-16
+           13      6.44139e-06     3.28959e-02     1.22125e-15
+           14      6.01530e-06     3.28959e-02     1.44329e-15
+           15      5.61485e-06     3.28960e-02     1.55431e-15
+           16      5.23906e-06     3.28960e-02     1.22125e-15
+           17      4.88676e-06     3.28961e-02     1.99840e-15
+           18      4.55675e-06     3.28961e-02     1.11022e-16
+           19      4.24782e-06     3.28962e-02     8.88178e-16
+           20      3.95878e-06     3.28962e-02     4.44089e-16
+   20            -7.32820        -7.32820            20       +3.290e-02      +1.124e-05
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      3.95878e-06     3.28965e-02     8.88178e-16
+            2      5.31948e-06     3.28963e-02     0.00000e+00
+            3      5.79106e-06     3.28965e-02     1.77636e-15
+            4      5.81849e-06     3.28965e-02     1.99840e-15
+            5      5.63103e-06     3.28965e-02     1.33227e-15
+            6      5.34627e-06     3.28966e-02     2.88658e-15
+            7      5.02416e-06     3.28966e-02     8.88178e-16
+            8      4.69492e-06     3.28966e-02     4.44089e-16
+            9      4.37339e-06     3.28966e-02     2.22045e-15
+           10      4.06653e-06     3.28967e-02     2.22045e-15
+           11      3.77721e-06     3.28967e-02     6.66134e-16
+           12      3.50625e-06     3.28967e-02     1.11022e-15
+           13      3.25345e-06     3.28967e-02     2.22045e-15
+           14      3.01808e-06     3.28967e-02     1.99840e-15
+           15      2.79923e-06     3.28968e-02     0.00000e+00
+           16      2.59589e-06     3.28968e-02     3.55271e-15
+           17      2.40706e-06     3.28968e-02     5.55112e-16
+           18      2.23176e-06     3.28968e-02     6.66134e-16
+           19      2.06905e-06     3.28968e-02     8.88178e-16
+           20      1.91807e-06     3.28968e-02     2.22045e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      3.95878e-06     3.28965e-02     8.88178e-16
+            2      5.31948e-06     3.28963e-02     0.00000e+00
+            3      5.79106e-06     3.28965e-02     1.77636e-15
+            4      5.81849e-06     3.28965e-02     1.99840e-15
+            5      5.63103e-06     3.28965e-02     1.33227e-15
+            6      5.34627e-06     3.28966e-02     2.88658e-15
+            7      5.02416e-06     3.28966e-02     8.88178e-16
+            8      4.69492e-06     3.28966e-02     4.44089e-16
+            9      4.37339e-06     3.28966e-02     2.22045e-15
+           10      4.06653e-06     3.28967e-02     2.22045e-15
+           11      3.77721e-06     3.28967e-02     6.66134e-16
+           12      3.50625e-06     3.28967e-02     1.11022e-15
+           13      3.25345e-06     3.28967e-02     2.22045e-15
+           14      3.01808e-06     3.28967e-02     1.99840e-15
+           15      2.79923e-06     3.28968e-02     0.00000e+00
+           16      2.59589e-06     3.28968e-02     3.55271e-15
+           17      2.40706e-06     3.28968e-02     5.55112e-16
+           18      2.23176e-06     3.28968e-02     6.66134e-16
+           19      2.06905e-06     3.28968e-02     8.88178e-16
+           20      1.91807e-06     3.28968e-02     2.22045e-15
+   21            -7.32820        -7.32820            20       +3.290e-02      +8.325e-06
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.91807e-06     3.28963e-02     2.22045e-15
+            2      1.64887e-06     3.28970e-02     1.33227e-15
+            3      2.70746e-06     3.28972e-02     1.99840e-15
+            4      3.15523e-06     3.28973e-02     0.00000e+00
+            5      3.26776e-06     3.28974e-02     1.33227e-15
+            6      3.21107e-06     3.28974e-02     3.33067e-16
+            7      3.07242e-06     3.28973e-02     1.99840e-15
+            8      2.89749e-06     3.28973e-02     3.10862e-15
+            9      2.71007e-06     3.28973e-02     4.44089e-16
+           10      2.52237e-06     3.28973e-02     1.99840e-15
+           11      2.34051e-06     3.28972e-02     4.44089e-16
+           12      2.16741e-06     3.28972e-02     8.88178e-16
+           13      2.00431e-06     3.28972e-02     6.66134e-16
+           14      1.85155e-06     3.28972e-02     0.00000e+00
+           15      1.70902e-06     3.28972e-02     3.33067e-16
+           16      1.57637e-06     3.28972e-02     0.00000e+00
+           17      1.45314e-06     3.28972e-02     0.00000e+00
+           18      1.33882e-06     3.28971e-02     1.77636e-15
+           19      1.23288e-06     3.28971e-02     1.66533e-15
+           20      1.13480e-06     3.28971e-02     8.88178e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.91807e-06     3.28963e-02     2.22045e-15
+            2      1.64887e-06     3.28970e-02     1.33227e-15
+            3      2.70746e-06     3.28972e-02     1.99840e-15
+            4      3.15523e-06     3.28973e-02     0.00000e+00
+            5      3.26776e-06     3.28974e-02     1.33227e-15
+            6      3.21107e-06     3.28974e-02     3.33067e-16
+            7      3.07242e-06     3.28973e-02     1.99840e-15
+            8      2.89749e-06     3.28973e-02     3.10862e-15
+            9      2.71007e-06     3.28973e-02     4.44089e-16
+           10      2.52237e-06     3.28973e-02     1.99840e-15
+           11      2.34051e-06     3.28972e-02     4.44089e-16
+           12      2.16741e-06     3.28972e-02     8.88178e-16
+           13      2.00431e-06     3.28972e-02     6.66134e-16
+           14      1.85155e-06     3.28972e-02     0.00000e+00
+           15      1.70902e-06     3.28972e-02     3.33067e-16
+           16      1.57637e-06     3.28972e-02     0.00000e+00
+           17      1.45314e-06     3.28972e-02     0.00000e+00
+           18      1.33882e-06     3.28971e-02     1.77636e-15
+           19      1.23288e-06     3.28971e-02     1.66533e-15
+           20      1.13480e-06     3.28971e-02     8.88178e-16
+   22            -7.32820        -7.32820            20       +3.290e-02      +6.107e-06
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.13480e-06     3.28968e-02     8.88178e-16
+            2      3.43480e-06     3.28972e-02     1.99840e-15
+            3      4.42793e-06     3.28973e-02     2.44249e-15
+            4      4.75174e-06     3.28974e-02     1.11022e-15
+            5      4.73850e-06     3.28974e-02     3.55271e-15
+            6      4.56130e-06     3.28973e-02     3.33067e-15
+            7      4.31006e-06     3.28973e-02     2.22045e-15
+            8      4.03122e-06     3.28973e-02     4.66294e-15
+            9      3.74847e-06     3.28972e-02     6.66134e-16
+           10      3.47358e-06     3.28972e-02     0.00000e+00
+           11      3.21209e-06     3.28972e-02     3.55271e-15
+           12      2.96630e-06     3.28971e-02     2.22045e-16
+           13      2.73684e-06     3.28971e-02     8.88178e-16
+           14      2.52351e-06     3.28971e-02     1.33227e-15
+           15      2.32567e-06     3.28971e-02     2.66454e-15
+           16      2.14249e-06     3.28970e-02     2.22045e-16
+           17      1.97308e-06     3.28970e-02     3.10862e-15
+           18      1.81653e-06     3.28970e-02     8.88178e-16
+           19      1.67197e-06     3.28970e-02     1.11022e-16
+           20      1.53853e-06     3.28970e-02     3.33067e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.13480e-06     3.28968e-02     8.88178e-16
+            2      3.43480e-06     3.28972e-02     1.99840e-15
+            3      4.42793e-06     3.28973e-02     2.44249e-15
+            4      4.75174e-06     3.28974e-02     1.11022e-15
+            5      4.73850e-06     3.28974e-02     3.55271e-15
+            6      4.56130e-06     3.28973e-02     3.33067e-15
+            7      4.31006e-06     3.28973e-02     2.22045e-15
+            8      4.03122e-06     3.28973e-02     4.66294e-15
+            9      3.74847e-06     3.28972e-02     6.66134e-16
+           10      3.47358e-06     3.28972e-02     0.00000e+00
+           11      3.21209e-06     3.28972e-02     3.55271e-15
+           12      2.96630e-06     3.28971e-02     2.22045e-16
+           13      2.73684e-06     3.28971e-02     8.88178e-16
+           14      2.52351e-06     3.28971e-02     1.33227e-15
+           15      2.32567e-06     3.28971e-02     2.66454e-15
+           16      2.14249e-06     3.28970e-02     2.22045e-16
+           17      1.97308e-06     3.28970e-02     3.10862e-15
+           18      1.81653e-06     3.28970e-02     8.88178e-16
+           19      1.67197e-06     3.28970e-02     1.11022e-16
+           20      1.53853e-06     3.28970e-02     3.33067e-15
+   23            -7.32820        -7.32820            20       +3.290e-02      +2.297e-06
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.53853e-06     3.28970e-02     3.33067e-15
+            2      2.97810e-06     3.28970e-02     1.99840e-15
+            3      3.59925e-06     3.28969e-02     3.55271e-15
+            4      3.78123e-06     3.28969e-02     2.66454e-15
+            5      3.74468e-06     3.28969e-02     4.44089e-16
+            6      3.60334e-06     3.28969e-02     1.55431e-15
+            7      3.41569e-06     3.28969e-02     2.22045e-15
+            8      3.21156e-06     3.28969e-02     8.88178e-16
+            9      3.00598e-06     3.28968e-02     1.99840e-15
+           10      2.80632e-06     3.28968e-02     1.11022e-15
+           11      2.61596e-06     3.28968e-02     3.55271e-15
+           12      2.43629e-06     3.28968e-02     5.99520e-15
+           13      2.26764e-06     3.28967e-02     1.11022e-15
+           14      2.10983e-06     3.28967e-02     2.22045e-15
+           15      1.96244e-06     3.28967e-02     1.33227e-15
+           16      1.82493e-06     3.28967e-02     1.55431e-15
+           17      1.69674e-06     3.28967e-02     8.88178e-16
+           18      1.57730e-06     3.28967e-02     2.44249e-15
+           19      1.46604e-06     3.28967e-02     1.33227e-15
+           20      1.36244e-06     3.28966e-02     2.22045e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.53853e-06     3.28970e-02     3.33067e-15
+            2      2.97810e-06     3.28970e-02     1.99840e-15
+            3      3.59925e-06     3.28969e-02     3.55271e-15
+            4      3.78123e-06     3.28969e-02     2.66454e-15
+            5      3.74468e-06     3.28969e-02     4.44089e-16
+            6      3.60334e-06     3.28969e-02     1.55431e-15
+            7      3.41569e-06     3.28969e-02     2.22045e-15
+            8      3.21156e-06     3.28969e-02     8.88178e-16
+            9      3.00598e-06     3.28968e-02     1.99840e-15
+           10      2.80632e-06     3.28968e-02     1.11022e-15
+           11      2.61596e-06     3.28968e-02     3.55271e-15
+           12      2.43629e-06     3.28968e-02     5.99520e-15
+           13      2.26764e-06     3.28967e-02     1.11022e-15
+           14      2.10983e-06     3.28967e-02     2.22045e-15
+           15      1.96244e-06     3.28967e-02     1.33227e-15
+           16      1.82493e-06     3.28967e-02     1.55431e-15
+           17      1.69674e-06     3.28967e-02     8.88178e-16
+           18      1.57730e-06     3.28967e-02     2.44249e-15
+           19      1.46604e-06     3.28967e-02     1.33227e-15
+           20      1.36244e-06     3.28966e-02     2.22045e-16
+   24            -7.32820        -7.32820            20       +3.290e-02      +3.049e-06
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.36244e-06     3.28968e-02     2.22045e-16
+            2      1.68753e-06     3.28966e-02     2.66454e-15
+            3      1.78318e-06     3.28966e-02     1.11022e-15
+            4      1.76534e-06     3.28965e-02     2.66454e-15
+            5      1.69359e-06     3.28965e-02     2.22045e-16
+            6      1.59844e-06     3.28965e-02     2.44249e-15
+            7      1.49540e-06     3.28965e-02     1.11022e-15
+            8      1.39224e-06     3.28965e-02     4.44089e-16
+            9      1.29270e-06     3.28965e-02     2.22045e-15
+           10      1.19846e-06     3.28965e-02     1.44329e-15
+           11      1.11014e-06     3.28965e-02     6.66134e-16
+           12      1.02784e-06     3.28965e-02     2.66454e-15
+           13      9.51374e-07     3.28965e-02     2.22045e-15
+           14      8.80464e-07     3.28965e-02     1.55431e-15
+           15      8.14768e-07     3.28965e-02     7.77156e-16
+           16      7.59647e-07     3.28965e-02     2.44249e-15
+           17      7.11081e-07     3.28965e-02     2.22045e-16
+           18      6.65572e-07     3.28965e-02     0.00000e+00
+           19      6.22938e-07     3.28965e-02     1.55431e-15
+           20      5.83001e-07     3.28965e-02     3.33067e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.36244e-06     3.28968e-02     2.22045e-16
+            2      1.68753e-06     3.28966e-02     2.66454e-15
+            3      1.78318e-06     3.28966e-02     1.11022e-15
+            4      1.76534e-06     3.28965e-02     2.66454e-15
+            5      1.69359e-06     3.28965e-02     2.22045e-16
+            6      1.59844e-06     3.28965e-02     2.44249e-15
+            7      1.49540e-06     3.28965e-02     1.11022e-15
+            8      1.39224e-06     3.28965e-02     4.44089e-16
+            9      1.29270e-06     3.28965e-02     2.22045e-15
+           10      1.19846e-06     3.28965e-02     1.44329e-15
+           11      1.11014e-06     3.28965e-02     6.66134e-16
+           12      1.02784e-06     3.28965e-02     2.66454e-15
+           13      9.51374e-07     3.28965e-02     2.22045e-15
+           14      8.80464e-07     3.28965e-02     1.55431e-15
+           15      8.14768e-07     3.28965e-02     7.77156e-16
+           16      7.59647e-07     3.28965e-02     2.44249e-15
+           17      7.11081e-07     3.28965e-02     2.22045e-16
+           18      6.65572e-07     3.28965e-02     0.00000e+00
+           19      6.22938e-07     3.28965e-02     1.55431e-15
+           20      5.83001e-07     3.28965e-02     3.33067e-15
+   25            -7.32820        -7.32820            20       +3.290e-02      +7.707e-07
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      5.83001e-07     3.28965e-02     3.33067e-15
+            2      7.43514e-07     3.28964e-02     1.99840e-15
+            3      1.11890e-06     3.28964e-02     3.10862e-15
+            4      1.25851e-06     3.28964e-02     2.22045e-15
+            5      1.27866e-06     3.28964e-02     2.66454e-15
+            6      1.24006e-06     3.28964e-02     1.22125e-15
+            7      1.17432e-06     3.28964e-02     1.11022e-15
+            8      1.09778e-06     3.28964e-02     1.33227e-15
+            9      1.01878e-06     3.28964e-02     2.22045e-15
+           10      9.41488e-07     3.28964e-02     1.55431e-15
+           11      8.67862e-07     3.28964e-02     8.88178e-16
+           12      7.98743e-07     3.28964e-02     6.66134e-16
+           13      7.34381e-07     3.28964e-02     1.22125e-15
+           14      6.74732e-07     3.28965e-02     1.55431e-15
+           15      6.19611e-07     3.28965e-02     1.33227e-15
+           16      5.68764e-07     3.28965e-02     1.77636e-15
+           17      5.21917e-07     3.28965e-02     1.11022e-16
+           18      4.78790e-07     3.28965e-02     3.10862e-15
+           19      4.39113e-07     3.28965e-02     1.55431e-15
+           20      4.02630e-07     3.28965e-02     1.11022e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      5.83001e-07     3.28965e-02     3.33067e-15
+            2      7.43514e-07     3.28964e-02     1.99840e-15
+            3      1.11890e-06     3.28964e-02     3.10862e-15
+            4      1.25851e-06     3.28964e-02     2.22045e-15
+            5      1.27866e-06     3.28964e-02     2.66454e-15
+            6      1.24006e-06     3.28964e-02     1.22125e-15
+            7      1.17432e-06     3.28964e-02     1.11022e-15
+            8      1.09778e-06     3.28964e-02     1.33227e-15
+            9      1.01878e-06     3.28964e-02     2.22045e-15
+           10      9.41488e-07     3.28964e-02     1.55431e-15
+           11      8.67862e-07     3.28964e-02     8.88178e-16
+           12      7.98743e-07     3.28964e-02     6.66134e-16
+           13      7.34381e-07     3.28964e-02     1.22125e-15
+           14      6.74732e-07     3.28965e-02     1.55431e-15
+           15      6.19611e-07     3.28965e-02     1.33227e-15
+           16      5.68764e-07     3.28965e-02     1.77636e-15
+           17      5.21917e-07     3.28965e-02     1.11022e-16
+           18      4.78790e-07     3.28965e-02     3.10862e-15
+           19      4.39113e-07     3.28965e-02     1.55431e-15
+           20      4.02630e-07     3.28965e-02     1.11022e-15
+   26            -7.32820        -7.32820            20       +3.290e-02      +1.313e-06
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.02630e-07     3.28964e-02     1.11022e-15
+            2      1.09231e-06     3.28965e-02     2.44249e-15
+            3      1.38273e-06     3.28965e-02     3.33067e-15
+            4      1.47038e-06     3.28965e-02     2.44249e-15
+            5      1.46769e-06     3.28965e-02     1.77636e-15
+            6      1.42586e-06     3.28965e-02     8.88178e-16
+            7      1.35909e-06     3.28965e-02     8.88178e-16
+            8      1.28229e-06     3.28965e-02     2.88658e-15
+            9      1.20302e-06     3.28965e-02     3.77476e-15
+           10      1.12504e-06     3.28965e-02     3.33067e-15
+           11      1.05015e-06     3.28965e-02     5.55112e-16
+           12      9.79141e-07     3.28966e-02     2.44249e-15
+           13      9.12273e-07     3.28966e-02     3.55271e-15
+           14      8.49556e-07     3.28966e-02     6.66134e-16
+           15      7.90869e-07     3.28966e-02     2.88658e-15
+           16      7.36030e-07     3.28966e-02     3.10862e-15
+           17      6.84833e-07     3.28966e-02     1.33227e-15
+           18      6.37067e-07     3.28966e-02     1.11022e-15
+           19      5.92521e-07     3.28966e-02     2.22045e-16
+           20      5.50994e-07     3.28966e-02     8.88178e-16
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.02630e-07     3.28964e-02     1.11022e-15
+            2      1.09231e-06     3.28965e-02     2.44249e-15
+            3      1.38273e-06     3.28965e-02     3.33067e-15
+            4      1.47038e-06     3.28965e-02     2.44249e-15
+            5      1.46769e-06     3.28965e-02     1.77636e-15
+            6      1.42586e-06     3.28965e-02     8.88178e-16
+            7      1.35909e-06     3.28965e-02     8.88178e-16
+            8      1.28229e-06     3.28965e-02     2.88658e-15
+            9      1.20302e-06     3.28965e-02     3.77476e-15
+           10      1.12504e-06     3.28965e-02     3.33067e-15
+           11      1.05015e-06     3.28965e-02     5.55112e-16
+           12      9.79141e-07     3.28966e-02     2.44249e-15
+           13      9.12273e-07     3.28966e-02     3.55271e-15
+           14      8.49556e-07     3.28966e-02     6.66134e-16
+           15      7.90869e-07     3.28966e-02     2.88658e-15
+           16      7.36030e-07     3.28966e-02     3.10862e-15
+           17      6.84833e-07     3.28966e-02     1.33227e-15
+           18      6.37067e-07     3.28966e-02     1.11022e-15
+           19      5.92521e-07     3.28966e-02     2.22045e-16
+           20      5.50994e-07     3.28966e-02     8.88178e-16
+   27            -7.32820        -7.32820            20       +3.290e-02      +4.461e-07
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      5.50994e-07     3.28966e-02     8.88178e-16
+            2      1.03559e-06     3.28966e-02     4.44089e-16
+            3      1.23450e-06     3.28966e-02     4.44089e-16
+            4      1.28872e-06     3.28966e-02     3.33067e-15
+            5      1.27118e-06     3.28966e-02     1.33227e-15
+            6      1.21950e-06     3.28966e-02     2.44249e-15
+            7      1.15303e-06     3.28967e-02     6.66134e-16
+            8      1.08160e-06     3.28967e-02     1.55431e-15
+            9      1.01017e-06     3.28967e-02     6.66134e-16
+           10      9.41126e-07     3.28967e-02     8.88178e-16
+           11      8.75548e-07     3.28967e-02     5.55112e-16
+           12      8.13852e-07     3.28967e-02     2.66454e-15
+           13      7.56111e-07     3.28967e-02     1.33227e-15
+           14      7.02231e-07     3.28967e-02     1.77636e-15
+           15      6.52040e-07     3.28967e-02     0.00000e+00
+           16      6.05334e-07     3.28967e-02     1.99840e-15
+           17      5.61898e-07     3.28967e-02     1.11022e-16
+           18      5.21519e-07     3.28967e-02     0.00000e+00
+           19      4.83994e-07     3.28967e-02     2.44249e-15
+           20      4.49128e-07     3.28967e-02     1.22125e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      5.50994e-07     3.28966e-02     8.88178e-16
+            2      1.03559e-06     3.28966e-02     4.44089e-16
+            3      1.23450e-06     3.28966e-02     4.44089e-16
+            4      1.28872e-06     3.28966e-02     3.33067e-15
+            5      1.27118e-06     3.28966e-02     1.33227e-15
+            6      1.21950e-06     3.28966e-02     2.44249e-15
+            7      1.15303e-06     3.28967e-02     6.66134e-16
+            8      1.08160e-06     3.28967e-02     1.55431e-15
+            9      1.01017e-06     3.28967e-02     6.66134e-16
+           10      9.41126e-07     3.28967e-02     8.88178e-16
+           11      8.75548e-07     3.28967e-02     5.55112e-16
+           12      8.13852e-07     3.28967e-02     2.66454e-15
+           13      7.56111e-07     3.28967e-02     1.33227e-15
+           14      7.02231e-07     3.28967e-02     1.77636e-15
+           15      6.52040e-07     3.28967e-02     0.00000e+00
+           16      6.05334e-07     3.28967e-02     1.99840e-15
+           17      5.61898e-07     3.28967e-02     1.11022e-16
+           18      5.21519e-07     3.28967e-02     0.00000e+00
+           19      4.83994e-07     3.28967e-02     2.44249e-15
+           20      4.49128e-07     3.28967e-02     1.22125e-15
+   28            -7.32820        -7.32820            20       +3.290e-02      +3.850e-07
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.49128e-07     3.28967e-02     1.22125e-15
+            2      5.02593e-07     3.28967e-02     0.00000e+00
+            3      5.63056e-07     3.28967e-02     2.88658e-15
+            4      5.74787e-07     3.28967e-02     5.55112e-16
+            5      5.62509e-07     3.28967e-02     3.10862e-15
+            6      5.38961e-07     3.28967e-02     1.99840e-15
+            7      5.10673e-07     3.28967e-02     1.33227e-15
+            8      4.80962e-07     3.28967e-02     2.88658e-15
+            9      4.51483e-07     3.28968e-02     3.10862e-15
+           10      4.23032e-07     3.28968e-02     6.66134e-16
+           11      3.95964e-07     3.28968e-02     8.88178e-16
+           12      3.70408e-07     3.28968e-02     1.33227e-15
+           13      3.46382e-07     3.28968e-02     8.88178e-16
+           14      3.23846e-07     3.28968e-02     4.44089e-16
+           15      3.02737e-07     3.28968e-02     1.33227e-15
+           16      2.82977e-07     3.28968e-02     2.66454e-15
+           17      2.64489e-07     3.28968e-02     6.66134e-16
+           18      2.47196e-07     3.28968e-02     1.99840e-15
+           19      2.31024e-07     3.28968e-02     1.55431e-15
+           20      2.15900e-07     3.28968e-02     2.66454e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      4.49128e-07     3.28967e-02     1.22125e-15
+            2      5.02593e-07     3.28967e-02     0.00000e+00
+            3      5.63056e-07     3.28967e-02     2.88658e-15
+            4      5.74787e-07     3.28967e-02     5.55112e-16
+            5      5.62509e-07     3.28967e-02     3.10862e-15
+            6      5.38961e-07     3.28967e-02     1.99840e-15
+            7      5.10673e-07     3.28967e-02     1.33227e-15
+            8      4.80962e-07     3.28967e-02     2.88658e-15
+            9      4.51483e-07     3.28968e-02     3.10862e-15
+           10      4.23032e-07     3.28968e-02     6.66134e-16
+           11      3.95964e-07     3.28968e-02     8.88178e-16
+           12      3.70408e-07     3.28968e-02     1.33227e-15
+           13      3.46382e-07     3.28968e-02     8.88178e-16
+           14      3.23846e-07     3.28968e-02     4.44089e-16
+           15      3.02737e-07     3.28968e-02     1.33227e-15
+           16      2.82977e-07     3.28968e-02     2.66454e-15
+           17      2.64489e-07     3.28968e-02     6.66134e-16
+           18      2.47196e-07     3.28968e-02     1.99840e-15
+           19      2.31024e-07     3.28968e-02     1.55431e-15
+           20      2.15900e-07     3.28968e-02     2.66454e-15
+   29            -7.32820        -7.32820            20       +3.290e-02      +2.371e-07
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      2.15900e-07     3.28968e-02     2.66454e-15
+            2      2.70745e-07     3.28968e-02     1.33227e-15
+            3      3.89590e-07     3.28968e-02     1.33227e-15
+            4      4.31290e-07     3.28968e-02     1.66533e-15
+            5      4.34225e-07     3.28968e-02     1.99840e-15
+            6      4.18373e-07     3.28968e-02     2.22045e-15
+            7      3.94088e-07     3.28968e-02     1.55431e-15
+            8      3.66691e-07     3.28968e-02     6.66134e-16
+            9      3.38869e-07     3.28968e-02     4.21885e-15
+           10      3.11935e-07     3.28968e-02     1.66533e-15
+           11      2.86490e-07     3.28968e-02     3.33067e-15
+           12      2.62767e-07     3.28968e-02     4.21885e-15
+           13      2.40811e-07     3.28968e-02     1.33227e-15
+           14      2.20575e-07     3.28968e-02     1.33227e-15
+           15      2.01971e-07     3.28968e-02     1.33227e-15
+           16      1.84893e-07     3.28967e-02     1.11022e-16
+           17      1.69229e-07     3.28967e-02     8.88178e-16
+           18      1.54871e-07     3.28967e-02     3.55271e-15
+           19      1.41715e-07     3.28967e-02     1.11022e-15
+           20      1.29664e-07     3.28967e-02     2.22045e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      2.15900e-07     3.28968e-02     2.66454e-15
+            2      2.70745e-07     3.28968e-02     1.33227e-15
+            3      3.89590e-07     3.28968e-02     1.33227e-15
+            4      4.31290e-07     3.28968e-02     1.55431e-15
+            5      4.34225e-07     3.28968e-02     1.55431e-15
+            6      4.18373e-07     3.28968e-02     2.22045e-15
+            7      3.94088e-07     3.28968e-02     2.44249e-15
+            8      3.66691e-07     3.28968e-02     0.00000e+00
+            9      3.38869e-07     3.28968e-02     4.21885e-15
+           10      3.11935e-07     3.28968e-02     4.44089e-16
+           11      2.86490e-07     3.28968e-02     2.22045e-15
+           12      2.62767e-07     3.28968e-02     3.55271e-15
+           13      2.40811e-07     3.28968e-02     1.33227e-15
+           14      2.20575e-07     3.28968e-02     1.33227e-15
+           15      2.01971e-07     3.28968e-02     4.44089e-16
+           16      1.84893e-07     3.28967e-02     0.00000e+00
+           17      1.69229e-07     3.28967e-02     1.11022e-15
+           18      1.54871e-07     3.28967e-02     3.10862e-15
+           19      1.41715e-07     3.28967e-02     1.55431e-15
+           20      1.29664e-07     3.28967e-02     2.88658e-15
+   30            -7.32820        -7.32820            20       +3.290e-02      +1.240e-07
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.29664e-07     3.28967e-02     2.22045e-15
+            2      3.78861e-07     3.28967e-02     1.77636e-15
+            3      4.98417e-07     3.28967e-02     6.66134e-16
+            4      5.39447e-07     3.28967e-02     2.88658e-15
+            5      5.41113e-07     3.28967e-02     1.11022e-15
+            6      5.23667e-07     3.28967e-02     8.88178e-16
+            7      4.97541e-07     3.28967e-02     1.44329e-15
+            8      4.68075e-07     3.28967e-02     1.99840e-15
+            9      4.37964e-07     3.28967e-02     0.00000e+00
+           10      4.08539e-07     3.28967e-02     1.55431e-15
+           11      3.80423e-07     3.28967e-02     1.11022e-16
+           12      3.53875e-07     3.28967e-02     1.77636e-15
+           13      3.28973e-07     3.28967e-02     6.66134e-16
+           14      3.05699e-07     3.28967e-02     2.44249e-15
+           15      2.83994e-07     3.28967e-02     1.33227e-15
+           16      2.63775e-07     3.28967e-02     6.66134e-16
+           17      2.44957e-07     3.28967e-02     6.66134e-16
+           18      2.27450e-07     3.28967e-02     2.88658e-15
+           19      2.11170e-07     3.28967e-02     2.44249e-15
+           20      1.96033e-07     3.28967e-02     2.44249e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.29664e-07     3.28967e-02     2.88658e-15
+            2      3.78861e-07     3.28967e-02     2.44249e-15
+            3      4.98417e-07     3.28967e-02     1.44329e-15
+            4      5.39447e-07     3.28967e-02     3.10862e-15
+            5      5.41113e-07     3.28967e-02     6.66134e-16
+            6      5.23667e-07     3.28967e-02     1.11022e-15
+            7      4.97541e-07     3.28967e-02     1.22125e-15
+            8      4.68075e-07     3.28967e-02     1.99840e-15
+            9      4.37964e-07     3.28967e-02     1.11022e-15
+           10      4.08539e-07     3.28967e-02     1.77636e-15
+           11      3.80423e-07     3.28967e-02     1.11022e-15
+           12      3.53875e-07     3.28967e-02     1.77636e-15
+           13      3.28973e-07     3.28967e-02     4.44089e-16
+           14      3.05699e-07     3.28967e-02     2.66454e-15
+           15      2.83994e-07     3.28967e-02     1.33227e-15
+           16      2.63775e-07     3.28967e-02     1.33227e-15
+           17      2.44957e-07     3.28967e-02     8.88178e-16
+           18      2.27450e-07     3.28967e-02     2.88658e-15
+           19      2.11170e-07     3.28967e-02     2.22045e-15
+           20      1.96033e-07     3.28967e-02     2.66454e-15
+   31            -7.32820        -7.32820            20       +3.290e-02      +9.040e-08
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.96033e-07     3.28967e-02     2.44249e-15
+            2      3.45287e-07     3.28967e-02     2.44249e-15
+            3      4.05435e-07     3.28967e-02     0.00000e+00
+            4      4.20492e-07     3.28967e-02     1.99840e-15
+            5      4.13256e-07     3.28967e-02     2.22045e-15
+            6      3.95494e-07     3.28967e-02     2.22045e-15
+            7      3.73253e-07     3.28967e-02     3.10862e-15
+            8      3.49607e-07     3.28967e-02     1.77636e-15
+            9      3.26089e-07     3.28967e-02     3.33067e-15
+           10      3.03438e-07     3.28967e-02     2.88658e-15
+           11      2.81982e-07     3.28967e-02     1.77636e-15
+           12      2.61839e-07     3.28967e-02     1.11022e-15
+           13      2.43022e-07     3.28967e-02     3.10862e-15
+           14      2.25492e-07     3.28967e-02     2.22045e-15
+           15      2.09188e-07     3.28967e-02     4.44089e-15
+           16      1.94038e-07     3.28967e-02     1.77636e-15
+           17      1.79968e-07     3.28967e-02     3.55271e-15
+           18      1.66905e-07     3.28967e-02     2.44249e-15
+           19      1.54781e-07     3.28967e-02     2.88658e-15
+           20      1.43529e-07     3.28967e-02     2.44249e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.96033e-07     3.28967e-02     2.66454e-15
+            2      3.45287e-07     3.28967e-02     2.44249e-15
+            3      4.05435e-07     3.28967e-02     0.00000e+00
+            4      4.20492e-07     3.28967e-02     2.66454e-15
+            5      4.13256e-07     3.28967e-02     1.77636e-15
+            6      3.95494e-07     3.28967e-02     1.55431e-15
+            7      3.73253e-07     3.28967e-02     3.55271e-15
+            8      3.49607e-07     3.28967e-02     1.77636e-15
+            9      3.26089e-07     3.28967e-02     3.55271e-15
+           10      3.03438e-07     3.28967e-02     3.77476e-15
+           11      2.81982e-07     3.28967e-02     1.11022e-15
+           12      2.61839e-07     3.28967e-02     6.66134e-16
+           13      2.43022e-07     3.28967e-02     2.22045e-15
+           14      2.25492e-07     3.28967e-02     1.77636e-15
+           15      2.09188e-07     3.28967e-02     4.66294e-15
+           16      1.94038e-07     3.28967e-02     1.77636e-15
+           17      1.79968e-07     3.28967e-02     3.33067e-15
+           18      1.66905e-07     3.28967e-02     2.88658e-15
+           19      1.54781e-07     3.28967e-02     2.22045e-15
+           20      1.43529e-07     3.28967e-02     2.88658e-15
+   32            -7.32820        -7.32820            20       +3.290e-02      +3.697e-08
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.43529e-07     3.28967e-02     2.44249e-15
+            2      1.88038e-07     3.28967e-02     1.55431e-15
+            3      2.07155e-07     3.28967e-02     6.66134e-16
+            4      2.09813e-07     3.28967e-02     2.66454e-15
+            5      2.04407e-07     3.28966e-02     3.33067e-15
+            6      1.95262e-07     3.28966e-02     1.77636e-15
+            7      1.84595e-07     3.28966e-02     2.22045e-16
+            8      1.73530e-07     3.28966e-02     3.10862e-15
+            9      1.62623e-07     3.28966e-02     1.55431e-15
+           10      1.52140e-07     3.28966e-02     2.22045e-15
+           11      1.42196e-07     3.28966e-02     1.55431e-15
+           12      1.32831e-07     3.28966e-02     3.10862e-15
+           13      1.24044e-07     3.28966e-02     2.22045e-15
+           14      1.15818e-07     3.28966e-02     8.88178e-16
+           15      1.08126e-07     3.28966e-02     2.22045e-15
+           16      1.00938e-07     3.28966e-02     1.66533e-15
+           17      9.42231e-08     3.28966e-02     2.22045e-16
+           18      8.79526e-08     3.28966e-02     0.00000e+00
+           19      8.20973e-08     3.28966e-02     0.00000e+00
+           20      7.66302e-08     3.28966e-02     2.88658e-15
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      1.43529e-07     3.28967e-02     2.88658e-15
+            2      1.88038e-07     3.28967e-02     1.55431e-15
+            3      2.07155e-07     3.28967e-02     2.22045e-16
+            4      2.09813e-07     3.28967e-02     2.88658e-15
+            5      2.04407e-07     3.28966e-02     3.55271e-15
+            6      1.95262e-07     3.28966e-02     8.88178e-16
+            7      1.84595e-07     3.28966e-02     8.88178e-16
+            8      1.73530e-07     3.28966e-02     3.33067e-15
+            9      1.62623e-07     3.28966e-02     2.44249e-15
+           10      1.52140e-07     3.28966e-02     2.44249e-15
+           11      1.42196e-07     3.28966e-02     6.66134e-16
+           12      1.32831e-07     3.28966e-02     2.22045e-15
+           13      1.24044e-07     3.28966e-02     6.66134e-16
+           14      1.15818e-07     3.28966e-02     1.77636e-15
+           15      1.08126e-07     3.28966e-02     1.99840e-15
+           16      1.00938e-07     3.28966e-02     2.66454e-15
+           17      9.42231e-08     3.28966e-02     8.88178e-16
+           18      8.79526e-08     3.28966e-02     4.44089e-16
+           19      8.20973e-08     3.28966e-02     0.00000e+00
+           20      7.66302e-08     3.28966e-02     1.77636e-15
+   33            -7.32820        -7.32820            20       +3.290e-02      +4.477e-08
+           iter      res_ks        res_ncon         res_Ncon    res_linsolve  iter_linsolve
+
+           ________________________________________________________________________________
+
+            1      7.66302e-08     3.28966e-02     2.66454e-15
+            2      8.84876e-08     3.28966e-02     2.66454e-15
+            3      1.24185e-07     3.28966e-02     5.55112e-15
+            4      1.36323e-07     3.28966e-02     4.44089e-15
+            5      1.36659e-07     3.28966e-02     1.77636e-15
+            6      1.31314e-07     3.28966e-02     3.99680e-15
+            7      1.23452e-07     3.28966e-02     3.33067e-15
+            8      1.14696e-07     3.28966e-02     1.99840e-15
+            9      1.05863e-07     3.28966e-02     3.55271e-15
+           10      9.73464e-08     3.28966e-02     1.55431e-15
+           11      8.93246e-08     3.28966e-02     3.33067e-15
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-5d638e5e5820&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     57</span>
+<span class="ansi-green-intense-fg ansi-bold">     58</span> part<span class="ansi-blue-fg">.</span>optPartition<span class="ansi-blue-fg">.</span>isolated   <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">False</span>
+<span class="ansi-green-fg">---&gt; 59</span><span class="ansi-red-fg"> part.scf({&#34;disp&#34;       : True,
+</span><span class="ansi-green-intense-fg ansi-bold">     60</span>           <span class="ansi-blue-fg">&#34;alpha&#34;</span>      <span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0.6</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     61</span>           <span class="ansi-blue-fg">&#34;max_iter&#34;</span>   <span class="ansi-blue-fg">:</span> <span class="ansi-cyan-fg">200</span><span class="ansi-blue-fg">,</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/partition.py</span> in <span class="ansi-cyan-fg">scf</span><span class="ansi-blue-fg">(self, optSCF)</span>
+<span class="ansi-green-intense-fg ansi-bold">    434</span>
+<span class="ansi-green-intense-fg ansi-bold">    435</span>     <span class="ansi-green-fg">def</span> scf<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> optSCF<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 436</span><span class="ansi-red-fg">         </span>scf<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> optSCF<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    437</span>
+<span class="ansi-green-intense-fg ansi-bold">    438</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/scf.py</span> in <span class="ansi-cyan-fg">scf</span><span class="ansi-blue-fg">(self, optSCF)</span>
+<span class="ansi-green-intense-fg ansi-bold">    167</span>     <span class="ansi-red-fg">#-----&gt; Calculate Partition Potential</span>
+<span class="ansi-green-intense-fg ansi-bold">    168</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> optSCF<span class="ansi-blue-fg">.</span>isolated<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 169</span><span class="ansi-red-fg">             </span>vp <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>partition_potential<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    170</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    171</span>             vp <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>zeros_like<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>nf<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/partition.py</span> in <span class="ansi-cyan-fg">partition_potential</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    426</span>
+<span class="ansi-green-intense-fg ansi-bold">    427</span>     <span class="ansi-green-fg">def</span> partition_potential<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 428</span><span class="ansi-red-fg">         </span>vp <span class="ansi-blue-fg">=</span> partition_potential<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    429</span>         <span class="ansi-green-fg">return</span> vp
+<span class="ansi-green-intense-fg ansi-bold">    430</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/partition_potential.py</span> in <span class="ansi-cyan-fg">partition_potential</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">     16</span>         self<span class="ansi-blue-fg">.</span>vp_nuclear<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     17</span>         <span class="ansi-red-fg">#Calculate kinetic term</span>
+<span class="ansi-green-fg">---&gt; 18</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>vp_kinetic<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     19</span>         <span class="ansi-red-fg">#Calculate hxc terms</span>
+<span class="ansi-green-intense-fg ansi-bold">     20</span>         self<span class="ansi-blue-fg">.</span>vp_hxc<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/partition.py</span> in <span class="ansi-cyan-fg">vp_kinetic</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    396</span>
+<span class="ansi-green-intense-fg ansi-bold">    397</span>     <span class="ansi-green-fg">def</span> vp_kinetic<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 398</span><span class="ansi-red-fg">         </span>vp_kinetic<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    399</span>
+<span class="ansi-green-intense-fg ansi-bold">    400</span>     <span class="ansi-green-fg">def</span> vp_hxc<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/partition/vp_kinetic.py</span> in <span class="ansi-cyan-fg">vp_kinetic</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">     93</span>
+<span class="ansi-green-intense-fg ansi-bold">     94</span>             <span class="ansi-red-fg">#Invert molecular problem:</span>
+<span class="ansi-green-fg">---&gt; 95</span><span class="ansi-red-fg">             </span>_<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>inversion_info <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>inverter<span class="ansi-blue-fg">.</span>invert<span class="ansi-blue-fg">(</span>ntarget<span class="ansi-blue-fg">,</span> vs0<span class="ansi-blue-fg">,</span> phi0<span class="ansi-blue-fg">,</span> e0<span class="ansi-blue-fg">,</span> ispin<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     96</span>
+<span class="ansi-green-intense-fg ansi-bold">     97</span>         <span class="ansi-red-fg"># print(&#34;Leaving through vp_kinetic&#34;)</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/inverter/inverter.py</span> in <span class="ansi-cyan-fg">invert</span><span class="ansi-blue-fg">(self, n0, vs0, phi0, e0, ispin, Qi)</span>
+<span class="ansi-green-intense-fg ansi-bold">    120</span>
+<span class="ansi-green-intense-fg ansi-bold">    121</span>         <span class="ansi-green-fg">elif</span> self<span class="ansi-blue-fg">.</span>optInv<span class="ansi-blue-fg">.</span>invert_type <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;orbitalinvert&#34;</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 122</span><span class="ansi-red-fg">             </span>flag<span class="ansi-blue-fg">,</span> output <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>orbitalinvert<span class="ansi-blue-fg">(</span>n0<span class="ansi-blue-fg">,</span> vs0<span class="ansi-blue-fg">,</span> phi0<span class="ansi-blue-fg">,</span> e0<span class="ansi-blue-fg">,</span> ispin<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    123</span>
+<span class="ansi-green-intense-fg ansi-bold">    124</span>         <span class="ansi-green-fg">elif</span> self<span class="ansi-blue-fg">.</span>optInv<span class="ansi-blue-fg">.</span>invert_type <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#34;qinvert&#34;</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/inverter/inverter.py</span> in <span class="ansi-cyan-fg">orbitalinvert</span><span class="ansi-blue-fg">(self, n0, vs0, phi0, e0, ispin)</span>
+<span class="ansi-green-intense-fg ansi-bold">    155</span>
+<span class="ansi-green-intense-fg ansi-bold">    156</span>     <span class="ansi-green-fg">def</span> orbitalinvert<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> n0<span class="ansi-blue-fg">,</span> vs0<span class="ansi-blue-fg">,</span> phi0<span class="ansi-blue-fg">,</span> e0<span class="ansi-blue-fg">,</span> ispin<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 157</span><span class="ansi-red-fg">         </span>flag<span class="ansi-blue-fg">,</span> output <span class="ansi-blue-fg">=</span> orbitalinvert<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> n0<span class="ansi-blue-fg">,</span> vs0<span class="ansi-blue-fg">,</span> phi0<span class="ansi-blue-fg">,</span> e0<span class="ansi-blue-fg">,</span> ispin<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    158</span>         <span class="ansi-green-fg">return</span> flag<span class="ansi-blue-fg">,</span> output
+<span class="ansi-green-intense-fg ansi-bold">    159</span>
+
+<span class="ansi-green-fg">/mnt/c/Users/victo/Dropbox/PHD/cadmium/CADMium/CADMium/inverter/orbitalinvert.py</span> in <span class="ansi-cyan-fg">orbitalinvert</span><span class="ansi-blue-fg">(self, n0, vs0, phi0, e0, ispin)</span>
+<span class="ansi-green-intense-fg ansi-bold">    413</span>
+<span class="ansi-green-intense-fg ansi-bold">    414</span>                 <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 415</span><span class="ansi-red-fg">                     </span>dX <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1.0</span> <span class="ansi-blue-fg">*</span> np<span class="ansi-blue-fg">.</span>linalg<span class="ansi-blue-fg">.</span>solve<span class="ansi-blue-fg">(</span>jac<span class="ansi-blue-fg">,</span> eqn<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    416</span>
+<span class="ansi-green-intense-fg ansi-bold">    417</span>                 <span class="ansi-red-fg">#Add dX to X</span>
+
+<span class="ansi-green-fg">&lt;__array_function__ internals&gt;</span> in <span class="ansi-cyan-fg">solve</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/cadmium/lib/python3.8/site-packages/numpy/linalg/linalg.py</span> in <span class="ansi-cyan-fg">solve</span><span class="ansi-blue-fg">(a, b)</span>
+<span class="ansi-green-intense-fg ansi-bold">    392</span>     signature <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;DD-&gt;D&#39;</span> <span class="ansi-green-fg">if</span> isComplexType<span class="ansi-blue-fg">(</span>t<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">else</span> <span class="ansi-blue-fg">&#39;dd-&gt;d&#39;</span>
+<span class="ansi-green-intense-fg ansi-bold">    393</span>     extobj <span class="ansi-blue-fg">=</span> get_linalg_error_extobj<span class="ansi-blue-fg">(</span>_raise_linalgerror_singular<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 394</span><span class="ansi-red-fg">     </span>r <span class="ansi-blue-fg">=</span> gufunc<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> b<span class="ansi-blue-fg">,</span> signature<span class="ansi-blue-fg">=</span>signature<span class="ansi-blue-fg">,</span> extobj<span class="ansi-blue-fg">=</span>extobj<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    395</span>
+<span class="ansi-green-intense-fg ansi-bold">    396</span>     <span class="ansi-green-fg">return</span> wrap<span class="ansi-blue-fg">(</span>r<span class="ansi-blue-fg">.</span>astype<span class="ansi-blue-fg">(</span>result_t<span class="ansi-blue-fg">,</span> copy<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>:
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Separation Distance:&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fragment Energy:&quot;</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">Ef</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partition Energy:&quot;</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">Ep</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vnn Energy&quot;</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">Vnn</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total Energy:&quot;</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">E</span><span class="o">.</span><span class="n">E</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Separation Distance: 5.122
+Fragment Energy: -14.6564007711907
+Partition Energy: -1.8266997323148317
+Vnn Energy 1.757126122608356
+Total Energy: -14.725974380897176
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">vars</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">E</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;Ea&#39;: -7.32820038559535,
+ &#39;Eb&#39;: -7.32820038559535,
+ &#39;Ef&#39;: -14.6564007711907,
+ &#39;Tsf&#39;: 14.476453480780929,
+ &#39;Eksf&#39;: array([[-3.62421364, -3.62421364]]),
+ &#39;Enucf&#39;: -33.84497713654515,
+ &#39;Exf&#39;: -2.995691852976182,
+ &#39;Ecf&#39;: -0.3227968385661916,
+ &#39;Ehf&#39;: 8.030611576115891,
+ &#39;Vhxcf&#39;: 11.70215605772683,
+ &#39;Ep&#39;: -1.8266997323148317,
+ &#39;Ep_pot&#39;: -3.685917965321755,
+ &#39;Ep_kin&#39;: 0.007707316094393235,
+ &#39;Ep_hxc&#39;: 1.85151091691253,
+ &#39;Et&#39;: -16.483100503505533,
+ &#39;Vnn&#39;: 1.757126122608356,
+ &#39;E&#39;: -14.725974380897176,
+ &#39;evals_a&#39;: array([-1.77861665, -0.06698034,  0.00679811, -1.77861665, -0.06698034,
+         0.00679811]),
+ &#39;evals_b&#39;: array([-1.77861665, -0.06698034,  0.00679811, -1.77861665, -0.06698034,
+         0.00679811]),
+ &#39;Ep_h&#39;: 1.8921906264368236,
+ &#39;Ep_x&#39;: -0.035332047081229945,
+ &#39;Ep_c&#39;: -0.005347662443063672}
+</pre></div></div>
+</div>
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">CONTENTS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">GRID EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Grids/Grid.html">Generating a basic Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Grids/CADMIUM_LOGO.html">How to genererate pyCADMiums logo?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT ATOM EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/00_README.html">README: Atoms and Diatomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/01_H_Exact.html">Hydrogen Exact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/02_LDA_H.html">Hydgrogen LDA with Plotted Potentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/03_LDA_He.html">Helium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/05_LDA_Be.html">Beryllium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/06_LDA_B.html">Boron LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/07_LDA_C.html">Carbon LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/08_LDA_N.html">Nitrogen LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/09_LDA_O.html">Oxygen LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/11_LDA_Ne.html">LDA Neon</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT DIATOMIC EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/00_README2.html">README: Diatomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/01_NaCl.html">Sodium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/02_CO.html">CO LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/03_O2.html">O_2 LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../KS_DFT/04_F2.html">F_2 LDA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">PDFT INVERSION EXAMPLES:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">README: Inversions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PDFT_Calculation_Be2_Orbital.html">Be2 PDFT Inversion - WuYang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PDFT_Calculation_H2plus.html">H2+ PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PDFT_Calculations_H2.html">H2 PDFT Inversion - Orbital Invert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PDFT_Calculations_He2.html">He2 PDFT Inversion - WuYang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../PDFT_Calculations_Li2.html">Li2 PDFT Inversion - Orbital Invert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="H2_ens.html">H2 ENS PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="H2_foo.html">H2 FOO PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="h2plus_ens.html">H2+ ENS PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="h2plus_foo.html">Li2 FOO PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Li2_ens.html">Li2 ENS PDFT Inversion</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Li2 FOO PDFT Inversion</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DELOCALIZATION AND STATIC CORRELATION EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">README: Inversions</a></li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../../../_sources/examples/INV/ENS_vs_FOO/Li2_foo.ipynb.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

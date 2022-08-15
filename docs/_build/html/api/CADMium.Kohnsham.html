@@ -21,6 +21,7 @@
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
   
 
   <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
@@ -61,25 +62,25 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#CADMium.Kohnsham.calc_chempot" title="CADMium.Kohnsham.calc_chempot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_chempot</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Calculates the chemical potential as the maximum of the homo per orbital</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#CADMium.Kohnsham.calc_density" title="CADMium.Kohnsham.calc_density"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_density</span></code></a>([ITERATIVE, dif])</p></td>
-<td><p></p></td>
+<td><p>Calculates density using each of the orbitals solvers.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#CADMium.Kohnsham.calc_hxc_potential" title="CADMium.Kohnsham.calc_hxc_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_hxc_potential</span></code></a>()</p></td>
-<td><p>Calculate new potential for each fragment</p></td>
+<td><p>Calculates the HXC potential using the current density</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#CADMium.Kohnsham.calc_nuclear_potential" title="CADMium.Kohnsham.calc_nuclear_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_nuclear_potential</span></code></a>()</p></td>
-<td><p>Calculate nuclear potential</p></td>
+<td><p>Calculate nuclear potential using the common Coulomb function.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#CADMium.Kohnsham.energy" title="CADMium.Kohnsham.energy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Computes each of the energy components using Kohn-Sham definition and the selected density functional approximation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#CADMium.Kohnsham.scf" title="CADMium.Kohnsham.scf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scf</span></code></a>([ks_scf_options])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#CADMium.Kohnsham.set_effective_potential" title="CADMium.Kohnsham.set_effective_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_effective_potential</span></code></a>()</p></td>
-<td><p>Sets new effective potential</p></td>
+<td><p>Sets new effective potential.</p></td>
 </tr>
 </tbody>
 </table>
@@ -87,29 +88,82 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="CADMium.Kohnsham.calc_chempot">
 <span class="sig-name descname"><span class="pre">calc_chempot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/kohnsham/kohnsham.html#Kohnsham.calc_chempot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Kohnsham.calc_chempot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the chemical potential as the maximum of the homo per orbital</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sets chemical potential in self.u</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="CADMium.Kohnsham.calc_density">
 <span class="sig-name descname"><span class="pre">calc_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ITERATIVE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dif</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/kohnsham/kohnsham.html#Kohnsham.calc_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Kohnsham.calc_density" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculates density using each of the orbitals solvers.
+Each of the orbital solvers is solved in parallel using Python’s std
+multiprocessing module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>Iterative</strong> (<em>bool. Optional. Default=False.</em>) – Switches to iterative way of diagonalizing each orbitals.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nout</strong> – Numpy array with resulting electronic density.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="CADMium.Kohnsham.calc_hxc_potential">
 <span class="sig-name descname"><span class="pre">calc_hxc_potential</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/kohnsham/kohnsham.html#Kohnsham.calc_hxc_potential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Kohnsham.calc_hxc_potential" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate new potential for each fragment</p>
+<dd><p>Calculates the HXC potential using the current density</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sets the Hartee and Exchange-Correlation energy and potential
+in the E and V data classes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="CADMium.Kohnsham.calc_nuclear_potential">
 <span class="sig-name descname"><span class="pre">calc_nuclear_potential</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/kohnsham/kohnsham.html#Kohnsham.calc_nuclear_potential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Kohnsham.calc_nuclear_potential" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate nuclear potential</p>
+<dd><p>Calculate nuclear potential using the common Coulomb function.
+Sets the nuclear potential in the object’s attribute self.vnuc</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="CADMium.Kohnsham.energy">
 <span class="sig-name descname"><span class="pre">energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/kohnsham/kohnsham.html#Kohnsham.energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Kohnsham.energy" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Computes each of the energy components using Kohn-Sham definition
+and the selected density functional approximation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sets each of the energy components in the data class E.
+Which is an attribute of the object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="CADMium.Kohnsham.scf">
@@ -119,7 +173,9 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="CADMium.Kohnsham.set_effective_potential">
 <span class="sig-name descname"><span class="pre">set_effective_potential</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CADMium/kohnsham/kohnsham.html#Kohnsham.set_effective_potential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CADMium.Kohnsham.set_effective_potential" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets new effective potential</p>
+<dd><p>Sets new effective potential.
+Distributes the current effective potential (vnuc + vhxc)
+To each orbital’s sovler.</p>
 </dd></dl>
 
 </dd></dl>
@@ -147,8 +203,9 @@
     
   
   
-    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">CONTENTS:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../coordinate_system.html">The Coordinate System</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../coordinate_system.html#discretization">Discretization</a></li>
@@ -168,6 +225,15 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">GRID EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/Grids/Grid.html">Generating a basic Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/Grids/CADMIUM_LOGO.html">How to genererate pyCADMiums logo?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/KS_DFT/02_CO.html">CCCBDB LDA Energy: Etot -112.748985</a></li>
 </ul>
 
   

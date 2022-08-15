@@ -21,6 +21,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
   
 
   <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
@@ -51,27 +52,75 @@
 <p>Python module that uses a prolate spheroidal (PS) coordinate grid to accurately perform computational chemistry calculations on atoms and diatomic molecules. The name is an acronym for “Chemical Atoms in Molecules” that references the idea of chemically significant fragments within a molecule.
 <em>pyCADMium</em> originated in a proprietary programming language but has been rewritten from the ground up as an open-source alternative.</p>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">CONTENTS:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="coordinate_system.html">The Coordinate System</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#discretization">Discretization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coordinate_system.html">The Coordinate System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">GRID EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/Grids/Grid.html">Generating a basic Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Grids/CADMIUM_LOGO.html">How to genererate pyCADMiums logo?</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-CADMium">CADMium Package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#functions">Functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#classes">Classes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT ATOM EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/00_README.html">README: Atoms and Diatomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/01_H_Exact.html">Hydrogen Exact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/02_LDA_H.html">Hydgrogen LDA with Plotted Potentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/03_LDA_He.html">Helium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/05_LDA_Be.html">Beryllium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/06_LDA_B.html">Boron LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/07_LDA_C.html">Carbon LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/08_LDA_N.html">Nitrogen LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/09_LDA_O.html">Oxygen LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/11_LDA_Ne.html">LDA Neon</a></li>
 </ul>
-</li>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT DIATOMIC EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/00_README2.html">README: Diatomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/01_NaCl.html">Sodium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/02_CO.html">CO LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/03_O2.html">O_2 LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/04_F2.html">F_2 LDA</a></li>
 </ul>
-</li>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">PDFT INVERSION EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/README.html">README: Inversions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculation_Be2_Orbital.html">Be2 PDFT Inversion - WuYang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculation_H2plus.html">H2+ PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculations_H2.html">H2 PDFT Inversion - Orbital Invert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculations_He2.html">He2 PDFT Inversion - WuYang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculations_Li2.html">Li2 PDFT Inversion - Orbital Invert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/H2_ens.html">H2 ENS PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/H2_foo.html">H2 FOO PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/h2plus_ens.html">H2+ ENS PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/h2plus_foo.html">Li2 FOO PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/Li2_ens.html">Li2 ENS PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/Li2_foo.html">Li2 FOO PDFT Inversion</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">DELOCALIZATION AND STATIC CORRELATION EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/README.html">README: Delocalization and Static Correlation Errors.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/Figure_1.html">Corrected Bond Stretch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/Figure_1.html#H2PLUS">H2PLUS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/Figure_1.html#H2">H2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/H2_Stretched.html">Stretched PDFT H_2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/H2_Stretched_LDA.html">Stretched LDA H_2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/H2plus_Stretched.html">Stretched PDFT H_2+</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/H2plus_Stretched_LDA.html">Stretched LDA H_2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/Li2.html">Stretched LDA Li_2</a></li>
 </ul>
 </div>
 </section>
@@ -105,8 +154,9 @@
     
   
   
-    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">CONTENTS:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coordinate_system.html">The Coordinate System</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="coordinate_system.html#discretization">Discretization</a></li>
@@ -126,6 +176,59 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">GRID EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/Grids/Grid.html">Generating a basic Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Grids/CADMIUM_LOGO.html">How to genererate pyCADMiums logo?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT ATOM EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/00_README.html">README: Atoms and Diatomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/01_H_Exact.html">Hydrogen Exact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/02_LDA_H.html">Hydgrogen LDA with Plotted Potentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/03_LDA_He.html">Helium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/05_LDA_Be.html">Beryllium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/06_LDA_B.html">Boron LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/07_LDA_C.html">Carbon LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/08_LDA_N.html">Nitrogen LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/09_LDA_O.html">Oxygen LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/11_LDA_Ne.html">LDA Neon</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT DIATOMIC EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/00_README2.html">README: Diatomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/01_NaCl.html">Sodium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/02_CO.html">CO LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/03_O2.html">O_2 LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KS_DFT/04_F2.html">F_2 LDA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">PDFT INVERSION EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/README.html">README: Inversions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculation_Be2_Orbital.html">Be2 PDFT Inversion - WuYang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculation_H2plus.html">H2+ PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculations_H2.html">H2 PDFT Inversion - Orbital Invert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculations_He2.html">He2 PDFT Inversion - WuYang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/PDFT_Calculations_Li2.html">Li2 PDFT Inversion - Orbital Invert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/H2_ens.html">H2 ENS PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/H2_foo.html">H2 FOO PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/h2plus_ens.html">H2+ ENS PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/h2plus_foo.html">Li2 FOO PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/Li2_ens.html">Li2 ENS PDFT Inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/INV/ENS_vs_FOO/Li2_foo.html">Li2 FOO PDFT Inversion</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DELOCALIZATION AND STATIC CORRELATION EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/README.html">README: Delocalization and Static Correlation Errors.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/Figure_1.html">Corrected Bond Stretch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/Figure_1.html#H2PLUS">H2PLUS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/Figure_1.html#H2">H2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/H2_Stretched.html">Stretched PDFT H_2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/H2_Stretched_LDA.html">Stretched LDA H_2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/H2plus_Stretched.html">Stretched PDFT H_2+</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/H2plus_Stretched_LDA.html">Stretched LDA H_2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/STRETCHING/Li2.html">Stretched LDA Li_2</a></li>
 </ul>
 
   

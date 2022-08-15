@@ -1,0 +1,131 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Sodium LDA"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      " iter    Total Energy     HOMO Eigenvalue         Res       \n",
+      "\n",
+      "----------------------------------------------------------- \n",
+      "\n",
+      "    1      -818.19077      +1.01813e-01       +1.00000e+00\n",
+      "    2      -592.60606      -3.82037e+00       +3.80666e-01\n",
+      "    3      -623.91403      -1.39911e+00       +5.01800e-02\n",
+      "    4      -626.10269      -5.68723e-01       +7.63083e-03\n",
+      "    5      -628.06436      -5.47590e-01       +3.58690e-03\n",
+      "    6      -620.58519      -1.92346e-01       +1.20518e-02\n",
+      "    7      -620.74720      -1.68060e-01       +8.67527e-04\n",
+      "    8      -619.24641      -1.69389e-01       +2.42358e-03\n",
+      "    9      -618.44937      -1.86828e-01       +1.28877e-03\n",
+      "   10      -620.08853      -1.51378e-01       +2.64342e-03\n",
+      "   11      -619.26910      -1.69601e-01       +1.32321e-03\n",
+      "   12      -619.75497      -1.58625e-01       +7.83974e-04\n",
+      "   13      -619.33883      -1.68434e-01       +6.71911e-04\n",
+      "   14      -619.70029      -1.60007e-01       +5.83274e-04\n",
+      "   15      -619.39198      -1.67243e-01       +4.97764e-04\n",
+      "   16      -619.65486      -1.61148e-01       +4.24242e-04\n",
+      "   17      -619.42974      -1.66430e-01       +3.63439e-04\n",
+      "   18      -619.62214      -1.61973e-01       +3.10511e-04\n",
+      "   19      -619.45737      -1.65834e-01       +2.65978e-04\n",
+      "   20      -619.59831      -1.62567e-01       +2.27465e-04\n",
+      "   21      -619.47764      -1.65391e-01       +1.94801e-04\n",
+      "   22      -619.58089      -1.62995e-01       +1.66659e-04\n",
+      "   23      -619.49249      -1.65061e-01       +1.42705e-04\n",
+      "   24      -619.56815      -1.63304e-01       +1.22111e-04\n",
+      "   25      -619.50338      -1.64817e-01       +1.04550e-04\n",
+      "   26      -619.55881      -1.63529e-01       +8.94707e-05\n",
+      "   27      -619.51136      -1.64636e-01       +7.65983e-05\n",
+      "   28      -619.55197      -1.63691e-01       +6.55550e-05\n",
+      "   29      -619.51720      -1.64502e-01       +5.61206e-05\n",
+      "   30      -619.54696      -1.63810e-01       +4.80318e-05\n",
+      "   31      -619.52149      -1.64404e-01       +4.11178e-05\n",
+      "   32      -619.54329      -1.63897e-01       +3.51925e-05\n",
+      "   33      -619.52463      -1.64332e-01       +3.01258e-05\n",
+      "   34      -619.54060      -1.63960e-01       +2.57851e-05\n",
+      "   35      -619.52693      -1.64278e-01       +2.20724e-05\n",
+      "   36      -619.53863      -1.64006e-01       +1.88924e-05\n",
+      "   37      -619.52861      -1.64239e-01       +1.61719e-05\n",
+      "   38      -619.53719      -1.64040e-01       +1.38422e-05\n",
+      "   39      -619.52985      -1.64211e-01       +1.18488e-05\n",
+      "   40      -619.53613      -1.64064e-01       +1.01420e-05\n",
+      "   41      -619.53075      -1.64190e-01       +8.68137e-06\n",
+      " Total Energy: -619.5307535390275\n"
+     ]
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "from CADMium import Psgrid\n",
+    "from CADMium import Kohnsham\n",
+    "\n",
+    "#Distance of the nucley from grid center\n",
+    "a =  2.36 / 2\n",
+    "\n",
+    "#Nuclear charges on centers AB\n",
+    "Za  = 11\n",
+    "Zb = 17\n",
+    "\n",
+    "#Set polaization. 1 Unpolarized, 2 Polarized\n",
+    "pol = 1\n",
+    "\n",
+    "Nmo = [[8],[6]]\n",
+    "N   = [[16],[12]]\n",
+    "\n",
+    "optKS = {\n",
+    "        \"interaction_type\" : \"dft\",\n",
+    "        \"SYM\" : False,\n",
+    "        \"FRACTIONAL\" : False,\n",
+    "        }\n",
+    "\n",
+    "#Grid Options\n",
+    "NP = 7 #Number of points per block\n",
+    "NM =  [8,8] #Number of blocks [angular, radial]\n",
+    "L = np.arccosh(15./a) #Maximum radial coordinate value\n",
+    "loc = np.array(range(-4,5)) #Non inclusive on upper bound\n",
+    "\n",
+    "#Create and initialize grid object\n",
+    "grid = Psgrid(NP, NM, a, L, loc)\n",
+    "grid.initialize()\n",
+    "\n",
+    "#Kohn Sham object\n",
+    "KS = Kohnsham(grid, Za, Zb, pol, Nmo, N, optKS)\n",
+    "KS.scf({})\n",
+    "\n",
+    "print(f\" Total Energy: {KS.E.E}\")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

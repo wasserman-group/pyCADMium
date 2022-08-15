@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>pyCADMium :: README: Atoms and Diatomics</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../genindex.html"/>
+
+  <link rel="stylesheet" href="../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="../../None"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>pyCADMium</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <section id="README:-Atoms-and-Diatomics">
+<h1>README: Atoms and Diatomics<a class="headerlink" href="#README:-Atoms-and-Diatomics" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Perform a basic Kohn-Sham DFT calculation on individual atoms up to Neon.</p></li>
+<li><p>Highlights some of the primary usages of pyCADMium, especially the molecule specification.</p></li>
+<li><p>Some of the options to define a system are self-explanatory. For example, the value <code class="docutils literal notranslate"><span class="pre">Z_x</span></code> assigns the nuclear charge, while pol states whether or not we are performing a spin unrestricted calculation.</p></li>
+<li><p>Assigning the electronic structure can get a bit finicky. To do this, one must know the system’s orbital configuration. That is the number of orbitals for a respective angular momentum. If only one bracket is in the definition, only <code class="docutils literal notranslate"><span class="pre">s</span></code> orbitals are present; If two brackets are present, <code class="docutils literal notranslate"><span class="pre">p</span></code> orbitals are present, etc. Additionally, if the brackets have one component, alpha_i and beta_i orbital are identical; if two values are present, one corresponds to alpha and the other to beta
+electrons.</p></li>
+<li><p>If pol = 1, you must assign 2 electrons per orbital. On the other hand, if pol = 2, you must set 1 electron per orbital.</p></li>
+<li><p>Even if there is only one atom in the system, you still have to specify a charge of `Z_x = 0’.</p></li>
+<li><p>This notebook helps perform benchmarks for different functionals using a fine grid.</p></li>
+</ul>
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <p class="caption" role="heading"><span class="caption-text">CONTENTS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../coordinate_system.html">The Coordinate System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../coordinate_system.html#symmetry-considerations">Symmetry Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../coordinate_system.html#discretization">Discretization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#molecules-in-the-psgrid">Molecules in the PSgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#kohn-sham-calculation">Kohn-Sham calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api.html#module-CADMium">CADMium Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">GRID EXAMPLES:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Grids/Grid.html">Generating a basic Grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Grids/CADMIUM_LOGO.html">How to genererate pyCADMiums logo?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">KOHN-SHAM DFT ATOM EXAMPLES:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">README: Atoms and Diatomics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_H_Exact.html">Hydrogen Exact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_LDA_H.html">Hydgrogen LDA with Plotted Potentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_LDA_He.html">Helium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_LDA_Be.html">Beryllium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_LDA_B.html">Boron LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_LDA_C.html">Carbon LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_LDA_N.html">Nitrogen LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_LDA_O.html">Oxygen LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_NaCl.html">Sodium LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_CO.html">CO LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_O2.html">O_2 LDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_F2.html">F_2 LDA</a></li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../../_sources/examples/KS_DFT/00_README.ipynb.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, Wasserman Group.
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>
