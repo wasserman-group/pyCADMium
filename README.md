@@ -38,6 +38,14 @@ cd libxc-5.0.0                                                                  
 python setup.py install
 ```
 
+- Proceed to test your pyCADMium installation. 
+Within the pyCADMium/tests/ folder run:
+```
+pytest .
+```
+This will run a set of tests dedicated to ensure that your code is fully functional. 
+Be wary of warnings, but don't fret on them if present. 
+
 ### Community Guideliness
 - If any unexpected error occurs, please contact us at: victorandscience@gmail.com.  
 - Any comment, suggestion or change is welcomed as an issue or a pull request. 
