@@ -29,8 +29,8 @@ bibliography: paper.bib
 
 Diatomic molecules are among the most useful systems to test new ideas in quantum chemistry:
 
-- They highlight the present and ubiquitous problems of modern approximations. 
-- By defining two fragments with an atom each, diatomics are ideal to implement and test quantum embedding methods.
+- They highlight the present and ubiquitous problems of modern approximations [@08CY]. 
+- By defining two fragments with an atom each, diatomics are ideal to implement and test quantum embedding methods [20CW].
 
 Most practical calculations use a finite basis set of fixed functional form to represent operators and quantities like potentials, orbitals, and densities [@12SO;@13H]. Such approaches require analytic expressions for the matrix representation of various operators and often exhibit poor basis set convergence.  The basis set incompleteness error can be minimized by increasing the number of basis functions used, but it cannot be entirely eliminated in practice because of the lack of parameters (for instance, exponents, contraction coefficients, etc.) for large basis sets. On the other hand, grid-based methods intrinsically allow for an accurate representation of operators and permit the use of arbitrarily large basis sets [@octopus]. Nevertheless, the number of points required to achieve a significant accuracy can quickly become unmanageable. ``pyCADMium`` presented in this work, uses a prolate spheroidal (PS) grid to circumvent these issues for atoms and diatomic molecules. 
 
@@ -48,14 +48,15 @@ Once the fragments and/or molecule is defined. ``pyCADMium`` can perform:
 
 1. Density functional theory (DFT) calculation. Choose a density functional approximation up to the generalized gradient approximation (GGA) rung [@03TS] from the library of exchange correlation functionals, libxc [@libxc], and perform a self-consistent Kohn-Sham DFT calculation to find the energies, orbitals and density.  
 
-2. Density-to-Potential inversion. Given any density on the PS grid, perform a numerical inversion [@22SW] to find the multiplicative external potential that reproduces the input density. This problem is ill-posed when the potential is expressed on a basis-set, but it is well-posed when done on a grid [@18JW2].  
+2. Density-to-Potential inversion. Given any density on the PS grid, perform a numerical inversion [@22SW] to find the multiplicative external potential that reproduces the input density[03WY]. This problem is ill-posed when the potential is expressed on a basis-set, but it is well-posed when done on a grid [@18JW2].  
 
 3. Partition-DFT. Given a molecule of interest, fragment its external potential and find the set of densities associated with them. The sum of these densities, for most cases, will not be equal to the density of the full system, but we want them to be. Perform a numerical inversion to find the non-additive kinetic potential, that when added to the exact non-additive external-hartree-exchange-correlation potential becomes the unique embedding potential required for the sum of isolated fragments to reproduce the molecular density as well as minimize the sum of fragment energies.  
 
 # Statement of Need
 
-PS coordinates have proven to excel at accuracy in calculations using atoms and diatomic molecules [@B82]. Despite these coordinates being used thoroughly in literature, the options for freely-available modules that focus on embedding applications are almost non-existent. One example worth mentioning is ``DARSEC`` [@darsec] another all electron code that uses the same prolate spheroidal mehtodology to solve the Kohn-Sham Equations. Although the algorithms described in the paper follow a similar algorithm, is hard to discuss the distinct nuances since the code is not of free access. 
-In addition to P-DFT, our code can be used as described in [@14NW] to perform and easily develop other embedding calculations. Additionally, a repository of Jupyter Notebooks is availiable on [Github](https://github.com/wasserman-group/CADMium_examples) that includes various examples of the functionalities available in the code. 
+PS coordinates have proven to be accurate in calculations using atoms and diatomic molecules [@B82]. Despite these coordinates being used thoroughly in literature, the options for freely-available modules that focus on embedding applications are almost non-existent. One example worth mentioning is ``DARSEC`` [@darsec], a FORTRAN-based code that uses the same prolate spheroidal methodology in the context of the optimized effective potential equation. Their use of the coordinates and basic operators, such as derivatives and integration, is analogous to our approach. A key difference is our use of `libxc` to obtain the functional derivatives needed to obtain exchange-correlation potentials. Moreover, their codebase is not openly available. 
+
+Additionally, our code was designed from the ground up with embedding calculations in mind. As described in [@14NW], it can be used to perform and quickly develop other embedding calculations. Additionally, a repository of Jupyter Notebooks is available on [Github](https://github.com/wasserman-group/CADMium_examples) that includes various examples of the functionalities available in the code. 
 
 # Acknowledgements
 
