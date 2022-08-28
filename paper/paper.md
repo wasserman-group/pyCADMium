@@ -42,7 +42,7 @@ The PS grid is a coordinate system formed by revolving an elliptic coordinate pl
 
 # Functionality
 
-Consider a PS grid with foci located at $(-a/2,0)$ and $(a/2,0)$, where $a$ represents the inter-nuclear separation in a diatomic of interest. Place one (A, ∅) or two atoms (A, B) at each of these foci and specify its charge, number of electrons, and number of atomic and/or molecular orbitals. Continue by specifying the symmetry of orbitals to calculate.
+Consider a PS grid with foci located at $(-a/2,0)$ and $(a/2,0)$, where $a$ represents the inter-nuclear separation in a diatomic of interest. Place one (A) or two atoms (A, B) at each of these foci and specify its charge, number of electrons, and number of atomic and/or molecular orbitals. Continue by specifying the symmetry of orbitals to calculate.
 
 Once the set of fragments and/or molecule is defined ``pyCADMium`` can perform:
 
