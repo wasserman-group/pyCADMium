@@ -1,13 +1,12 @@
 
-<!-- [//]: # (Badges)
-[![CI](https://img.shields.io/github/workflow/status/wasserman-group/CADMium/CI)](https://github.com/wasserman-group/CADMium/actions?query=workflow%3ACI)
-[![codecov](https://codecov.io/gh/wasserman-group/CADMium/branch/main/graph/badge.svg)](https://codecov.io/gh/wasserman-group/CADMium)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/wasserman-group/CADMium.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/wasserman-group/CADMium/context:python) -->
-
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/wasserman-group/pyCADMium/main/docs/pycadmium_logo_2.png" alt="logo" height=300>
 </p>
+
+
+[![CI](https://img.shields.io/github/workflow/status/wasserman-group/CADMium/CI)](https://github.com/wasserman-group/CADMium/actions?query=workflow%3ACI)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.04459/status.svg)](https://doi.org/10.21105/joss.04459)
 
 - Prolate spheroidal coordinates grid-based code that solves a cylindrical problem semi-analytically.  
 - Calculations of atoms and diatomic molecules in real space.
